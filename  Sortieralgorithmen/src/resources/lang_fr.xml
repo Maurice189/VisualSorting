@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<app lang="fr" version="0.3 Beta">
+  
+     <startani>Lancer visualisation</startani>
+     <stopani>Arrêt visualisation</stopani>
+     <iteration>Itération +1</iteration>
+     <reset>Réinitialiser</reset>
+     <settings>Paramètres</settings>
+     <sortlist>Liste de tri ensemble</sortlist>
+     <delay>Régler la temporisation</delay>
+     <help>Aider</help>
+     <about>Propos</about>
+     <manual>Manuel</manual>
+     <info>Ajouter algorithmes de tri</info> 
+     <add>Ajouter</add>
+     <remove>Supprimer</remove>
+     <exit>Quitter</exit>
+     <lang>Langues</lang>
+     <set>Set</set>
+     <error0>Votre entrée n'a pas pu être interprétée comme un nombre. \ nVeuillez entrer que des nombres entiers a</error0>
+
+</app>

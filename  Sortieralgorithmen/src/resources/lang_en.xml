@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<app lang="en" version="0.3 Beta">
+  
+    <startani>Start animation</startani>
+    <stopani>Stop animation</stopani> 
+    <iteration>Iteration+1</iteration>
+    <reset>Reset</reset>
+    <settings>Settings</settings>
+    <sortlist>Set List</sortlist>
+    <delay>Set delay</delay>
+    <help>Help</help>
+    <about>About</about>
+    <manual>Manual</manual>
+    <info>Add some sort algorithmn</info>
+    <add>Add</add>
+    <remove>Remove</remove>
+    <lang>Languages</lang>
+    <exit>Exit</exit>
+    <set>Set</set>
+    <error0>Your enter couldn't be resolved as an integer\n Please enter integers, only !</error0>
+
+</app>
