@@ -61,7 +61,7 @@ public class QuickSort extends Sort {
 			}
 
 			else
-				Thread.sleep(Sort.delay);
+				Thread.sleep(Sort.delayMs,Sort.delayNs);
 				
 		}
 		// tausche x[i] und x[rechts]
@@ -81,7 +81,7 @@ public class QuickSort extends Sort {
 		}
 
 		else
-			Thread.sleep(Sort.delay);
+			Thread.sleep(Sort.delayMs,Sort.delayNs);
 
 		return i;
 	}

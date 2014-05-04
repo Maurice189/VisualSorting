@@ -21,7 +21,7 @@ public class SortVisualtionPanel extends JPanel{
 	
 	private static final long serialVersionUID = 1L;
 	private static Color backgroundColor = Color.white;
-	private static final int border = 5,marginTop = 30,margin = 5,offsetY = 20;
+	private static final int border = 4,marginTop = 30,margin = 5,offsetY = 20;
 	
 	
 	private JPopupMenu menu;

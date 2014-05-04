@@ -51,7 +51,7 @@ public class ShakerSort extends Sort {
 			}
 
 			else
-				Thread.sleep(Sort.delay);
+				Thread.sleep(Sort.delayMs,Sort.delayNs);
 		}
 	}
 
@@ -81,7 +81,7 @@ public class ShakerSort extends Sort {
 			}
 
 			else
-				Thread.sleep(Sort.delay);
+				Thread.sleep(Sort.delayMs,Sort.delayNs);
 		}
 	}
 

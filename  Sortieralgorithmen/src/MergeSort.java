@@ -61,7 +61,7 @@ public class MergeSort extends Sort{
 				}
 
 				else
-					Thread.sleep(Sort.delay);
+					Thread.sleep(Sort.delayMs,Sort.delayNs);
 
 	        }
 	        i = l;
@@ -89,7 +89,7 @@ public class MergeSort extends Sort{
 				}
 
 				else
-					Thread.sleep(Sort.delay);
+					Thread.sleep(Sort.delayMs,Sort.delayNs);
 
 	        }
 	    }

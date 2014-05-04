@@ -48,7 +48,7 @@ public class BitonicSort extends Sort {
 		}
 
 		else
-			Thread.sleep(Sort.delay);
+			Thread.sleep(Sort.delayMs,Sort.delayNs);
 	}
 
 	public void run() {

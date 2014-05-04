@@ -23,7 +23,8 @@ public abstract class Sort extends Observable implements Runnable{
 	protected int elements[];	
 	protected int iterates;
 	protected SortVisualtionPanel svp;
-	protected static int delay = 110; // TODO mache delay statisch 
+	protected static long delayMs = 110;
+    protected static int		delayNs = 0; 
 	
 	
 	protected Lock lock = new ReentrantLock();
@@ -109,12 +110,29 @@ public abstract class Sort extends Observable implements Runnable{
 		return lock;
 	}
 	
-	public static void setDelay(int delay){
-		Sort.delay = delay;
+	public static void setDelayNs(int delayNs){
+
+		if(Sort.delayMs == 0 && delayNs == 0) Sort.delayNs = 1;
+		else Sort.delayNs = delayNs;
+		
+		System.out.println("NS: "+delayNs);
 	}
 	
-	public static int getDelay(){
-		return Sort.delay;
+	public static void setDelayMs(long delayMs){
+		
+		if(Sort.delayNs == 0  && delayMs == 0) Sort.delayMs = 1;
+		else Sort.delayMs = delayMs;
+		
+		System.out.println("MS: "+delayMs);
+
+	}
+	
+	public static long getDelayMs(){
+		return Sort.delayMs;
+	}
+	
+	public static long getDelayNs(){
+		return Sort.delayNs;
 	}
 
 

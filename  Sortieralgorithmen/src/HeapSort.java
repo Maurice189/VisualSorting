@@ -50,7 +50,7 @@ public class HeapSort extends Sort {
 				}
 
 				else
-					Thread.sleep(Sort.delay);
+					Thread.sleep(Sort.delayMs,Sort.delayNs);
 				return;
 			}
 			// sonst
@@ -76,7 +76,7 @@ public class HeapSort extends Sort {
 		}
 
 		else
-			Thread.sleep(Sort.delay);
+			Thread.sleep(Sort.delayMs,Sort.delayNs);
 
 	}
 

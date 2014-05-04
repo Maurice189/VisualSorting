@@ -48,7 +48,7 @@ public class RadixSort extends Sort{
     				}
 
     				else
-    					Thread.sleep(Sort.delay);
+    					Thread.sleep(Sort.delayMs,Sort.delayNs);
                     index++;
                 }
             }

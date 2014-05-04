@@ -35,7 +35,7 @@ public class InsertionSort extends Sort{
 						lock.unlock();
 					} else
 
-						Thread.sleep(Sort.delay);
+						Thread.sleep(Sort.delayMs,Sort.delayNs);
 				} catch (InterruptedException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -56,7 +56,7 @@ public class InsertionSort extends Sort{
 					lock.unlock();
 				} else
 
-					Thread.sleep(Sort.delay);
+					Thread.sleep(Sort.delayMs,Sort.delayNs);
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

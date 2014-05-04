@@ -252,7 +252,7 @@ public class Controller implements Observer, ActionListener, ComponentListener,
 			if (child_delay != null && child_delay.isShowing()) {
 				child_delay.dispose();
 				child_delay = Dialog.openDelayDialog(this,
-						"Verzögerung festlegen", 330, 150);
+						"Verzögerung festlegen", 340, 230);
 			}
 			if (child_manual != null && child_manual.isShowing()) {
 				child_manual.dispose();
@@ -294,7 +294,7 @@ public class Controller implements Observer, ActionListener, ComponentListener,
 		else if (e.getActionCommand() == Statics.DELAY) {
 
 			child_delay = Dialog.openDelayDialog(this, "Verzögerung festlegen",
-					300, 180);
+					320, 200);
 		}
 
 	}

@@ -39,7 +39,7 @@ public class BinaryTreeSort extends Sort {
 			
 			//System.out.println("TAUSCHE: " + x + " mit " + node.element);
 			try {
-				Thread.sleep(delay);
+				Thread.sleep(Sort.delayMs,Sort.delayNs);
 			} catch (InterruptedException ie) {
 				// TODO Auto-generated catch block
 				ie.printStackTrace();
@@ -52,7 +52,7 @@ public class BinaryTreeSort extends Sort {
 			svp.drawElements(node.element.index,e.index, true);
 			
 			try {
-				Thread.sleep(delay);
+				Thread.sleep(Sort.delayMs,Sort.delayNs);
 			} catch (InterruptedException ie) {
 				// TODO Auto-generated catch block
 				ie.printStackTrace();
