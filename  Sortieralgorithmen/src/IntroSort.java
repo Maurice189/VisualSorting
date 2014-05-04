@@ -149,7 +149,7 @@ public class IntroSort extends Sort
       int t=elements[i];
       elements[i]=elements[j];
       elements[j]=t;
-      svp.drawElements(i, j, true);
+      svp.visualCmp(i, j, true);
       
     }
 

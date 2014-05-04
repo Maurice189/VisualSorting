@@ -24,10 +24,11 @@ import javax.swing.JDialog;
 /*
  * TODO: General Functions
  * 
- * 
- * Entfernfunktion verbessern Skalierung feinjustierung Grafikausgabe
- * Optimierung Parameter in SortVisualtionPanel wenn möglich statisch
- * implementieren Implementierung weiterer Sortierverfahren
+ * - Hinzufügen von Sortieralgorithmen nach Sprachänderung nicht mehr möglich
+ * - Entfernfunktion verbessern Skalierung feinjustierung Grafikausgabe
+ * - Merken welche Sprache ausgewählt wurde. ggf. in config.xml abspeichern
+ * - Optimierung Parameter in SortVisualtionPanel wenn möglich statisch implementieren
+ * - Implementierung weiterer Sortierverfahren
  */
 
 public class Controller implements Observer, ActionListener, ComponentListener,
@@ -44,10 +45,11 @@ public class Controller implements Observer, ActionListener, ComponentListener,
 	public Controller() {
 		// TODO Auto-generated constructor stub
 
-		int size = 40;
+		int size = 123;
 		int[] elements = new int[size];
 
 		sortList = new ArrayList<Sort>();
+		// executor better that
 		executor = Executors.newCachedThreadPool();
 
 		for (int i = 0; i < size; i++)
@@ -126,8 +128,6 @@ public class Controller implements Observer, ActionListener, ComponentListener,
 		else if (e.getActionCommand() == Statics.START) {
 
 			if (runningThreads != 0) {
-				System.out.println("NOK1");
-
 				if (Sort.isStopped()) {
 
 					Sort.resume();
@@ -177,7 +177,6 @@ public class Controller implements Observer, ActionListener, ComponentListener,
 			for (int i = 0; i < sortList.size(); i++) {
 				sortList.get(i).resetElements();
 				runningThreads = 0;
-				// threadPool.set(i, new Thread(sortList.get(i)));
 			}
 		}
 
@@ -199,11 +198,12 @@ public class Controller implements Observer, ActionListener, ComponentListener,
 
 		else if (e.getActionCommand() == Statics.LANG_DE) {
 
-			// FIXME änderung wirken sich nicht auf offene optionsfenster aus
+			// FIXME hinzufügen nicht mehr möglich !
 			Statics.readLang("resources/lang_de.xml", "German");
 
 			window.dispose();
 			window = new Window(this, "Visual Sorting - Beta", 800, 550);
+			runningThreads = 0;
 
 			if (child_delay != null && child_delay.isShowing()) {
 				child_delay.dispose();
@@ -220,10 +220,11 @@ public class Controller implements Observer, ActionListener, ComponentListener,
 
 		else if (e.getActionCommand() == Statics.LANG_EN) {
 
-			// FIXME änderung wirken sich nicht auf offene optionsfenster aus
+			// FIXME hinzufügen nicht mehr möglich !
 			Statics.readLang("resources/lang_en.xml", "English");
 			window.dispose();
 			window = new Window(this, "Visual Sorting - Beta", 800, 550);
+			runningThreads = 0;
 
 			if (child_delay != null && child_delay.isShowing()) {
 				child_delay.dispose();
@@ -235,14 +236,18 @@ public class Controller implements Observer, ActionListener, ComponentListener,
 				child_manual = Dialog.openManualDialog(this,
 						"Bedienungsanleitung", 730, 800);
 			}
+			
+			
+			
 		}
 
 		else if (e.getActionCommand() == Statics.LANG_FR) {
 
-			// FIXME änderung wirken sich nicht auf offene optionsfenster aus
+			// FIXME hinzufügen nicht mehr möglich !
 			Statics.readLang("resources/lang_fr.xml", "France");
 			window.dispose();
 			window = new Window(this, "Visual Sorting - Beta", 800, 550);
+			runningThreads = 0;
 
 			if (child_delay != null && child_delay.isShowing()) {
 				child_delay.dispose();
@@ -289,7 +294,7 @@ public class Controller implements Observer, ActionListener, ComponentListener,
 		else if (e.getActionCommand() == Statics.DELAY) {
 
 			child_delay = Dialog.openDelayDialog(this, "Verzögerung festlegen",
-					330, 150);
+					300, 180);
 		}
 
 	}

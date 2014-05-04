@@ -39,7 +39,7 @@ public class HeapSort extends Sort {
 			// w ist der Nachfolger von v mit maximaler Markierung
 
 			if (elements[v] >= elements[w]){
-				svp.drawElements(v, w, false);
+				svp.visualCmp(v, w, false);
 				svp.setInfo(("HeapSort [ " + elements.length
 						+ " Elemente ] - Iterationen: " + iterates++));
 
@@ -65,7 +65,7 @@ public class HeapSort extends Sort {
 		elements[i] = elements[j];
 		elements[j] = t;
 
-		svp.drawElements(i, j, true);
+		svp.visualCmp(i, j, true);
 		svp.setInfo(("HeapSort [ " + elements.length
 				+ " Elemente ] - Iterationen: " + iterates++));
 

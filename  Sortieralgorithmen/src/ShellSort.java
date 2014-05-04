@@ -24,10 +24,12 @@ class ShellSort extends Sort {
 				for (j = i; j >= increment; j -= increment) {
 
 					if (temp < elements[j - increment]) {
-						elements[j] = elements[j - increment];
-						svp.drawElements(j, elements[j - increment]);
+					
+						svp.visualInsert(j, elements[j - increment]);
 						svp.setInfo(("Shellsort [ " + elements.length
 								+ " Elemente ] - Iterationen: " + iterates++));
+						
+						elements[j] = elements[j - increment];
 						try {
 							if (Sort.stop) {
 								lock.lock();
@@ -43,7 +45,7 @@ class ShellSort extends Sort {
 
 					} else {
 
-						svp.drawElements(i, j - increment, false);
+						svp.visualCmp(i, j - increment, false);
 						svp.setInfo(("Shellsort [ " + elements.length
 								+ " Elemente ] - Iterationen: " + iterates++));
 						try {
@@ -62,7 +64,7 @@ class ShellSort extends Sort {
 					}
 				}
 				elements[j] = temp;
-				svp.drawElements(i, temp, false);
+				svp.visualCmp(i, temp, false);
 				try {
 					if (Sort.stop) {
 						lock.lock();

@@ -22,11 +22,12 @@ public class InsertionSort extends Sort{
 			temp = elements[i];
 			int j = i;
 			while (j > 0 && elements[j - 1] > temp) {
-				elements[j] = elements[j - 1];
 				
-				svp.drawElements(j, elements[j - 1]);
+				svp.visualInsert(j, elements[j - 1]);
 				svp.setInfo(("InsertionSort [ " + elements.length
 						+ " Elemente ] - Iterationen: " + iterates++));
+				elements[j] = elements[j - 1];
+			
 				try {
 					if (Sort.stop) {
 						lock.lock();
@@ -42,10 +43,12 @@ public class InsertionSort extends Sort{
 				
 				j--;
 			}
-			elements[j] = temp;
-			svp.drawElements(j, temp);
+			
+			svp.visualInsert(j, temp);
 			svp.setInfo(("InsertionSort [ " + elements.length
 					+ " Elemente ] - Iterationen: " + iterates++));
+			
+			elements[j] = temp;
 			try {
 				if (Sort.stop) {
 					lock.lock();

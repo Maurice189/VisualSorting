@@ -2,7 +2,6 @@ import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.Rectangle;
 import java.awt.RenderingHints;
 import java.awt.image.BufferedImage;
 
@@ -30,7 +29,8 @@ public class SortVisualtionPanel extends JPanel{
 	private BufferedImage buffer;
 	private Graphics2D gbuffer;
 	private int width,height,refWidth,refHeight;
-	private int elements[],lstIndex1,lstIndex2;
+	private int elements[],lstIndex1 = -1 ,lstIndex2 = -1;
+	private int lstInsert = -1;
 
 	
 	
@@ -221,62 +221,98 @@ public class SortVisualtionPanel extends JPanel{
 		
 	}
 	
-	public void fastExchange(int c1,int c2){
+	
+	public void visualInsert(int c, int value){
+		
+		
+
+		
+		if(lstInsert >= 0){
+			gbuffer.setColor(Color.GRAY);
+			gbuffer.drawRect((lstInsert*(refWidth+SortVisualtionPanel.border))+SortVisualtionPanel.margin, (height-(refHeight*elements[lstInsert]))-offsetY, refWidth, refHeight*elements[lstInsert]);
+			gbuffer.fillRect((lstInsert*(refWidth+SortVisualtionPanel.border))+SortVisualtionPanel.margin, (height-(refHeight*elements[lstInsert]))-offsetY, refWidth, refHeight*elements[lstInsert]);
+			
+		}
+		
+		gbuffer.setColor(SortVisualtionPanel.backgroundColor);
+		gbuffer.drawRect((c*(refWidth+SortVisualtionPanel.border))+SortVisualtionPanel.margin, (height-(refHeight*elements[c]))-offsetY, refWidth, refHeight*elements[c]);
+		gbuffer.fillRect((c*(refWidth+SortVisualtionPanel.border))+SortVisualtionPanel.margin, (height-(refHeight*elements[c]))-offsetY, refWidth, refHeight*elements[c]);
+		
+		gbuffer.setColor(Color.GREEN);
+		gbuffer.drawRect((c*(refWidth+SortVisualtionPanel.border))+SortVisualtionPanel.margin, (height-(refHeight*value))-offsetY, refWidth, refHeight*value);
+		gbuffer.fillRect((c*(refWidth+SortVisualtionPanel.border))+SortVisualtionPanel.margin, (height-(refHeight*value))-offsetY, refWidth, refHeight*value);
+		
+		
+		lstInsert  = c;
+		
+		repaint();	
+		
+	}
+	
+	
+	
+	public void visualCmp(int c1,int c2,boolean changed){
 		
 		//long t = System.currentTimeMillis();
-		Rectangle r1,r2; 
-		//repaint();	
+		int x1,x2,y1,y2,h1,h2;
 		
-		//TODO nur unteren bereich loeschen
-		//gbuffer.clearRect(0, height-offsetY, width,height);
-		signalExchangedElements(c1,c2,refWidth);
+		//nur unteren bereich loeschen
+		gbuffer.clearRect(0, height-offsetY, width,height);
+		
 		
 		if(lstIndex1 >= 0 && lstIndex2 >=0){
 			
-			r1 = new Rectangle((lstIndex1*(refWidth+SortVisualtionPanel.border))+SortVisualtionPanel.margin,(height-(refHeight*elements[lstIndex1]))-offsetY,refWidth, refHeight*elements[lstIndex1]);
-			r2 = new Rectangle((lstIndex2*(refWidth+SortVisualtionPanel.border))+SortVisualtionPanel.margin,(height-(refHeight*elements[lstIndex2]))-offsetY,refWidth, refHeight*elements[lstIndex2]);
+			x1 = (lstIndex1*(refWidth+SortVisualtionPanel.border))+SortVisualtionPanel.margin;
+			x2 = (lstIndex2*(refWidth+SortVisualtionPanel.border))+SortVisualtionPanel.margin;
+			y1 = (height-(refHeight*elements[lstIndex1]))-offsetY;
+			y2 = (height-(refHeight*elements[lstIndex2]))-offsetY;
+			h1 =  refHeight*elements[lstIndex1];
+			h2 =  refHeight*elements[lstIndex2];
+			
 			
 			gbuffer.setColor(Color.GRAY);
 			//gbuffer.setClip(r1);
-			gbuffer.drawRect((int)r1.getX(),(int)r1.getY(),refWidth,(int)r1.getHeight());
-			gbuffer.fillRect((int)r1.getX(),(int)r1.getY(),refWidth,(int)r1.getHeight());
+			gbuffer.drawRect(x1,y1,refWidth,h1);
+			gbuffer.fillRect(x1,y1,refWidth,h1);
 					
 			//gbuffer.setClip(r2);
-			gbuffer.drawRect((int)r2.getX(),(int)r2.getY(),refWidth,(int)r2.getHeight());
-			gbuffer.fillRect((int)r2.getX(),(int)r2.getY(),refWidth,(int)r2.getHeight());
-			
-			System.out.println("YO");
+			gbuffer.drawRect(x2,y2,refWidth,h2);
+			gbuffer.fillRect(x2,y2,refWidth,h2);
 			
 			
 		}
+		
+		x1 = (c1*(refWidth+SortVisualtionPanel.border))+SortVisualtionPanel.margin;
+		x2 = (c2*(refWidth+SortVisualtionPanel.border))+SortVisualtionPanel.margin;
+		y1 = (height-(refHeight*elements[c1]))-offsetY;
+		y2 = (height-(refHeight*elements[c2]))-offsetY;
+		h1 =  refHeight*elements[c1];
+		h2 =  refHeight*elements[c2];
+		
+		
+		if(changed){
 			
-			r1 = new Rectangle((c1*(refWidth+SortVisualtionPanel.border))+SortVisualtionPanel.margin,(height-(refHeight*elements[c1]))-offsetY,refWidth, refHeight*elements[c1]);
-			r2 = new Rectangle((c2*(refWidth+SortVisualtionPanel.border))+SortVisualtionPanel.margin,(height-(refHeight*elements[c2]))-offsetY,refWidth, refHeight*elements[c2]);
-			
-			
-			// FIXME
-			/** {literal auschnitt muss +1 des urspr. sein, da sonst nicht der ganze teilbereich geloescht wird} */
 			gbuffer.setColor(SortVisualtionPanel.backgroundColor);
-			//gbuffer.setClip((int)r1.getX(),0,refWidth,height);
-			gbuffer.fillRect((int)r1.getX(),(int)r1.getY(),refWidth,(int)r1.getHeight());
+			gbuffer.drawRect(x1,y2,refWidth,h2);
+			gbuffer.fillRect(x1,y2,refWidth,h2);
 			
-			gbuffer.setColor(Color.RED);
-			//gbuffer.setClip(r1);
-			gbuffer.drawRect((int)r1.getX(),(int)r2.getY(),refWidth,(int)r2.getHeight());
-			gbuffer.fillRect((int)r1.getX(),(int)r2.getY(),refWidth,(int)r2.getHeight());
+			gbuffer.drawRect(x2,y1,refWidth,h1);
+			gbuffer.fillRect(x2,y1,refWidth,h1);
 			
-			// FIXME
-			/** {literal auschnitt muss +1 des urspr. sein, da sonst nicht der ganze teilbereich geloescht wird} */
-			gbuffer.setColor(SortVisualtionPanel.backgroundColor);
-			//gbuffer.setClip((int)r2.getX(),0,refWidth,height);
-			gbuffer.fillRect((int)r2.getX(),(int)r2.getY(),refWidth,(int)r2.getHeight());
+			signalExchangedElements(c1,c2,refWidth);
+		}
+		
+	
 			
 
 			gbuffer.setColor(Color.RED);
-			//	gbuffer.setClip(r2);
-			gbuffer.drawRect((int)r2.getX(),(int)r1.getY(),refWidth,(int)r1.getHeight());
-			gbuffer.fillRect((int)r2.getX(),(int)r1.getY(),refWidth,(int)r1.getHeight());
-
+			gbuffer.drawRect(x1,y1,refWidth,h1);
+			gbuffer.fillRect(x1,y1,refWidth,h1);
+					
+			gbuffer.drawRect(x2,y2,refWidth,h2);
+			gbuffer.fillRect(x2,y2,refWidth,h2);
+			
+		
 			lstIndex1 = c1;
 			lstIndex2 = c2;
 			//System.out.println("TIME: "+(System.currentTimeMillis()-t));

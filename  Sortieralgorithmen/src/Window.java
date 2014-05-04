@@ -33,7 +33,7 @@ public class Window extends JFrame {
 	private JRadioButtonMenuItem de,en,fr;
 	private JMenu help, settings,languages;
 	private JToolBar toolBar;
-	//https://github.com/Maurice189/VisualSorting.git
+
 	public Window(Controller controller, String title, int width, int height) {
 		// TODO Auto-generated constructor stub
 

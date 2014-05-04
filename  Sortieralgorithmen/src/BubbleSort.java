@@ -25,12 +25,12 @@ public class BubbleSort extends Sort {
 					tmp = elements[i];
 					elements[i] = elements[i + 1];
 					elements[i + 1] = tmp;
-					svp.drawElements(i, i + 1, true);
+					svp.visualCmp(i, i + 1, true);
 					svp.setInfo(("BubbleSort [ " + elements.length
 							+ " Elemente ] - Iterationen: " + iterates++));
 
 				} else {
-					svp.drawElements(i, i + 1, false);
+					svp.visualCmp(i, i + 1, false);
 					svp.setInfo(("BubbleSort [ " + elements.length
 							+ " Elemente ] - Iterationen: " + iterates++));
 				}

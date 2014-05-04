@@ -33,10 +33,13 @@ public class RadixSort extends Sort{
             int index =0;
             for(int k=0; k < 10; k++){
                 for(int num: bucketList[k]){
+                	
+                	svp.visualInsert(index,num);
+                	svp.setInfo(("RadixSort [ " + elements.length
+     						+ " Elemente ] - Iterationen: " + iterates++));
                     elements[index] = num;
-                    svp.drawElements(index,num);
-    				svp.setInfo(("RadixSort [ " + elements.length
-    						+ " Elemente ] - Iterationen: " + iterates++));
+                   
+    				
     				
     				if (Sort.stop) {
     					lock.lock();

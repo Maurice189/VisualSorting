@@ -1,6 +1,6 @@
 
 
-//FIXME sortiert nicht bis zum ende
+//FIXME sortiert nicht richtig
 public class BitonicSort extends Sort {
 
 	private final static boolean ASCENDING = true, DESCENDING = false;
@@ -29,14 +29,14 @@ public class BitonicSort extends Sort {
 			int h = elements[i];
 			elements[i] = elements[j];
 			elements[j] = h;
-			svp.drawElements(i, j, true);
+			svp.visualCmp(i, j, true);
 			svp.setInfo(("Bitonicsort [ " + elements.length
 					+ " Elemente ] - Iterationen: " + iterates++));
 
 		}
 		
 		else{
-			svp.drawElements(i, j, false);
+			svp.visualCmp(i, j, false);
 			svp.setInfo(("Bitonicsort [ " + elements.length
 					+ " Elemente ] - Iterationen: " + iterates++));
 		}

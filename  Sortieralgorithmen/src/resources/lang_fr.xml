@@ -14,6 +14,7 @@
      <info>Ajouter algorithmes de tri</info> 
      <add>Ajouter</add>
      <remove>Supprimer</remove>
+     <rnumber>Erzeuge Zufallszahlen</rnumber>
      <exit>Quitter</exit>
      <lang>Langues</lang>
      <set>Set</set>

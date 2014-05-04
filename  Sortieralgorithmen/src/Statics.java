@@ -13,7 +13,7 @@ public class Statics {
 
 	public static enum COMPONENT_TITLE {
 		ADD_SORT, STARTANI, STOPANI, ADD, ITERATION, RESET, SETTINGS, SORTLIST, DELAY, HELP, ABOUT, INFO, REMOVE, EXIT, SET, MANUAL,LANG,ERROR0,
-		VERSION,SLANGUAGE
+		VERSION,SLANGUAGE,RNUMBERS
 	};
 
 	private static String VERSION,LANGUAGE_SET;
@@ -139,6 +139,8 @@ public class Statics {
 			return element.getChild("version").getValue();
 		case SLANGUAGE:
 			return element.getChild("language").getValue();
+		case RNUMBERS:
+			return element.getChild("rnumber").getValue();
 		default:
 			return null;
 		}

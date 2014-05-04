@@ -1,4 +1,5 @@
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
@@ -9,6 +10,7 @@ import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.io.IOException;
 
+import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.DefaultListModel;
@@ -22,8 +24,10 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSlider;
+import javax.swing.JSpinner;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
+import javax.swing.border.TitledBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
@@ -41,17 +45,25 @@ public class Dialog extends JDialog{
 	public static JDialog openDelayDialog(Controller controller,String title,int width,int height){
 		
 		final JDialog dialog = new JDialog();
-
 		final JLabel delay = new JLabel();
 		final JSlider slider = new JSlider( 5, 300, 50 );
 		slider.setValue(Sort.getDelay());
+		
+		final TitledBorder titleb = BorderFactory.createTitledBorder(
+				BorderFactory.createLineBorder(Color.GRAY), "title");
+		titleb.setTitleJustification(TitledBorder.LEFT);
+		
+		
 		delay.setText((String.valueOf(Sort.getDelay())).concat(" milliseconds"));
 		JButton exit = new JButton(Statics.getNamebyXml(Statics.COMPONENT_TITLE.EXIT));
 		JButton set = new JButton(Statics.getNamebyXml(Statics.COMPONENT_TITLE.SET));
-		JPanel panel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+		JPanel panel = new JPanel();
+		panel.setLayout(new BoxLayout(panel,BoxLayout.X_AXIS));
 		dialog.setLayout(new BoxLayout(dialog.getContentPane(),BoxLayout.Y_AXIS));
 		panel.add(set);
+		panel.add(Box.createHorizontalGlue());
 		panel.add(exit);
+		panel.setBorder(titleb);
 		
 		
 		dialog.add(Box.createVerticalStrut(4));
@@ -129,7 +141,7 @@ public class Dialog extends JDialog{
 
 			public void stateChanged(ChangeEvent e) {
 				
-				delay.setText((String.valueOf(slider.getValue())).concat(" milliseconds"));
+				titleb.setTitle((String.valueOf(slider.getValue())).concat(" milliseconds"));
 			}
 			
 		});
@@ -159,11 +171,13 @@ public class Dialog extends JDialog{
 		final DefaultListModel<Integer> listModel = new DefaultListModel<Integer>();
 		final JList<Integer> elements = new JList<Integer>(listModel);
 		final JTextField value  = new JTextField();
-		JButton enterValue,ok,remove;
+		final JSpinner values = new JSpinner();
+		JButton enterValue,ok,remove,crNmb;
 		
 		JPanel list = new JPanel();
+		JPanel list2 = new JPanel();
 		list.setLayout(new BoxLayout(list,BoxLayout.X_AXIS));
-		
+		list2.setLayout(new BoxLayout(list2,BoxLayout.X_AXIS));
 		
 		JScrollPane pane = new JScrollPane(elements);
 		
@@ -179,6 +193,26 @@ public class Dialog extends JDialog{
 					
 				}
 			}
+		});
+		
+		crNmb = new JButton(Statics.getNamebyXml(Statics.COMPONENT_TITLE.RNUMBERS));
+		crNmb.addActionListener(new ActionListener(){
+
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				
+				int temp = 0;
+				
+				if(value.getText() != null){
+					
+					temp = (int)(values.getValue());
+					listModel.removeAllElements();
+					for(int i = 0; i<temp; i++) listModel.addElement(Controller.getRandomNumber(0, temp));
+	
+				}
+				
+			}
+			
 		});
 		
 		enterValue = new JButton(Statics.getNamebyXml(Statics.COMPONENT_TITLE.ADD));
@@ -214,6 +248,7 @@ public class Dialog extends JDialog{
 			}
 			
 		});
+		
 		ok = new JButton(Statics.getNamebyXml(Statics.COMPONENT_TITLE.EXIT));
 		ok.addActionListener(new ActionListener(){
 
@@ -240,18 +275,22 @@ public class Dialog extends JDialog{
 		
 		
 		
-		list.add(enterValue);
+		list.add(crNmb);
 		list.add(Box.createHorizontalStrut(5));
-		list.add(remove);
+		list.add(values);
 		list.add(Box.createHorizontalStrut(5));
-		list.add(value);
-		list.add(Box.createHorizontalStrut(40));
+		//list.add(value);
+		//list.add(Box.createHorizontalStrut(40));
 		list.add(ok);
+		
+		list2.add(enterValue);
+		list2.add(value);
+		list2.add(remove);
 		
 		dialog.add(pane);
 		dialog.add(Box.createVerticalStrut(7));
-		
 		dialog.add(list);
+		dialog.add(list2);
 		java.net.URL helpURL = Dialog.class.getClassLoader().getResource("resources/frameIcon2.png");
 		
 		if (helpURL != null) {

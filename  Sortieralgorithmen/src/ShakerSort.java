@@ -32,14 +32,14 @@ public class ShakerSort extends Sort {
 				k = elements[j];
 				elements[j] = elements[j + 1];
 				elements[j + 1] = k;
-				svp.drawElements(j, j + 1, true);
+				svp.visualCmp(j, j + 1, true);
 				svp.setInfo(("ShakerSort [ " + elements.length
 						+ " Elemente ] - Iterationen: " + iterates++));
 
 			}
 
 			else {
-				svp.drawElements(j, j + 1, false);
+				svp.visualCmp(j, j + 1, false);
 				svp.setInfo(("ShakerSort [ " + elements.length
 						+ " Elemente ] - Iterationen: " + iterates++));
 			}
@@ -62,14 +62,14 @@ public class ShakerSort extends Sort {
 				elements[j] = elements[j + 1];
 				elements[j + 1] = k;
 
-				svp.drawElements(j, j + 1, true);
+				svp.visualCmp(j, j + 1, true);
 				svp.setInfo(("ShakerSort [ " + elements.length
 						+ " Elemente ] - Iterationen: " + iterates++));
 
 			}
 
 			else {
-				svp.drawElements(j, j + 1, false);
+				svp.visualCmp(j, j + 1, false);
 				svp.setInfo(("ShakerSort [ " + elements.length
 						+ " Elemente ] - Iterationen: " + iterates++));
 			}
