@@ -13,7 +13,7 @@ public class Statics {
 
 	public static enum COMPONENT_TITLE {
 		ADD_SORT, STARTANI, STOPANI, ADD, ITERATION, RESET, SETTINGS, SORTLIST, DELAY, HELP, ABOUT, INFO, REMOVE, EXIT, SET, MANUAL,LANG,ERROR0,
-		VERSION,SLANGUAGE,RNUMBERS
+		VERSION,SLANGUAGE,RNUMBERS,REPORT
 	};
 
 	private static String VERSION,LANGUAGE_SET;
@@ -24,17 +24,14 @@ public class Statics {
 	public static final String NEW_ELEMENTS = "action_setElements";
 	public static final String NEXT_ITERATION = "action_nextIter";
 	public static final String RESET = "action_reset";
-
+	public static final String REPORT = "action_report";
+	
 	public static final String DELAY = "action_delay";
 	public static final String INFO = "action_Info";
 	public static final String POPUP_MENU_SORT = "action_sort";
 	public static final String POPUP_MENU_ELEMENT = "action_element";
 
 	public static final String LANG_DE = "action_de", LANG_EN = "action_en", LANG_FR = "action_fr";
-	public static final String POPUP_MENU_HEAP = "action_heap ";
-	public static final String POPUP_MENU_QUICK = "action_quick";
-	public static final String POPUP_MENU_BUBBLE = "action_bubble";
-	public static final String POPUP_ST = "action_st";
 	public static final String POPUP_REMOVE = "action_remove";
 	public static final String DIALOG_EXIT = "action_exitDialog";
 	public static final String MANUAL = "action_manual";
@@ -141,6 +138,8 @@ public class Statics {
 			return element.getChild("language").getValue();
 		case RNUMBERS:
 			return element.getChild("rnumber").getValue();
+		case REPORT:
+			return element.getChild("report").getValue();
 		default:
 			return null;
 		}

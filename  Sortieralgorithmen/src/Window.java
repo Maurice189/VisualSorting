@@ -1,5 +1,6 @@
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.util.ArrayList;
 
 import javax.swing.Box;
@@ -16,22 +17,23 @@ import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JRadioButtonMenuItem;
 import javax.swing.JToolBar;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
 
 public class Window extends JFrame {
 
 	private static final long serialVersionUID = 1L;
-	
 
 	private ArrayList<Sort> sortList;
-	
+
 	private JButton next, newSort, nextStep, reset;
 	private JPanel content;
 	private Controller controller;
 	private JLabel info;
 	private JComboBox<String> sortChooser;
-	private JMenuItem about, list, delay, manual;
-	private JRadioButtonMenuItem de,en,fr;
-	private JMenu help, settings,languages;
+	private JMenuItem about, list, delay, manual,report;
+	private JRadioButtonMenuItem de, en, fr;
+	private JMenu help, settings, languages;
 	private JToolBar toolBar;
 
 	public Window(Controller controller, String title, int width, int height) {
@@ -56,8 +58,9 @@ public class Window extends JFrame {
 		toolBar.setRollover(true);
 
 		menuBar = new JMenuBar();
-		
-		languages = new JMenu(Statics.getNamebyXml(Statics.COMPONENT_TITLE.LANG));
+
+		languages = new JMenu(
+				Statics.getNamebyXml(Statics.COMPONENT_TITLE.LANG));
 		settings = new JMenu(
 				Statics.getNamebyXml(Statics.COMPONENT_TITLE.SETTINGS));
 		help = new JMenu(Statics.getNamebyXml(Statics.COMPONENT_TITLE.HELP));
@@ -81,33 +84,41 @@ public class Window extends JFrame {
 		manual.addActionListener(controller);
 		manual.setActionCommand(Statics.MANUAL);
 		
+		report = new JMenuItem(
+				Statics.getNamebyXml(Statics.COMPONENT_TITLE.REPORT));
+		manual.addActionListener(controller);
+		manual.setActionCommand(Statics.REPORT);
+
 		de = new JRadioButtonMenuItem("German");
 		de.addActionListener(controller);
 		de.setActionCommand(Statics.LANG_DE);
-		
+
 		en = new JRadioButtonMenuItem("English");
 		en.addActionListener(controller);
 		en.setActionCommand(Statics.LANG_EN);
-		
+
 		fr = new JRadioButtonMenuItem("France");
 		fr.addActionListener(controller);
 		fr.setActionCommand(Statics.LANG_FR);
-		
+
 		bg.add(de);
 		bg.add(en);
 		bg.add(fr);
-		
+
 		String tmp = Statics.getLanguageSet();
-		if(tmp.equals(de.getText())) de.setSelected(true);
-		else if (tmp.equals(en.getText())) en.setSelected(true);
-		else if (tmp.equals(fr.getText())) fr.setSelected(true);
-		
+		if (tmp.equals(de.getText()))
+			de.setSelected(true);
+		else if (tmp.equals(en.getText()))
+			en.setSelected(true);
+		else if (tmp.equals(fr.getText()))
+			fr.setSelected(true);
+
 		languages.add(en);
 		languages.add(de);
 		languages.add(fr);
-		
 
 		help.add(manual);
+		help.add(report);
 		help.add(about);
 		settings.add(list);
 		settings.add(languages);
@@ -156,9 +167,10 @@ public class Window extends JFrame {
 		next.setEnabled(false);
 		nextStep.setEnabled(false);
 
-		java.net.URL helpURL = Dialog.class.getClassLoader().getResource("resources/frameIcon2.png");
+		java.net.URL helpURL = Dialog.class.getClassLoader().getResource(
+				"resources/frameIcon2.png");
 		if (helpURL != null) {
-		    setIconImage(new ImageIcon(helpURL).getImage());
+			setIconImage(new ImageIcon(helpURL).getImage());
 		}
 		setLayout(new BorderLayout());
 		add(BorderLayout.PAGE_START, toolBar);
@@ -167,35 +179,36 @@ public class Window extends JFrame {
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setLocationRelativeTo(null);
 		setVisible(true);
-		
+
 		System.out.println("W: " + newSort.getWidth() + "|H: "
 				+ newSort.getHeight());
 
 	}
 
 	/*
-	public void updateLanguage(){
-		
-		info.setText(Statics.getNamebyXml(Statics.COMPONENT_TITLE.INFO));
-		
-		
-		if (next.getText().equals(
-		Statics.getNamebyXml(Statics.COMPONENT_TITLE.STARTANI))) next.setText(Statics.getNamebyXml(Statics.COMPONENT_TITLE.STARTANI));
-		
-		else next.setText(Statics.getNamebyXml(Statics.COMPONENT_TITLE.STOPANI));
-	
-		nextStep.setText(Statics.getNamebyXml(Statics.COMPONENT_TITLE.ITERATION));
-		newSort.setText(Statics.getNamebyXml(Statics.COMPONENT_TITLE.ADD_SORT));
-		reset.setText(Statics.getNamebyXml(Statics.COMPONENT_TITLE.RESET));
-		about.setText(Statics.getNamebyXml(Statics.COMPONENT_TITLE.ABOUT));
-		list.setText(Statics.getNamebyXml(Statics.COMPONENT_TITLE.SORTLIST));
-		delay.setText(Statics.getNamebyXml(Statics.COMPONENT_TITLE.DELAY));
-		manual.setText(Statics.getNamebyXml(Statics.COMPONENT_TITLE.MANUAL));
-		help.setText(Statics.getNamebyXml(Statics.COMPONENT_TITLE.HELP));
-		settings.setText(Statics.getNamebyXml(Statics.COMPONENT_TITLE.SETTINGS));
-		languages.setText(Statics.getNamebyXml(Statics.COMPONENT_TITLE.LANG));
-	}*/
-	
+	 * public void updateLanguage(){
+	 * 
+	 * info.setText(Statics.getNamebyXml(Statics.COMPONENT_TITLE.INFO));
+	 * 
+	 * 
+	 * if (next.getText().equals(
+	 * Statics.getNamebyXml(Statics.COMPONENT_TITLE.STARTANI)))
+	 * next.setText(Statics.getNamebyXml(Statics.COMPONENT_TITLE.STARTANI));
+	 * 
+	 * else next.setText(Statics.getNamebyXml(Statics.COMPONENT_TITLE.STOPANI));
+	 * 
+	 * nextStep.setText(Statics.getNamebyXml(Statics.COMPONENT_TITLE.ITERATION));
+	 * newSort.setText(Statics.getNamebyXml(Statics.COMPONENT_TITLE.ADD_SORT));
+	 * reset.setText(Statics.getNamebyXml(Statics.COMPONENT_TITLE.RESET));
+	 * about.setText(Statics.getNamebyXml(Statics.COMPONENT_TITLE.ABOUT));
+	 * list.setText(Statics.getNamebyXml(Statics.COMPONENT_TITLE.SORTLIST));
+	 * delay.setText(Statics.getNamebyXml(Statics.COMPONENT_TITLE.DELAY));
+	 * manual.setText(Statics.getNamebyXml(Statics.COMPONENT_TITLE.MANUAL));
+	 * help.setText(Statics.getNamebyXml(Statics.COMPONENT_TITLE.HELP));
+	 * settings.setText(Statics.getNamebyXml(Statics.COMPONENT_TITLE.SETTINGS));
+	 * languages.setText(Statics.getNamebyXml(Statics.COMPONENT_TITLE.LANG)); }
+	 */
+
 	public void showPopupMenu(int x, int y, int sortIndex) {
 
 		sortList.get(sortIndex).getSortVisualtionPanel().showPopUpMenu(x, y);
@@ -218,6 +231,8 @@ public class Window extends JFrame {
 
 	public void addNewSort(Sort sort, String selectedSort) {
 
+		Dimension minSize = null;
+		
 		if (sortList.size() == 1) {
 			content.remove(info);
 			content.setLayout(new BoxLayout(content, BoxLayout.Y_AXIS));
@@ -234,7 +249,13 @@ public class Window extends JFrame {
 		revalidate();
 
 		for (int i = 0; i < sortList.size(); i++)
-			sortList.get(i).getSortVisualtionPanel().updatePanelSize();
+			minSize = sortList.get(i).getSortVisualtionPanel().updatePanelSize();
+		
+		
+		if(minSize.getHeight() != 0 || minSize.getHeight() != 0 ){
+			System.out.println("SD");
+			//setSize(minSize);
+		}
 
 	}
 
@@ -254,6 +275,7 @@ public class Window extends JFrame {
 
 		if (sortList.size() == 1) {
 
+			System.out.println("REMOVE");
 			content.removeAll();
 			content.setLayout(new BorderLayout());
 			content.add(info);
@@ -262,38 +284,41 @@ public class Window extends JFrame {
 			reset.setEnabled(false);
 			nextStep.setEnabled(false);
 		}
+		
+		revalidate();
+		repaint();
+		
 		for (int i = 0; i < sortList.size(); i++) {
 			if (i != index)
 				sortList.get(i).getSortVisualtionPanel().updatePanelSize();
 		}
 
-		revalidate();
+
+		
 
 	}
 
 	public static void main(String[] args) {
 
-		/*
-		 * try {
-		 * 
-		 * UIManager.setLookAndFeel(
-		 * "com.sun.java.swing.plaf.nimbus.NimbusLookAndFeel"); } catch
-		 * (UnsupportedLookAndFeelException e) {
-		 * 
-		 * } catch (ClassNotFoundException e) { // handle exception } catch
-		 * (InstantiationException e) { // handle exception } catch
-		 * (IllegalAccessException e) { // handle exception
-		 * 
-		 * }
-		 */
+		try {
+			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+		} catch (UnsupportedLookAndFeelException e) {
+			// handle exception
+		} catch (ClassNotFoundException e) {
+			// handle exception
+		} catch (InstantiationException e) {
+			// handle exception
+		} catch (IllegalAccessException e) {
+			// handle exception
+		}
 
-		
 		Statics.loadConfig("resources/config.xml");
-		Statics.readLang("resources/lang_de.xml","German");
+		Statics.readLang("resources/lang_de.xml", "German");
 
 		Statics.initDefaultFont("resources/OxygenFont/Oxygen-Regular.ttf");
 		Controller controller = new Controller();
-		Window window = new Window(controller, "Visual Sorting - ".concat(Statics.getVersion()), 800,550);
+		Window window = new Window(controller,
+				"Visual Sorting - ".concat(Statics.getVersion()), 800, 550);
 		controller.setView(window);
 
 	}

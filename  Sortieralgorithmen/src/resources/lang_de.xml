@@ -16,6 +16,7 @@
     <rnumber>Erzeuge Zufallszahlen</rnumber>
     <remove>Entfernen</remove>
     <lang>Sprachen</lang>
+    <report>Anregungen und Bugs</report>
     <exit>Beenden</exit>
     <set>Setze</set>
     <error0>Ihre Eingabe konnte nicht als Zahl interpretiert werden. \nBitte geben Sie nur Ganzzahlen ein!</error0>

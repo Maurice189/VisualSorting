@@ -2,5 +2,7 @@
 <app>
 		<version>0.5 Beta</version>
 		<language>German</language>
+		<delayms>0</delayms>
+		<delayns>0</delayns>
   
 </app>

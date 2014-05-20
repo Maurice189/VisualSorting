@@ -35,7 +35,7 @@ public class BinaryTreeSort extends Sort {
 			
 		
 			node.left = insert(node.left, e);
-			svp.drawElements(node.element.index,e.index, true);
+			//svp.drawElements(node.element.index,e.index, true);
 			
 			//System.out.println("TAUSCHE: " + x + " mit " + node.element);
 			try {
@@ -49,7 +49,7 @@ public class BinaryTreeSort extends Sort {
 			
 			
 			node.right = insert(node.right, e);
-			svp.drawElements(node.element.index,e.index, true);
+			//svp.drawElements(node.element.index,e.index, true);
 			
 			try {
 				Thread.sleep(Sort.delayMs,Sort.delayNs);

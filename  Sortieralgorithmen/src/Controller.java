@@ -37,9 +37,6 @@ public class Controller implements Observer, ActionListener, ComponentListener,
 	private ArrayList<Sort> sortList;
 	private Window window;
 	private int runningThreads, vspIndex;
-
-	private JDialog child_manual;
-	private JDialog child_delay;
 	private ExecutorService executor;
 
 	public Controller() {
@@ -172,7 +169,7 @@ public class Controller implements Observer, ActionListener, ComponentListener,
 
 		else if (e.getActionCommand() == Statics.RESET) {
 
-			Sort.resume();
+			//Sort.resume();
 
 			for (int i = 0; i < sortList.size(); i++) {
 				sortList.get(i).resetElements();
@@ -182,18 +179,19 @@ public class Controller implements Observer, ActionListener, ComponentListener,
 
 		else if (e.getActionCommand() == Statics.MANUAL) {
 
-			child_manual = Dialog.openManualDialog(this, "Bedienungsanleitung",
-					730, 800);
+			new ManualDialog(this,"Bedienungsanleitung",300,700);
+			
+			
 		}
 
 		else if (e.getActionCommand() == Statics.NEW_ELEMENTS) {
 
-			Dialog.openEnterDialog(this, "Elemente eintragen", 500, 200);
+			new EnterDialog(this, 500, 200);
 		}
 
 		else if (e.getActionCommand() == Statics.INFO) {
 
-			Dialog.openInfoDialog(this, "About");
+			new InfoDialog(this,300,150);
 		}
 
 		else if (e.getActionCommand() == Statics.LANG_DE) {
@@ -205,16 +203,6 @@ public class Controller implements Observer, ActionListener, ComponentListener,
 			window = new Window(this, "Visual Sorting - Beta", 800, 550);
 			runningThreads = 0;
 
-			if (child_delay != null && child_delay.isShowing()) {
-				child_delay.dispose();
-				child_delay = Dialog.openDelayDialog(this,
-						"Verzögerung festlegen", 330, 150);
-			}
-			if (child_manual != null && child_manual.isShowing()) {
-				child_manual.dispose();
-				child_manual = Dialog.openManualDialog(this,
-						"Bedienungsanleitung", 730, 800);
-			}
 
 		}
 
@@ -226,16 +214,7 @@ public class Controller implements Observer, ActionListener, ComponentListener,
 			window = new Window(this, "Visual Sorting - Beta", 800, 550);
 			runningThreads = 0;
 
-			if (child_delay != null && child_delay.isShowing()) {
-				child_delay.dispose();
-				child_delay = Dialog.openDelayDialog(this,
-						"Verzögerung festlegen", 330, 150);
-			}
-			if (child_manual != null && child_manual.isShowing()) {
-				child_manual.dispose();
-				child_manual = Dialog.openManualDialog(this,
-						"Bedienungsanleitung", 730, 800);
-			}
+	
 			
 			
 			
@@ -249,16 +228,6 @@ public class Controller implements Observer, ActionListener, ComponentListener,
 			window = new Window(this, "Visual Sorting - Beta", 800, 550);
 			runningThreads = 0;
 
-			if (child_delay != null && child_delay.isShowing()) {
-				child_delay.dispose();
-				child_delay = Dialog.openDelayDialog(this,
-						"Verzögerung festlegen", 340, 230);
-			}
-			if (child_manual != null && child_manual.isShowing()) {
-				child_manual.dispose();
-				child_manual = Dialog.openManualDialog(this,
-						"Bedienungsanleitung", 730, 800);
-			}
 		}
 
 		else if (e.getActionCommand() == Statics.NEXT_ITERATION) {
@@ -290,11 +259,20 @@ public class Controller implements Observer, ActionListener, ComponentListener,
 
 			}
 		}
+		
+		else if (e.getActionCommand() == Statics.REPORT) {
+
+			if (sortList.size() > 0) {
+
+				window.removeSort(vspIndex);
+				sortList.remove(vspIndex);
+
+			}
+		}
 
 		else if (e.getActionCommand() == Statics.DELAY) {
 
-			child_delay = Dialog.openDelayDialog(this, "Verzögerung festlegen",
-					320, 200);
+			  new DelayDialog(this,320, 200);
 		}
 
 	}

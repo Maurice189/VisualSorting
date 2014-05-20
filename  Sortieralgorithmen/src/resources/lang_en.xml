@@ -17,6 +17,7 @@
     <rnumber>Create random numbers</rnumber>
     <lang>Languages</lang>
     <exit>Exit</exit>
+    <report>Suggestions and bugs</report>
     <set>Set</set>
     <error0>Your enter couldn't be resolved as an integer\n Please enter integers, only !</error0>
 
