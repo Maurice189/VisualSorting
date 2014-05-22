@@ -127,6 +127,11 @@ public class Statics {
 
 	}
 	
+	/**
+	 * We also could make the 'COMPONENT_TITLE' values equal to those from xml tags, but 
+	 * I don't like the resultating linkage. But if we define the xml tags independantly, we are able to change these 
+	 * very easily .
+	 */
 	public static void initHashTable(){
 		
 		xmlDef = new HashMap<COMPONENT_TITLE,String>();

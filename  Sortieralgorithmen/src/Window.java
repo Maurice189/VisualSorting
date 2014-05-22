@@ -25,7 +25,8 @@ public class Window extends JFrame {
 	private static final long serialVersionUID = 1L;
 
 	private ArrayList<Sort> sortList;
-
+	private String title;
+	
 	private JButton next, newSort, nextStep, reset;
 	private JPanel content;
 	private Controller controller;
@@ -42,6 +43,7 @@ public class Window extends JFrame {
 		JMenuBar menuBar;
 		ButtonGroup bg = new ButtonGroup();
 
+		this.title = title;
 		this.controller = controller;
 		info = new JLabel(Statics.getNamebyXml(Statics.COMPONENT_TITLE.INFO),
 				JLabel.CENTER);
@@ -259,6 +261,15 @@ public class Window extends JFrame {
 		}
 
 	}
+	
+	public void appReleased(){
+		
+		this.setTitle(title);
+	}
+	
+	public void appStopped(){
+		this.setTitle(title.concat(" - Stopped"));
+	}
 
 	public String getSelectedSort() {
 
@@ -313,6 +324,7 @@ public class Window extends JFrame {
 			// handle exception
 		}
 
+		Statics.initHashTable();
 		Statics.loadConfig("resources/config.xml");
 		Statics.readLang("resources/lang_de.xml", "German");
 

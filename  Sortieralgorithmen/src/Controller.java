@@ -420,15 +420,14 @@ public class Controller implements Observer, ActionListener, WindowListener,Comp
 				}
 				
 			}
+		window.appReleased();
 
 	}
 
 	@Override
 	public void windowDeactivated(WindowEvent e) {
-		// TODO Auto-generated method stub
-		System.out.println("DEACTIVED");
-		
 		Sort.stop();
+		if (runningThreads != 0 && byUserStopped == false) window.appStopped();
 	}
 
 }

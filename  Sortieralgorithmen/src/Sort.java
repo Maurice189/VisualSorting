@@ -31,7 +31,7 @@ public abstract class Sort extends Observable implements Runnable{
 	protected int iterates;
 	protected SortVisualtionPanel svp;
 	protected static long delayMs = 110;
-    protected static int		delayNs = 0; 
+    protected static int delayNs = 0; 
 	
 	
 	protected Lock lock = new ReentrantLock();
