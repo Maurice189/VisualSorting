@@ -2,6 +2,7 @@ import java.awt.Font;
 import java.awt.FontFormatException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.HashMap;
 
 import org.jdom2.Element;
 import org.jdom2.JDOMException;
@@ -42,6 +43,9 @@ public class Statics {
 			"Quicksort", "Binary Tree Sort", "Combsort", "Gnomesort",
 			"Shakersort (Cocktailsort)", "Mergesort", "Bitonicsort",
 			"Radixsort", "Shellsort", "Insertionsort" };
+	
+	
+	private static HashMap<COMPONENT_TITLE,String> xmlDef;
 
 	public static void initDefaultFont(String source) {
 
@@ -94,56 +98,9 @@ public class Statics {
 
 	public static String getNamebyXml(COMPONENT_TITLE title) {
 
-		switch (title) {
-
-		case ABOUT:
-			return element.getChild("about").getValue();
-		case ADD:
-			return element.getChild("add").getValue();
-		case ADD_SORT:
-			return element.getChild("add").getValue();
-		case DELAY:
-			return element.getChild("delay").getValue();
-		case EXIT:
-			return element.getChild("exit").getValue();
-		case HELP:
-			return element.getChild("help").getValue();
-		case INFO:
-			return element.getChild("info").getValue();
-		case ITERATION:
-			return element.getChild("iteration").getValue();
-		case REMOVE:
-			return element.getChild("remove").getValue();
-		case RESET:
-			return element.getChild("reset").getValue();
-		case SET:
-			return element.getChild("set").getValue();
-		case SETTINGS:
-			return element.getChild("settings").getValue();
-		case SORTLIST:
-			return element.getChild("sortlist").getValue();
-		case STARTANI:
-			return element.getChild("startani").getValue();
-		case STOPANI:
-			return element.getChild("stopani").getValue();
-		case MANUAL:
-			return element.getChild("manual").getValue();
-		case LANG:
-			return element.getChild("lang").getValue();
-		case ERROR0:
-			return element.getChild("error0").getValue();
-		case VERSION:
-			return element.getChild("version").getValue();
-		case SLANGUAGE:
-			return element.getChild("language").getValue();
-		case RNUMBERS:
-			return element.getChild("rnumber").getValue();
-		case REPORT:
-			return element.getChild("report").getValue();
-		default:
-			return null;
-		}
-
+		String key = xmlDef.get(title);
+		if(key != null)  return element.getChild(xmlDef.get(title)).getValue();
+		return null;
 	}
 	
 	public static void loadConfig(String source){
@@ -168,6 +125,34 @@ public class Statics {
 	public static void closeDOM() {
 		element = null;
 
+	}
+	
+	public static void initHashTable(){
+		
+		xmlDef = new HashMap<COMPONENT_TITLE,String>();
+		
+		xmlDef.put(COMPONENT_TITLE.ABOUT, "about");
+		xmlDef.put(COMPONENT_TITLE.ADD, "add");
+		xmlDef.put(COMPONENT_TITLE.ADD_SORT, "add");
+		xmlDef.put(COMPONENT_TITLE.DELAY, "delay");
+		xmlDef.put(COMPONENT_TITLE.EXIT, "exit");
+		xmlDef.put(COMPONENT_TITLE.HELP, "help");
+		xmlDef.put(COMPONENT_TITLE.INFO, "info");
+		xmlDef.put(COMPONENT_TITLE.ITERATION, "iteration");
+		xmlDef.put(COMPONENT_TITLE.REMOVE, "remove");
+		xmlDef.put(COMPONENT_TITLE.RESET, "reset");
+		xmlDef.put(COMPONENT_TITLE.SET,"set");
+		xmlDef.put(COMPONENT_TITLE.SETTINGS, "settings");
+		xmlDef.put(COMPONENT_TITLE.SORTLIST, "sortlist");
+		xmlDef.put(COMPONENT_TITLE.STARTANI, "startani");
+		xmlDef.put(COMPONENT_TITLE.STOPANI, "stopani");
+		xmlDef.put(COMPONENT_TITLE.MANUAL, "manual");
+		xmlDef.put(COMPONENT_TITLE.LANG, "lang");
+		xmlDef.put(COMPONENT_TITLE.ERROR0, "error0");
+		xmlDef.put(COMPONENT_TITLE.VERSION, "version");
+		xmlDef.put(COMPONENT_TITLE.SLANGUAGE, "language");
+		xmlDef.put(COMPONENT_TITLE.RNUMBERS, "rnumber");
+		xmlDef.put(COMPONENT_TITLE.REPORT, "report");
 	}
 
 	public static Font getDefaultFont(float size) {
