@@ -11,11 +11,13 @@ public abstract class OptionDialog extends JDialog implements WindowListener,Act
 	
 	private static final long serialVersionUID = 1L;
 	protected Controller controller;
+	protected Statics.COMPONENT_TITLE title;
 	
 	public OptionDialog(Controller controller,Statics.COMPONENT_TITLE title,int width, int height) {
 		
 		this.controller = controller;
 		this.addWindowListener(this);
+		this.title = title;
 		
 		initComponents();
 		setSize(width, height);
@@ -27,9 +29,10 @@ public abstract class OptionDialog extends JDialog implements WindowListener,Act
 
 
 	
-	public abstract void updateComponentsLabel();
+	public void updateComponentsLabel(){
+		setTitle(Statics.getNamebyXml(title));
+	}
 	protected abstract void initComponents();
-	
 		
 
 }

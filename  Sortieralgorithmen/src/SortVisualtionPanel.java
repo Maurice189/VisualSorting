@@ -194,6 +194,7 @@ public class SortVisualtionPanel extends JPanel {
 
 	}
 
+	// FIXME 
 	public void visualCmp(int c1, int c2, boolean changed) {
 
 		// long t = System.currentTimeMillis();
@@ -204,10 +205,8 @@ public class SortVisualtionPanel extends JPanel {
 
 		if (lstIndex1 >= 0 && lstIndex2 >= 0) {
 
-			x1 = (lstIndex1 * (refWidth + SortVisualtionPanel.border))
-					+ SortVisualtionPanel.margin;
-			x2 = (lstIndex2 * (refWidth + SortVisualtionPanel.border))
-					+ SortVisualtionPanel.margin;
+			x1 = (lstIndex1 * (refWidth + SortVisualtionPanel.border))+ SortVisualtionPanel.margin;
+			x2 = (lstIndex2 * (refWidth + SortVisualtionPanel.border))+ SortVisualtionPanel.margin;
 			y1 = (height - (refHeight * elements[lstIndex1])) - offsetY;
 			y2 = (height - (refHeight * elements[lstIndex2])) - offsetY;
 			h1 = refHeight * elements[lstIndex1];
@@ -224,10 +223,8 @@ public class SortVisualtionPanel extends JPanel {
 
 		}
 
-		x1 = (c1 * (refWidth + SortVisualtionPanel.border))
-				+ SortVisualtionPanel.margin;
-		x2 = (c2 * (refWidth + SortVisualtionPanel.border))
-				+ SortVisualtionPanel.margin;
+		x1 = (c1 * (refWidth + SortVisualtionPanel.border))+ SortVisualtionPanel.margin;
+		x2 = (c2 * (refWidth + SortVisualtionPanel.border))+ SortVisualtionPanel.margin;
 		y1 = (height - (refHeight * elements[c1])) - offsetY;
 		y2 = (height - (refHeight * elements[c2])) - offsetY;
 		h1 = refHeight * elements[c1];

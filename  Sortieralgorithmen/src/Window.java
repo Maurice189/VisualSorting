@@ -52,6 +52,7 @@ public class Window extends JFrame {
 		setSize(width, height);
 		sortList = controller.getList();
 		addComponentListener(controller);
+		addWindowListener(controller);
 
 		toolBar = new JToolBar();
 		toolBar.setFloatable(false);
@@ -75,7 +76,7 @@ public class Window extends JFrame {
 		delay.setActionCommand(Statics.DELAY);
 
 		about = new JMenuItem(Statics.getNamebyXml(
-				Statics.COMPONENT_TITLE.ABOUT).concat(title));
+				Statics.COMPONENT_TITLE.ABOUT).concat(" ").concat(title));
 		about.addActionListener(controller);
 		about.setActionCommand(Statics.INFO);
 
@@ -185,29 +186,29 @@ public class Window extends JFrame {
 
 	}
 
-	/*
-	 * public void updateLanguage(){
-	 * 
-	 * info.setText(Statics.getNamebyXml(Statics.COMPONENT_TITLE.INFO));
-	 * 
-	 * 
-	 * if (next.getText().equals(
-	 * Statics.getNamebyXml(Statics.COMPONENT_TITLE.STARTANI)))
-	 * next.setText(Statics.getNamebyXml(Statics.COMPONENT_TITLE.STARTANI));
-	 * 
-	 * else next.setText(Statics.getNamebyXml(Statics.COMPONENT_TITLE.STOPANI));
-	 * 
-	 * nextStep.setText(Statics.getNamebyXml(Statics.COMPONENT_TITLE.ITERATION));
-	 * newSort.setText(Statics.getNamebyXml(Statics.COMPONENT_TITLE.ADD_SORT));
-	 * reset.setText(Statics.getNamebyXml(Statics.COMPONENT_TITLE.RESET));
-	 * about.setText(Statics.getNamebyXml(Statics.COMPONENT_TITLE.ABOUT));
-	 * list.setText(Statics.getNamebyXml(Statics.COMPONENT_TITLE.SORTLIST));
-	 * delay.setText(Statics.getNamebyXml(Statics.COMPONENT_TITLE.DELAY));
-	 * manual.setText(Statics.getNamebyXml(Statics.COMPONENT_TITLE.MANUAL));
-	 * help.setText(Statics.getNamebyXml(Statics.COMPONENT_TITLE.HELP));
-	 * settings.setText(Statics.getNamebyXml(Statics.COMPONENT_TITLE.SETTINGS));
-	 * languages.setText(Statics.getNamebyXml(Statics.COMPONENT_TITLE.LANG)); }
-	 */
+	
+	  public void updateLanguage(){
+	  
+	  info.setText(Statics.getNamebyXml(Statics.COMPONENT_TITLE.INFO));
+	  
+	  
+	  if (next.getText().equals(
+	  Statics.getNamebyXml(Statics.COMPONENT_TITLE.STARTANI)))
+	  next.setText(Statics.getNamebyXml(Statics.COMPONENT_TITLE.STARTANI));
+	  
+	  else next.setText(Statics.getNamebyXml(Statics.COMPONENT_TITLE.STOPANI));
+	  
+	  nextStep.setText(Statics.getNamebyXml(Statics.COMPONENT_TITLE.ITERATION));
+	  newSort.setText(Statics.getNamebyXml(Statics.COMPONENT_TITLE.ADD_SORT));
+	  reset.setText(Statics.getNamebyXml(Statics.COMPONENT_TITLE.RESET));
+	  about.setText(Statics.getNamebyXml(Statics.COMPONENT_TITLE.ABOUT));
+	  list.setText(Statics.getNamebyXml(Statics.COMPONENT_TITLE.SORTLIST));
+	  delay.setText(Statics.getNamebyXml(Statics.COMPONENT_TITLE.DELAY));
+	  manual.setText(Statics.getNamebyXml(Statics.COMPONENT_TITLE.MANUAL));
+	  help.setText(Statics.getNamebyXml(Statics.COMPONENT_TITLE.HELP));
+	  settings.setText(Statics.getNamebyXml(Statics.COMPONENT_TITLE.SETTINGS));
+	  languages.setText(Statics.getNamebyXml(Statics.COMPONENT_TITLE.LANG)); }
+	 
 
 	public void showPopupMenu(int x, int y, int sortIndex) {
 

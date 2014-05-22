@@ -50,7 +50,10 @@ public class MergeSort extends Sort{
 	        }
 	        for (j = q + 1; j <= r; j++) {
 	            arr[r + q + 1 - j] = elements[j];
-	            svp.visualCmp((r + q + 1 - j), j, true);
+	            /*
+	            //svp.visualCmp((r + q + 1 - j), j, false);
+	            svp.visualInsert((r + q + 1 - j), elements[j]);
+	           
 				svp.setInfo(("Mergesort [ " + elements.length
 						+ " Elemente ] - Iterationen: " + iterates++));
 
@@ -62,20 +65,23 @@ public class MergeSort extends Sort{
 
 				else
 					Thread.sleep(Sort.delayMs,Sort.delayNs);
-
+				*/
 	        }
 	        i = l;
 	        j = r;
 	        for (int k = l; k <= r; k++) {
+	        	
+	        	
 	            if (arr[i] <= arr[j]) {
+	            	svp.visualInsert(k, arr[i]);
 	                elements[k] = arr[i];
-	                svp.visualCmp(k, i, true);
 	            	svp.setInfo(("Mergesort [ " + elements.length
 							+ " Elemente ] - Iterationen: " + iterates++));
 	                i++;
 	            } else {
+	            	
+	            	svp.visualInsert(k, arr[j]);
 	                elements[k] = arr[j];
-	                svp.visualCmp(k, j, true);
 	            	svp.setInfo(("Mergesort [ " + elements.length
 							+ " Elemente ] - Iterationen: " + iterates++));
 	                j--;

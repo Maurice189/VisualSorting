@@ -66,14 +66,13 @@ public class ManualDialog extends OptionDialog{
 
 	@Override
 	public void updateComponentsLabel() {
-		// TODO Auto-generated method stub
+		super.updateComponentsLabel();
 		
 	}
 
 	@Override
 	protected void initComponents() {
 		
-		System.out.println("SAD");
 		JEditorPane manual = new JEditorPane();
 		manual.setEditable(false);
 

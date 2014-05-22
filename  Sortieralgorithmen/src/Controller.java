@@ -5,7 +5,10 @@ import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.Observable;
 import java.util.Observer;
 import java.util.concurrent.ExecutorService;
@@ -13,30 +16,30 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
 
-import javax.swing.JDialog;
-
 /**
  * @author Maurice Koch
  * @version BETA
  */
 
-/* Strategy Design Pattern vom feinsten */
 /*
  * TODO: General Functions
  * 
- * - Hinzufügen von Sortieralgorithmen nach Sprachänderung nicht mehr möglich
  * - Entfernfunktion verbessern Skalierung feinjustierung Grafikausgabe
  * - Merken welche Sprache ausgewählt wurde. ggf. in config.xml abspeichern
  * - Optimierung Parameter in SortVisualtionPanel wenn möglich statisch implementieren
  * - Implementierung weiterer Sortierverfahren
  */
 
-public class Controller implements Observer, ActionListener, ComponentListener,
+public class Controller implements Observer, ActionListener, WindowListener,ComponentListener,
 		MouseListener {
 
 	private ArrayList<Sort> sortList;
+	private LinkedList<OptionDialog> dialogs;
+	
 	private Window window;
 	private int runningThreads, vspIndex;
+	
+	private boolean byUserStopped = false;
 	private ExecutorService executor;
 
 	public Controller() {
@@ -46,6 +49,8 @@ public class Controller implements Observer, ActionListener, ComponentListener,
 		int[] elements = new int[size];
 
 		sortList = new ArrayList<Sort>();
+		dialogs = new LinkedList<OptionDialog>(); 
+		
 		// executor better that
 		executor = Executors.newCachedThreadPool();
 
@@ -141,11 +146,12 @@ public class Controller implements Observer, ActionListener, ComponentListener,
 						}
 					}
 
+					byUserStopped = false;
 					window.unlockManualIteration(false);
 				} else {
 					Sort.stop();
 					window.unlockManualIteration(true);
-
+					byUserStopped = true;
 				}
 
 			}
@@ -179,30 +185,32 @@ public class Controller implements Observer, ActionListener, ComponentListener,
 
 		else if (e.getActionCommand() == Statics.MANUAL) {
 
-			new ManualDialog(this,"Bedienungsanleitung",300,700);
+			dialogs.add(new ManualDialog(this,"Bedienungsanleitung",300,700));
 			
 			
 		}
 
 		else if (e.getActionCommand() == Statics.NEW_ELEMENTS) {
 
-			new EnterDialog(this, 500, 200);
+			dialogs.add(new EnterDialog(this, 500, 200));
 		}
 
 		else if (e.getActionCommand() == Statics.INFO) {
 
-			new InfoDialog(this,300,150);
+			dialogs.add(new InfoDialog(this,300,150));
 		}
 
 		else if (e.getActionCommand() == Statics.LANG_DE) {
 
 			// FIXME hinzufügen nicht mehr möglich !
 			Statics.readLang("resources/lang_de.xml", "German");
-
+			window.updateLanguage();
+			for(OptionDialog temp:dialogs) temp.updateComponentsLabel();
+			/*
 			window.dispose();
 			window = new Window(this, "Visual Sorting - Beta", 800, 550);
 			runningThreads = 0;
-
+			*/
 
 		}
 
@@ -210,10 +218,15 @@ public class Controller implements Observer, ActionListener, ComponentListener,
 
 			// FIXME hinzufügen nicht mehr möglich !
 			Statics.readLang("resources/lang_en.xml", "English");
+			window.updateLanguage();
+			for(OptionDialog temp:dialogs) temp.updateComponentsLabel();
+			
+			
+			/*
 			window.dispose();
 			window = new Window(this, "Visual Sorting - Beta", 800, 550);
 			runningThreads = 0;
-
+			 */
 	
 			
 			
@@ -224,9 +237,13 @@ public class Controller implements Observer, ActionListener, ComponentListener,
 
 			// FIXME hinzufügen nicht mehr möglich !
 			Statics.readLang("resources/lang_fr.xml", "France");
+			window.updateLanguage();
+			for(OptionDialog temp:dialogs) temp.updateComponentsLabel();
+			/*
 			window.dispose();
 			window = new Window(this, "Visual Sorting - Beta", 800, 550);
 			runningThreads = 0;
+			*/
 
 		}
 
@@ -272,7 +289,7 @@ public class Controller implements Observer, ActionListener, ComponentListener,
 
 		else if (e.getActionCommand() == Statics.DELAY) {
 
-			  new DelayDialog(this,320, 200);
+			dialogs.add(new DelayDialog(this,320, 150));
 		}
 
 	}
@@ -352,6 +369,66 @@ public class Controller implements Observer, ActionListener, ComponentListener,
 			});
 		}
 
+	}
+
+	@Override
+	public void windowOpened(WindowEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void windowClosing(WindowEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void windowClosed(WindowEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void windowIconified(WindowEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void windowDeiconified(WindowEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void windowActivated(WindowEvent e) {
+		
+		if (runningThreads != 0 && byUserStopped == false) {
+				Sort.resume();
+				for (int i = 0; i < sortList.size(); i++) {
+
+					Lock l = sortList.get(i).getLock();
+					Condition c = sortList.get(i).getCondition();
+
+					try {
+						l.lock();
+						c.signal();
+					} finally {
+						l.unlock();
+					}
+				}
+				
+			}
+
+	}
+
+	@Override
+	public void windowDeactivated(WindowEvent e) {
+		// TODO Auto-generated method stub
+		System.out.println("DEACTIVED");
+		
+		Sort.stop();
 	}
 
 }

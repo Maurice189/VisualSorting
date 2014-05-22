@@ -23,9 +23,9 @@ public class EnterDialog extends OptionDialog{
 	private JTextField value;
 	private JSpinner values;
 	private JButton enterValue, ok, remove, crNmb;
-	private JPanel list = new JPanel();
-	private JPanel list2 = new JPanel();
-	private JScrollPane pane = new JScrollPane(elements);
+	private JPanel list;
+	private JPanel list2;
+	private JScrollPane pane;
 	
 	public EnterDialog(Controller controller,int width, int height) {
 		super(controller,Statics.COMPONENT_TITLE.SORTLIST, width, height);
@@ -77,7 +77,7 @@ public class EnterDialog extends OptionDialog{
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		
-		if(e.getSource().equals(remove)){
+		if(e.getSource() == remove){
 			if (!elements.isSelectionEmpty()) {
 
 				int selIndices[] = elements.getSelectedIndices();
@@ -87,7 +87,7 @@ public class EnterDialog extends OptionDialog{
 			}
 		}
 		
-		else if (e.getSource().equals(crNmb)){
+		else if (e.getSource() == crNmb){
 			
 			int temp = 0;
 
@@ -103,7 +103,7 @@ public class EnterDialog extends OptionDialog{
 
 		}
 		
-		else if (e.getSource().equals(enterValue)){
+		else if (e.getSource() == enterValue){
 			
 			int temp = 0;
 
@@ -130,7 +130,7 @@ public class EnterDialog extends OptionDialog{
 			}
 		}
 		
-		else if(e.getSource().equals(ok)){
+		else if(e.getSource() == ok){
 			int[] temp = new int[listModel.size()];
 			for (int i = 0; i < listModel.size(); i++)
 				temp[i] = listModel.get(i);
@@ -144,10 +144,13 @@ public class EnterDialog extends OptionDialog{
 	@Override
 	public void updateComponentsLabel() {
 		
+		super.updateComponentsLabel();
+		
 		remove.setName(Statics.getNamebyXml(Statics.COMPONENT_TITLE.REMOVE));
 		crNmb.setName(Statics.getNamebyXml(Statics.COMPONENT_TITLE.RNUMBERS));
 		enterValue.setName(Statics.getNamebyXml(Statics.COMPONENT_TITLE.ADD));
 		ok.setName(Statics.getNamebyXml(Statics.COMPONENT_TITLE.EXIT));
+		
 	}
 
 	@Override
@@ -157,6 +160,9 @@ public class EnterDialog extends OptionDialog{
 	    value = new JTextField();
 		values = new JSpinner();
 	
+		list = new JPanel();
+		list2 = new JPanel();
+		pane = new JScrollPane(elements);
 
 		list.setLayout(new BoxLayout(list, BoxLayout.X_AXIS));
 		list2.setLayout(new BoxLayout(list2, BoxLayout.X_AXIS));

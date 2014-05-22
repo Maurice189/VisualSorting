@@ -4,9 +4,16 @@ import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
 /**
- * Diese Klasse dient als Abstraktion der Sortierverfahren.
- * <br>Jedes Sortierverfahren ist als Klasse implementiert.
- *   
+ * <b>Used Pattern: Strategy Design Pattern/Observer Design Pattern</b>  
+ * 
+ * As the Strategy Design Pattern declares, every single sort algorithmn is 
+ * implemented as a own class. 
+ * This abstract class defines the interface and implements <b>Runnable</b>
+ * in order to execute every single sort algorithmn in a own thread.
+ * Moreover every sort object has its reference to a own canvas(named: <b>SortVisualtionPanel</b>)
+ * <br><br>
+ * Even we need to know(for the GUI) when the sort proceedure has terminated. Thats the reason, why we
+ * need the Obserable interface
  * 
  * 
  * @author maurice
@@ -115,7 +122,6 @@ public abstract class Sort extends Observable implements Runnable{
 		if(Sort.delayMs == 0 && delayNs == 0) Sort.delayNs = 1;
 		else Sort.delayNs = delayNs;
 		
-		System.out.println("NS: "+delayNs);
 	}
 	
 	public static void setDelayMs(long delayMs){
@@ -123,8 +129,6 @@ public abstract class Sort extends Observable implements Runnable{
 		if(Sort.delayNs == 0  && delayMs == 0) Sort.delayMs = 1;
 		else Sort.delayMs = delayMs;
 		
-		System.out.println("MS: "+delayMs);
-
 	}
 	
 	public static long getDelayMs(){

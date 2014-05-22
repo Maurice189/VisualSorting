@@ -24,7 +24,6 @@ public final class DelayDialog extends OptionDialog{
 	private JSlider slider;
 	private JRadioButton ms,ns;
 	private JButton exit,set;
-	
 	private boolean active = true;
 	
 	public DelayDialog(Controller controller,int width, int height) {
@@ -38,9 +37,13 @@ public final class DelayDialog extends OptionDialog{
 		delay = new JLabel();
 		slider = new JSlider(0, 300, 50);
 		ms = new JRadioButton("ms");
+		ms.addActionListener(this);
 	    ns = new JRadioButton("ns");
+	    ns.addActionListener(this);
 		exit = new JButton(Statics.getNamebyXml(Statics.COMPONENT_TITLE.EXIT));
+		exit.addActionListener(this);
 		set = new JButton(Statics.getNamebyXml(Statics.COMPONENT_TITLE.SET));
+		set.addActionListener(this);
 		 
 		 
 		JPanel panel = new JPanel(new FlowLayout(FlowLayout.CENTER));
@@ -72,8 +75,6 @@ public final class DelayDialog extends OptionDialog{
 		slider.addChangeListener(new ChangeListener() {
 
 			public void stateChanged(ChangeEvent e) {
-
-				System.out.println("Triggered !");
 
 				if (active) {
 					if (ms.isSelected()) {
@@ -114,7 +115,7 @@ public final class DelayDialog extends OptionDialog{
 		add(Box.createVerticalStrut(8));
 		add(slider);
 		add(Box.createVerticalStrut(25));
-		add(panel);
+	//	add(panel);
 		
 	}
 	
@@ -122,6 +123,7 @@ public final class DelayDialog extends OptionDialog{
 	@Override
 	public void updateComponentsLabel() {
 		
+		super.updateComponentsLabel();
 		exit.setText(Statics.getNamebyXml(Statics.COMPONENT_TITLE.EXIT));
 		set.setText(Statics.getNamebyXml(Statics.COMPONENT_TITLE.SET));
 	}
@@ -131,7 +133,7 @@ public final class DelayDialog extends OptionDialog{
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
 		
-		if(e.getSource().equals(ns)){
+		if(e.getSource() == ns){
 			
 			active = false;
 			ms.setSelected(false);
@@ -144,7 +146,7 @@ public final class DelayDialog extends OptionDialog{
 			
 		}
 		
-		else if(e.getSource().equals(ms)){
+		else if(e.getSource() == ms){
 
 			active = false;
 			ns.setSelected(false);
@@ -157,7 +159,7 @@ public final class DelayDialog extends OptionDialog{
 		
 		}
 		
-		else if(e.getSource().equals(exit)){
+		else if(e.getSource() == exit){
 			dispose();
 		}
 		
