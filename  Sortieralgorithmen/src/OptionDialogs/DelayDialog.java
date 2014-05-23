@@ -1,3 +1,4 @@
+package OptionDialogs;
 
 
 import java.awt.FlowLayout;
@@ -16,6 +17,10 @@ import javax.swing.JSlider;
 import javax.swing.border.EtchedBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
+
+import main.Controller;
+import main.Statics;
+import sorting_algorithms.Sort;
 
 
 public final class DelayDialog extends OptionDialog{
@@ -103,7 +108,7 @@ public final class DelayDialog extends OptionDialog{
 
 		});
 		
-		java.net.URL helpURL = Dialog.class.getClassLoader().getResource(
+		java.net.URL helpURL = DelayDialog.class.getClassLoader().getResource(
 				"resources/frameIcon2.png");
 		if (helpURL != null) {
 			setIconImage(new ImageIcon(helpURL).getImage());

@@ -1,3 +1,6 @@
+package sorting_algorithms;
+import main.SortVisualtionPanel;
+
 
 public class MergeSort extends Sort{
 

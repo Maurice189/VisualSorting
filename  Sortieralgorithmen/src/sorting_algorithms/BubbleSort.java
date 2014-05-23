@@ -1,3 +1,6 @@
+package sorting_algorithms;
+import main.SortVisualtionPanel;
+
 public class BubbleSort extends Sort {
 
 	public BubbleSort(SortVisualtionPanel svp) {

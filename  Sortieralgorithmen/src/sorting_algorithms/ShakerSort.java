@@ -1,3 +1,6 @@
+package sorting_algorithms;
+import main.SortVisualtionPanel;
+
 public class ShakerSort extends Sort {
 
 	private int k;

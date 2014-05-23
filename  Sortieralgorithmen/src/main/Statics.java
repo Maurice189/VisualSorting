@@ -1,3 +1,4 @@
+package main;
 import java.awt.Font;
 import java.awt.FontFormatException;
 import java.io.IOException;
@@ -132,7 +133,7 @@ public class Statics {
 	 * I don't like the resultating linkage. But if we define the xml tags independantly, we are able to change these 
 	 * very easily .
 	 */
-	public static void initHashTable(){
+	public static void initXMLDefintions(){
 		
 		xmlDef = new HashMap<COMPONENT_TITLE,String>();
 		

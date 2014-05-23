@@ -1,8 +1,10 @@
+package main;
 import java.awt.BasicStroke;
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.event.ComponentEvent;
+import java.awt.event.ComponentListener;
 import java.awt.image.BufferedImage;
 
 import javax.swing.BorderFactory;
@@ -17,12 +19,13 @@ import javax.swing.border.TitledBorder;
  * 
  * */
 
-public class SortVisualtionPanel extends JPanel {
+public class SortVisualtionPanel extends JPanel implements ComponentListener{
 
 	private static final long serialVersionUID = 1L;
 	private static Color backgroundColor = Color.white;
-	private static final int border = 4, marginTop = 30, margin = 10,
-			offsetY = 20;
+	private static final int border = 4, marginTop = 30;
+	private static int margin = 10;
+	private static final int offsetY = 20;
 
 	private JPopupMenu menu;
 	private TitledBorder leftBorder;
@@ -53,14 +56,13 @@ public class SortVisualtionPanel extends JPanel {
 		mtDelete.setActionCommand(Statics.POPUP_REMOVE);
 		menu.add(mtDelete);
 
+		addComponentListener(this);
 		setBorder(leftBorder);
-		addMouseListener(controller);
 		add(menu);
 
 	}
 
 	public void setInfo(String info) {
-		// FIXME info hinkt hinterher; sychronisiere
 		leftBorder.setTitle(info);
 	}
 
@@ -84,16 +86,15 @@ public class SortVisualtionPanel extends JPanel {
 		}
 
 		refHeight = (height - offsetY - SortVisualtionPanel.marginTop) / max;
-		refWidth = (width - (elements.length * SortVisualtionPanel.border) - (SortVisualtionPanel.margin * 2))
+		refWidth = (width - (elements.length * SortVisualtionPanel.border))
 				/ elements.length;
-
-		System.out.println("Referrence Width: "+refWidth+" | Referrence Height: "+refHeight);
+		
+		SortVisualtionPanel.margin = (width - (elements.length * (refWidth+SortVisualtionPanel.border)))/2;
 		drawElements();
 	}
 
-	public Dimension updatePanelSize() {
+	public void updatePanelSize() {
 
-		int minHeight = 0,minWidth = 0;
 		int max = 1;
 		
 		width = this.getWidth();
@@ -111,23 +112,15 @@ public class SortVisualtionPanel extends JPanel {
 		}
 
 		refHeight = (height - offsetY - SortVisualtionPanel.marginTop) / max;
-		refWidth = (width - (elements.length * SortVisualtionPanel.border) - (SortVisualtionPanel.margin * 2))
+		refWidth = (width - (elements.length * SortVisualtionPanel.border))
 				/ elements.length;
-
-		if(refHeight <= 0){
-			
-			refHeight = 1;
-			 minHeight = max+SortVisualtionPanel.marginTop+ offsetY;
-		}
-		if(refWidth <= 0){
-			
-			refHeight = 1;
-			minWidth = elements.length+(SortVisualtionPanel.margin * 2)+(elements.length * SortVisualtionPanel.border);
-		}
-		System.out.println("Referrence Width: "+refWidth+" | Referrence Height: "+refHeight);
-		drawElements();
 		
-		return new Dimension(minWidth,minHeight);
+
+		if(refHeight <= 0)refHeight = 1;
+		if(refWidth <= 0) refWidth = 1;
+		
+		SortVisualtionPanel.margin = (width - (elements.length * (refWidth+SortVisualtionPanel.border)))/2;		
+		drawElements();
 
 	}
 
@@ -280,6 +273,30 @@ public class SortVisualtionPanel extends JPanel {
 
 		g.drawImage(buffer, 0, 0, width, height, this);
 
+	}
+
+	@Override
+	public void componentResized(ComponentEvent e) {
+		// TODO Auto-generated method stub
+		updatePanelSize();
+	}
+
+	@Override
+	public void componentMoved(ComponentEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void componentShown(ComponentEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void componentHidden(ComponentEvent e) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

@@ -1,3 +1,4 @@
+package OptionDialogs;
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseEvent;
@@ -7,6 +8,10 @@ import java.awt.event.WindowEvent;
 import javax.swing.ImageIcon;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
+
+import main.Controller;
+import main.Statics;
+import main.Statics.COMPONENT_TITLE;
 
 
 public class InfoDialog extends OptionDialog{
@@ -80,7 +85,7 @@ public class InfoDialog extends OptionDialog{
 		cpr.setFont(Statics.getDefaultFont(12f));
 		setLayout(new BorderLayout());
 
-		java.net.URL helpURL = Dialog.class.getClassLoader().getResource(
+		java.net.URL helpURL = InfoDialog.class.getClassLoader().getResource(
 				"resources/LOGO_MANUAL.png");
 		if (helpURL != null) {
 			bg = new ImageIcon(helpURL);
@@ -117,7 +122,7 @@ public class InfoDialog extends OptionDialog{
 
 			add(BorderLayout.CENTER, new JLabel(bg));
 			add(BorderLayout.SOUTH, cpr);
-			helpURL = Dialog.class.getClassLoader().getResource(
+			helpURL = InfoDialog.class.getClassLoader().getResource(
 					"resources/frameIcon2.png");
 			if (helpURL != null) {
 				setIconImage(new ImageIcon(helpURL).getImage());

@@ -1,3 +1,4 @@
+package OptionDialogs;
 import java.awt.event.ActionEvent;
 import java.awt.event.WindowEvent;
 
@@ -12,6 +13,11 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSpinner;
 import javax.swing.JTextField;
+
+import main.Controller;
+import main.Statics;
+import main.Statics.COMPONENT_TITLE;
+import sorting_algorithms.Sort;
 
 
 public class EnterDialog extends OptionDialog{
@@ -193,7 +199,7 @@ public class EnterDialog extends OptionDialog{
 		list2.add(value);
 		list2.add(remove);
 
-		java.net.URL helpURL = Dialog.class.getClassLoader().getResource(
+		java.net.URL helpURL = EnterDialog.class.getClassLoader().getResource(
 				"resources/frameIcon2.png");
 
 		if (helpURL != null) {

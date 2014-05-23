@@ -1,6 +1,9 @@
+package main;
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Dimension;
+import java.awt.Component;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.util.ArrayList;
 
 import javax.swing.Box;
@@ -20,11 +23,14 @@ import javax.swing.JToolBar;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
+import sorting_algorithms.Sort;
+
 public class Window extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 
-	private ArrayList<Sort> sortList;
+	private ArrayList<SortVisualtionPanel> vsPanel;
+	private ArrayList<Component> filler;
 	private String title;
 	
 	private JButton next, newSort, nextStep, reset;
@@ -38,11 +44,10 @@ public class Window extends JFrame {
 	private JToolBar toolBar;
 
 	public Window(Controller controller, String title, int width, int height) {
-		// TODO Auto-generated constructor stub
 
 		JMenuBar menuBar;
 		ButtonGroup bg = new ButtonGroup();
-
+		filler = new ArrayList<Component>();
 		this.title = title;
 		this.controller = controller;
 		info = new JLabel(Statics.getNamebyXml(Statics.COMPONENT_TITLE.INFO),
@@ -52,8 +57,7 @@ public class Window extends JFrame {
 
 		setTitle(title);
 		setSize(width, height);
-		sortList = controller.getList();
-		addComponentListener(controller);
+		vsPanel = new ArrayList<SortVisualtionPanel>();
 		addWindowListener(controller);
 
 		toolBar = new JToolBar();
@@ -170,7 +174,7 @@ public class Window extends JFrame {
 		next.setEnabled(false);
 		nextStep.setEnabled(false);
 
-		java.net.URL helpURL = Dialog.class.getClassLoader().getResource(
+		java.net.URL helpURL = Window.class.getClassLoader().getResource(
 				"resources/frameIcon2.png");
 		if (helpURL != null) {
 			setIconImage(new ImageIcon(helpURL).getImage());
@@ -183,41 +187,32 @@ public class Window extends JFrame {
 		setLocationRelativeTo(null);
 		setVisible(true);
 
-		System.out.println("W: " + newSort.getWidth() + "|H: "
-				+ newSort.getHeight());
-
 	}
 
 	
 	  public void updateLanguage(){
 	  
-	  info.setText(Statics.getNamebyXml(Statics.COMPONENT_TITLE.INFO));
+		  info.setText(Statics.getNamebyXml(Statics.COMPONENT_TITLE.INFO));
 	  
+		  if (next.getText().equals(Statics.getNamebyXml(Statics.COMPONENT_TITLE.STARTANI)))
+			  next.setText(Statics.getNamebyXml(Statics.COMPONENT_TITLE.STARTANI));
 	  
-	  if (next.getText().equals(
-	  Statics.getNamebyXml(Statics.COMPONENT_TITLE.STARTANI)))
-	  next.setText(Statics.getNamebyXml(Statics.COMPONENT_TITLE.STARTANI));
+		  else 
+			  next.setText(Statics.getNamebyXml(Statics.COMPONENT_TITLE.STOPANI));
 	  
-	  else next.setText(Statics.getNamebyXml(Statics.COMPONENT_TITLE.STOPANI));
-	  
-	  nextStep.setText(Statics.getNamebyXml(Statics.COMPONENT_TITLE.ITERATION));
-	  newSort.setText(Statics.getNamebyXml(Statics.COMPONENT_TITLE.ADD_SORT));
-	  reset.setText(Statics.getNamebyXml(Statics.COMPONENT_TITLE.RESET));
-	  about.setText(Statics.getNamebyXml(Statics.COMPONENT_TITLE.ABOUT));
-	  list.setText(Statics.getNamebyXml(Statics.COMPONENT_TITLE.SORTLIST));
-	  delay.setText(Statics.getNamebyXml(Statics.COMPONENT_TITLE.DELAY));
-	  manual.setText(Statics.getNamebyXml(Statics.COMPONENT_TITLE.MANUAL));
-	  help.setText(Statics.getNamebyXml(Statics.COMPONENT_TITLE.HELP));
-	  settings.setText(Statics.getNamebyXml(Statics.COMPONENT_TITLE.SETTINGS));
-	  languages.setText(Statics.getNamebyXml(Statics.COMPONENT_TITLE.LANG)); }
+		  nextStep.setText(Statics.getNamebyXml(Statics.COMPONENT_TITLE.ITERATION));
+		  newSort.setText(Statics.getNamebyXml(Statics.COMPONENT_TITLE.ADD_SORT));
+		  reset.setText(Statics.getNamebyXml(Statics.COMPONENT_TITLE.RESET));
+		  about.setText(Statics.getNamebyXml(Statics.COMPONENT_TITLE.ABOUT));
+		  list.setText(Statics.getNamebyXml(Statics.COMPONENT_TITLE.SORTLIST));
+		  delay.setText(Statics.getNamebyXml(Statics.COMPONENT_TITLE.DELAY));
+		  manual.setText(Statics.getNamebyXml(Statics.COMPONENT_TITLE.MANUAL));
+		  help.setText(Statics.getNamebyXml(Statics.COMPONENT_TITLE.HELP));
+		  settings.setText(Statics.getNamebyXml(Statics.COMPONENT_TITLE.SETTINGS));
+	  	  languages.setText(Statics.getNamebyXml(Statics.COMPONENT_TITLE.LANG)); 
+	  	
+	  }
 	 
-
-	public void showPopupMenu(int x, int y, int sortIndex) {
-
-		sortList.get(sortIndex).getSortVisualtionPanel().showPopUpMenu(x, y);
-
-	}
-
 	public void toggleStartStop() {
 
 		if (next.getText().equals(
@@ -234,31 +229,59 @@ public class Window extends JFrame {
 
 	public void addNewSort(Sort sort, String selectedSort) {
 
-		Dimension minSize = null;
 		
-		if (sortList.size() == 1) {
+		if (vsPanel.size() == 0) {
 			content.remove(info);
 			content.setLayout(new BoxLayout(content, BoxLayout.Y_AXIS));
 			content.add(Box.createVerticalStrut(20));
 			next.setEnabled(true);
 			reset.setEnabled(true);
 		}
-		SortVisualtionPanel temp = new SortVisualtionPanel(controller,
+		final SortVisualtionPanel temp = new SortVisualtionPanel(controller,
 				selectedSort, this.getWidth(), this.getHeight());
-		sort.setSortVisualtionPanel(temp);
+		
+		temp.addMouseListener(new MouseListener(){
 
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				// TODO Auto-generated method stub
+				if (Sort.isStopped() && e.getButton() == 3) temp.showPopUpMenu(e.getX(), e.getY());
+			}
+
+			@Override
+			public void mousePressed(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void mouseReleased(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void mouseExited(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+		});
+		sort.setSortVisualtionPanel(temp);
+		vsPanel.add(temp);
 		content.add(temp);
-		content.add(Box.createVerticalStrut(50));
+		
+		Component c = Box.createVerticalStrut(50);
+		filler.add(c);
+		content.add(c);
 		revalidate();
 
-		for (int i = 0; i < sortList.size(); i++)
-			minSize = sortList.get(i).getSortVisualtionPanel().updatePanelSize();
-		
-		
-		if(minSize.getHeight() != 0 || minSize.getHeight() != 0 ){
-			System.out.println("SD");
-			//setSize(minSize);
-		}
 
 	}
 	
@@ -283,11 +306,13 @@ public class Window extends JFrame {
 
 	public void removeSort(int index) {
 
-		content.remove(sortList.get(index).getSortVisualtionPanel());
+		content.remove(filler.get(index));
+		content.remove(vsPanel.get(index));
+		vsPanel.remove(index);
+		filler.remove(index);
 
-		if (sortList.size() == 1) {
+		if (vsPanel.size() == 0) {
 
-			System.out.println("REMOVE");
 			content.removeAll();
 			content.setLayout(new BorderLayout());
 			content.add(info);
@@ -297,19 +322,19 @@ public class Window extends JFrame {
 			nextStep.setEnabled(false);
 		}
 		
+		
+		
+		for (int i = 0; i < vsPanel.size(); i++) {
+			if (i != index)
+				vsPanel.get(i).updatePanelSize();
+		}
+
 		revalidate();
 		repaint();
 		
-		for (int i = 0; i < sortList.size(); i++) {
-			if (i != index)
-				sortList.get(i).getSortVisualtionPanel().updatePanelSize();
-		}
-
-
-		
-
 	}
 
+	// TODO: use argument parameters for setting language
 	public static void main(String[] args) {
 
 		try {
@@ -324,14 +349,14 @@ public class Window extends JFrame {
 			// handle exception
 		}
 
-		Statics.initHashTable();
-		Statics.loadConfig("resources/config.xml");
-		Statics.readLang("resources/lang_de.xml", "German");
-
-		Statics.initDefaultFont("resources/OxygenFont/Oxygen-Regular.ttf");
+		Statics.initXMLDefintions();
+		Statics.loadConfig("/resources/config.xml");
+		Statics.readLang("/resources/lang_de.xml", "German");
+		Statics.initDefaultFont("/resources/OxygenFont/Oxygen-Regular.ttf");
+		
+		
 		Controller controller = new Controller();
-		Window window = new Window(controller,
-				"Visual Sorting - ".concat(Statics.getVersion()), 800, 550);
+		Window window = new Window(controller,"Visual Sorting - ".concat(Statics.getVersion()), 800, 550);
 		controller.setView(window);
 
 	}

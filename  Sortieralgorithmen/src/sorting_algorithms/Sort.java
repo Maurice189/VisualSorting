@@ -1,7 +1,10 @@
+package sorting_algorithms;
 import java.util.Observable;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
+
+import main.SortVisualtionPanel;
 
 /**
  * <b>Used Pattern: Strategy Design Pattern/Observer Design Pattern</b>  

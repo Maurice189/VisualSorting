@@ -1,10 +1,7 @@
+package main;
 import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.ComponentEvent;
-import java.awt.event.ComponentListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.util.ArrayList;
@@ -16,6 +13,24 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
 
+import OptionDialogs.DelayDialog;
+import OptionDialogs.EnterDialog;
+import OptionDialogs.InfoDialog;
+import OptionDialogs.ManualDialog;
+import OptionDialogs.OptionDialog;
+import sorting_algorithms.BinaryTreeSort;
+import sorting_algorithms.BitonicSort;
+import sorting_algorithms.BubbleSort;
+import sorting_algorithms.CombSort;
+import sorting_algorithms.GnomeSort;
+import sorting_algorithms.HeapSort;
+import sorting_algorithms.InsertionSort;
+import sorting_algorithms.MergeSort;
+import sorting_algorithms.QuickSort;
+import sorting_algorithms.RadixSort;
+import sorting_algorithms.ShakerSort;
+import sorting_algorithms.Sort;
+
 /**
  * @author Maurice Koch
  * @version BETA
@@ -24,14 +39,12 @@ import java.util.concurrent.locks.Lock;
 /*
  * TODO: General Functions
  * 
- * - Entfernfunktion verbessern Skalierung feinjustierung Grafikausgabe
  * - Merken welche Sprache ausgewählt wurde. ggf. in config.xml abspeichern
  * - Optimierung Parameter in SortVisualtionPanel wenn möglich statisch implementieren
  * - Implementierung weiterer Sortierverfahren
  */
 
-public class Controller implements Observer, ActionListener, WindowListener,ComponentListener,
-		MouseListener {
+public class Controller implements Observer, ActionListener, WindowListener {
 
 	private ArrayList<Sort> sortList;
 	private LinkedList<OptionDialog> dialogs;
@@ -43,15 +56,13 @@ public class Controller implements Observer, ActionListener, WindowListener,Comp
 	private ExecutorService executor;
 
 	public Controller() {
-		// TODO Auto-generated constructor stub
 
-		int size = 123;
+		int size = 110;
 		int[] elements = new int[size];
 
 		sortList = new ArrayList<Sort>();
 		dialogs = new LinkedList<OptionDialog>(); 
 		
-		// executor better that
 		executor = Executors.newCachedThreadPool();
 
 		for (int i = 0; i < size; i++)
@@ -114,8 +125,9 @@ public class Controller implements Observer, ActionListener, WindowListener,Comp
 				sort = new BitonicSort();
 			else if (selectedSort.equals(Statics.SORT_ALGORITHMNS[9]))
 				sort = new RadixSort();
+			/*
 			else if (selectedSort.equals(Statics.SORT_ALGORITHMNS[10]))
-				sort = new ShellSort();
+				sort = new ShellSort();*/
 			else if (selectedSort.equals(Statics.SORT_ALGORITHMNS[11]))
 				sort = new InsertionSort();
 			else
@@ -175,8 +187,6 @@ public class Controller implements Observer, ActionListener, WindowListener,Comp
 
 		else if (e.getActionCommand() == Statics.RESET) {
 
-			//Sort.resume();
-
 			for (int i = 0; i < sortList.size(); i++) {
 				sortList.get(i).resetElements();
 				runningThreads = 0;
@@ -202,49 +212,27 @@ public class Controller implements Observer, ActionListener, WindowListener,Comp
 
 		else if (e.getActionCommand() == Statics.LANG_DE) {
 
-			// FIXME hinzufügen nicht mehr möglich !
 			Statics.readLang("resources/lang_de.xml", "German");
 			window.updateLanguage();
 			for(OptionDialog temp:dialogs) temp.updateComponentsLabel();
-			/*
-			window.dispose();
-			window = new Window(this, "Visual Sorting - Beta", 800, 550);
-			runningThreads = 0;
-			*/
 
 		}
 
 		else if (e.getActionCommand() == Statics.LANG_EN) {
 
-			// FIXME hinzufügen nicht mehr möglich !
 			Statics.readLang("resources/lang_en.xml", "English");
 			window.updateLanguage();
 			for(OptionDialog temp:dialogs) temp.updateComponentsLabel();
-			
-			
-			/*
-			window.dispose();
-			window = new Window(this, "Visual Sorting - Beta", 800, 550);
-			runningThreads = 0;
-			 */
-	
-			
-			
+
 			
 		}
 
 		else if (e.getActionCommand() == Statics.LANG_FR) {
 
-			// FIXME hinzufügen nicht mehr möglich !
 			Statics.readLang("resources/lang_fr.xml", "France");
 			window.updateLanguage();
 			for(OptionDialog temp:dialogs) temp.updateComponentsLabel();
-			/*
-			window.dispose();
-			window = new Window(this, "Visual Sorting - Beta", 800, 550);
-			runningThreads = 0;
-			*/
-
+	
 		}
 
 		else if (e.getActionCommand() == Statics.NEXT_ITERATION) {
@@ -294,67 +282,7 @@ public class Controller implements Observer, ActionListener, WindowListener,Comp
 
 	}
 
-	public void componentResized(ComponentEvent e) {
-
-		for (int i = 0; i < sortList.size(); i++) {
-
-			sortList.get(i).getSortVisualtionPanel().updatePanelSize();
-
-		}
-
-	}
-
-	public void componentMoved(ComponentEvent e) {
-		// TODO Auto-generated method stub
-
-	}
-
-	public void componentShown(ComponentEvent e) {
-		// TODO Auto-generated method stub
-
-	}
-
-	public void componentHidden(ComponentEvent e) {
-
-	}
-
-	public void mouseClicked(MouseEvent e) {
-		// TODO Auto-generated method stub
-
-		for (int i = 0; i < sortList.size(); i++) {
-
-			if (e.getSource() == sortList.get(i).getSortVisualtionPanel()) {
-
-				if (Sort.isStopped() && e.getButton() == 3)
-					window.showPopupMenu(e.getX(), e.getY(), i);
-				vspIndex = i;
-
-			}
-
-		}
-
-	}
-
-	public void mousePressed(MouseEvent e) {
-		// TODO Auto-generated method stub
-
-	}
-
-	public void mouseReleased(MouseEvent e) {
-		// TODO Auto-generated method stub
-
-	}
-
-	public void mouseEntered(MouseEvent e) {
-		// TODO Auto-generated method stub
-
-	}
-
-	public void mouseExited(MouseEvent e) {
-		// TODO Auto-generated method stub
-
-	}
-
+	// this method will be called by an EDT foreign thread
 	@Override
 	public void update(Observable o, Object arg) {
 		// TODO Auto-generated method stub
@@ -380,6 +308,8 @@ public class Controller implements Observer, ActionListener, WindowListener,Comp
 	@Override
 	public void windowClosing(WindowEvent e) {
 		// TODO Auto-generated method stub
+		
+		for(OptionDialog temp: dialogs) temp.dispose();
 		
 	}
 

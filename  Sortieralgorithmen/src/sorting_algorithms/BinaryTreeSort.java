@@ -1,3 +1,7 @@
+package sorting_algorithms;
+
+import main.SortVisualtionPanel;
+
 /*
  * BST class have only 1 constructor, which takes as parameter an Object type.
  * Root element will be the first element in the list of elements to sort.

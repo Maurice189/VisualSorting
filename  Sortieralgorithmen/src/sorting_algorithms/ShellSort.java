@@ -1,3 +1,6 @@
+package sorting_algorithms;
+import main.SortVisualtionPanel;
+
 class ShellSort extends Sort {
 
 	public ShellSort(SortVisualtionPanel svp) {

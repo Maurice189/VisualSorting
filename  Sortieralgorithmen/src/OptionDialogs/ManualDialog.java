@@ -1,3 +1,4 @@
+package OptionDialogs;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseEvent;
@@ -8,6 +9,10 @@ import java.io.IOException;
 import javax.swing.ImageIcon;
 import javax.swing.JEditorPane;
 import javax.swing.JScrollPane;
+
+import main.Controller;
+import main.Statics;
+import main.Statics.COMPONENT_TITLE;
 
 
 public class ManualDialog extends OptionDialog{
@@ -76,7 +81,7 @@ public class ManualDialog extends OptionDialog{
 		JEditorPane manual = new JEditorPane();
 		manual.setEditable(false);
 
-		java.net.URL helpURL = Dialog.class.getClassLoader().getResource(
+		java.net.URL helpURL = ManualDialog.class.getClassLoader().getResource(
 				"resources/manual.html");
 		if (helpURL != null) {
 			try {
@@ -124,7 +129,7 @@ public class ManualDialog extends OptionDialog{
 
 		});
 		add(editorScrollPane);
-		helpURL = Dialog.class.getClassLoader().getResource(
+		helpURL = ManualDialog.class.getClassLoader().getResource(
 				"resources/frameIcon2.png");
 		if (helpURL != null) {
 			setIconImage(new ImageIcon(helpURL).getImage());

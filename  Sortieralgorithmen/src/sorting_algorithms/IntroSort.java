@@ -1,3 +1,4 @@
+package sorting_algorithms;
 
 // TODO implementiere Grafikausgabe etc.
 public class IntroSort extends Sort 

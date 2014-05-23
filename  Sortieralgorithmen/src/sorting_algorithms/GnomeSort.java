@@ -1,3 +1,6 @@
+package sorting_algorithms;
+import main.SortVisualtionPanel;
+
 public class GnomeSort extends Sort {
 
 	public GnomeSort(SortVisualtionPanel svp) {
