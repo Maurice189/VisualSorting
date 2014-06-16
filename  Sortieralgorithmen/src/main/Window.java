@@ -240,10 +240,10 @@ public class Window extends JFrame {
 		  info.setText(Statics.getNamebyXml(Statics.COMPONENT_TITLE.INFO));
 	  
 		  if (next.getText().equals(Statics.getNamebyXml(Statics.COMPONENT_TITLE.STARTANI)))
-			  next.setText(Statics.getNamebyXml(Statics.COMPONENT_TITLE.STARTANI));
+			  next.setText(Statics.getNamebyXml(Statics.COMPONENT_TITLE.STOPANI));
 	  
 		  else 
-			  next.setText(Statics.getNamebyXml(Statics.COMPONENT_TITLE.STOPANI));
+			  next.setText(Statics.getNamebyXml(Statics.COMPONENT_TITLE.STARTANI));
 	  
 		  nextStep.setText(Statics.getNamebyXml(Statics.COMPONENT_TITLE.ITERATION));
 		  newSort.setText(Statics.getNamebyXml(Statics.COMPONENT_TITLE.ADD_SORT));

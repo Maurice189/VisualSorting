@@ -216,12 +216,12 @@ public class Controller implements Observer, ActionListener, WindowListener {
 
 		else if (e.getActionCommand() == Statics.INFO) {
 
-			dialogs.add(new InfoDialog(this,300,150));
+			dialogs.add(new InfoDialog(this,300,190));
 		}
 
 		else if (e.getActionCommand() == Statics.LANG_DE) {
 
-			Statics.readLang("resources/lang_de.xml", "German");
+			Statics.readLang("/resources/lang_de.xml", "German");
 			window.updateLanguage();
 			for(OptionDialog temp:dialogs) temp.updateComponentsLabel(); // update language on every open dialog
 
@@ -229,7 +229,7 @@ public class Controller implements Observer, ActionListener, WindowListener {
 
 		else if (e.getActionCommand() == Statics.LANG_EN) {
 
-			Statics.readLang("resources/lang_en.xml", "English");
+			Statics.readLang("/resources/lang_en.xml", "English");
 			window.updateLanguage();
 			for(OptionDialog temp:dialogs) temp.updateComponentsLabel(); // update language on every open dialog
 
@@ -238,7 +238,7 @@ public class Controller implements Observer, ActionListener, WindowListener {
 
 		else if (e.getActionCommand() == Statics.LANG_FR) {
 
-			Statics.readLang("resources/lang_fr.xml", "France");
+			Statics.readLang("/resources/lang_fr.xml", "France");
 			window.updateLanguage();
 			for(OptionDialog temp:dialogs) temp.updateComponentsLabel(); // update language on every open dialog
 	
