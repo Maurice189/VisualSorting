@@ -9,17 +9,28 @@ import org.jdom2.Element;
 import org.jdom2.JDOMException;
 import org.jdom2.input.SAXBuilder;
 
+/**
+ * @author Maurice Koch
+ * @version BETA
+ * 
+ * This class respresents, as the name implies, the view(GUI) in the MVC pattern.
+ * 
+ */
+
 public class Statics {
 
+	// this font is used for components, the default font is monospace
 	private static Font defaultFont = new Font("Monospace", Font.PLAIN, 20);
 
+	// statics for component title
 	public static enum COMPONENT_TITLE {
 		ADD_SORT, STARTANI, STOPANI, ADD, ITERATION, RESET, SETTINGS, SORTLIST, DELAY, HELP, ABOUT, INFO, REMOVE, EXIT, SET, MANUAL,LANG,ERROR0,
 		VERSION,SLANGUAGE,RNUMBERS,REPORT
 	};
 
-	private static String VERSION,LANGUAGE_SET;
+	private static String VERSION,LANGUAGE_SET; // prg version, language set
 	
+	// actionlistener use actioncommands 
 	public static final String ADD_SORT = "action_add";
 	public static final String REMOVE_SORT = "action_remove";
 	public static final String START = "action_start";
@@ -40,14 +51,20 @@ public class Statics {
 
 	private static Element element;
 
+	// name of all sort algorithms
 	public static final String SORT_ALGORITHMNS[] = { "Heapsort", "Bubblesort",
 			"Quicksort", "Binary Tree Sort", "Combsort", "Gnomesort",
 			"Shakersort (Cocktailsort)", "Mergesort", "Bitonicsort",
 			"Radixsort", "Shellsort", "Insertionsort" };
 	
-	
+	/*
+	 * We also could make the 'COMPONENT_TITLE' values equal to those from xml tags, but 
+	 * I don't like the resultating linkage. But if we define the xml tags independantly, we are able to change these 
+	 * very easily .
+	 */
 	private static HashMap<COMPONENT_TITLE,String> xmlDef;
 
+	
 	public static void initDefaultFont(String source) {
 
 
@@ -77,6 +94,7 @@ public class Statics {
 	}
 	
 
+	// once the xml language file is read
 	private static void readXML(String source) {
 
 	
@@ -97,6 +115,7 @@ public class Statics {
 	}
 	
 
+	// here the component title is resolved into the respective xml-tag
 	public static String getNamebyXml(COMPONENT_TITLE title) {
 
 		String key = xmlDef.get(title);
@@ -104,6 +123,8 @@ public class Statics {
 		return null;
 	}
 	
+	
+	// the settings-xml is read
 	public static void loadConfig(String source){
 		readXML(source);
 		
@@ -128,11 +149,7 @@ public class Statics {
 
 	}
 	
-	/**
-	 * We also could make the 'COMPONENT_TITLE' values equal to those from xml tags, but 
-	 * I don't like the resultating linkage. But if we define the xml tags independantly, we are able to change these 
-	 * very easily .
-	 */
+    // here the component-titles and the respective xml-tags are linked in the hash-map
 	public static void initXMLDefintions(){
 		
 		xmlDef = new HashMap<COMPONENT_TITLE,String>();

@@ -23,15 +23,22 @@ import main.Statics;
 import sorting_algorithms.Sort;
 
 
+/**
+ * <b>Used Pattern: Singleton</b>  
+ * @author maurice
+ *
+ */
+
 public final class DelayDialog extends OptionDialog{
 	
+	private static DelayDialog instance;
 	private JLabel delay;
 	private JSlider slider;
 	private JRadioButton ms,ns;
 	private JButton exit,set;
 	private boolean active = true;
 	
-	public DelayDialog(Controller controller,int width, int height) {
+	private DelayDialog(Controller controller,int width, int height) {
 		super(controller,Statics.COMPONENT_TITLE.DELAY, width, height);
 		
 	}
@@ -212,6 +219,14 @@ public final class DelayDialog extends OptionDialog{
 	public void windowDeactivated(WindowEvent e) {
 		// TODO Auto-generated method stub
 		
+	}
+	
+	public static DelayDialog getInstance(Controller controller,int width, int height){
+		
+		if(instance == null) instance = new DelayDialog(controller,width,height);
+		
+		instance.setVisible(true);
+		return instance;
 	}
 
 

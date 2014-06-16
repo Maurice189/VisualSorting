@@ -34,6 +34,10 @@ import sorting_algorithms.Sort;
 /**
  * @author Maurice Koch
  * @version BETA
+ * 
+ * This class respresents, as the name implies, the controller in the MVC pattern.
+ * Moreover this class implements the observer pattern, so the controller can be informed, if a visualsation thread
+ * ends
  */
 
 /*
@@ -46,18 +50,19 @@ import sorting_algorithms.Sort;
 
 public class Controller implements Observer, ActionListener, WindowListener {
 
-	private ArrayList<Sort> sortList;
-	private LinkedList<OptionDialog> dialogs;
 	
-	private Window window;
-	private int runningThreads, vspIndex;
+	private ArrayList<Sort> sortList; // dynamic storage for the sort algorithmns
+	private LinkedList<OptionDialog> dialogs; // references to the open dialogs, like settings etc.
 	
-	private boolean byUserStopped = false;
-	private ExecutorService executor;
+	private Window window; 
+	private int runningThreads, vspIndex; // number of running sortthreads, index of current clicked vsp-panel
+	
+	private boolean byUserStopped = false; //
+	private ExecutorService executor; // we use executor service, because it's more memory efficient
 
 	public Controller() {
 
-		int size = 110;
+		int size = 110; // TODO: start size of the elements, should be adapted
 		int[] elements = new int[size];
 
 		sortList = new ArrayList<Sort>();
@@ -65,6 +70,7 @@ public class Controller implements Observer, ActionListener, WindowListener {
 		
 		executor = Executors.newCachedThreadPool();
 
+		// fill random numbers to the sort list
 		for (int i = 0; i < size; i++)
 			elements[i] = Controller.getRandomNumber(0, size);
 
@@ -97,8 +103,8 @@ public class Controller implements Observer, ActionListener, WindowListener {
 			if (runningThreads != 0) {
 
 				Sort.resume();
-				for (int i = 0; i < sortList.size(); i++) {
-					sortList.get(i).resetElements();
+				for (Sort temp: sortList){
+					temp.initElements();
 					runningThreads = 0;
 				}
 			}
@@ -125,7 +131,7 @@ public class Controller implements Observer, ActionListener, WindowListener {
 				sort = new BitonicSort();
 			else if (selectedSort.equals(Statics.SORT_ALGORITHMNS[9]))
 				sort = new RadixSort();
-			/*
+			/*	FIXME: somehow shellsort is working not properly, see precise informations under the respective class
 			else if (selectedSort.equals(Statics.SORT_ALGORITHMNS[10]))
 				sort = new ShellSort();*/
 			else if (selectedSort.equals(Statics.SORT_ALGORITHMNS[11]))
@@ -145,10 +151,10 @@ public class Controller implements Observer, ActionListener, WindowListener {
 				if (Sort.isStopped()) {
 
 					Sort.resume();
-					for (int i = 0; i < sortList.size(); i++) {
+					for (Sort temp: sortList){
 
-						Lock l = sortList.get(i).getLock();
-						Condition c = sortList.get(i).getCondition();
+						Lock l = temp.getLock();
+						Condition c = temp.getCondition();
 
 						try {
 							l.lock();
@@ -169,14 +175,15 @@ public class Controller implements Observer, ActionListener, WindowListener {
 			}
 
 			else {
+				
+				Sort.resume();
+				for (Sort temp: sortList) {
 
-				System.out.println("OK");
-				for (int i = 0; i < sortList.size(); i++) {
-
-					Sort.resume();
-					executor.execute(sortList.get(i));
+					
+					temp.initElements(); 
+					executor.execute(temp);
 					runningThreads++;
-
+					
 				}
 
 				window.unlockManualIteration(false);
@@ -187,10 +194,12 @@ public class Controller implements Observer, ActionListener, WindowListener {
 
 		else if (e.getActionCommand() == Statics.RESET) {
 
-			for (int i = 0; i < sortList.size(); i++) {
-				sortList.get(i).resetElements();
-				runningThreads = 0;
+			for (Sort temp: sortList) {
+				temp.initElements();
+				
 			}
+			
+			runningThreads = 0;
 		}
 
 		else if (e.getActionCommand() == Statics.MANUAL) {
@@ -202,7 +211,7 @@ public class Controller implements Observer, ActionListener, WindowListener {
 
 		else if (e.getActionCommand() == Statics.NEW_ELEMENTS) {
 
-			dialogs.add(new EnterDialog(this, 500, 200));
+			dialogs.add(EnterDialog.getInstance(this, 500, 200));
 		}
 
 		else if (e.getActionCommand() == Statics.INFO) {
@@ -214,7 +223,7 @@ public class Controller implements Observer, ActionListener, WindowListener {
 
 			Statics.readLang("resources/lang_de.xml", "German");
 			window.updateLanguage();
-			for(OptionDialog temp:dialogs) temp.updateComponentsLabel();
+			for(OptionDialog temp:dialogs) temp.updateComponentsLabel(); // update language on every open dialog
 
 		}
 
@@ -222,7 +231,7 @@ public class Controller implements Observer, ActionListener, WindowListener {
 
 			Statics.readLang("resources/lang_en.xml", "English");
 			window.updateLanguage();
-			for(OptionDialog temp:dialogs) temp.updateComponentsLabel();
+			for(OptionDialog temp:dialogs) temp.updateComponentsLabel(); // update language on every open dialog
 
 			
 		}
@@ -231,10 +240,11 @@ public class Controller implements Observer, ActionListener, WindowListener {
 
 			Statics.readLang("resources/lang_fr.xml", "France");
 			window.updateLanguage();
-			for(OptionDialog temp:dialogs) temp.updateComponentsLabel();
+			for(OptionDialog temp:dialogs) temp.updateComponentsLabel(); // update language on every open dialog
 	
 		}
 
+		// just execute one more step
 		else if (e.getActionCommand() == Statics.NEXT_ITERATION) {
 
 			Lock l;
@@ -277,7 +287,7 @@ public class Controller implements Observer, ActionListener, WindowListener {
 
 		else if (e.getActionCommand() == Statics.DELAY) {
 
-			dialogs.add(new DelayDialog(this,320, 150));
+			dialogs.add(DelayDialog.getInstance(this,320, 150));
 		}
 
 	}
@@ -300,37 +310,25 @@ public class Controller implements Observer, ActionListener, WindowListener {
 	}
 
 	@Override
-	public void windowOpened(WindowEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
+	public void windowOpened(WindowEvent e) {}
 
 	@Override
 	public void windowClosing(WindowEvent e) {
-		// TODO Auto-generated method stub
 		
 		for(OptionDialog temp: dialogs) temp.dispose();
 		
 	}
 
 	@Override
-	public void windowClosed(WindowEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
+	public void windowClosed(WindowEvent e) {}
 
 	@Override
-	public void windowIconified(WindowEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
+	public void windowIconified(WindowEvent e) {}
 
 	@Override
-	public void windowDeiconified(WindowEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
+	public void windowDeiconified(WindowEvent e) {}
 
+	// animation will be released after the user reactivate the window
 	@Override
 	public void windowActivated(WindowEvent e) {
 		
@@ -354,6 +352,7 @@ public class Controller implements Observer, ActionListener, WindowListener {
 
 	}
 
+	// animation will be paused if the user deactivate the window
 	@Override
 	public void windowDeactivated(WindowEvent e) {
 		Sort.stop();

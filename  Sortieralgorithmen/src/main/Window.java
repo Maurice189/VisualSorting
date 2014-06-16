@@ -2,8 +2,12 @@ package main;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Font;
+import java.awt.FontFormatException;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 
 import javax.swing.Box;
@@ -25,13 +29,28 @@ import javax.swing.UnsupportedLookAndFeelException;
 
 import sorting_algorithms.Sort;
 
+
+/**
+ * @author Maurice Koch
+ * @version BETA
+ * 
+ * This class respresents, as the name implies, the view(GUI) in the MVC pattern.
+ * 
+ */
+
+
 public class Window extends JFrame {
 
+	private static Font componentFont = new Font("Monospace", Font.BOLD, 13);
 	private static final long serialVersionUID = 1L;
 
+	// we store the visualisation panels dynamically, so we can add and remove it much easier
 	private ArrayList<SortVisualtionPanel> vsPanel;
+	
+	// the filler is used for the vertical space between the visualisation panels
 	private ArrayList<Component> filler;
 	private String title;
+	
 	
 	private JButton next, newSort, nextStep, reset;
 	private JPanel content;
@@ -50,12 +69,20 @@ public class Window extends JFrame {
 		filler = new ArrayList<Component>();
 		this.title = title;
 		this.controller = controller;
+		
+		/*
+		 *  the respective title for the components will be loaded from the xml-language definitions files
+		 *  The language depends on which language was last used. The default language is english.
+		 *  This routine can be seen on every initalized component
+		 */
+		
 		info = new JLabel(Statics.getNamebyXml(Statics.COMPONENT_TITLE.INFO),
 				JLabel.CENTER);
 		info.setFont(Statics.getDefaultFont(30f));
 		info.setForeground(Color.GRAY);
 
 		setTitle(title);
+		setFont(componentFont);
 		setSize(width, height);
 		vsPanel = new ArrayList<SortVisualtionPanel>();
 		addWindowListener(controller);
@@ -68,45 +95,57 @@ public class Window extends JFrame {
 
 		languages = new JMenu(
 				Statics.getNamebyXml(Statics.COMPONENT_TITLE.LANG));
+		languages.setFont(componentFont);
 		settings = new JMenu(
 				Statics.getNamebyXml(Statics.COMPONENT_TITLE.SETTINGS));
+		settings.setFont(componentFont);
 		help = new JMenu(Statics.getNamebyXml(Statics.COMPONENT_TITLE.HELP));
+		help.setFont(componentFont);
 		list = new JMenuItem(
 				Statics.getNamebyXml(Statics.COMPONENT_TITLE.SORTLIST));
 		list.addActionListener(controller);
 		list.setActionCommand(Statics.NEW_ELEMENTS);
-
+		list.setFont(componentFont);
+		
 		delay = new JMenuItem(
 				Statics.getNamebyXml(Statics.COMPONENT_TITLE.DELAY));
 		delay.addActionListener(controller);
 		delay.setActionCommand(Statics.DELAY);
+		delay.setFont(componentFont);
 
 		about = new JMenuItem(Statics.getNamebyXml(
 				Statics.COMPONENT_TITLE.ABOUT).concat(" ").concat(title));
 		about.addActionListener(controller);
 		about.setActionCommand(Statics.INFO);
+		about.setFont(componentFont);
 
 		manual = new JMenuItem(
 				Statics.getNamebyXml(Statics.COMPONENT_TITLE.MANUAL));
 		manual.addActionListener(controller);
 		manual.setActionCommand(Statics.MANUAL);
+		manual.setFont(componentFont);
 		
 		report = new JMenuItem(
 				Statics.getNamebyXml(Statics.COMPONENT_TITLE.REPORT));
+		
+		report.setFont(componentFont);
 		manual.addActionListener(controller);
 		manual.setActionCommand(Statics.REPORT);
 
 		de = new JRadioButtonMenuItem("German");
 		de.addActionListener(controller);
 		de.setActionCommand(Statics.LANG_DE);
+		de.setFont(componentFont);
 
 		en = new JRadioButtonMenuItem("English");
 		en.addActionListener(controller);
 		en.setActionCommand(Statics.LANG_EN);
+		en.setFont(componentFont);
 
 		fr = new JRadioButtonMenuItem("France");
 		fr.addActionListener(controller);
 		fr.setActionCommand(Statics.LANG_FR);
+		fr.setFont(componentFont);
 
 		bg.add(de);
 		bg.add(en);
@@ -136,6 +175,7 @@ public class Window extends JFrame {
 		setJMenuBar(menuBar);
 
 		sortChooser = new JComboBox<String>(Statics.SORT_ALGORITHMNS);
+		sortChooser.setFont(componentFont);
 		content = new JPanel();
 		content.setLayout(new BorderLayout());
 
@@ -143,20 +183,24 @@ public class Window extends JFrame {
 				Statics.getNamebyXml(Statics.COMPONENT_TITLE.STARTANI));
 		next.addActionListener(controller);
 		next.setActionCommand(Statics.START);
+		next.setFont(componentFont);
 
 		newSort = new JButton(
 				Statics.getNamebyXml(Statics.COMPONENT_TITLE.ADD_SORT));
 		newSort.addActionListener(controller);
 		newSort.setActionCommand(Statics.ADD_SORT);
+		newSort.setFont(componentFont);
 
 		nextStep = new JButton(
 				Statics.getNamebyXml(Statics.COMPONENT_TITLE.ITERATION));
 		nextStep.addActionListener(controller);
 		nextStep.setActionCommand(Statics.NEXT_ITERATION);
+		nextStep.setFont(componentFont);
 
 		reset = new JButton(Statics.getNamebyXml(Statics.COMPONENT_TITLE.RESET));
 		reset.addActionListener(controller);
 		reset.setActionCommand(Statics.RESET);
+		reset.setFont(componentFont);
 
 		content.add(BorderLayout.CENTER, info);
 
@@ -190,6 +234,7 @@ public class Window extends JFrame {
 	}
 
 	
+	  // if the language was changed, component titles will be updated by this method
 	  public void updateLanguage(){
 	  
 		  info.setText(Statics.getNamebyXml(Statics.COMPONENT_TITLE.INFO));
@@ -212,7 +257,8 @@ public class Window extends JFrame {
 	  	  languages.setText(Statics.getNamebyXml(Statics.COMPONENT_TITLE.LANG)); 
 	  	
 	  }
-	 
+	
+	// start-stop functionality for the animation
 	public void toggleStartStop() {
 
 		if (next.getText().equals(
@@ -333,10 +379,34 @@ public class Window extends JFrame {
 		repaint();
 		
 	}
+	
+	
+	public static void initDefaultFont(String source, float size) {
+
+
+		try {
+
+			InputStream in = Statics.class.getResourceAsStream(source);
+			componentFont = Font.createFont(Font.TRUETYPE_FONT,in);
+			componentFont = componentFont.deriveFont(size);
+		
+
+		} catch (IOException e) {
+			componentFont = new Font("Monospace", Font.BOLD, 13);
+			e.printStackTrace();
+		} catch (FontFormatException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			componentFont = new Font("Monospace", Font.BOLD, 13);
+		}
+	
+
+}
 
 	// TODO: use argument parameters for setting language
 	public static void main(String[] args) {
 
+		// set look and feel
 		try {
 			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 		} catch (UnsupportedLookAndFeelException e) {
@@ -349,12 +419,17 @@ public class Window extends JFrame {
 			// handle exception
 		}
 
+		// define resources
 		Statics.initXMLDefintions();
 		Statics.loadConfig("/resources/config.xml");
 		Statics.readLang("/resources/lang_de.xml", "German");
+		
+		// this font is used under the GPL from google fonts under 'Oxygen'
 		Statics.initDefaultFont("/resources/OxygenFont/Oxygen-Regular.ttf");
+		// this font is used under the GPL from google fonts under 'OpenSans'
+		Window.initDefaultFont("/resources/OpenSans/OpenSans-Semibold.ttf",13f);
 		
-		
+		// init view and controller
 		Controller controller = new Controller();
 		Window window = new Window(controller,"Visual Sorting - ".concat(Statics.getVersion()), 800, 550);
 		controller.setView(window);

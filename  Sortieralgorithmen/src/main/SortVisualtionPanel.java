@@ -75,6 +75,7 @@ public class SortVisualtionPanel extends JPanel implements ComponentListener{
 		menu.show(this, x, y);
 	}
 
+	// FIXME: make static
 	public void setElements(int elements[]) {
 
 		this.elements = elements;
@@ -88,6 +89,10 @@ public class SortVisualtionPanel extends JPanel implements ComponentListener{
 		refHeight = (height - offsetY - SortVisualtionPanel.marginTop) / max;
 		refWidth = (width - (elements.length * SortVisualtionPanel.border))
 				/ elements.length;
+		
+		
+		if(refHeight <= 0)refHeight = 1;
+		if(refWidth <= 0) refWidth = 1;
 		
 		SortVisualtionPanel.margin = (width - (elements.length * (refWidth+SortVisualtionPanel.border)))/2;
 		drawElements();

@@ -46,16 +46,22 @@ public abstract class Sort extends Observable implements Runnable{
 		// TODO Auto-generated constructor stub
 		
 	
+		this.svp = svp;
+		
+		/* this block is redundant, if 'initElements()' is called always before the animation launchs
+		 * 
+		 * 
 		this.elements = new int[Sort.gElement.length];
 		System.arraycopy( Sort.gElement, 0, elements, 0, Sort.gElement.length );
-		this.svp = svp;
+		
 		
 		svp.setElements(this.elements);
 		svp.drawElements();
+		*/
 
 	}
 	
-	public void resetElements(){
+	public void initElements(){
 		
 		this.elements = new int[Sort.gElement.length];
 		System.arraycopy( Sort.gElement, 0, elements, 0, Sort.gElement.length );

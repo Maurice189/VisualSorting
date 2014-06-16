@@ -16,9 +16,13 @@ import javax.swing.JTextField;
 
 import main.Controller;
 import main.Statics;
-import main.Statics.COMPONENT_TITLE;
 import sorting_algorithms.Sort;
 
+/**
+ * <b>Used Pattern: Singleton</b>  
+ * @author maurice
+ *
+ */
 
 public class EnterDialog extends OptionDialog{
 	
@@ -33,7 +37,9 @@ public class EnterDialog extends OptionDialog{
 	private JPanel list2;
 	private JScrollPane pane;
 	
-	public EnterDialog(Controller controller,int width, int height) {
+	private static EnterDialog instance;
+	
+	private EnterDialog(Controller controller,int width, int height) {
 		super(controller,Statics.COMPONENT_TITLE.SORTLIST, width, height);
 		
 	}
@@ -211,6 +217,15 @@ public class EnterDialog extends OptionDialog{
 		add(list);
 		add(list2);
 		
+	}
+	
+	
+	public static EnterDialog getInstance(Controller controller,int width, int height){
+		
+		if(instance == null) instance = new EnterDialog(controller,width,height);
+		
+		instance.setVisible(true);
+		return instance;
 	}
 
 }
