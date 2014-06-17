@@ -65,6 +65,7 @@ public class Statics {
 	
 	
 	public static void setConfigXML(ConfigXML configLang,ConfigXML configSetting){
+		
 		Statics.configLang = configLang;
 		Statics.configSetting = configSetting;
 		

@@ -10,6 +10,7 @@ import java.util.Observable;
 import java.util.Observer;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
 
@@ -107,14 +108,14 @@ public class Controller implements Observer, ActionListener, WindowListener {
 			Sort sort;
 			String selectedSort;
 
-			if (runningThreads != 0) {
+			//if (runningThreads != 0) {
 
 				Sort.resume();
 				for (Sort temp: sortList){
 					temp.initElements();
 					runningThreads = 0;
 				}
-			}
+			//}
 
 			selectedSort = window.getSelectedSort();
 
@@ -183,17 +184,23 @@ public class Controller implements Observer, ActionListener, WindowListener {
 
 			else {
 				
+				if(executor.isTerminated()) executor = Executors.newCachedThreadPool();
+				
 				Sort.resume();
 				for (Sort temp: sortList) {
 
 					
 					temp.initElements(); 
+
 					executor.execute(temp);
 					runningThreads++;
 					
 				}
-
+		
+				
+				if(byUserStopped) byUserStopped = false; // if app was reseted, start routine continues here
 				window.unlockManualIteration(false);
+				window.unlockAddSort(false);
 			}
 
 			window.toggleStartStop();
@@ -201,11 +208,42 @@ public class Controller implements Observer, ActionListener, WindowListener {
 
 		else if (e.getActionCommand() == Statics.RESET) {
 
+			// FIXME : handle close executorservice when app was paused
+			if(Sort.isStopped()){
+				Sort.resume();
+				for (Sort temp: sortList) {
+					Lock l = temp.getLock();
+					Condition c = temp.getCondition();
+					temp.deleteObservers();
+					
+					try {
+						l.lock();
+						c.signal();
+					} finally {
+						l.unlock();
+					}
+					
+					
+				}
+				
+				executor.shutdownNow();
+				try {
+				  executor.awaitTermination(1000, TimeUnit.MILLISECONDS); // maximum wait of one second 
+				} catch (InterruptedException e1) {
+					e1.printStackTrace();
+				}
+				
+				if(executor.isTerminated()) System.out.println("executor service is terminated !");
+				
+			}
+			
 			for (Sort temp: sortList) {
 				temp.initElements();
 				
 			}
 			
+			
+			window.unlockAddSort(true);
 			runningThreads = 0;
 		}
 
@@ -260,10 +298,10 @@ public class Controller implements Observer, ActionListener, WindowListener {
 			Lock l;
 			Condition c;
 
-			for (int i = 0; i < sortList.size(); i++) {
+			for (Sort temp: sortList){
 
-				l = sortList.get(i).getLock();
-				c = sortList.get(i).getCondition();
+				l = temp.getLock();
+				c = temp.getCondition();
 
 				try {
 					l.lock();
@@ -308,8 +346,6 @@ public class Controller implements Observer, ActionListener, WindowListener {
 		// TODO Auto-generated method stub
 
 		if (--runningThreads == 0) {
-			System.out.println("ALL THREADS STOPPED");
-
 			EventQueue.invokeLater(new Runnable() {
 				public void run() {
 					window.toggleStartStop();
@@ -338,6 +374,7 @@ public class Controller implements Observer, ActionListener, WindowListener {
 	@Override
 	public void windowDeiconified(WindowEvent e) {}
 
+	// FIXME THIS DOESNT WORK
 	// animation will be released after the user reactivate the window
 	@Override
 	public void windowActivated(WindowEvent e) {
@@ -362,11 +399,14 @@ public class Controller implements Observer, ActionListener, WindowListener {
 
 	}
 
+	// FIXME THIS DOESNT WORK
 	// animation will be paused if the user deactivate the window
 	@Override
 	public void windowDeactivated(WindowEvent e) {
 		Sort.stop();
-		if (runningThreads != 0 && byUserStopped == false) window.appStopped();
+		if (runningThreads != 0 && byUserStopped == false){
+			window.appStopped();
+		}
 	}
 
 }

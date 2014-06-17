@@ -44,7 +44,8 @@ public class SortVisualtionPanel extends JPanel implements ComponentListener{
 		buffer = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
 		gbuffer = (Graphics2D) buffer.getGraphics();
 		gbuffer.setFont(Statics.getDefaultFont(14f));
-
+		gbuffer.setBackground(SortVisualtionPanel.backgroundColor);
+		
 		menu = new JPopupMenu();
 		JMenuItem mtDelete = new JMenuItem(
 				Statics.getNamebyXml(Statics.COMPONENT_TITLE.REMOVE));

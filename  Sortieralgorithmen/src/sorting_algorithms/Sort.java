@@ -68,7 +68,7 @@ public abstract class Sort extends Observable implements Runnable{
 		
 		iterates = 0;
 		svp.setElements(this.elements);
-		svp.drawElements();
+		//svp.drawElements();
 	}
 	
 	public static void setElements(int elements[]){

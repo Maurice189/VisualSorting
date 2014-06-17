@@ -101,7 +101,8 @@ public class ShakerSort extends Sort {
 
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
-				e.printStackTrace();
+				System.out.println("INFO: INTERRUPTED WHILE SLEEPING"); //e.printStackTrace();
+				Thread.currentThread().interrupt();
 			}
 
 		}

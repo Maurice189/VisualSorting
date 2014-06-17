@@ -41,7 +41,8 @@ public class InsertionSort extends Sort{
 						Thread.sleep(Sort.delayMs,Sort.delayNs);
 				} catch (InterruptedException e) {
 					// TODO Auto-generated catch block
-					e.printStackTrace();
+					System.out.println("INFO: INTERRUPTED WHILE SLEEPING"); //e.printStackTrace();
+					Thread.currentThread().interrupt();
 				}
 				
 				j--;
@@ -62,7 +63,8 @@ public class InsertionSort extends Sort{
 					Thread.sleep(Sort.delayMs,Sort.delayNs);
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
-				e.printStackTrace();
+				System.out.println("INFO: INTERRUPTED WHILE SLEEPING"); //e.printStackTrace();
+				Thread.currentThread().interrupt();
 			}
 		}
 		

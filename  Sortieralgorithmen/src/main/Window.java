@@ -260,15 +260,14 @@ public class Window extends JFrame {
 	
 	// start-stop functionality for the animation
 	public void toggleStartStop() {
-
 		if (next.getText().equals(
 				Statics.getNamebyXml(Statics.COMPONENT_TITLE.STARTANI))) {
 			next.setText(Statics.getNamebyXml(Statics.COMPONENT_TITLE.STOPANI));
-			newSort.setEnabled(false);
+			//newSort.setEnabled(false);
 			reset.setEnabled(false);
 		} else {
 			next.setText(Statics.getNamebyXml(Statics.COMPONENT_TITLE.STARTANI));
-			newSort.setEnabled(true);
+			//newSort.setEnabled(true);
 			reset.setEnabled(true);
 		}
 	}
@@ -348,6 +347,12 @@ public class Window extends JFrame {
 	public void unlockManualIteration(boolean lock) {
 
 		nextStep.setEnabled(lock);
+		
+	}
+	
+	public void unlockAddSort(boolean lock){
+		
+		newSort.setEnabled(lock);
 	}
 
 	public void removeSort(int index) {

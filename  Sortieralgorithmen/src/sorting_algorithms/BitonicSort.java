@@ -58,8 +58,8 @@ public class BitonicSort extends Sort {
 		try {
 			bitonicSort(0, elements.length, ASCENDING);
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			System.out.println("INFO: INTERRUPTED WHILE SLEEPING"); //e.printStackTrace();
+			Thread.currentThread().interrupt();
 		}
 		
 		setChanged();

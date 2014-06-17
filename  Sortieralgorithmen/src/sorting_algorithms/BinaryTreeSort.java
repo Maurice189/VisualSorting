@@ -45,8 +45,8 @@ public class BinaryTreeSort extends Sort {
 			try {
 				Thread.sleep(Sort.delayMs,Sort.delayNs);
 			} catch (InterruptedException ie) {
-				// TODO Auto-generated catch block
-				ie.printStackTrace();
+				System.out.println("INFO: INTERRUPTED WHILE SLEEPING"); //ie.printStackTrace();
+				Thread.currentThread().interrupt();
 
 			}
 		} else {
@@ -58,8 +58,8 @@ public class BinaryTreeSort extends Sort {
 			try {
 				Thread.sleep(Sort.delayMs,Sort.delayNs);
 			} catch (InterruptedException ie) {
-				// TODO Auto-generated catch block
-				ie.printStackTrace();
+				System.out.println("INFO: INTERRUPTED WHILE SLEEPING"); //ie.printStackTrace();
+				Thread.currentThread().interrupt();
 
 			}
 

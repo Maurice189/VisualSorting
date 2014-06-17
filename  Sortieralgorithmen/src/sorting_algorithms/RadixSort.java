@@ -67,7 +67,8 @@ public class RadixSort extends Sort{
 			radixSort(3);
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			System.out.println("INFO: INTERRUPTED WHILE SLEEPING"); //e.printStackTrace();
+			Thread.currentThread().interrupt();
 		}
 		
 		setChanged();

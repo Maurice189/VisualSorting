@@ -35,7 +35,7 @@ public class ConfigXML {
 		try {
 			long t = System.currentTimeMillis();
 			element = new SAXBuilder().build(in).getRootElement();
-			
+	
 			/*System.out.println("Fully read in "
 					+ (System.currentTimeMillis() - t) + "ms");*/
 		} catch (JDOMException e) {

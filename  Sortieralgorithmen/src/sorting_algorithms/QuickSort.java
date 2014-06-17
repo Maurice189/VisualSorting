@@ -96,7 +96,8 @@ public class QuickSort extends Sort {
 			qSort(elements, 0, elements.length - 1);
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			System.out.println("INFO: INTERRUPTED WHILE SLEEPING"); //e.printStackTrace();
+			Thread.currentThread().interrupt();
 		}
 		
 		setChanged();
