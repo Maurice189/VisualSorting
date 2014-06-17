@@ -419,10 +419,17 @@ public class Window extends JFrame {
 			// handle exception
 		}
 
+		
+		ConfigXML configLanguage = new ConfigXML();		
+		ConfigXML configSetting = new ConfigXML();
+		
+		if(configSetting.readXML("/resources/config.xml") && 
+		configLanguage.readXML("/resources/lang_de.xml")){
+		
 		// define resources
 		Statics.initXMLDefintions();
-		Statics.loadConfig("/resources/config.xml");
-		Statics.readLang("/resources/lang_de.xml", "German");
+		Statics.setConfigXML(configLanguage,configSetting);
+		Statics.setLanguage("German");
 		
 		// this font is used under the GPL from google fonts under 'Oxygen'
 		Statics.initDefaultFont("/resources/OxygenFont/Oxygen-Regular.ttf");
@@ -430,9 +437,11 @@ public class Window extends JFrame {
 		Window.initDefaultFont("/resources/OpenSans/OpenSans-Semibold.ttf",13f);
 		
 		// init view and controller
-		Controller controller = new Controller();
+		Controller controller = new Controller(configLanguage,configSetting);
 		Window window = new Window(controller,"Visual Sorting - ".concat(Statics.getVersion()), 800, 550);
 		controller.setView(window);
+		
+		}
 
 	}
 

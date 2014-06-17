@@ -14,7 +14,7 @@ import javax.swing.JPopupMenu;
 import javax.swing.border.TitledBorder;
 
 /**
- * @author maurice {@literal }
+ * @author maurice 
  * 
  * 
  * */

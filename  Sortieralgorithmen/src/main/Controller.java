@@ -55,13 +55,20 @@ public class Controller implements Observer, ActionListener, WindowListener {
 	private LinkedList<OptionDialog> dialogs; // references to the open dialogs, like settings etc.
 	
 	private Window window; 
+	private ConfigXML langXMLInterface,settingsXMLInterface;
+	
 	private int runningThreads, vspIndex; // number of running sortthreads, index of current clicked vsp-panel
 	
 	private boolean byUserStopped = false; //
 	private ExecutorService executor; // we use executor service, because it's more memory efficient
+	
+	
+	
+	public Controller(ConfigXML langXMLInterface,ConfigXML settingsXMLInterface) {
 
-	public Controller() {
-
+		this.langXMLInterface = langXMLInterface;
+		this.settingsXMLInterface = settingsXMLInterface;
+		
 		int size = 110; // TODO: start size of the elements, should be adapted
 		int[] elements = new int[size];
 
@@ -221,7 +228,8 @@ public class Controller implements Observer, ActionListener, WindowListener {
 
 		else if (e.getActionCommand() == Statics.LANG_DE) {
 
-			Statics.readLang("/resources/lang_de.xml", "German");
+			Statics.setLanguage("German");
+			langXMLInterface.readXML("/resources/lang_de.xml");
 			window.updateLanguage();
 			for(OptionDialog temp:dialogs) temp.updateComponentsLabel(); // update language on every open dialog
 
@@ -229,7 +237,8 @@ public class Controller implements Observer, ActionListener, WindowListener {
 
 		else if (e.getActionCommand() == Statics.LANG_EN) {
 
-			Statics.readLang("/resources/lang_en.xml", "English");
+			Statics.setLanguage("English");
+			langXMLInterface.readXML("/resources/lang_en.xml");
 			window.updateLanguage();
 			for(OptionDialog temp:dialogs) temp.updateComponentsLabel(); // update language on every open dialog
 
@@ -238,7 +247,8 @@ public class Controller implements Observer, ActionListener, WindowListener {
 
 		else if (e.getActionCommand() == Statics.LANG_FR) {
 
-			Statics.readLang("/resources/lang_fr.xml", "France");
+			Statics.setLanguage("France");
+			langXMLInterface.readXML("/resources/lang_fr.xml");
 			window.updateLanguage();
 			for(OptionDialog temp:dialogs) temp.updateComponentsLabel(); // update language on every open dialog
 	

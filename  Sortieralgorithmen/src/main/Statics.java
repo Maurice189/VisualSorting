@@ -13,11 +13,12 @@ import org.jdom2.input.SAXBuilder;
  * @author Maurice Koch
  * @version BETA
  * 
- * This class respresents, as the name implies, the view(GUI) in the MVC pattern.
  * 
  */
 
 public class Statics {
+	
+	private static ConfigXML configLang,configSetting;
 
 	// this font is used for components, the default font is monospace
 	private static Font defaultFont = new Font("Monospace", Font.PLAIN, 20);
@@ -49,8 +50,6 @@ public class Statics {
 	public static final String DIALOG_EXIT = "action_exitDialog";
 	public static final String MANUAL = "action_manual";
 
-	private static Element element;
-
 	// name of all sort algorithms
 	public static final String SORT_ALGORITHMNS[] = { "Heapsort", "Bubblesort",
 			"Quicksort", "Binary Tree Sort", "Combsort", "Gnomesort",
@@ -63,6 +62,17 @@ public class Statics {
 	 * very easily .
 	 */
 	private static HashMap<COMPONENT_TITLE,String> xmlDef;
+	
+	
+	public static void setConfigXML(ConfigXML configLang,ConfigXML configSetting){
+		Statics.configLang = configLang;
+		Statics.configSetting = configSetting;
+		
+		
+		Statics.VERSION =  configSetting.getValue("version");
+		Statics.LANGUAGE_SET =  configSetting.getValue("language");
+		
+	}
 
 	
 	public static void initDefaultFont(String source) {
@@ -73,68 +83,31 @@ public class Statics {
 				InputStream in = Statics.class.getResourceAsStream(source);
 				defaultFont = Font.createFont(Font.TRUETYPE_FONT,in);
 				
-			
-
 			} catch (IOException e) {
-				defaultFont = new Font("Monospace", Font.PLAIN, 20);
-			} catch (FontFormatException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
-				defaultFont = new Font("Monospace", Font.PLAIN, 20);
+			} catch (FontFormatException e) {
+				e.printStackTrace();
 			}
 		
 
 	}
 	
 	
-	public static void readLang(String source, String lang_name){
-		readXML(source);
+	public static void setLanguage(String lang_name){
 		Statics.LANGUAGE_SET = lang_name;
 		
 	}
 	
 
-	// once the xml language file is read
-	private static void readXML(String source) {
-
-	
-			InputStream in = Statics.class.getResourceAsStream(source);
-
-			try {
-				long t = System.currentTimeMillis();
-				element = new SAXBuilder().build(in).getRootElement();
-
-				System.out.println("Fully read in "
-						+ (System.currentTimeMillis() - t) + "ms");
-			} catch (JDOMException e) {
-				e.printStackTrace();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		
-	}
-	
 
 	// here the component title is resolved into the respective xml-tag
 	public static String getNamebyXml(COMPONENT_TITLE title) {
 
 		String key = xmlDef.get(title);
-		if(key != null)  return element.getChild(xmlDef.get(title)).getValue();
+		if(key != null)  return configLang.getValue(xmlDef.get(title));
 		return null;
 	}
-	
-	
-	// the settings-xml is read
-	public static void loadConfig(String source){
-		readXML(source);
-		
-	
-		Statics.VERSION =  element.getChild("version").getValue();
-		Statics.LANGUAGE_SET =  element.getChild("language").getValue();
-		
-		
-	}
-	
+
 	
 	public static String getLanguageSet(){
 		return Statics.LANGUAGE_SET;
@@ -144,10 +117,6 @@ public class Statics {
 		return Statics.VERSION;
 	}
 
-	public static void closeDOM() {
-		element = null;
-
-	}
 	
     // here the component-titles and the respective xml-tags are linked in the hash-map
 	public static void initXMLDefintions(){
