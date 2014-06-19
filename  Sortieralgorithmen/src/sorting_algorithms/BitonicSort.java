@@ -31,15 +31,13 @@ public class BitonicSort extends Sort {
 			elements[i] = elements[j];
 			elements[j] = h;
 			svp.visualCmp(i, j, true);
-			svp.setInfo(("Bitonicsort [ " + elements.length
-					+ " Elemente ] - Iterationen: " + iterates++));
+			svp.setInfo("Bitonicsort",iterates++);
 
 		}
 		
 		else{
 			svp.visualCmp(i, j, false);
-			svp.setInfo(("Bitonicsort [ " + elements.length
-					+ " Elemente ] - Iterationen: " + iterates++));
+			svp.setInfo("Bitonicsort",iterates++);
 		}
 		
 		if (Sort.stop) {

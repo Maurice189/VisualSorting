@@ -15,6 +15,8 @@ import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
 import javax.swing.border.TitledBorder;
 
+import main.Statics.COMPONENT_TITLE;
+
 /**
  * @author maurice
  * 
@@ -25,7 +27,7 @@ public class SortVisualtionPanel extends JPanel implements ComponentListener {
 
 	private static final long serialVersionUID = 1L;
 	private static Color backgroundColor = Color.white;
-	private static final int border = 4, marginTop = 30;
+	private static final int border = 3, marginTop = 30;
 	private static int margin = 10;
 	private static final int offsetY = 20;
 
@@ -66,6 +68,15 @@ public class SortVisualtionPanel extends JPanel implements ComponentListener {
 	}
 
 	public void setInfo(String info) {
+		leftBorder.setTitle(info);
+	}
+	
+	public void setInfo(String algoname,int iterations) {
+		
+		String info = 
+		algoname.concat(" - ").concat(String.valueOf(iterations)).concat(" ").concat(
+		Statics.getNamebyXml(COMPONENT_TITLE.ITERATIONS));
+		
 		leftBorder.setTitle(info);
 	}
 
@@ -300,7 +311,7 @@ public class SortVisualtionPanel extends JPanel implements ComponentListener {
 				b += 0.015f;
 
 			gbuffer.setBackground(new Color(0f, 0f, 0f, b));
-			gbuffer.clearRect(15, 20, width - 30, height - 40);
+			gbuffer.clearRect(4, 20, width-8, height - 40);
 
 			gbuffer.setColor(Color.GRAY);
 			for (int i = 0; i < elements.length; i++) {
@@ -318,13 +329,13 @@ public class SortVisualtionPanel extends JPanel implements ComponentListener {
 
 			if (bi < 19) {
 				gbuffer.setColor(Color.WHITE);
-				gbuffer.setFont(Statics.getDefaultFont(30f));
-				gbuffer.drawString("Finished", (int) (width * 0.4), height >> 1);
+				gbuffer.setFont(Statics.getDefaultFont(26f));
+				gbuffer.drawString("Finished", (int) (width * 0.46), height >> 1);
 			}
 			repaint();
 			try {
 				Thread.currentThread();
-				Thread.sleep(35);
+				Thread.sleep(37);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 				Thread.currentThread().interrupt();

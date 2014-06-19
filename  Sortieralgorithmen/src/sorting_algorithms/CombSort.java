@@ -36,18 +36,14 @@ public class CombSort extends Sort {
 					elements[i + gap] = swap;
 					swapped = true;
 					svp.visualCmp(i, i + gap, true);
-
-					svp.setInfo(("CombSort [ " + elements.length
-							+ " Elemente ] - Iterationen: " + iterates++));
+					svp.setInfo("Combsort",iterates++);
 
 				}
 				
 				else{
 					
 					svp.visualCmp(i, i + gap, false);
-					svp.setInfo(("CombSort [ " + elements.length
-							+ " Elemente ] - Iterationen: " + iterates++));
-
+					svp.setInfo("Combsort",iterates++);
 				}
 				
 				try {

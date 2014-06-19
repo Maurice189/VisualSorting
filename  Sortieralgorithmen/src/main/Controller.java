@@ -77,7 +77,7 @@ public class Controller implements Observer, ActionListener, WindowListener {
 		this.langXMLInterface = langXMLInterface;
 		this.settingsXMLInterface = settingsXMLInterface;
 
-		int size = 110; // TODO: start size of the elements, should be adapted
+		int size = 120; // TODO: start size of the elements, should be adapted
 		int[] elements = new int[size];
 
 		sortList = new ArrayList<Sort>();
@@ -87,7 +87,7 @@ public class Controller implements Observer, ActionListener, WindowListener {
 
 		// fill random numbers to the sort list
 		for (int i = 0; i < size; i++)
-			elements[i] = Controller.getRandomNumber(0, size);
+			elements[i] = Controller.getRandomNumber(0, size/3);
 
 		Sort.setElements(elements);
 
@@ -282,7 +282,7 @@ public class Controller implements Observer, ActionListener, WindowListener {
 		else if (e.getActionCommand() == Statics.LANG_DE) {
 
 			Statics.setLanguage("German");
-			langXMLInterface.readXML("/resources/lang_de.xml");
+			langXMLInterface.readXML("/resources/lang_de.xml",true);
 			window.updateLanguage();
 			for (OptionDialog temp : dialogs)
 				temp.updateComponentsLabel(); // update language on every open
@@ -293,7 +293,7 @@ public class Controller implements Observer, ActionListener, WindowListener {
 		else if (e.getActionCommand() == Statics.LANG_EN) {
 
 			Statics.setLanguage("English");
-			langXMLInterface.readXML("/resources/lang_en.xml");
+			langXMLInterface.readXML("/resources/lang_en.xml",true);
 			window.updateLanguage();
 			for (OptionDialog temp : dialogs)
 				temp.updateComponentsLabel(); // update language on every open
@@ -304,7 +304,7 @@ public class Controller implements Observer, ActionListener, WindowListener {
 		else if (e.getActionCommand() == Statics.LANG_FR) {
 
 			Statics.setLanguage("France");
-			langXMLInterface.readXML("/resources/lang_fr.xml");
+			langXMLInterface.readXML("/resources/lang_fr.xml",true);
 			window.updateLanguage();
 			for (OptionDialog temp : dialogs)
 				temp.updateComponentsLabel(); // update language on every open

@@ -38,8 +38,8 @@ public class RadixSort extends Sort{
                 for(int num: bucketList[k]){
                 	
                 	svp.visualInsert(index,num);
-                	svp.setInfo(("RadixSort [ " + elements.length
-     						+ " Elemente ] - Iterationen: " + iterates++));
+                	svp.setInfo("Radixsort",iterates++);
+                	
                     elements[index] = num;
                    
     				

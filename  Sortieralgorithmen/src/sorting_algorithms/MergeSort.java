@@ -79,15 +79,15 @@ public class MergeSort extends Sort{
 	            if (arr[i] <= arr[j]) {
 	            	svp.visualInsert(k, arr[i]);
 	                elements[k] = arr[i];
-	            	svp.setInfo(("Mergesort [ " + elements.length
-							+ " Elemente ] - Iterationen: " + iterates++));
+	                svp.setInfo("Mergesort",iterates++);
+	                
 	                i++;
 	            } else {
 	            	
 	            	svp.visualInsert(k, arr[j]);
 	                elements[k] = arr[j];
-	            	svp.setInfo(("Mergesort [ " + elements.length
-							+ " Elemente ] - Iterationen: " + iterates++));
+	                svp.setInfo("Mergesort",iterates++);
+	                
 	                j--;
 	            }
 	            

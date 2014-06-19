@@ -1,6 +1,8 @@
 package main;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -40,18 +42,27 @@ public class ConfigXML {
 		
 	}
 
-	public boolean readXML(String source) {
+	public boolean readXML(String source,boolean isResource) {
 
 		this.source = source;
+		InputStream in = null;
 		
-		InputStream in = Statics.class.getResourceAsStream(source);
+		if(isResource) in = Statics.class.getResourceAsStream(source);
+		else{
+			try {
+				in = new FileInputStream(source);
+			} catch (FileNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 
 		try {
 			long t = System.currentTimeMillis();
 			document = new SAXBuilder().build(in);
 			element = document.getRootElement();
 			
-	
+
 			System.out.println("Fully read in "
 					+ (System.currentTimeMillis() - t) + "ms");
 		} catch (JDOMException e) {
@@ -68,7 +79,8 @@ public class ConfigXML {
 
 	public void closeDOM() throws JDOMException, IOException, URISyntaxException {
 		
-		File file = new File(Statics.class.getResource("/resources/config.xml").toURI());
+
+		File file = new File(source);
 		FileOutputStream fos = new FileOutputStream(file);
 		XMLOutputter outputter = new XMLOutputter(Format.getPrettyFormat());
 		outputter.output(document, fos);

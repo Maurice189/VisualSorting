@@ -3,9 +3,9 @@
   
      <startani>Lancer visualisation</startani>
      <stopani>Arrêt visualisation</stopani>
-     <iteration>Itération +1</iteration>
      <reset>Réinitialiser</reset>
      <settings>Paramètres</settings>
+     <iterations>iterations french</iterations>
      <sortlist>Liste de tri ensemble</sortlist>
      <delay>Régler la temporisation</delay>
      <help>Aider</help>

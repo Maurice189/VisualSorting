@@ -29,13 +29,12 @@ public class BubbleSort extends Sort {
 					elements[i] = elements[i + 1];
 					elements[i + 1] = tmp;
 					svp.visualCmp(i, i + 1, true);
-					svp.setInfo(("BubbleSort [ " + elements.length
-							+ " Elemente ] - Iterationen: " + iterates++));
+					svp.setInfo("Bubblesort",iterates++);
 
 				} else {
 					svp.visualCmp(i, i + 1, false);
-					svp.setInfo(("BubbleSort [ " + elements.length
-							+ " Elemente ] - Iterationen: " + iterates++));
+					svp.setInfo("Bubblesort",iterates++);
+					
 				}
 				try {
 					if (Sort.stop) {

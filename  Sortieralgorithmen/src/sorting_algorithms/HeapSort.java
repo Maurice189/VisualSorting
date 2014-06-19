@@ -43,8 +43,7 @@ public class HeapSort extends Sort {
 
 			if (elements[v] >= elements[w]){
 				svp.visualCmp(v, w, false);
-				svp.setInfo(("HeapSort [ " + elements.length
-						+ " Elemente ] - Iterationen: " + iterates++));
+				svp.setInfo("Heapsort",iterates++);
 
 				if (Sort.stop) {
 					lock.lock();
@@ -69,8 +68,7 @@ public class HeapSort extends Sort {
 		elements[j] = t;
 
 		svp.visualCmp(i, j, true);
-		svp.setInfo(("HeapSort [ " + elements.length
-				+ " Elemente ] - Iterationen: " + iterates++));
+		svp.setInfo("Heapsort",iterates++);
 
 		if (Sort.stop) {
 			lock.lock();

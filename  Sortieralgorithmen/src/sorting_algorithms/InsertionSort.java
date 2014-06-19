@@ -27,8 +27,8 @@ public class InsertionSort extends Sort{
 			while (j > 0 && elements[j - 1] > temp) {
 				
 				svp.visualInsert(j, elements[j - 1]);
-				svp.setInfo(("InsertionSort [ " + elements.length
-						+ " Elemente ] - Iterationen: " + iterates++));
+				svp.setInfo("Insertionsort",iterates++);
+				
 				elements[j] = elements[j - 1];
 			
 				try {
@@ -49,8 +49,7 @@ public class InsertionSort extends Sort{
 			}
 			
 			svp.visualInsert(j, temp);
-			svp.setInfo(("InsertionSort [ " + elements.length
-					+ " Elemente ] - Iterationen: " + iterates++));
+			svp.setInfo("Insertionsort",iterates++);
 			
 			elements[j] = temp;
 			try {

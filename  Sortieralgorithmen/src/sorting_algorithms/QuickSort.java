@@ -41,8 +41,7 @@ public class QuickSort extends Sort {
 				
 				//svp.drawElements(i, j, true);
 				svp.visualCmp(i, j,true);
-				svp.setInfo(("QuickSort [ " + elements.length
-						+ " Elemente ] - Iterationen: " + iterates++));
+				svp.setInfo("Quicksort",iterates++);
 
 				j--;
 			} else{
@@ -50,8 +49,7 @@ public class QuickSort extends Sort {
 				
 				//svp.drawElements(i, rechts, false);
 				svp.visualCmp(i, rechts,false);
-				svp.setInfo(("QuickSort [ " + elements.length
-						+ " Elemente ] - Iterationen: " + iterates++));
+				svp.setInfo("Quicksort",iterates++);
 				
 				
 				i++;
@@ -74,8 +72,7 @@ public class QuickSort extends Sort {
 
 		//svp.drawElements(i, rechts, true);
 		svp.visualCmp(i, rechts,true);
-		svp.setInfo(("QuickSort [ " + elements.length
-				+ " Elemente ] - Iterationen: " + iterates++));
+		svp.setInfo("Quicksort",iterates++);
 
 		if (Sort.stop) {
 			lock.lock();

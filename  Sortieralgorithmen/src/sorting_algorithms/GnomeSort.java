@@ -22,8 +22,7 @@ public class GnomeSort extends Sort {
 			if (elements[pos] >= elements[pos - 1]) {
 
 				svp.visualCmp(pos, pos - 1, false);
-				svp.setInfo(("GnomeSort [ " + elements.length
-						+ " Elemente ] - Iterationen: " + iterates++));
+				svp.setInfo("Gnomesort",iterates++);
 
 				if (last != 0) {
 					pos = last;
@@ -36,8 +35,7 @@ public class GnomeSort extends Sort {
 				elements[pos - 1] = swap;
 
 				svp.visualCmp(pos, pos - 1, true);
-				svp.setInfo(("GnomeSort [ " + elements.length
-						+ " Elemente ] - Iterationen: " + iterates++));
+				svp.setInfo("Gnomesort",iterates++);
 
 				if (pos > 1) {
 					if (last == 0) {

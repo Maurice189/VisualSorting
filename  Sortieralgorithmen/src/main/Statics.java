@@ -1,6 +1,7 @@
 package main;
 import java.awt.Font;
 import java.awt.FontFormatException;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.HashMap;
@@ -8,6 +9,8 @@ import java.util.HashMap;
 import org.jdom2.Element;
 import org.jdom2.JDOMException;
 import org.jdom2.input.SAXBuilder;
+
+import sorting_algorithms.Sort;
 
 /**
  * @author Maurice Koch
@@ -25,8 +28,8 @@ public class Statics {
 
 	// statics for component title
 	public static enum COMPONENT_TITLE {
-		ADD_SORT, STARTANI, STOPANI, ADD, ITERATION, RESET, SETTINGS, SORTLIST, DELAY, HELP, ABOUT, INFO, REMOVE, EXIT, SET, MANUAL,LANG,ERROR0,
-		VERSION,SLANGUAGE,RNUMBERS,REPORT
+		ADD_SORT, STARTANI, STOPANI, ADD, RESET, SETTINGS, SORTLIST, DELAY, HELP, ABOUT, INFO, REMOVE, EXIT, SET, MANUAL,LANG,ERROR0,
+		VERSION,SLANGUAGE,RNUMBERS,REPORT,ITERATIONS
 	};
 
 	private static String VERSION,LANGUAGE_SET; // prg version, language set
@@ -57,9 +60,12 @@ public class Statics {
 			"Radixsort", "Shellsort", "Insertionsort" };
 	
 	/*
-	 * We also could make the 'COMPONENT_TITLE' values equal to those from xml tags, but 
-	 * I don't like the resultating linkage. But if we define the xml tags independantly, we are able to change these 
-	 * very easily .
+	 * The view class should'nt work directly with the xml-tags, that's the reason why I use 
+	 * here a hashmap
+	 * 
+	 * with this indirect way by resolving COMPONENT_TITLE to the respective xml-tag
+	 * we reach less coupling.
+	 * 
 	 */
 	private static HashMap<COMPONENT_TITLE,String> xmlDef;
 	
@@ -72,6 +78,8 @@ public class Statics {
 		
 		Statics.VERSION =  configSetting.getValue("version");
 		Statics.LANGUAGE_SET =  configSetting.getValue("language");
+		Sort.setDelayMs(Long.parseLong(configSetting.getValue("delayms")));
+		Sort.setDelayNs(Integer.parseInt(configSetting.getValue("delayns")));
 		
 	}
 
@@ -117,6 +125,7 @@ public class Statics {
 	public static String getVersion(){
 		return Statics.VERSION;
 	}
+	
 
 	
     // here the component-titles and the respective xml-tags are linked in the hash-map
@@ -131,7 +140,6 @@ public class Statics {
 		xmlDef.put(COMPONENT_TITLE.EXIT, "exit");
 		xmlDef.put(COMPONENT_TITLE.HELP, "help");
 		xmlDef.put(COMPONENT_TITLE.INFO, "info");
-		xmlDef.put(COMPONENT_TITLE.ITERATION, "iteration");
 		xmlDef.put(COMPONENT_TITLE.REMOVE, "remove");
 		xmlDef.put(COMPONENT_TITLE.RESET, "reset");
 		xmlDef.put(COMPONENT_TITLE.SET,"set");
@@ -146,6 +154,7 @@ public class Statics {
 		xmlDef.put(COMPONENT_TITLE.SLANGUAGE, "language");
 		xmlDef.put(COMPONENT_TITLE.RNUMBERS, "rnumber");
 		xmlDef.put(COMPONENT_TITLE.REPORT, "report");
+		xmlDef.put(COMPONENT_TITLE.ITERATIONS, "iterations");
 	}
 
 	public static Font getDefaultFont(float size) {

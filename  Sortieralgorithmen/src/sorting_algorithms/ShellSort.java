@@ -29,8 +29,7 @@ class ShellSort extends Sort {
 					if (temp < elements[j - increment]) {
 					
 						svp.visualInsert(j, elements[j - increment]);
-						svp.setInfo(("Shellsort [ " + elements.length
-								+ " Elemente ] - Iterationen: " + iterates++));
+						svp.setInfo("Shellsort",iterates++);
 						
 						elements[j] = elements[j - increment];
 						try {
@@ -50,8 +49,8 @@ class ShellSort extends Sort {
 					} else {
 
 						svp.visualCmp(i, j - increment, false);
-						svp.setInfo(("Shellsort [ " + elements.length
-								+ " Elemente ] - Iterationen: " + iterates++));
+						svp.setInfo("Shellsort",iterates++);
+						
 						try {
 							if (Sort.stop) {
 								lock.lock();

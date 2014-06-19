@@ -3,9 +3,9 @@
   
     <startani>Start animation</startani>
     <stopani>Stop animation</stopani> 
-    <iteration>Iteration+1</iteration>
     <reset>Reset</reset>
     <settings>Settings</settings>
+    <iterations>iterations</iterations>
     <sortlist>Set List</sortlist>
     <delay>Set delay</delay>
     <help>Help</help>

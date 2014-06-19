@@ -36,15 +36,13 @@ public class ShakerSort extends Sort {
 				elements[j] = elements[j + 1];
 				elements[j + 1] = k;
 				svp.visualCmp(j, j + 1, true);
-				svp.setInfo(("ShakerSort [ " + elements.length
-						+ " Elemente ] - Iterationen: " + iterates++));
+				svp.setInfo("Shakersort",iterates++);
 
 			}
 
 			else {
 				svp.visualCmp(j, j + 1, false);
-				svp.setInfo(("ShakerSort [ " + elements.length
-						+ " Elemente ] - Iterationen: " + iterates++));
+				svp.setInfo("Shakersort",iterates++);
 			}
 
 			if (Sort.stop) {
@@ -66,15 +64,13 @@ public class ShakerSort extends Sort {
 				elements[j + 1] = k;
 
 				svp.visualCmp(j, j + 1, true);
-				svp.setInfo(("ShakerSort [ " + elements.length
-						+ " Elemente ] - Iterationen: " + iterates++));
+				svp.setInfo("Shakersort",iterates++);
 
 			}
 
 			else {
 				svp.visualCmp(j, j + 1, false);
-				svp.setInfo(("ShakerSort [ " + elements.length
-						+ " Elemente ] - Iterationen: " + iterates++));
+				svp.setInfo("Shakersort",iterates++);
 			}
 
 			if (Sort.stop) {

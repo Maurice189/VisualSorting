@@ -7,8 +7,12 @@ import java.awt.Font;
 import java.awt.FontFormatException;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
@@ -58,7 +62,7 @@ public class Window extends JFrame {
 	private boolean stateStButton = true;
 	
 	
-	private JButton next, newSort, nextStep, reset;
+	private JButton next, newSort, nextStep, reset,delayBtn,listBtn;
 	private JPanel content;
 	private Controller controller;
 	private JLabel info;
@@ -205,6 +209,26 @@ public class Window extends JFrame {
 		newSort.setIcon(new ImageIcon(Statics.class.getResource("/resources/add_visualsort_1.png")));
 		newSort.setRolloverIcon(new ImageIcon(Statics.class.getResource("/resources/add_visualsort_rollover_1.png")));
 		
+		
+		delayBtn = new JButton();
+		delayBtn.addActionListener(controller);
+		delayBtn.setActionCommand(Statics.DELAY);
+		delayBtn.setFont(componentFont);
+		
+		delayBtn.setBorder(BorderFactory.createEmptyBorder());
+		delayBtn.setIcon(new ImageIcon(Statics.class.getResource("/resources/delay_visualsort_1.png")));
+		delayBtn.setRolloverIcon(new ImageIcon(Statics.class.getResource("/resources/delay_visualsort_rollover_1.png")));
+		
+		listBtn = new JButton();
+		listBtn.addActionListener(controller);
+		listBtn.setActionCommand(Statics.NEW_ELEMENTS);
+		listBtn.setFont(componentFont);
+		
+		listBtn.setBorder(BorderFactory.createEmptyBorder());
+		listBtn.setIcon(new ImageIcon(Statics.class.getResource("/resources/elements_visualsort_1.png")));
+		listBtn.setRolloverIcon(new ImageIcon(Statics.class.getResource("/resources/elements_visualsort_rollover_1.png")));
+		
+		
 		nextStep = new JButton(
 				); //
 		nextStep.addActionListener(controller);
@@ -241,6 +265,10 @@ public class Window extends JFrame {
 		toolBar.add(separator);
 		toolBar.add(Box.createHorizontalStrut(10));
 		toolBar.add(nextStep);
+		toolBar.add(Box.createHorizontalStrut(10));
+		toolBar.add(delayBtn);
+		toolBar.add(Box.createHorizontalStrut(10));
+		toolBar.add(listBtn);
 		toolBar.add(Box.createHorizontalGlue());
 		toolBar.add(newSort);
 		toolBar.add(Box.createHorizontalStrut(5));
@@ -456,8 +484,46 @@ public class Window extends JFrame {
 		ConfigXML configLanguage = new ConfigXML();		
 		ConfigXML configSetting = new ConfigXML();
 		
-		if(configSetting.readXML("/resources/config.xml") && 
-		configLanguage.readXML("/resources/lang_de.xml")){
+		String path = System.getProperty("user.home").concat(File.separator).concat("VisualSort")
+				.concat(File.separator).concat("settings");
+		
+		File file = new File(path);
+			
+			
+			try {
+				if(new File(path.concat(File.separator).concat("config.xml")).createNewFile())
+				{
+					
+					InputStream in = Statics.class.getResourceAsStream("/resources/config.xml");
+					FileOutputStream os = new FileOutputStream(path.concat(File.separator).concat("config.xml"));;
+					try {
+				        byte[] buffer = new byte[1024];
+				        int length;
+				        while ((length = in.read(buffer)) > 0) {
+				            os.write(buffer, 0, length);
+				        }
+				    } finally {
+				        in.close();
+				        os.close();
+				    }
+				}
+				System.out.println(path.concat(File.separator).concat("config.xml"));
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+		try {
+			file.createNewFile();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
+		
+		if(configSetting.readXML(path.concat(File.separator).concat("config.xml"),false) && 
+		configLanguage.readXML("/resources/lang_de.xml",true)){
 		
 		// define resources
 		Statics.initXMLDefintions();
