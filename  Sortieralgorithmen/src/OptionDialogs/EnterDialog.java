@@ -227,5 +227,9 @@ public class EnterDialog extends OptionDialog{
 		instance.setVisible(true);
 		return instance;
 	}
+	
+	public static EnterDialog getInstance(){
+		return instance;
+	}
 
 }

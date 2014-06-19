@@ -1,8 +1,10 @@
 package main;
+
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.RenderingHints;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
 import java.awt.image.BufferedImage;
@@ -14,12 +16,12 @@ import javax.swing.JPopupMenu;
 import javax.swing.border.TitledBorder;
 
 /**
- * @author maurice 
+ * @author maurice
  * 
  * 
  * */
 
-public class SortVisualtionPanel extends JPanel implements ComponentListener{
+public class SortVisualtionPanel extends JPanel implements ComponentListener {
 
 	private static final long serialVersionUID = 1L;
 	private static Color backgroundColor = Color.white;
@@ -45,7 +47,7 @@ public class SortVisualtionPanel extends JPanel implements ComponentListener{
 		gbuffer = (Graphics2D) buffer.getGraphics();
 		gbuffer.setFont(Statics.getDefaultFont(14f));
 		gbuffer.setBackground(SortVisualtionPanel.backgroundColor);
-		
+
 		menu = new JPopupMenu();
 		JMenuItem mtDelete = new JMenuItem(
 				Statics.getNamebyXml(Statics.COMPONENT_TITLE.REMOVE));
@@ -90,19 +92,21 @@ public class SortVisualtionPanel extends JPanel implements ComponentListener{
 		refHeight = (height - offsetY - SortVisualtionPanel.marginTop) / max;
 		refWidth = (width - (elements.length * SortVisualtionPanel.border))
 				/ elements.length;
-		
-		
-		if(refHeight <= 0)refHeight = 1;
-		if(refWidth <= 0) refWidth = 1;
-		
-		SortVisualtionPanel.margin = (width - (elements.length * (refWidth+SortVisualtionPanel.border)))/2;
+
+		if (refHeight <= 0)
+			refHeight = 1;
+		if (refWidth <= 0)
+			refWidth = 1;
+
+		SortVisualtionPanel.margin = (width - (elements.length * (refWidth + SortVisualtionPanel.border))) / 2;
 		drawElements();
+
 	}
 
 	public void updatePanelSize() {
 
 		int max = 1;
-		
+
 		width = this.getWidth();
 		height = this.getHeight();
 
@@ -120,20 +124,21 @@ public class SortVisualtionPanel extends JPanel implements ComponentListener{
 		refHeight = (height - offsetY - SortVisualtionPanel.marginTop) / max;
 		refWidth = (width - (elements.length * SortVisualtionPanel.border))
 				/ elements.length;
-		
 
-		if(refHeight <= 0)refHeight = 1;
-		if(refWidth <= 0) refWidth = 1;
-		
-		SortVisualtionPanel.margin = (width - (elements.length * (refWidth+SortVisualtionPanel.border)))/2;		
+		if (refHeight <= 0)
+			refHeight = 1;
+		if (refWidth <= 0)
+			refWidth = 1;
+
+		SortVisualtionPanel.margin = (width - (elements.length * (refWidth + SortVisualtionPanel.border))) / 2;
 		drawElements();
 
 	}
 
 	public void drawElements() {
 
-		gbuffer.clearRect(0, 0,buffer.getWidth(), buffer.getHeight());
-	
+		gbuffer.clearRect(0, 0, buffer.getWidth(), buffer.getHeight());
+
 		gbuffer.setColor(Color.GRAY);
 
 		for (int i = 0; i < elements.length; i++) {
@@ -193,7 +198,7 @@ public class SortVisualtionPanel extends JPanel implements ComponentListener{
 
 	}
 
-	// FIXME 
+	// FIXME
 	public void visualCmp(int c1, int c2, boolean changed) {
 
 		// long t = System.currentTimeMillis();
@@ -204,8 +209,10 @@ public class SortVisualtionPanel extends JPanel implements ComponentListener{
 
 		if (lstIndex1 >= 0 && lstIndex2 >= 0) {
 
-			x1 = (lstIndex1 * (refWidth + SortVisualtionPanel.border))+ SortVisualtionPanel.margin;
-			x2 = (lstIndex2 * (refWidth + SortVisualtionPanel.border))+ SortVisualtionPanel.margin;
+			x1 = (lstIndex1 * (refWidth + SortVisualtionPanel.border))
+					+ SortVisualtionPanel.margin;
+			x2 = (lstIndex2 * (refWidth + SortVisualtionPanel.border))
+					+ SortVisualtionPanel.margin;
 			y1 = (height - (refHeight * elements[lstIndex1])) - offsetY;
 			y2 = (height - (refHeight * elements[lstIndex2])) - offsetY;
 			h1 = refHeight * elements[lstIndex1];
@@ -222,8 +229,10 @@ public class SortVisualtionPanel extends JPanel implements ComponentListener{
 
 		}
 
-		x1 = (c1 * (refWidth + SortVisualtionPanel.border))+ SortVisualtionPanel.margin;
-		x2 = (c2 * (refWidth + SortVisualtionPanel.border))+ SortVisualtionPanel.margin;
+		x1 = (c1 * (refWidth + SortVisualtionPanel.border))
+				+ SortVisualtionPanel.margin;
+		x2 = (c2 * (refWidth + SortVisualtionPanel.border))
+				+ SortVisualtionPanel.margin;
 		y1 = (height - (refHeight * elements[c1])) - offsetY;
 		y2 = (height - (refHeight * elements[c2])) - offsetY;
 		h1 = refHeight * elements[c1];
@@ -273,6 +282,65 @@ public class SortVisualtionPanel extends JPanel implements ComponentListener{
 
 	}
 
+	public void flashing() {
+
+		RenderingHints rh = new RenderingHints(
+				RenderingHints.KEY_TEXT_ANTIALIASING,
+				RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
+		gbuffer.setRenderingHints(rh);
+
+		this.setOpaque(false);
+
+		float b = 0f;
+		for (int bi = 0; bi < 20; bi++) {
+
+			if (bi > 9)
+				b -= 0.015f;
+			else
+				b += 0.015f;
+
+			gbuffer.setBackground(new Color(0f, 0f, 0f, b));
+			gbuffer.clearRect(15, 20, width - 30, height - 40);
+
+			gbuffer.setColor(Color.GRAY);
+			for (int i = 0; i < elements.length; i++) {
+
+				gbuffer.drawRect((i * (refWidth + SortVisualtionPanel.border))
+						+ SortVisualtionPanel.margin,
+						(height - (refHeight * elements[i])) - offsetY,
+						refWidth, refHeight * elements[i]);
+				gbuffer.fillRect((i * (refWidth + SortVisualtionPanel.border))
+						+ SortVisualtionPanel.margin,
+						(height - (refHeight * elements[i])) - offsetY,
+						refWidth, refHeight * elements[i]);
+
+			}
+
+			if (bi < 19) {
+				gbuffer.setColor(Color.WHITE);
+				gbuffer.setFont(Statics.getDefaultFont(30f));
+				gbuffer.drawString("Finished", (int) (width * 0.4), height >> 1);
+			}
+			repaint();
+			try {
+				Thread.currentThread();
+				Thread.sleep(35);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+				Thread.currentThread().interrupt();
+			}
+
+		}
+
+		// TODO: antianalaysing ausschalten
+		repaint();
+
+		rh = new RenderingHints(RenderingHints.KEY_TEXT_ANTIALIASING,
+				RenderingHints.VALUE_TEXT_ANTIALIAS_OFF);
+		gbuffer.setRenderingHints(rh);
+
+	}
+
 	@Override
 	protected void paintComponent(Graphics g) {
 		super.paintComponent(g);
@@ -290,19 +358,19 @@ public class SortVisualtionPanel extends JPanel implements ComponentListener{
 	@Override
 	public void componentMoved(ComponentEvent e) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void componentShown(ComponentEvent e) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void componentHidden(ComponentEvent e) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 }

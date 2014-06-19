@@ -2,6 +2,7 @@ package main;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.FontFormatException;
 import java.awt.event.MouseEvent;
@@ -10,6 +11,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 
+import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.ButtonGroup;
@@ -23,7 +25,9 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JRadioButtonMenuItem;
+import javax.swing.JSeparator;
 import javax.swing.JToolBar;
+import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
@@ -50,6 +54,8 @@ public class Window extends JFrame {
 	// the filler is used for the vertical space between the visualisation panels
 	private ArrayList<Component> filler;
 	private String title;
+	
+	private boolean stateStButton = true;
 	
 	
 	private JButton next, newSort, nextStep, reset;
@@ -90,7 +96,6 @@ public class Window extends JFrame {
 		toolBar = new JToolBar();
 		toolBar.setFloatable(false);
 		toolBar.setRollover(true);
-
 		menuBar = new JMenuBar();
 
 		languages = new JMenu(
@@ -176,43 +181,71 @@ public class Window extends JFrame {
 
 		sortChooser = new JComboBox<String>(Statics.SORT_ALGORITHMNS);
 		sortChooser.setFont(componentFont);
+		sortChooser.setMaximumSize(new Dimension(220, 30));
+		
 		content = new JPanel();
 		content.setLayout(new BorderLayout());
 
 		next = new JButton(
-				Statics.getNamebyXml(Statics.COMPONENT_TITLE.STARTANI));
+				); //Statics.getNamebyXml(Statics.COMPONENT_TITLE.STARTANI)
 		next.addActionListener(controller);
 		next.setActionCommand(Statics.START);
 		next.setFont(componentFont);
-
+		next.setBorder(BorderFactory.createEmptyBorder());
+		next.setIcon(new ImageIcon(Statics.class.getResource("/resources/start_visualsort_1.png")));
+		next.setRolloverIcon(new ImageIcon(Statics.class.getResource("/resources/start_visualsort_rollover_1.png")));
+		
 		newSort = new JButton(
-				Statics.getNamebyXml(Statics.COMPONENT_TITLE.ADD_SORT));
+				); //Statics.getNamebyXml(Statics.COMPONENT_TITLE.ADD_SORT)
 		newSort.addActionListener(controller);
 		newSort.setActionCommand(Statics.ADD_SORT);
 		newSort.setFont(componentFont);
-
+		
+		newSort.setBorder(BorderFactory.createEmptyBorder());
+		newSort.setIcon(new ImageIcon(Statics.class.getResource("/resources/add_visualsort_1.png")));
+		newSort.setRolloverIcon(new ImageIcon(Statics.class.getResource("/resources/add_visualsort_rollover_1.png")));
+		
 		nextStep = new JButton(
-				Statics.getNamebyXml(Statics.COMPONENT_TITLE.ITERATION));
+				); //
 		nextStep.addActionListener(controller);
 		nextStep.setActionCommand(Statics.NEXT_ITERATION);
 		nextStep.setFont(componentFont);
-
-		reset = new JButton(Statics.getNamebyXml(Statics.COMPONENT_TITLE.RESET));
+		
+		nextStep.setBorder(BorderFactory.createEmptyBorder());
+		nextStep.setIcon(new ImageIcon(Statics.class.getResource("/resources/nextIter_visualsort_1.png")));
+		nextStep.setRolloverIcon(new ImageIcon(Statics.class.getResource("/resources/nextIter_visualsort_rollover_1.png")));
+		
+		
+		reset = new JButton(); //Statics.getNamebyXml(Statics.COMPONENT_TITLE.RESET)
 		reset.addActionListener(controller);
 		reset.setActionCommand(Statics.RESET);
 		reset.setFont(componentFont);
+		
+		reset.setBorder(BorderFactory.createEmptyBorder());
+		reset.setIcon(new ImageIcon(Statics.class.getResource("/resources/reset_visualsort_1.png")));
+		reset.setRolloverIcon(new ImageIcon(Statics.class.getResource("/resources/reset_visualsort_rollover_1.png")));
 
 		content.add(BorderLayout.CENTER, info);
+		
+		JSeparator separator = new JSeparator(JSeparator.VERTICAL);
+		Dimension size = new Dimension(
+		    separator.getPreferredSize().width,
+		    separator.getMaximumSize().height);
+		separator.setMaximumSize(size);
 
+		toolBar.add(Box.createHorizontalStrut(3));
 		toolBar.add(next);
 		toolBar.add(Box.createHorizontalStrut(5));
-		toolBar.add(nextStep);
-		toolBar.add(Box.createHorizontalStrut(5));
 		toolBar.add(reset);
+		toolBar.add(Box.createHorizontalStrut(10));
+		toolBar.add(separator);
+		toolBar.add(Box.createHorizontalStrut(10));
+		toolBar.add(nextStep);
 		toolBar.add(Box.createHorizontalGlue());
 		toolBar.add(newSort);
 		toolBar.add(Box.createHorizontalStrut(5));
 		toolBar.add(sortChooser);
+		toolBar.add(Box.createHorizontalStrut(3));
 
 		reset.setEnabled(false);
 		next.setEnabled(false);
@@ -238,16 +271,7 @@ public class Window extends JFrame {
 	  public void updateLanguage(){
 	  
 		  info.setText(Statics.getNamebyXml(Statics.COMPONENT_TITLE.INFO));
-	  
-		  if (next.getText().equals(Statics.getNamebyXml(Statics.COMPONENT_TITLE.STARTANI)))
-			  next.setText(Statics.getNamebyXml(Statics.COMPONENT_TITLE.STOPANI));
-	  
-		  else 
-			  next.setText(Statics.getNamebyXml(Statics.COMPONENT_TITLE.STARTANI));
-	  
-		  nextStep.setText(Statics.getNamebyXml(Statics.COMPONENT_TITLE.ITERATION));
-		  newSort.setText(Statics.getNamebyXml(Statics.COMPONENT_TITLE.ADD_SORT));
-		  reset.setText(Statics.getNamebyXml(Statics.COMPONENT_TITLE.RESET));
+		 
 		  about.setText(Statics.getNamebyXml(Statics.COMPONENT_TITLE.ABOUT));
 		  list.setText(Statics.getNamebyXml(Statics.COMPONENT_TITLE.SORTLIST));
 		  delay.setText(Statics.getNamebyXml(Statics.COMPONENT_TITLE.DELAY));
@@ -260,16 +284,19 @@ public class Window extends JFrame {
 	
 	// start-stop functionality for the animation
 	public void toggleStartStop() {
-		if (next.getText().equals(
-				Statics.getNamebyXml(Statics.COMPONENT_TITLE.STARTANI))) {
-			next.setText(Statics.getNamebyXml(Statics.COMPONENT_TITLE.STOPANI));
-			//newSort.setEnabled(false);
-			reset.setEnabled(false);
-		} else {
-			next.setText(Statics.getNamebyXml(Statics.COMPONENT_TITLE.STARTANI));
-			//newSort.setEnabled(true);
-			reset.setEnabled(true);
+		
+		
+		if(stateStButton){
+			next.setIcon(new ImageIcon(Statics.class.getResource("/resources/pause_visualsort_1.png")));
+			next.setRolloverIcon(new ImageIcon(Statics.class.getResource("/resources/pause_visualsort_rollover_1.png")));
 		}
+		else{
+			next.setIcon(new ImageIcon(Statics.class.getResource("/resources/start_visualsort_1.png")));
+			next.setRolloverIcon(new ImageIcon(Statics.class.getResource("/resources/start_visualsort_rollover_1.png")));
+		}
+		
+		stateStButton = !stateStButton;
+		
 	}
 
 	public void addNewSort(Sort sort, String selectedSort) {
@@ -353,6 +380,7 @@ public class Window extends JFrame {
 	public void unlockAddSort(boolean lock){
 		
 		newSort.setEnabled(lock);
+
 	}
 
 	public void removeSort(int index) {

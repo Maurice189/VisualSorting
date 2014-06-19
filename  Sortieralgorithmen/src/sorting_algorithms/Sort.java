@@ -33,7 +33,7 @@ public abstract class Sort extends Observable implements Runnable{
 	protected int elements[];	
 	protected int iterates;
 	protected SortVisualtionPanel svp;
-	protected static long delayMs = 110;
+	protected static long delayMs = 5;
     protected static int delayNs = 0; 
 	
 	

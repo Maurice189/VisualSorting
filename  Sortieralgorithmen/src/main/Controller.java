@@ -1,9 +1,12 @@
 package main;
+
 import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
+import java.io.IOException;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Observable;
@@ -13,6 +16,8 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
+
+import org.jdom2.JDOMException;
 
 import OptionDialogs.DelayDialog;
 import OptionDialogs.EnterDialog;
@@ -36,46 +41,48 @@ import sorting_algorithms.Sort;
  * @author Maurice Koch
  * @version BETA
  * 
- * This class respresents, as the name implies, the controller in the MVC pattern.
- * Moreover this class implements the observer pattern, so the controller can be informed, if a visualsation thread
- * ends
+ *          This class respresents, as the name implies, the controller in the
+ *          MVC pattern. Moreover this class implements the observer pattern, so
+ *          the controller can be informed, if a visualsation thread ends
  */
 
 /*
  * TODO: General Functions
  * 
- * - Merken welche Sprache ausgewählt wurde. ggf. in config.xml abspeichern
- * - Optimierung Parameter in SortVisualtionPanel wenn möglich statisch implementieren
- * - Implementierung weiterer Sortierverfahren
+ * - Merken welche Sprache ausgewählt wurde. ggf. in config.xml abspeichern -
+ * Optimierung Parameter in SortVisualtionPanel wenn möglich statisch
+ * implementieren - Implementierung weiterer Sortierverfahren
  */
 
 public class Controller implements Observer, ActionListener, WindowListener {
 
-	
-	private ArrayList<Sort> sortList; // dynamic storage for the sort algorithmns
-	private LinkedList<OptionDialog> dialogs; // references to the open dialogs, like settings etc.
-	
-	private Window window; 
-	private ConfigXML langXMLInterface,settingsXMLInterface;
-	
-	private int runningThreads, vspIndex; // number of running sortthreads, index of current clicked vsp-panel
-	
+	private ArrayList<Sort> sortList; // dynamic storage for the sort
+										// algorithmns
+	private LinkedList<OptionDialog> dialogs; // references to the open dialogs,
+												// like settings etc.
+
+	private Window window;
+	private ConfigXML langXMLInterface, settingsXMLInterface;
+
+	private int runningThreads, vspIndex; // number of running sortthreads,
+											// index of current clicked
+											// vsp-panel
+
 	private boolean byUserStopped = false; //
-	private ExecutorService executor; // we use executor service, because it's more memory efficient
-	
-	
-	
-	public Controller(ConfigXML langXMLInterface,ConfigXML settingsXMLInterface) {
+	private ExecutorService executor; // we use executor service, because it's
+										// more memory efficient
+
+	public Controller(ConfigXML langXMLInterface, ConfigXML settingsXMLInterface) {
 
 		this.langXMLInterface = langXMLInterface;
 		this.settingsXMLInterface = settingsXMLInterface;
-		
+
 		int size = 110; // TODO: start size of the elements, should be adapted
 		int[] elements = new int[size];
 
 		sortList = new ArrayList<Sort>();
-		dialogs = new LinkedList<OptionDialog>(); 
-		
+		dialogs = new LinkedList<OptionDialog>();
+
 		executor = Executors.newCachedThreadPool();
 
 		// fill random numbers to the sort list
@@ -108,14 +115,11 @@ public class Controller implements Observer, ActionListener, WindowListener {
 			Sort sort;
 			String selectedSort;
 
-			//if (runningThreads != 0) {
-
-				Sort.resume();
-				for (Sort temp: sortList){
-					temp.initElements();
-					runningThreads = 0;
-				}
-			//}
+			Sort.resume();
+			for (Sort temp : sortList) {
+				temp.initElements();
+				runningThreads = 0;
+			}
 
 			selectedSort = window.getSelectedSort();
 
@@ -139,9 +143,12 @@ public class Controller implements Observer, ActionListener, WindowListener {
 				sort = new BitonicSort();
 			else if (selectedSort.equals(Statics.SORT_ALGORITHMNS[9]))
 				sort = new RadixSort();
-			/*	FIXME: somehow shellsort is working not properly, see precise informations under the respective class
-			else if (selectedSort.equals(Statics.SORT_ALGORITHMNS[10]))
-				sort = new ShellSort();*/
+			/*
+			 * FIXME: somehow shellsort is working not properly, see precise
+			 * informations under the respective class else if
+			 * (selectedSort.equals(Statics.SORT_ALGORITHMNS[10])) sort = new
+			 * ShellSort();
+			 */
 			else if (selectedSort.equals(Statics.SORT_ALGORITHMNS[11]))
 				sort = new InsertionSort();
 			else
@@ -159,7 +166,7 @@ public class Controller implements Observer, ActionListener, WindowListener {
 				if (Sort.isStopped()) {
 
 					Sort.resume();
-					for (Sort temp: sortList){
+					for (Sort temp : sortList) {
 
 						Lock l = temp.getLock();
 						Condition c = temp.getCondition();
@@ -183,22 +190,23 @@ public class Controller implements Observer, ActionListener, WindowListener {
 			}
 
 			else {
-				
-				if(executor.isTerminated()) executor = Executors.newCachedThreadPool();
-				
-				Sort.resume();
-				for (Sort temp: sortList) {
 
-					
-					temp.initElements(); 
+				if (executor.isTerminated())
+					executor = Executors.newCachedThreadPool();
+
+				Sort.resume();
+				for (Sort temp : sortList) {
+
+					temp.initElements();
 
 					executor.execute(temp);
 					runningThreads++;
-					
+
 				}
-		
-				
-				if(byUserStopped) byUserStopped = false; // if app was reseted, start routine continues here
+
+				if (byUserStopped)
+					byUserStopped = false; // if app was reseted, start routine
+											// continues here
 				window.unlockManualIteration(false);
 				window.unlockAddSort(false);
 			}
@@ -208,50 +216,57 @@ public class Controller implements Observer, ActionListener, WindowListener {
 
 		else if (e.getActionCommand() == Statics.RESET) {
 
-			// FIXME : handle close executorservice when app was paused
-			if(Sort.isStopped()){
+			if (Sort.isStopped()) {
 				Sort.resume();
-				for (Sort temp: sortList) {
+				for (Sort temp : sortList) {
 					Lock l = temp.getLock();
 					Condition c = temp.getCondition();
 					temp.deleteObservers();
-					
+
 					try {
 						l.lock();
 						c.signal();
 					} finally {
 						l.unlock();
 					}
-					
-					
+
 				}
-				
+
 				executor.shutdownNow();
 				try {
-				  executor.awaitTermination(1000, TimeUnit.MILLISECONDS); // maximum wait of one second 
+					executor.awaitTermination(1000, TimeUnit.MILLISECONDS); 
+																			
 				} catch (InterruptedException e1) {
 					e1.printStackTrace();
 				}
+
+				if (executor.isTerminated())
+					System.out.println("executor service is terminated !");
 				
-				if(executor.isTerminated()) System.out.println("executor service is terminated !");
 				
+				for (Sort temp : sortList) {
+					temp.initElements();
+					temp.addObserver(this);
+
+				}
+
 			}
-			
-			for (Sort temp: sortList) {
-				temp.initElements();
-				
+
+			else{
+				for (Sort temp : sortList) {
+					temp.initElements();
+
+				}
 			}
-			
-			
+
 			window.unlockAddSort(true);
 			runningThreads = 0;
 		}
 
 		else if (e.getActionCommand() == Statics.MANUAL) {
 
-			dialogs.add(new ManualDialog(this,"Bedienungsanleitung",300,700));
-			
-			
+			dialogs.add(new ManualDialog(this, "Bedienungsanleitung", 300, 700));
+
 		}
 
 		else if (e.getActionCommand() == Statics.NEW_ELEMENTS) {
@@ -261,7 +276,7 @@ public class Controller implements Observer, ActionListener, WindowListener {
 
 		else if (e.getActionCommand() == Statics.INFO) {
 
-			dialogs.add(new InfoDialog(this,300,190));
+			dialogs.add(new InfoDialog(this, 300, 190));
 		}
 
 		else if (e.getActionCommand() == Statics.LANG_DE) {
@@ -269,7 +284,9 @@ public class Controller implements Observer, ActionListener, WindowListener {
 			Statics.setLanguage("German");
 			langXMLInterface.readXML("/resources/lang_de.xml");
 			window.updateLanguage();
-			for(OptionDialog temp:dialogs) temp.updateComponentsLabel(); // update language on every open dialog
+			for (OptionDialog temp : dialogs)
+				temp.updateComponentsLabel(); // update language on every open
+												// dialog
 
 		}
 
@@ -278,9 +295,10 @@ public class Controller implements Observer, ActionListener, WindowListener {
 			Statics.setLanguage("English");
 			langXMLInterface.readXML("/resources/lang_en.xml");
 			window.updateLanguage();
-			for(OptionDialog temp:dialogs) temp.updateComponentsLabel(); // update language on every open dialog
+			for (OptionDialog temp : dialogs)
+				temp.updateComponentsLabel(); // update language on every open
+												// dialog
 
-			
 		}
 
 		else if (e.getActionCommand() == Statics.LANG_FR) {
@@ -288,8 +306,10 @@ public class Controller implements Observer, ActionListener, WindowListener {
 			Statics.setLanguage("France");
 			langXMLInterface.readXML("/resources/lang_fr.xml");
 			window.updateLanguage();
-			for(OptionDialog temp:dialogs) temp.updateComponentsLabel(); // update language on every open dialog
-	
+			for (OptionDialog temp : dialogs)
+				temp.updateComponentsLabel(); // update language on every open
+												// dialog
+
 		}
 
 		// just execute one more step
@@ -298,7 +318,7 @@ public class Controller implements Observer, ActionListener, WindowListener {
 			Lock l;
 			Condition c;
 
-			for (Sort temp: sortList){
+			for (Sort temp : sortList) {
 
 				l = temp.getLock();
 				c = temp.getCondition();
@@ -322,7 +342,7 @@ public class Controller implements Observer, ActionListener, WindowListener {
 
 			}
 		}
-		
+
 		else if (e.getActionCommand() == Statics.REPORT) {
 
 			if (sortList.size() > 0) {
@@ -335,7 +355,7 @@ public class Controller implements Observer, ActionListener, WindowListener {
 
 		else if (e.getActionCommand() == Statics.DELAY) {
 
-			dialogs.add(DelayDialog.getInstance(this,320, 150));
+			dialogs.add(DelayDialog.getInstance(this, 320, 150));
 		}
 
 	}
@@ -349,6 +369,7 @@ public class Controller implements Observer, ActionListener, WindowListener {
 			EventQueue.invokeLater(new Runnable() {
 				public void run() {
 					window.toggleStartStop();
+					System.out.println("ALL THREADS ENDED");
 				}
 			});
 		}
@@ -356,55 +377,73 @@ public class Controller implements Observer, ActionListener, WindowListener {
 	}
 
 	@Override
-	public void windowOpened(WindowEvent e) {}
-
-	@Override
-	public void windowClosing(WindowEvent e) {
-		
-		for(OptionDialog temp: dialogs) temp.dispose();
-		
+	public void windowOpened(WindowEvent e) {
 	}
 
 	@Override
-	public void windowClosed(WindowEvent e) {}
+	public void windowClosing(WindowEvent e) {
+
+		settingsXMLInterface.setValue("language",Statics.getLanguageSet());
+		settingsXMLInterface.setValue("delayms", String.valueOf(Sort.getDelayMs()));
+		settingsXMLInterface.setValue("delayns", String.valueOf(Sort.getDelayNs()));
+		
+		
+		for (OptionDialog temp : dialogs)
+			temp.dispose();
+		
+		
+		try {
+			settingsXMLInterface.closeDOM();
+		} catch (JDOMException | IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		} catch (URISyntaxException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+	}
 
 	@Override
-	public void windowIconified(WindowEvent e) {}
+	public void windowClosed(WindowEvent e) {
+	}
 
 	@Override
-	public void windowDeiconified(WindowEvent e) {}
+	public void windowIconified(WindowEvent e) {
+	}
 
-	// FIXME THIS DOESNT WORK
+	@Override
+	public void windowDeiconified(WindowEvent e) {
+	}
+
 	// animation will be released after the user reactivate the window
 	@Override
 	public void windowActivated(WindowEvent e) {
-		
+
 		if (runningThreads != 0 && byUserStopped == false) {
-				Sort.resume();
-				for (int i = 0; i < sortList.size(); i++) {
+			Sort.resume();
+			for (int i = 0; i < sortList.size(); i++) {
 
-					Lock l = sortList.get(i).getLock();
-					Condition c = sortList.get(i).getCondition();
+				Lock l = sortList.get(i).getLock();
+				Condition c = sortList.get(i).getCondition();
 
-					try {
-						l.lock();
-						c.signal();
-					} finally {
-						l.unlock();
-					}
+				try {
+					l.lock();
+					c.signal();
+				} finally {
+					l.unlock();
 				}
-				
 			}
+
+		}
 		window.appReleased();
 
 	}
 
-	// FIXME THIS DOESNT WORK
 	// animation will be paused if the user deactivate the window
 	@Override
 	public void windowDeactivated(WindowEvent e) {
 		Sort.stop();
-		if (runningThreads != 0 && byUserStopped == false){
+		if (runningThreads != 0 && byUserStopped == false) {
 			window.appStopped();
 		}
 	}

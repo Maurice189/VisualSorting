@@ -100,6 +100,7 @@ public class QuickSort extends Sort {
 			Thread.currentThread().interrupt();
 		}
 		
+		svp.flashing();
 		setChanged();
 		notifyObservers();
 		
