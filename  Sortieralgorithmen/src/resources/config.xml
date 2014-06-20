@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <VisualSorting>
 		<version>0.5 Beta</version>
-		<language>German</language>
-		<delayms>0</delayms>
+		<language>lang_de.xml</language>
+		<delayms>100</delayms>
 		<delayns>0</delayns>
   
 </VisualSorting>

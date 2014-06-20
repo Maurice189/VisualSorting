@@ -128,15 +128,13 @@ public abstract class Sort extends Observable implements Runnable{
 	
 	public static void setDelayNs(int delayNs){
 
-		if(Sort.delayMs == 0 && delayNs == 0) Sort.delayNs = 1;
-		else Sort.delayNs = delayNs;
+		Sort.delayNs = delayNs;
 		
 	}
 	
 	public static void setDelayMs(long delayMs){
 		
-		if(Sort.delayNs == 0  && delayMs == 0) Sort.delayMs = 1;
-		else Sort.delayMs = delayMs;
+		Sort.delayMs = delayMs;
 		
 	}
 	

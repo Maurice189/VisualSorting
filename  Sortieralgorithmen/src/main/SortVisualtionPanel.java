@@ -26,9 +26,10 @@ import main.Statics.COMPONENT_TITLE;
 public class SortVisualtionPanel extends JPanel implements ComponentListener {
 
 	private static final long serialVersionUID = 1L;
+	private static final int preferredGapSize = 3;
 	private static Color backgroundColor = Color.white;
-	private static final int border = 3, marginTop = 30;
-	private static int margin = 10;
+	private static int gapSize = 3, marginTop = 30;
+	private static int margin = 7;
 	private static final int offsetY = 20;
 
 	private JPopupMenu menu;
@@ -101,15 +102,25 @@ public class SortVisualtionPanel extends JPanel implements ComponentListener {
 		}
 
 		refHeight = (height - offsetY - SortVisualtionPanel.marginTop) / max;
-		refWidth = (width - (elements.length * SortVisualtionPanel.border))
+		refWidth = (width - (elements.length * SortVisualtionPanel.preferredGapSize))
 				/ elements.length;
 
 		if (refHeight <= 0)
 			refHeight = 1;
-		if (refWidth <= 0)
+		if (refWidth <= 0){
+			
+			
+			double newBorder = ((elements.length-width)/((double)(-1)*elements.length));
+			System.out.println("New Border: "+newBorder);
+			if(newBorder > 0) SortVisualtionPanel.gapSize = (int) newBorder;
 			refWidth = 1;
+			
+		}
+		
+		else SortVisualtionPanel.gapSize = 3;
+			
 
-		SortVisualtionPanel.margin = (width - (elements.length * (refWidth + SortVisualtionPanel.border))) / 2;
+		SortVisualtionPanel.margin = (width - (elements.length * (refWidth + SortVisualtionPanel.gapSize))) / 2;
 		drawElements();
 
 	}
@@ -133,15 +144,23 @@ public class SortVisualtionPanel extends JPanel implements ComponentListener {
 		}
 
 		refHeight = (height - offsetY - SortVisualtionPanel.marginTop) / max;
-		refWidth = (width - (elements.length * SortVisualtionPanel.border))
+		refWidth = (width - (elements.length * SortVisualtionPanel.preferredGapSize))
 				/ elements.length;
 
 		if (refHeight <= 0)
 			refHeight = 1;
-		if (refWidth <= 0)
+		if (refWidth <= 0){
+			
+			double newBorder = ((elements.length-width)/((double)(-1)*elements.length));
+			System.out.println("New Border: "+newBorder);
+			if(newBorder > 0) SortVisualtionPanel.gapSize = (int) newBorder;
 			refWidth = 1;
+			
+		}
+		
+		else SortVisualtionPanel.gapSize = 3;
 
-		SortVisualtionPanel.margin = (width - (elements.length * (refWidth + SortVisualtionPanel.border))) / 2;
+		SortVisualtionPanel.margin = (width - (elements.length * (refWidth + SortVisualtionPanel.gapSize))) / 2;
 		drawElements();
 
 	}
@@ -154,11 +173,11 @@ public class SortVisualtionPanel extends JPanel implements ComponentListener {
 
 		for (int i = 0; i < elements.length; i++) {
 
-			gbuffer.drawRect((i * (refWidth + SortVisualtionPanel.border))
+			gbuffer.drawRect((i * (refWidth + SortVisualtionPanel.gapSize))
 					+ SortVisualtionPanel.margin,
 					(height - (refHeight * elements[i])) - offsetY, refWidth,
 					refHeight * elements[i]);
-			gbuffer.fillRect((i * (refWidth + SortVisualtionPanel.border))
+			gbuffer.fillRect((i * (refWidth + SortVisualtionPanel.gapSize))
 					+ SortVisualtionPanel.margin,
 					(height - (refHeight * elements[i])) - offsetY, refWidth,
 					refHeight * elements[i]);
@@ -173,12 +192,12 @@ public class SortVisualtionPanel extends JPanel implements ComponentListener {
 		if (lstInsert >= 0) {
 			gbuffer.setColor(Color.GRAY);
 			gbuffer.drawRect(
-					(lstInsert * (refWidth + SortVisualtionPanel.border))
+					(lstInsert * (refWidth + SortVisualtionPanel.gapSize))
 							+ SortVisualtionPanel.margin,
 					(height - (refHeight * elements[lstInsert])) - offsetY,
 					refWidth, refHeight * elements[lstInsert]);
 			gbuffer.fillRect(
-					(lstInsert * (refWidth + SortVisualtionPanel.border))
+					(lstInsert * (refWidth + SortVisualtionPanel.gapSize))
 							+ SortVisualtionPanel.margin,
 					(height - (refHeight * elements[lstInsert])) - offsetY,
 					refWidth, refHeight * elements[lstInsert]);
@@ -186,20 +205,20 @@ public class SortVisualtionPanel extends JPanel implements ComponentListener {
 		}
 
 		gbuffer.setColor(SortVisualtionPanel.backgroundColor);
-		gbuffer.drawRect((c * (refWidth + SortVisualtionPanel.border))
+		gbuffer.drawRect((c * (refWidth + SortVisualtionPanel.gapSize))
 				+ SortVisualtionPanel.margin,
 				(height - (refHeight * elements[c])) - offsetY, refWidth,
 				refHeight * elements[c]);
-		gbuffer.fillRect((c * (refWidth + SortVisualtionPanel.border))
+		gbuffer.fillRect((c * (refWidth + SortVisualtionPanel.gapSize))
 				+ SortVisualtionPanel.margin,
 				(height - (refHeight * elements[c])) - offsetY, refWidth,
 				refHeight * elements[c]);
 
 		gbuffer.setColor(Color.GREEN);
-		gbuffer.drawRect((c * (refWidth + SortVisualtionPanel.border))
+		gbuffer.drawRect((c * (refWidth + SortVisualtionPanel.gapSize))
 				+ SortVisualtionPanel.margin, (height - (refHeight * value))
 				- offsetY, refWidth, refHeight * value);
-		gbuffer.fillRect((c * (refWidth + SortVisualtionPanel.border))
+		gbuffer.fillRect((c * (refWidth + SortVisualtionPanel.gapSize))
 				+ SortVisualtionPanel.margin, (height - (refHeight * value))
 				- offsetY, refWidth, refHeight * value);
 
@@ -220,9 +239,9 @@ public class SortVisualtionPanel extends JPanel implements ComponentListener {
 
 		if (lstIndex1 >= 0 && lstIndex2 >= 0) {
 
-			x1 = (lstIndex1 * (refWidth + SortVisualtionPanel.border))
+			x1 = (lstIndex1 * (refWidth + SortVisualtionPanel.gapSize))
 					+ SortVisualtionPanel.margin;
-			x2 = (lstIndex2 * (refWidth + SortVisualtionPanel.border))
+			x2 = (lstIndex2 * (refWidth + SortVisualtionPanel.gapSize))
 					+ SortVisualtionPanel.margin;
 			y1 = (height - (refHeight * elements[lstIndex1])) - offsetY;
 			y2 = (height - (refHeight * elements[lstIndex2])) - offsetY;
@@ -240,9 +259,9 @@ public class SortVisualtionPanel extends JPanel implements ComponentListener {
 
 		}
 
-		x1 = (c1 * (refWidth + SortVisualtionPanel.border))
+		x1 = (c1 * (refWidth + SortVisualtionPanel.gapSize))
 				+ SortVisualtionPanel.margin;
-		x2 = (c2 * (refWidth + SortVisualtionPanel.border))
+		x2 = (c2 * (refWidth + SortVisualtionPanel.gapSize))
 				+ SortVisualtionPanel.margin;
 		y1 = (height - (refHeight * elements[c1])) - offsetY;
 		y2 = (height - (refHeight * elements[c2])) - offsetY;
@@ -277,9 +296,9 @@ public class SortVisualtionPanel extends JPanel implements ComponentListener {
 
 	private void signalExchangedElements(int i1, int i2, int refWidth) {
 
-		int x1 = (int) (i1 * (refWidth + SortVisualtionPanel.border) + (refWidth * 0.5))
+		int x1 = (int) (i1 * (refWidth + SortVisualtionPanel.gapSize) + (refWidth * 0.5))
 				+ SortVisualtionPanel.margin;
-		int x2 = (int) (i2 * (refWidth + SortVisualtionPanel.border) + (refWidth * 0.5))
+		int x2 = (int) (i2 * (refWidth + SortVisualtionPanel.gapSize) + (refWidth * 0.5))
 				+ SortVisualtionPanel.margin;
 
 		gbuffer.setColor(Color.BLUE);
@@ -316,11 +335,11 @@ public class SortVisualtionPanel extends JPanel implements ComponentListener {
 			gbuffer.setColor(Color.GRAY);
 			for (int i = 0; i < elements.length; i++) {
 
-				gbuffer.drawRect((i * (refWidth + SortVisualtionPanel.border))
+				gbuffer.drawRect((i * (refWidth + SortVisualtionPanel.gapSize))
 						+ SortVisualtionPanel.margin,
 						(height - (refHeight * elements[i])) - offsetY,
 						refWidth, refHeight * elements[i]);
-				gbuffer.fillRect((i * (refWidth + SortVisualtionPanel.border))
+				gbuffer.fillRect((i * (refWidth + SortVisualtionPanel.gapSize))
 						+ SortVisualtionPanel.margin,
 						(height - (refHeight * elements[i])) - offsetY,
 						refWidth, refHeight * elements[i]);

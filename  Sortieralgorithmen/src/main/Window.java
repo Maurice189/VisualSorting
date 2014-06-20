@@ -161,11 +161,11 @@ public class Window extends JFrame {
 		bg.add(fr);
 
 		String tmp = Statics.getLanguageSet();
-		if (tmp.equals(de.getText()))
+		if (tmp.equals("lang_de.xml"))
 			de.setSelected(true);
-		else if (tmp.equals(en.getText()))
+		else if (tmp.equals("lang_en.xml"))
 			en.setSelected(true);
-		else if (tmp.equals(fr.getText()))
+		else if (tmp.equals("lang_fr.xml"))
 			fr.setSelected(true);
 
 		languages.add(en);
@@ -470,6 +470,7 @@ public class Window extends JFrame {
 		// set look and feel
 		try {
 			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+			 //UIManager.setLookAndFeel("com.sun.java.swing.plaf.nimbus.NimbusLookAndFeel");
 		} catch (UnsupportedLookAndFeelException e) {
 			// handle exception
 		} catch (ClassNotFoundException e) {
@@ -481,8 +482,8 @@ public class Window extends JFrame {
 		}
 
 		
-		ConfigXML configLanguage = new ConfigXML();		
 		ConfigXML configSetting = new ConfigXML();
+		ConfigXML configLanguage = new ConfigXML();
 		
 		String path = System.getProperty("user.home").concat(File.separator).concat("VisualSort")
 				.concat(File.separator).concat("settings");
@@ -522,13 +523,11 @@ public class Window extends JFrame {
 		
 		
 		
-		if(configSetting.readXML(path.concat(File.separator).concat("config.xml"),false) && 
-		configLanguage.readXML("/resources/lang_de.xml",true)){
+		if(configSetting.readXML(path.concat(File.separator).concat("config.xml"),false)){
 		
 		// define resources
 		Statics.initXMLDefintions();
 		Statics.setConfigXML(configLanguage,configSetting);
-		Statics.setLanguage("German");
 		
 		// this font is used under the GPL from google fonts under 'Oxygen'
 		Statics.initDefaultFont("/resources/OxygenFont/Oxygen-Regular.ttf");

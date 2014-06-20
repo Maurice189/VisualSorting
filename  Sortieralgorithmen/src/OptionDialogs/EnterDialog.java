@@ -1,15 +1,21 @@
 package OptionDialogs;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.WindowEvent;
 
+import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
+import javax.swing.ButtonGroup;
 import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
 import javax.swing.JSpinner;
 import javax.swing.JTextField;
@@ -33,6 +39,7 @@ public class EnterDialog extends OptionDialog{
 	private JTextField value;
 	private JSpinner values;
 	private JButton enterValue, ok, remove, crNmb;
+	private JRadioButton crRandom,setMan;
 	private JPanel list;
 	private JPanel list2;
 	private JScrollPane pane;
@@ -115,6 +122,16 @@ public class EnterDialog extends OptionDialog{
 
 		}
 		
+		else if (e.getSource() == crRandom){
+			list.setVisible(true);
+			list2.setVisible(false);
+		}
+		
+		else if (e.getSource() == setMan){
+			list2.setVisible(true);
+			list.setVisible(false);
+		}
+		
 		else if (e.getSource() == enterValue){
 			
 			int temp = 0;
@@ -171,6 +188,23 @@ public class EnterDialog extends OptionDialog{
 		elements = new JList<Integer>(listModel);
 	    value = new JTextField();
 		values = new JSpinner();
+		
+	
+		
+		JPanel buttonWrapper = new JPanel(new FlowLayout(FlowLayout.LEFT));
+		buttonWrapper.setBorder(BorderFactory.createLineBorder(Color.GRAY, 1));
+		crRandom = new JRadioButton("Zufallszahlen");
+		crRandom.addActionListener(this);
+		crRandom.setSelected(true);
+		setMan = new JRadioButton("Manuell");
+		setMan.addActionListener(this);
+		buttonWrapper.add(crRandom);
+		buttonWrapper.add(setMan);
+		
+		ButtonGroup bg = new ButtonGroup();
+		bg.add(crRandom);
+		bg.add(setMan);
+		
 	
 		list = new JPanel();
 		list2 = new JPanel();
@@ -195,6 +229,8 @@ public class EnterDialog extends OptionDialog{
 		for (int i = 0; i < tempElements.length; i++) {
 			listModel.addElement(new Integer(tempElements[i]));
 		}
+		
+		value.setMaximumSize(new Dimension(250,remove.getPreferredSize().height));
 
 		list.add(crNmb);
 		list.add(Box.createHorizontalStrut(5));
@@ -202,7 +238,9 @@ public class EnterDialog extends OptionDialog{
 		list.add(Box.createHorizontalStrut(5));
 		list.add(ok);
 		list2.add(enterValue);
+		list2.add(Box.createHorizontalStrut(5));
 		list2.add(value);
+		list2.add(Box.createHorizontalGlue());
 		list2.add(remove);
 
 		java.net.URL helpURL = EnterDialog.class.getClassLoader().getResource(
@@ -213,9 +251,14 @@ public class EnterDialog extends OptionDialog{
 		}
 
 		add(pane);
-		add(Box.createVerticalStrut(7));
+		add(Box.createVerticalStrut(5));
+		add(buttonWrapper);
+		add(Box.createVerticalGlue());
+
 		add(list);
 		add(list2);
+		
+		list2.setVisible(false);
 		
 	}
 	

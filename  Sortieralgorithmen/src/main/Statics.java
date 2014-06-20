@@ -72,12 +72,14 @@ public class Statics {
 	
 	public static void setConfigXML(ConfigXML configLang,ConfigXML configSetting){
 		
-		Statics.configLang = configLang;
 		Statics.configSetting = configSetting;
-		
+		Statics.configLang  = configLang;
 		
 		Statics.VERSION =  configSetting.getValue("version");
 		Statics.LANGUAGE_SET =  configSetting.getValue("language");
+		System.out.println("LANGUAGE: "+Statics.LANGUAGE_SET);
+		configLang.readXML("/resources/".concat(Statics.LANGUAGE_SET),true);
+		
 		Sort.setDelayMs(Long.parseLong(configSetting.getValue("delayms")));
 		Sort.setDelayNs(Integer.parseInt(configSetting.getValue("delayns")));
 		

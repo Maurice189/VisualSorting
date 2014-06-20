@@ -77,7 +77,7 @@ public class Controller implements Observer, ActionListener, WindowListener {
 		this.langXMLInterface = langXMLInterface;
 		this.settingsXMLInterface = settingsXMLInterface;
 
-		int size = 120; // TODO: start size of the elements, should be adapted
+		int size = 190; // TODO: start size of the elements, should be adapted
 		int[] elements = new int[size];
 
 		sortList = new ArrayList<Sort>();
@@ -271,7 +271,7 @@ public class Controller implements Observer, ActionListener, WindowListener {
 
 		else if (e.getActionCommand() == Statics.NEW_ELEMENTS) {
 
-			dialogs.add(EnterDialog.getInstance(this, 500, 200));
+			dialogs.add(EnterDialog.getInstance(this, 500, 300));
 		}
 
 		else if (e.getActionCommand() == Statics.INFO) {
@@ -281,7 +281,7 @@ public class Controller implements Observer, ActionListener, WindowListener {
 
 		else if (e.getActionCommand() == Statics.LANG_DE) {
 
-			Statics.setLanguage("German");
+			Statics.setLanguage("lang_de.xml");
 			langXMLInterface.readXML("/resources/lang_de.xml",true);
 			window.updateLanguage();
 			for (OptionDialog temp : dialogs)
@@ -292,7 +292,7 @@ public class Controller implements Observer, ActionListener, WindowListener {
 
 		else if (e.getActionCommand() == Statics.LANG_EN) {
 
-			Statics.setLanguage("English");
+			Statics.setLanguage("lang_en.xml");
 			langXMLInterface.readXML("/resources/lang_en.xml",true);
 			window.updateLanguage();
 			for (OptionDialog temp : dialogs)
@@ -303,7 +303,7 @@ public class Controller implements Observer, ActionListener, WindowListener {
 
 		else if (e.getActionCommand() == Statics.LANG_FR) {
 
-			Statics.setLanguage("France");
+			Statics.setLanguage("lang_fr.xml");
 			langXMLInterface.readXML("/resources/lang_fr.xml",true);
 			window.updateLanguage();
 			for (OptionDialog temp : dialogs)
