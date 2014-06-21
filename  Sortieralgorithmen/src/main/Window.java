@@ -287,8 +287,7 @@ public class Window extends JFrame {
 		setLayout(new BorderLayout());
 		add(BorderLayout.PAGE_START, toolBar);
 		add(BorderLayout.CENTER, content);
-		// setResizable(false);
-		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setLocationRelativeTo(null);
 		setVisible(true);
 
