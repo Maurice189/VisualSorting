@@ -127,6 +127,7 @@ public class EnterDialog extends OptionDialog {
 			btnWrp2.add(enterValue);
 			btnWrp2.add(Box.createHorizontalStrut(10));
 			btnWrp2.add(values);
+			values.setValue(listModel.getSize());
 			btnWrp2.add(Box.createHorizontalGlue());
 			btnWrp2.add(ok);
 			btnWrp2.revalidate();
@@ -182,7 +183,7 @@ public class EnterDialog extends OptionDialog {
 				temp = (int) (values.getValue());
 				listModel.removeAllElements();
 				for (int i = 0; i < temp; i++)
-					listModel.addElement(Controller.getRandomNumber(0, temp));
+					listModel.addElement(Controller.getRandomNumber(0, temp/3));
 
 			}
 		}
@@ -203,12 +204,12 @@ public class EnterDialog extends OptionDialog {
 
 		super.updateComponentsLabel();
 
-		remove.setName(Statics.getNamebyXml(Statics.COMPONENT_TITLE.REMOVE));
+		//remove.setName(Statics.getNamebyXml(Statics.COMPONENT_TITLE.REMOVE));
 		crNmb.setName(Statics.getNamebyXml(Statics.COMPONENT_TITLE.RNUMBERS));
 		enterValue.setName(Statics.getNamebyXml(Statics.COMPONENT_TITLE.ADD));
 		ok.setName(Statics.getNamebyXml(Statics.COMPONENT_TITLE.EXIT));
-		crRandom = new JRadioButton(Statics.getNamebyXml(Statics.COMPONENT_TITLE.SETLIST));
-		setMan = new JRadioButton(Statics.getNamebyXml(Statics.COMPONENT_TITLE.SETMANUAL));
+		crRandom.setText(Statics.getNamebyXml(Statics.COMPONENT_TITLE.SETLIST));
+		setMan.setText(Statics.getNamebyXml(Statics.COMPONENT_TITLE.SETMANUAL));
 		btnWrp1.setBorder(BorderFactory.createTitledBorder(
 				BorderFactory.createLineBorder(Color.GRAY), Statics.getNamebyXml(Statics.COMPONENT_TITLE.SELECTION)));
 
@@ -230,7 +231,8 @@ public class EnterDialog extends OptionDialog {
 		for (int i = 0; i < tempElements.length; i++) {
 			listModel.addElement(new Integer(tempElements[i]));
 		}
-
+		values.setValue(listModel.getSize());
+		
 		GridBagConstraints tcnt = new GridBagConstraints();
 		tcnt.fill = GridBagConstraints.BOTH;
 		tcnt.gridx = 0;
