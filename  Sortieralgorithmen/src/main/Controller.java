@@ -5,8 +5,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
-import java.io.IOException;
-import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Observable;
@@ -16,8 +14,6 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
-
-import org.jdom2.JDOMException;
 
 import OptionDialogs.DelayDialog;
 import OptionDialogs.EnterDialog;
@@ -62,7 +58,7 @@ public class Controller implements Observer, ActionListener, WindowListener {
 												// like settings etc.
 
 	private Window window;
-	private ConfigXML langXMLInterface, settingsXMLInterface;
+	private ConfigXML langXMLInterface;
 
 	private int runningThreads, vspIndex; // number of running sortthreads,
 											// index of current clicked
@@ -72,12 +68,11 @@ public class Controller implements Observer, ActionListener, WindowListener {
 	private ExecutorService executor; // we use executor service, because it's
 										// more memory efficient
 
-	public Controller(ConfigXML langXMLInterface, ConfigXML settingsXMLInterface) {
+	public Controller(ConfigXML langXMLInterface) {
 
 		this.langXMLInterface = langXMLInterface;
-		this.settingsXMLInterface = settingsXMLInterface;
 
-		int size = 190; // TODO: start size of the elements, should be adapted
+		int size = 1190; // TODO: start size of the elements, should be adapted
 		int[] elements = new int[size];
 
 		sortList = new ArrayList<Sort>();
@@ -382,25 +377,15 @@ public class Controller implements Observer, ActionListener, WindowListener {
 
 	@Override
 	public void windowClosing(WindowEvent e) {
-
-		settingsXMLInterface.setValue("language",Statics.getLanguageSet());
-		settingsXMLInterface.setValue("delayms", String.valueOf(Sort.getDelayMs()));
-		settingsXMLInterface.setValue("delayns", String.valueOf(Sort.getDelayNs()));
-		
 		
 		for (OptionDialog temp : dialogs)
 			temp.dispose();
 		
+		InternalConfig.setValue("delayms",Sort.getDelayMs());
+		InternalConfig.setValue("delayns",Sort.getDelayNs());
+		InternalConfig.setValue("language",Statics.getLanguageSet());
 		
-		try {
-			settingsXMLInterface.closeDOM();
-		} catch (JDOMException | IOException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		} catch (URISyntaxException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
+		InternalConfig.saveChanges();
 	}
 
 	@Override

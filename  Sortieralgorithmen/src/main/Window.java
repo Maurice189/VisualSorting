@@ -5,16 +5,9 @@ import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.FontFormatException;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.OutputStream;
-import java.io.PrintWriter;
 import java.util.ArrayList;
-
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -31,7 +24,6 @@ import javax.swing.JPanel;
 import javax.swing.JRadioButtonMenuItem;
 import javax.swing.JSeparator;
 import javax.swing.JToolBar;
-import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
@@ -446,54 +438,23 @@ public class Window extends JFrame {
 		} catch (IllegalAccessException e) {
 			// handle exception
 		}
-
 		
-		ConfigXML configSetting = new ConfigXML();
 		ConfigXML configLanguage = new ConfigXML();
 		
-		String path = System.getProperty("user.home").concat(File.separator).concat("VisualSort")
-				.concat(File.separator).concat("settings");
-		
-		File file = new File(path);
-			
-			
-			try {
-				if(new File(path.concat(File.separator).concat("config.xml")).createNewFile())
-				{
-					
-					InputStream in = Statics.class.getResourceAsStream("/resources/config.xml");
-					FileOutputStream os = new FileOutputStream(path.concat(File.separator).concat("config.xml"));;
-					try {
-				        byte[] buffer = new byte[1024];
-				        int length;
-				        while ((length = in.read(buffer)) > 0) {
-				            os.write(buffer, 0, length);
-				        }
-				    } finally {
-				        in.close();
-				        os.close();
-				    }
-				}
-				System.out.println(path.concat(File.separator).concat("config.xml"));
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			
 		try {
-			file.createNewFile();
-		} catch (IOException e) {
+			InternalConfig.loadConfigFile();
+			Statics.setLanguage(InternalConfig.getValue("language"));
+			Statics.setVersion(InternalConfig.getValue("version"));
+			Sort.setDelayMs(Long.parseLong(InternalConfig.getValue("delayms")));
+			Sort.setDelayNs(Integer.parseInt(InternalConfig.getValue("delayns")));
+		} catch (IOException e1) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			e1.printStackTrace();
 		}
-		
-		
-		
-		if(configSetting.readXML(path.concat(File.separator).concat("config.xml"),false)){
 		
 		// define resources
 		Statics.initXMLDefintions();
-		Statics.setConfigXML(configLanguage,configSetting);
+		Statics.setConfigXML(configLanguage);
 		
 		// this font is used under the GPL from google fonts under 'Oxygen'
 		Statics.initDefaultFont("/resources/OxygenFont/Oxygen-Regular.ttf");
@@ -501,11 +462,11 @@ public class Window extends JFrame {
 		Window.initDefaultFont("/resources/OpenSans/OpenSans-Semibold.ttf",13f);
 		
 		// init view and controller
-		Controller controller = new Controller(configLanguage,configSetting);
+		Controller controller = new Controller(configLanguage);
 		Window window = new Window(controller,"Visual Sorting - ".concat(Statics.getVersion()), 800, 550);
 		controller.setView(window);
 		
-		}
+		//}
 
 	}
 

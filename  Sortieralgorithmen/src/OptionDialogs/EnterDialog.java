@@ -1,7 +1,9 @@
 package OptionDialogs;
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.WindowEvent;
 
@@ -43,7 +45,7 @@ public class EnterDialog extends OptionDialog{
 	private JPanel list;
 	private JPanel list2;
 	private JScrollPane pane;
-	
+	private JPanel btnWrp2;
 	private static EnterDialog instance;
 	
 	private EnterDialog(Controller controller,int width, int height) {
@@ -123,13 +125,28 @@ public class EnterDialog extends OptionDialog{
 		}
 		
 		else if (e.getSource() == crRandom){
-			list.setVisible(true);
-			list2.setVisible(false);
+			
+			 btnWrp2.removeAll();
+			 btnWrp2.setBorder(BorderFactory.createLineBorder(Color.GRAY));
+	         btnWrp2.add(enterValue);
+	         btnWrp2.add(Box.createHorizontalStrut(10));
+	         btnWrp2.add(value);
+	         btnWrp2.add(Box.createHorizontalGlue());
+	         btnWrp2.add(ok);
+			
 		}
 		
 		else if (e.getSource() == setMan){
-			list2.setVisible(true);
-			list.setVisible(false);
+			
+			 btnWrp2.removeAll();
+			 btnWrp2.setBorder(BorderFactory.createLineBorder(Color.GRAY));
+	         btnWrp2.add(enterValue);
+	         btnWrp2.add(Box.createHorizontalStrut(10));
+	         values.setMinimumSize(value.getMaximumSize());
+	         btnWrp2.add(values);
+	         btnWrp2.add(Box.createHorizontalGlue());
+	         btnWrp2.add(ok);
+			
 		}
 		
 		else if (e.getSource() == enterValue){
@@ -189,8 +206,93 @@ public class EnterDialog extends OptionDialog{
 	    value = new JTextField();
 		values = new JSpinner();
 		
-	
+		setLayout(new GridBagLayout());
 		
+         JScrollPane sp = new JScrollPane(elements);
+         sp.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+         
+         int tempElements[] = Sort.getElements();
+         for (int i = 0; i < tempElements.length; i++) {
+			listModel.addElement(new Integer(tempElements[i]));
+         }
+         
+         GridBagConstraints tcnt = new GridBagConstraints();
+         tcnt.fill = GridBagConstraints.BOTH;
+         tcnt.gridx = 0;
+         tcnt.gridy = 0;
+         tcnt.gridwidth = 4;
+         tcnt.gridheight = 3;
+         tcnt.weightx = 1;
+         tcnt.weighty = 7;
+         
+         
+         crRandom = new JRadioButton("Zufallszahlen");
+ 		 crRandom.addActionListener(this);
+ 		 crRandom.setSelected(true);
+ 		 setMan = new JRadioButton("Manuell");
+ 		 setMan.addActionListener(this);
+ 		
+ 	
+
+         JPanel btnWrp1 = new JPanel(new FlowLayout(FlowLayout.LEFT));
+         btnWrp1.setBorder(BorderFactory.createTitledBorder(
+         BorderFactory.createLineBorder(Color.GRAY), "Type"));
+         btnWrp1.add(crRandom);
+         btnWrp1.add(setMan);
+         
+         ButtonGroup bg = new ButtonGroup();
+         bg.add(crRandom);
+ 			bg.add(setMan);
+       
+         
+         GridBagConstraints btnWrpc1 = new GridBagConstraints();
+         btnWrpc1.fill = GridBagConstraints.HORIZONTAL;
+         btnWrpc1.gridx = 0;
+         btnWrpc1.gridy = 4;
+         btnWrpc1.gridwidth = 4;
+         btnWrpc1.gridheight = 1;
+         btnWrpc1.weightx = 1;
+         btnWrpc1.weighty = 1;
+         btnWrpc1.anchor = GridBagConstraints.NORTH;
+         btnWrpc1.insets = new Insets(4, 4, 4, 4 );
+         
+         crNmb = new JButton(
+  				Statics.getNamebyXml(Statics.COMPONENT_TITLE.RNUMBERS));
+  		 enterValue = new JButton(
+  				Statics.getNamebyXml(Statics.COMPONENT_TITLE.ADD));
+  		
+  		 ok = new JButton(Statics.getNamebyXml(Statics.COMPONENT_TITLE.EXIT));
+         
+         btnWrp2 = new JPanel();
+         btnWrp2.setLayout(new BoxLayout(btnWrp2,BoxLayout.X_AXIS));
+         value.setMaximumSize(values.getMaximumSize());
+
+         //btnWrp2.setBorder(BorderFactory.createLineBorder(Color.GRAY));
+         btnWrp2.add(enterValue);
+         btnWrp2.add(Box.createHorizontalStrut(10));
+         btnWrp2.add(value);
+         btnWrp2.add(Box.createHorizontalGlue());
+         btnWrp2.add(ok);
+         
+       
+         
+         GridBagConstraints btnWrpc2 = new GridBagConstraints();
+         btnWrpc2.fill = GridBagConstraints.HORIZONTAL;
+         btnWrpc2.gridx = 0;
+         btnWrpc2.gridy = 5;
+         btnWrpc2.gridwidth = 4;
+         btnWrpc2.gridheight = 1;
+         btnWrpc2.weightx = 1;
+         btnWrpc2.weighty = 1;
+         btnWrpc2.anchor = GridBagConstraints.SOUTH;
+         btnWrpc2.insets = new Insets(4, 4, 4, 4 );
+		
+         
+         add(sp, tcnt );
+         add( btnWrp1, btnWrpc1 );
+         add( btnWrp2, btnWrpc2 );
+	
+		/*
 		JPanel buttonWrapper = new JPanel(new FlowLayout(FlowLayout.LEFT));
 		buttonWrapper.setBorder(BorderFactory.createLineBorder(Color.GRAY, 1));
 		crRandom = new JRadioButton("Zufallszahlen");
@@ -241,7 +343,7 @@ public class EnterDialog extends OptionDialog{
 		list2.add(Box.createHorizontalStrut(5));
 		list2.add(value);
 		list2.add(Box.createHorizontalGlue());
-		list2.add(remove);
+		list2.add(remove);*/
 
 		java.net.URL helpURL = EnterDialog.class.getClassLoader().getResource(
 				"resources/frameIcon2.png");
@@ -249,7 +351,7 @@ public class EnterDialog extends OptionDialog{
 		if (helpURL != null) {
 			setIconImage(new ImageIcon(helpURL).getImage());
 		}
-
+		/*
 		add(pane);
 		add(Box.createVerticalStrut(5));
 		add(buttonWrapper);
@@ -259,7 +361,7 @@ public class EnterDialog extends OptionDialog{
 		add(list2);
 		
 		list2.setVisible(false);
-		
+		*/
 	}
 	
 	

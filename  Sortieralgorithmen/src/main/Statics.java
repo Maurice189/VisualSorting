@@ -1,16 +1,9 @@
 package main;
 import java.awt.Font;
 import java.awt.FontFormatException;
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.HashMap;
-
-import org.jdom2.Element;
-import org.jdom2.JDOMException;
-import org.jdom2.input.SAXBuilder;
-
-import sorting_algorithms.Sort;
 
 /**
  * @author Maurice Koch
@@ -21,7 +14,7 @@ import sorting_algorithms.Sort;
 
 public class Statics {
 	
-	private static ConfigXML configLang,configSetting;
+	private static ConfigXML configLang;
 
 	// this font is used for components, the default font is monospace
 	private static Font defaultFont = new Font("Monospace", Font.PLAIN, 20);
@@ -70,19 +63,20 @@ public class Statics {
 	private static HashMap<COMPONENT_TITLE,String> xmlDef;
 	
 	
-	public static void setConfigXML(ConfigXML configLang,ConfigXML configSetting){
+	public static void setConfigXML(ConfigXML configLang){
 		
-		Statics.configSetting = configSetting;
 		Statics.configLang  = configLang;
 		
+		configLang.readXML("/resources/".concat(Statics.LANGUAGE_SET),true);
+		
+		/*
 		Statics.VERSION =  configSetting.getValue("version");
 		Statics.LANGUAGE_SET =  configSetting.getValue("language");
 		System.out.println("LANGUAGE: "+Statics.LANGUAGE_SET);
-		configLang.readXML("/resources/".concat(Statics.LANGUAGE_SET),true);
+		;
 		
 		Sort.setDelayMs(Long.parseLong(configSetting.getValue("delayms")));
-		Sort.setDelayNs(Integer.parseInt(configSetting.getValue("delayns")));
-		
+		Sort.setDelayNs(Integer.parseInt(configSetting.getValue("delayns")));*/
 	}
 
 	
@@ -109,7 +103,11 @@ public class Statics {
 		
 	}
 	
-
+	public static void setVersion(String version){
+		Statics.VERSION = version;
+		
+	}
+    
 
 	// here the component title is resolved into the respective xml-tag
 	public static String getNamebyXml(COMPONENT_TITLE title) {
