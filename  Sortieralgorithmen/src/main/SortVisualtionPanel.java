@@ -2,14 +2,20 @@ package main;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
 import java.awt.RenderingHints;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
 import java.awt.image.BufferedImage;
 
 import javax.swing.BorderFactory;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
@@ -28,11 +34,10 @@ public class SortVisualtionPanel extends JPanel implements ComponentListener {
 	private static final long serialVersionUID = 1L;
 	private static final int preferredGapSize = 3;
 	private static Color backgroundColor = Color.white;
-	private static int gapSize = 3, marginTop = 30;
+	private static int gapSize = 3, marginTop = 20;
 	private static int margin = 7;
-	private static final int offsetY = 20;
+	private static final int offsetY = 30;
 
-	private JPopupMenu menu;
 	private TitledBorder leftBorder;
 	private BufferedImage buffer;
 	private Graphics2D gbuffer;
@@ -50,22 +55,50 @@ public class SortVisualtionPanel extends JPanel implements ComponentListener {
 		gbuffer = (Graphics2D) buffer.getGraphics();
 		gbuffer.setFont(Statics.getDefaultFont(14f));
 		gbuffer.setBackground(SortVisualtionPanel.backgroundColor);
-
-		menu = new JPopupMenu();
-		JMenuItem mtDelete = new JMenuItem(
-				Statics.getNamebyXml(Statics.COMPONENT_TITLE.REMOVE));
-
+	
 		leftBorder = BorderFactory.createTitledBorder("");
 		leftBorder.setTitleJustification(TitledBorder.ABOVE_TOP);
+		setInfo(selectedSort,0);
 
-		mtDelete.addActionListener(controller);
-		mtDelete.setActionCommand(Statics.POPUP_REMOVE);
-		menu.add(mtDelete);
-
+		
 		addComponentListener(this);
 		setBorder(leftBorder);
-		add(menu);
 
+		manageButtons(controller);
+	}
+	
+	private void manageButtons(Controller controller){
+		
+		GridBagConstraints gbc = new GridBagConstraints();
+		setLayout(new GridBagLayout());
+		gbc.gridx = 1;
+		gbc.gridy = 0;
+		gbc.gridwidth = 1;
+		gbc.gridheight = 1;
+		gbc.weightx = 0;
+		gbc.weighty = 1;
+		gbc.insets = new Insets(-7, 0, 0, 2);
+		gbc.anchor = GridBagConstraints.FIRST_LINE_END;
+		JButton remove = new JButton();
+		remove.addActionListener(controller);
+		remove.setActionCommand(Statics.REMOVE_SORT);
+		remove.setIcon(new ImageIcon(Statics.class.getResource("/resources/delete_visualsort_1.png")));
+		remove.setRolloverIcon(new ImageIcon(Statics.class.getResource("/resources/delete_visualsort_rollover_1.png")));
+		remove.setBorder(BorderFactory.createEmptyBorder());
+		remove.setPreferredSize(new Dimension(16,16));
+		
+		JButton info = new JButton();
+		info.setIcon(new ImageIcon(Statics.class.getResource("/resources/info_visualsort_1.png")));
+		info.setRolloverIcon(new ImageIcon(Statics.class.getResource("/resources/info_visualsort_rollover_1.png")));
+		info.setBorder(BorderFactory.createEmptyBorder());
+		info.setPreferredSize(new Dimension(16,16));
+		GridBagConstraints gbc2 = (GridBagConstraints) gbc.clone();
+		gbc2.gridx = 0;
+		gbc2.weightx = 1;
+		gbc2.weighty = 1;
+		
+		add(remove,gbc);
+		add(info,gbc2);
 	}
 
 	public void setInfo(String info) {
@@ -83,11 +116,6 @@ public class SortVisualtionPanel extends JPanel implements ComponentListener {
 
 	public static void setBackgroundColor(Color color) {
 		SortVisualtionPanel.backgroundColor = color;
-	}
-
-	public void showPopUpMenu(int x, int y) {
-
-		menu.show(this, x, y);
 	}
 
 	// FIXME: make static
@@ -113,6 +141,7 @@ public class SortVisualtionPanel extends JPanel implements ComponentListener {
 			double newBorder = ((elements.length-width)/((double)(-1)*elements.length));
 			System.out.println("New Border: "+newBorder);
 			if(newBorder > 0) SortVisualtionPanel.gapSize = (int) newBorder;
+			else SortVisualtionPanel.gapSize = 1;
 			refWidth = 1;
 			
 		}
@@ -154,6 +183,7 @@ public class SortVisualtionPanel extends JPanel implements ComponentListener {
 			double newBorder = ((elements.length-width)/((double)(-1)*elements.length));
 			System.out.println("New Border: "+newBorder);
 			if(newBorder > 0) SortVisualtionPanel.gapSize = (int) newBorder;
+			else SortVisualtionPanel.gapSize = 1;
 			refWidth = 1;
 			
 		}

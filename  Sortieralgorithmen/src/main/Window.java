@@ -340,39 +340,6 @@ public class Window extends JFrame {
 		final SortVisualtionPanel temp = new SortVisualtionPanel(controller,
 				selectedSort, this.getWidth(), this.getHeight());
 		
-		temp.addMouseListener(new MouseListener(){
-
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				// TODO Auto-generated method stub
-				if (Sort.isStopped() && e.getButton() == 3) temp.showPopUpMenu(e.getX(), e.getY());
-			}
-
-			@Override
-			public void mousePressed(MouseEvent e) {
-				// TODO Auto-generated method stub
-				
-			}
-
-			@Override
-			public void mouseReleased(MouseEvent e) {
-				// TODO Auto-generated method stub
-				
-			}
-
-			@Override
-			public void mouseEntered(MouseEvent e) {
-				// TODO Auto-generated method stub
-				
-			}
-
-			@Override
-			public void mouseExited(MouseEvent e) {
-				// TODO Auto-generated method stub
-				
-			}
-			
-		});
 		sort.setSortVisualtionPanel(temp);
 		vsPanel.add(temp);
 		content.add(temp);
