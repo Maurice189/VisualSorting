@@ -22,7 +22,7 @@ public class Statics {
 	// statics for component title
 	public static enum COMPONENT_TITLE {
 		ADD_SORT, STARTANI, STOPANI, ADD, RESET, SETTINGS, SORTLIST, DELAY, HELP, ABOUT, INFO, REMOVE, EXIT, SET, MANUAL,LANG,ERROR0,
-		VERSION,SLANGUAGE,RNUMBERS,REPORT,ITERATIONS
+		VERSION,SLANGUAGE,RNUMBERS,REPORT,ITERATIONS,SETMANUAL,SETLIST,SELECTION
 	};
 
 	private static String VERSION,LANGUAGE_SET; // prg version, language set
@@ -66,17 +66,8 @@ public class Statics {
 	public static void setConfigXML(ConfigXML configLang){
 		
 		Statics.configLang  = configLang;
-		
 		configLang.readXML("/resources/".concat(Statics.LANGUAGE_SET),true);
-		
-		/*
-		Statics.VERSION =  configSetting.getValue("version");
-		Statics.LANGUAGE_SET =  configSetting.getValue("language");
-		System.out.println("LANGUAGE: "+Statics.LANGUAGE_SET);
-		;
-		
-		Sort.setDelayMs(Long.parseLong(configSetting.getValue("delayms")));
-		Sort.setDelayNs(Integer.parseInt(configSetting.getValue("delayns")));*/
+
 	}
 
 	
@@ -155,6 +146,9 @@ public class Statics {
 		xmlDef.put(COMPONENT_TITLE.RNUMBERS, "rnumber");
 		xmlDef.put(COMPONENT_TITLE.REPORT, "report");
 		xmlDef.put(COMPONENT_TITLE.ITERATIONS, "iterations");
+		xmlDef.put(COMPONENT_TITLE.SETMANUAL, "setManual");
+		xmlDef.put(COMPONENT_TITLE.SETLIST, "setList");
+		xmlDef.put(COMPONENT_TITLE.SELECTION, "selection");
 	}
 
 	public static Font getDefaultFont(float size) {

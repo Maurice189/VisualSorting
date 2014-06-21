@@ -23,8 +23,7 @@ public class InternalConfig {
 			reader = new FileReader(PROPORTIES_NAME);
 		} catch (FileNotFoundException e1) {
 
-			System.out
-					.println("Info: config file does not exist\n --> create config file with default parameters");
+			System.out.println("Info: config file does not exist\n --> create config file with default parameters");
 			FileWriter writer;
 			writer = new FileWriter(PROPORTIES_NAME);
 

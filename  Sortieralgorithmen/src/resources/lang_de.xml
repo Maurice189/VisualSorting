@@ -5,6 +5,9 @@
     <stopani>Stoppe Animation</stopani> 
     <reset>Reset</reset>
     <settings>Einstellungen</settings>
+    <setManual>Setze Manuell</setManual>
+    <setList>Erzeuge Zufallszahlen</setList>
+    <selection>Auswahl</selection>
     <iterations>Iterationen</iterations>
     <sortlist>Sortierliste festlegen</sortlist>
     <delay>Verzögerung festlegen</delay>

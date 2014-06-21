@@ -7,6 +7,9 @@
      <settings>Paramètres</settings>
      <iterations>iterations french</iterations>
      <sortlist>Liste de tri ensemble</sortlist>
+     <setManual>Set manual FRENCH</setManual>
+     <setList>Generate random numbers FRENCH</setList>
+     <selection>Selection FRENCH</selection>
      <delay>Régler la temporisation</delay>
      <help>Aider</help>
      <about>Propos</about>

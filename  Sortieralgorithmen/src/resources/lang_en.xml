@@ -7,6 +7,9 @@
     <settings>Settings</settings>
     <iterations>iterations</iterations>
     <sortlist>Set List</sortlist>
+    <setManual>Set manual</setManual>
+    <setList>Generate random numbers</setList>
+    <selection>Selection</selection>
     <delay>Set delay</delay>
     <help>Help</help>
     <about>About</about>
