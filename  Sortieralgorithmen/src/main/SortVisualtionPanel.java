@@ -137,7 +137,6 @@ public class SortVisualtionPanel extends JPanel implements ComponentListener {
 			
 			
 			double newBorder = ((elements.length-width)/((double)(-1)*elements.length));
-			System.out.println("New Border: "+newBorder);
 			if(newBorder > 0) SortVisualtionPanel.gapSize = (int) newBorder;
 			else SortVisualtionPanel.gapSize = 1;
 			refWidth = 1;
@@ -179,7 +178,6 @@ public class SortVisualtionPanel extends JPanel implements ComponentListener {
 		if (refWidth <= 0){
 			
 			double newBorder = ((elements.length-width)/((double)(-1)*elements.length));
-			System.out.println("New Border: "+newBorder);
 			if(newBorder > 0) SortVisualtionPanel.gapSize = (int) newBorder;
 			else SortVisualtionPanel.gapSize = 1;
 			refWidth = 1;

@@ -31,6 +31,7 @@ import sorting_algorithms.MergeSort;
 import sorting_algorithms.QuickSort;
 import sorting_algorithms.RadixSort;
 import sorting_algorithms.ShakerSort;
+import sorting_algorithms.ShellSort;
 import sorting_algorithms.Sort;
 
 /**
@@ -42,31 +43,19 @@ import sorting_algorithms.Sort;
  *          the controller can be informed, if a visualsation thread ends
  */
 
-/*
- * TODO: General Functions
- * 
- * - Merken welche Sprache ausgewählt wurde. ggf. in config.xml abspeichern -
- * Optimierung Parameter in SortVisualtionPanel wenn möglich statisch
- * implementieren - Implementierung weiterer Sortierverfahren
- */
 
 public class Controller implements Observer, ActionListener, WindowListener {
 
-	private ArrayList<Sort> sortList; // dynamic storage for the sort
-										// algorithmns
-	private LinkedList<OptionDialog> dialogs; // references to the open dialogs,
-												// like settings etc.
+	private ArrayList<Sort> sortList; // dynamic storage for the sort algorithmns
+	private LinkedList<OptionDialog> dialogs; // references to the open dialogs, like settings etc.
 
 	private Window window;
 	private ConfigXML langXMLInterface;
 
-	private int runningThreads, vspIndex; // number of running sortthreads,
-											// index of current clicked
-											// vsp-panel
+	private int runningThreads, vspIndex; // number of running sortthreads, index of current clicked vsp-panel
 
-	private boolean byUserStopped = false; //
-	private ExecutorService executor; // we use executor service, because it's
-										// more memory efficient
+	private boolean byUserStopped = false; 
+	private ExecutorService executor; // we use executor service, because it's more memory efficient
 
 	public Controller(ConfigXML langXMLInterface) {
 
@@ -138,12 +127,10 @@ public class Controller implements Observer, ActionListener, WindowListener {
 				sort = new BitonicSort();
 			else if (selectedSort.equals(Statics.SORT_ALGORITHMNS[9]))
 				sort = new RadixSort();
-			/*
-			 * FIXME: somehow shellsort is working not properly, see precise
-			 * informations under the respective class else if
-			 * (selectedSort.equals(Statics.SORT_ALGORITHMNS[10])) sort = new
-			 * ShellSort();
-			 */
+
+			else if (selectedSort.equals(Statics.SORT_ALGORITHMNS[10])) 
+				sort = new ShellSort();
+			 
 			else if (selectedSort.equals(Statics.SORT_ALGORITHMNS[11]))
 				sort = new InsertionSort();
 			else

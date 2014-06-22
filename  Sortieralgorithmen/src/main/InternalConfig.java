@@ -11,10 +11,6 @@ public class InternalConfig {
 	private static final String PROPORTIES_NAME = "config.txt";
 	private static Properties prop;
 
-	public InternalConfig() {
-		// TODO Auto-generated constructor stub
-	}
-
 	public static void loadConfigFile() throws IOException {
 
 		FileReader reader = null;

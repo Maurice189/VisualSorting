@@ -1,7 +1,7 @@
 package sorting_algorithms;
 import main.SortVisualtionPanel;
 
-class ShellSort extends Sort {
+public class ShellSort extends Sort {
 
 	public ShellSort(SortVisualtionPanel svp) {
 		// TODO Auto-generated constructor stub
@@ -67,8 +67,11 @@ class ShellSort extends Sort {
 						break;
 					}
 				}
+				
+				
+				svp.visualInsert(j, temp);
 				elements[j] = temp;
-				svp.visualCmp(i, temp, false);
+				
 				try {
 					if (Sort.stop) {
 						lock.lock();

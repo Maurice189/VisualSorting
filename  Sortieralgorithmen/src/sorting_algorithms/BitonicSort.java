@@ -1,7 +1,6 @@
 package sorting_algorithms;
 
 
-//FIXME sortiert nicht richtig
 public class BitonicSort extends Sort {
 
 	private final static boolean ASCENDING = true, DESCENDING = false;

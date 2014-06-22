@@ -385,6 +385,7 @@ public class Window extends JFrame {
 			next.setEnabled(false);
 			reset.setEnabled(false);
 			nextStep.setEnabled(false);
+			newSort.setEnabled(true);
 		}
 		
 		
