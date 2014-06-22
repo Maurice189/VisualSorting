@@ -28,6 +28,7 @@ public class InternalConfig {
 			prConfig.setProperty("language", "lang_de.xml");
 			prConfig.setProperty("delayms", "100");
 			prConfig.setProperty("delayns", "10");
+			prConfig.setProperty("nofelements", "100");
 			prConfig.store(writer, null);
 			writer.close();
 

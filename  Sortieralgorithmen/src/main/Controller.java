@@ -57,12 +57,10 @@ public class Controller implements Observer, ActionListener, WindowListener {
 	private boolean byUserStopped = false; 
 	private ExecutorService executor; // we use executor service, because it's more memory efficient
 
-	public Controller(ConfigXML langXMLInterface) {
+	public Controller(ConfigXML langXMLInterface, final int nofelements) {
 
 		this.langXMLInterface = langXMLInterface;
-
-		int size = 1190; // TODO: start size of the elements, should be adapted
-		int[] elements = new int[size];
+		int[] elements = new int[nofelements];
 
 		sortList = new ArrayList<Sort>();
 		dialogs = new LinkedList<OptionDialog>();
@@ -70,8 +68,8 @@ public class Controller implements Observer, ActionListener, WindowListener {
 		executor = Executors.newCachedThreadPool();
 
 		// fill random numbers to the sort list
-		for (int i = 0; i < size; i++)
-			elements[i] = Controller.getRandomNumber(0, size/3);
+		for (int i = 0; i < nofelements; i++)
+			elements[i] = Controller.getRandomNumber(0, nofelements/3);
 
 		Sort.setElements(elements);
 
@@ -371,7 +369,7 @@ public class Controller implements Observer, ActionListener, WindowListener {
 		InternalConfig.setValue("delayms",Sort.getDelayMs());
 		InternalConfig.setValue("delayns",Sort.getDelayNs());
 		InternalConfig.setValue("language",Statics.getLanguageSet());
-		
+		InternalConfig.setValue("nofelements",Sort.getElements().length);
 		InternalConfig.saveChanges();
 	}
 

@@ -441,6 +441,7 @@ public class Window extends JFrame {
 		}
 		
 		ConfigXML configLanguage = new ConfigXML();
+		int nofelements = 100;
 		
 		try {
 			InternalConfig.loadConfigFile();
@@ -448,6 +449,8 @@ public class Window extends JFrame {
 			Statics.setVersion(InternalConfig.getValue("version"));
 			Sort.setDelayMs(Long.parseLong(InternalConfig.getValue("delayms")));
 			Sort.setDelayNs(Integer.parseInt(InternalConfig.getValue("delayns")));
+			nofelements = Integer.parseInt(InternalConfig.getValue("nofelements"));
+			
 		} catch (IOException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
@@ -463,7 +466,7 @@ public class Window extends JFrame {
 		Window.initDefaultFont("/resources/OpenSans/OpenSans-Semibold.ttf",13f);
 		
 		// init view and controller
-		Controller controller = new Controller(configLanguage);
+		Controller controller = new Controller(configLanguage,nofelements);
 		Window window = new Window(controller,"Visual Sorting - ".concat(Statics.getVersion()), 800, 550);
 		controller.setView(window);
 		
