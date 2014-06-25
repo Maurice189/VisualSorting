@@ -34,7 +34,7 @@ Following functionalities are supported by the application
 </ul>
 
 
-The sceenshot below shows the animation process. This is a common approach of visualize sort algorithms. It has been mainly influenced by this video: <a target="_blank" href="http://www.youtube.com/watch?v=kPRA0W1kECg. ">http://www.youtube.com/watch?v=kPRA0W1kECg.</a>
+The sceenshot below shows the animation process. This is a common approach of visualize sort algorithms. It has been mainly influenced this project https://github.com/bingmann/sound-of-sorting from Timo Bingmann. 
 
 <p><img src="https://raw.githubusercontent.com/Maurice189/VisualSorting/master/%20Sortieralgorithmen/screenshot_VisualSorting.png" alt="screenshot"></img></p>
 

@@ -15,8 +15,7 @@ public class QuickSort extends Sort {
 
 	}
 
-	private void qSort(int x[], int links, int rechts)
-			throws InterruptedException {
+	private void qSort(int x[], int links, int rechts){
 		if (links < rechts) {
 			int i = partition(elements, links, rechts);
 			qSort(x, links, i - 1);
@@ -25,8 +24,7 @@ public class QuickSort extends Sort {
 
 	}
 
-	private int partition(int x[], int links, int rechts)
-			throws InterruptedException {
+	private int partition(int x[], int links, int rechts){
 		int pivot, i, j, help;
 		pivot = x[rechts];
 		i = links;
@@ -55,14 +53,7 @@ public class QuickSort extends Sort {
 				i++;
 			}
 			
-			if (Sort.stop) {
-				lock.lock();
-				condition.await();
-				lock.unlock();
-			}
-
-			else
-				Thread.sleep(Sort.delayMs,Sort.delayNs);
+			checkRunCondition();
 				
 		}
 		// tausche x[i] und x[rechts]
@@ -74,14 +65,7 @@ public class QuickSort extends Sort {
 		svp.visualCmp(i, rechts,true);
 		svp.setInfo("Quicksort",iterates++);
 
-		if (Sort.stop) {
-			lock.lock();
-			condition.await();
-			lock.unlock();
-		}
-
-		else
-			Thread.sleep(Sort.delayMs,Sort.delayNs);
+		checkRunCondition();
 
 		return i;
 	}
@@ -89,14 +73,8 @@ public class QuickSort extends Sort {
 	public void run() {
 		// TODO Auto-generated method stub
 
-		try {
-			qSort(elements, 0, elements.length - 1);
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			System.out.println("INFO: INTERRUPTED WHILE SLEEPING"); //e.printStackTrace();
-			Thread.currentThread().interrupt();
-		}
-		
+		qSort(elements, 0, elements.length - 1);
+	
 		svp.flashing();
 		setChanged();
 		notifyObservers();

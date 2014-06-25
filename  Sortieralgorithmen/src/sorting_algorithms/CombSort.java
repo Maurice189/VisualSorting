@@ -46,19 +46,9 @@ public class CombSort extends Sort {
 					svp.setInfo("Combsort",iterates++);
 				}
 				
-				try {
-					if (Sort.stop) {
-						lock.lock();
-						condition.await();
-						lock.unlock();
-					} else
-
-						Thread.sleep(Sort.delayMs,Sort.delayNs);
-				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
-					System.out.println("INFO: INTERRUPTED WHILE SLEEPING"); //e.printStackTrace();
-					Thread.currentThread().interrupt();
-				}
+				
+				checkRunCondition();
+			
 			}
 		}
 		setChanged();

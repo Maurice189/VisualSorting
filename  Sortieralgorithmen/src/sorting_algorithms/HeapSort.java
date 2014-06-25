@@ -18,7 +18,7 @@ public class HeapSort extends Sort {
 
 	}
 
-	private void heapsort() throws InterruptedException {
+	private void heapsort() {
 		buildheap();
 		while (n > 1) {
 			n--;
@@ -28,12 +28,12 @@ public class HeapSort extends Sort {
 		}
 	}
 
-	private void buildheap() throws InterruptedException {
+	private void buildheap() {
 		for (int v = n / 2 - 1; v >= 0; v--)
 			downheap(v);
 	}
 
-	private void downheap(int v) throws InterruptedException {
+	private void downheap(int v) {
 		int w = 2 * v + 1; // erster Nachfolger von v
 		while (w < n) {
 			if (w + 1 < n) // gibt es einen zweiten Nachfolger?
@@ -45,14 +45,7 @@ public class HeapSort extends Sort {
 				svp.visualCmp(v, w, false);
 				svp.setInfo("Heapsort",iterates++);
 
-				if (Sort.stop) {
-					lock.lock();
-					condition.await();
-					lock.unlock();
-				}
-
-				else
-					Thread.sleep(Sort.delayMs,Sort.delayNs);
+				checkRunCondition();
 				return;
 			}
 			// sonst
@@ -62,35 +55,23 @@ public class HeapSort extends Sort {
 		}
 	}
 
-	private void exchange(int i, int j) throws InterruptedException {
+	private void exchange(int i, int j) {
 		int t = elements[i];
 		elements[i] = elements[j];
 		elements[j] = t;
 
 		svp.visualCmp(i, j, true);
 		svp.setInfo("Heapsort",iterates++);
-
-		if (Sort.stop) {
-			lock.lock();
-			condition.await();
-			lock.unlock();
-		}
-
-		else
-			Thread.sleep(Sort.delayMs,Sort.delayNs);
+		checkRunCondition();
 
 	}
 
 	public void run() {
 
 		n = elements.length;
-		try {
-			heapsort();
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			System.out.println("INFO: INTERRUPTED WHILE SLEEPING"); //e.printStackTrace();
-			Thread.currentThread().interrupt();
-		}
+
+		heapsort();
+	
 		
 		svp.flashing();
 		

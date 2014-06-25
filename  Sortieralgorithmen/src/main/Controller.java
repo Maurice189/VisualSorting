@@ -11,6 +11,7 @@ import java.util.Observable;
 import java.util.Observer;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
@@ -147,16 +148,7 @@ public class Controller implements Observer, ActionListener, WindowListener {
 
 					Sort.resume();
 					for (Sort temp : sortList) {
-
-						Lock l = temp.getLock();
-						Condition c = temp.getCondition();
-
-						try {
-							l.lock();
-							c.signal();
-						} finally {
-							l.unlock();
-						}
+						temp.unlockSignal();
 					}
 
 					byUserStopped = false;
@@ -199,16 +191,10 @@ public class Controller implements Observer, ActionListener, WindowListener {
 			if (Sort.isStopped()) {
 				Sort.resume();
 				for (Sort temp : sortList) {
-					Lock l = temp.getLock();
-					Condition c = temp.getCondition();
-					temp.deleteObservers();
 
-					try {
-						l.lock();
-						c.signal();
-					} finally {
-						l.unlock();
-					}
+					temp.deleteObservers();
+					temp.unlockSignal();
+
 
 				}
 
@@ -317,8 +303,13 @@ public class Controller implements Observer, ActionListener, WindowListener {
 
 			if (sortList.size() > 0) {
 
+				sortList.get(vspIndex).unlockSignal();
+				Future<?> f = executor.submit(sortList.get(vspIndex));  
+				f.cancel(true);
 				window.removeSort(vspIndex);
 				sortList.remove(vspIndex);
+				
+				
 
 			}
 		}

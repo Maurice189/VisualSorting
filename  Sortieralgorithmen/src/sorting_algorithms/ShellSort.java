@@ -32,38 +32,14 @@ public class ShellSort extends Sort {
 						svp.setInfo("Shellsort",iterates++);
 						
 						elements[j] = elements[j - increment];
-						try {
-							if (Sort.stop) {
-								lock.lock();
-								condition.await();
-								lock.unlock();
-							} else
-
-								Thread.sleep(Sort.delayMs,Sort.delayNs);
-						} catch (InterruptedException e) {
-							// TODO Auto-generated catch block
-							System.out.println("INFO: INTERRUPTED WHILE SLEEPING"); //e.printStackTrace();
-							Thread.currentThread().interrupt();
-						}
+						checkRunCondition();
 
 					} else {
 
 						svp.visualCmp(i, j - increment, false);
 						svp.setInfo("Shellsort",iterates++);
 						
-						try {
-							if (Sort.stop) {
-								lock.lock();
-								condition.await();
-								lock.unlock();
-							} else
-
-								Thread.sleep(Sort.delayMs,Sort.delayNs);
-						} catch (InterruptedException e) {
-							// TODO Auto-generated catch block
-							System.out.println("INFO: INTERRUPTED WHILE SLEEPING"); //e.printStackTrace();
-							Thread.currentThread().interrupt();
-						}
+						checkRunCondition();
 						break;
 					}
 				}
@@ -72,19 +48,7 @@ public class ShellSort extends Sort {
 				svp.visualInsert(j, temp);
 				elements[j] = temp;
 				
-				try {
-					if (Sort.stop) {
-						lock.lock();
-						condition.await();
-						lock.unlock();
-					} else
-
-						Thread.sleep(Sort.delayMs,Sort.delayNs);
-				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
-					System.out.println("INFO: INTERRUPTED WHILE SLEEPING"); //e.printStackTrace();
-					Thread.currentThread().interrupt();
-				}
+				checkRunCondition();
 
 			}
 		}

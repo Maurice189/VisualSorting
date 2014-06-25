@@ -20,7 +20,7 @@ public class RadixSort extends Sort{
 	}
 
  
-    public void radixSort(int maxDigits) throws InterruptedException{
+    public void radixSort(int maxDigits){
         int exp = 1;//10^0;
         for(int i =0; i < maxDigits; i++){
             ArrayList<Integer> bucketList[] = new ArrayList[10];
@@ -42,16 +42,8 @@ public class RadixSort extends Sort{
                 	
                     elements[index] = num;
                    
-    				
-    				
-    				if (Sort.stop) {
-    					lock.lock();
-    					condition.await();
-    					lock.unlock();
-    				}
-
-    				else
-    					Thread.sleep(Sort.delayMs,Sort.delayNs);
+ 
+                	checkRunCondition();
                     index++;
                 }
             }
@@ -63,13 +55,9 @@ public class RadixSort extends Sort{
 
 	public void run() {
 		// TODO Auto-generated method stub
-		try {
-			radixSort(3);
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			System.out.println("INFO: INTERRUPTED WHILE SLEEPING"); //e.printStackTrace();
-			Thread.currentThread().interrupt();
-		}
+	
+		radixSort(3);
+	
 		
 		setChanged();
 		notifyObservers();

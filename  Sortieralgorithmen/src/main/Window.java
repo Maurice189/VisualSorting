@@ -1,4 +1,5 @@
 package main;
+
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
@@ -8,6 +9,7 @@ import java.awt.FontFormatException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -59,7 +61,7 @@ public class Window extends JFrame {
 	private Controller controller;
 	private JLabel info;
 	private JComboBox<String> sortChooser;
-	private JMenuItem about, list, delay, manual,report;
+	private JMenuItem about, list, delay, manual;
 	private JRadioButtonMenuItem de, en, fr;
 	private JMenu help, settings, languages;
 	private JToolBar toolBar;
@@ -126,10 +128,6 @@ public class Window extends JFrame {
 		manual.setActionCommand(Statics.MANUAL);
 		manual.setFont(componentFont);
 		
-		report = new JMenuItem(
-				Statics.getNamebyXml(Statics.COMPONENT_TITLE.REPORT));
-		
-		report.setFont(componentFont);
 		manual.addActionListener(controller);
 		manual.setActionCommand(Statics.REPORT);
 
@@ -165,7 +163,6 @@ public class Window extends JFrame {
 		languages.add(fr);
 
 		help.add(manual);
-		help.add(report);
 		help.add(about);
 		settings.add(list);
 		settings.add(languages);
@@ -470,7 +467,7 @@ public class Window extends JFrame {
 		Window window = new Window(controller,"Visual Sorting - ".concat(Statics.getVersion()), 800, 550);
 		controller.setView(window);
 		
-		//}
+	
 
 	}
 

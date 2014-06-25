@@ -5,7 +5,7 @@ public class BitonicSort extends Sort {
 
 	private final static boolean ASCENDING = true, DESCENDING = false;
 
-	private void bitonicSort(int lo, int n, boolean dir) throws Exception {
+	private void bitonicSort(int lo, int n, boolean dir) {
 		if (n > 1) {
 			int k = n / 2;
 			bitonicSort(lo, k, ASCENDING);
@@ -14,7 +14,7 @@ public class BitonicSort extends Sort {
 		}
 	}
 
-	private void bitonicMerge(int lo, int n, boolean dir) throws Exception {
+	private void bitonicMerge(int lo, int n, boolean dir) {
 		if (n > 1) {
 			int k = n / 2;
 			for (int i = lo; i < lo + k; i++)
@@ -24,7 +24,7 @@ public class BitonicSort extends Sort {
 		}
 	}
 
-	private void compare(int i, int j, boolean dir) throws Exception {
+	private void compare(int i, int j, boolean dir) {
 		if (dir == (elements[i] > elements[j])) {
 			int h = elements[i];
 			elements[i] = elements[j];
@@ -39,25 +39,15 @@ public class BitonicSort extends Sort {
 			svp.setInfo("Bitonicsort",iterates++);
 		}
 		
-		if (Sort.stop) {
-			lock.lock();
-			condition.await();
-			lock.unlock();
-		}
-
-		else
-			Thread.sleep(Sort.delayMs,Sort.delayNs);
+		checkRunCondition();
 	}
 
 	public void run() {
 		// TODO Auto-generated method stub
 
-		try {
-			bitonicSort(0, elements.length, ASCENDING);
-		} catch (Exception e) {
-			System.out.println("INFO: INTERRUPTED WHILE SLEEPING"); //e.printStackTrace();
-			Thread.currentThread().interrupt();
-		}
+		
+		bitonicSort(0, elements.length, ASCENDING);
+	
 		
 		setChanged();
 		notifyObservers();

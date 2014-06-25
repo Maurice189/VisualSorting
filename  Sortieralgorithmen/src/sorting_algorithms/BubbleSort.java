@@ -36,18 +36,9 @@ public class BubbleSort extends Sort {
 					svp.setInfo("Bubblesort",iterates++);
 					
 				}
-				try {
-					if (Sort.stop) {
-						lock.lock();
-						condition.await();
-						lock.unlock();
-					} else
-
-						Thread.sleep(Sort.delayMs,Sort.delayNs);
-				} catch (InterruptedException e) {
-					System.out.println("INFO: INTERRUPTED WHILE SLEEPING"); //e.printStackTrace();
-					Thread.currentThread().interrupt();
-				}
+				
+				checkRunCondition();
+			
 
 			}
 		}

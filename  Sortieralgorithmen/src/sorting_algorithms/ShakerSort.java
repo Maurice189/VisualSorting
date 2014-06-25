@@ -17,7 +17,7 @@ public class ShakerSort extends Sort {
 
 	}
 
-	public int[] sort() throws InterruptedException {
+	public int[] sort() {
 
 		int i = 0, l = elements.length;
 		while (i < l) {
@@ -29,7 +29,7 @@ public class ShakerSort extends Sort {
 		return elements;
 	}
 
-	private void shaker1(int i, int l) throws InterruptedException {
+	private void shaker1(int i, int l) {
 		for (int j = i; j < l - 1; j++) {
 			if (elements[j] > elements[j + 1]) {
 				k = elements[j];
@@ -45,18 +45,11 @@ public class ShakerSort extends Sort {
 				svp.setInfo("Shakersort",iterates++);
 			}
 
-			if (Sort.stop) {
-				lock.lock();
-				condition.await();
-				lock.unlock();
-			}
-
-			else
-				Thread.sleep(Sort.delayMs,Sort.delayNs);
+			checkRunCondition();
 		}
 	}
 
-	private void shaker2(int i, int l) throws InterruptedException {
+	private void shaker2(int i, int l) {
 		for (int j = l - 1; j >= i; j--) {
 			if (elements[j] > elements[j + 1]) {
 				k = elements[j];
@@ -73,14 +66,7 @@ public class ShakerSort extends Sort {
 				svp.setInfo("Shakersort",iterates++);
 			}
 
-			if (Sort.stop) {
-				lock.lock();
-				condition.await();
-				lock.unlock();
-			}
-
-			else
-				Thread.sleep(Sort.delayMs,Sort.delayNs);
+			checkRunCondition();
 		}
 	}
 
@@ -88,18 +74,10 @@ public class ShakerSort extends Sort {
 		int i = 0, l = elements.length;
 
 		while (i < l) {
-			try {
 				shaker1(i, l);
-
 				l--;
 				shaker2(i, l);
 				i++;
-
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				System.out.println("INFO: INTERRUPTED WHILE SLEEPING"); //e.printStackTrace();
-				Thread.currentThread().interrupt();
-			}
 
 		}
 
