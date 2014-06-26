@@ -303,6 +303,7 @@ public class Controller implements Observer, ActionListener, WindowListener {
 				window.removeSort(vspIndex);
 				sortList.remove(vspIndex);
 				Sort.setFlashingAnimation(true);
+				runningThreads--;
 				
 
 			}
