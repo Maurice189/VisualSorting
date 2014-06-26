@@ -58,10 +58,10 @@ public class Statics {
 	 * 
 	 * with this indirect way by resolving COMPONENT_TITLE to the respective xml-tag
 	 * we reach less coupling.
-	 * 
+	 *
 	 */
 	private static HashMap<COMPONENT_TITLE,String> xmlDef;
-	
+
 	
 	public static void setConfigXML(ConfigXML configLang){
 		
