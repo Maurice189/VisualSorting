@@ -71,9 +71,7 @@ public class HeapSort extends Sort {
 		n = elements.length;
 
 		heapsort();
-	
-		
-		svp.flashing();
+		if(flashing) svp.flashing();
 		
 		setChanged();
 		notifyObservers();

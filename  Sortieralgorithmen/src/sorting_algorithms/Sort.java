@@ -6,7 +6,6 @@ import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
 import main.SortVisualtionPanel;
-import main.SoundGenerator;
 
 /**
  * <b>Used Pattern: Strategy Design Pattern/Observer Design Pattern</b>
@@ -29,16 +28,17 @@ import main.SoundGenerator;
 public abstract class Sort extends Observable implements Runnable {
 
 	protected static int gElement[];
-	/** Statisches Referenzelement fuer die Sortierelemente */
+	protected static long delayMs = 5;
+	protected static int delayNs = 0;
+	protected static boolean stop = true,flashing = true;
+	
+
 	protected int elements[];
 	protected int iterates;
 	protected SortVisualtionPanel svp;
-	protected static long delayMs = 5;
-	protected static int delayNs = 0;
-
 	protected Lock lock = new ReentrantLock();
 	protected Condition condition = lock.newCondition();
-	protected static boolean stop = true;
+
 
 	/** @param <b>svp</b> */
 	public Sort(SortVisualtionPanel svp) { // permite write only per copy
@@ -129,6 +129,11 @@ public abstract class Sort extends Observable implements Runnable {
 	public static void resume() {
 		stop = false;
 
+	}
+	
+	public static void setFlashingAnimation(boolean flashing){
+		
+		Sort.flashing = flashing;
 	}
 
 	public static boolean isStopped() {

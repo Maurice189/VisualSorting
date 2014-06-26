@@ -13,9 +13,6 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
-import java.util.concurrent.locks.Condition;
-import java.util.concurrent.locks.Lock;
-
 import OptionDialogs.DelayDialog;
 import OptionDialogs.EnterDialog;
 import OptionDialogs.InfoDialog;
@@ -126,10 +123,8 @@ public class Controller implements Observer, ActionListener, WindowListener {
 				sort = new BitonicSort();
 			else if (selectedSort.equals(Statics.SORT_ALGORITHMNS[9]))
 				sort = new RadixSort();
-
 			else if (selectedSort.equals(Statics.SORT_ALGORITHMNS[10])) 
 				sort = new ShellSort();
-			 
 			else if (selectedSort.equals(Statics.SORT_ALGORITHMNS[11]))
 				sort = new InsertionSort();
 			else
@@ -170,7 +165,6 @@ public class Controller implements Observer, ActionListener, WindowListener {
 				for (Sort temp : sortList) {
 
 					temp.initElements();
-
 					executor.execute(temp);
 					runningThreads++;
 
@@ -189,7 +183,10 @@ public class Controller implements Observer, ActionListener, WindowListener {
 		else if (e.getActionCommand() == Statics.RESET) {
 
 			if (Sort.isStopped()) {
+				
 				Sort.resume();
+				Sort.setFlashingAnimation(false);
+				
 				for (Sort temp : sortList) {
 
 					temp.deleteObservers();
@@ -200,14 +197,17 @@ public class Controller implements Observer, ActionListener, WindowListener {
 
 				executor.shutdownNow();
 				try {
-					executor.awaitTermination(1000, TimeUnit.MILLISECONDS); 
+					executor.awaitTermination(2000, TimeUnit.MILLISECONDS); 
 																			
 				} catch (InterruptedException e1) {
 					e1.printStackTrace();
+					System.out.println("INTERRUPTED NOT GOOGS");
 				}
 
 				if (executor.isTerminated())
 					System.out.println("executor service is terminated !");
+				else 
+					System.out.println("executor service isn't terminated !");
 				
 				
 				for (Sort temp : sortList) {
@@ -215,6 +215,8 @@ public class Controller implements Observer, ActionListener, WindowListener {
 					temp.addObserver(this);
 
 				}
+				
+				Sort.setFlashingAnimation(true);
 
 			}
 
@@ -281,20 +283,8 @@ public class Controller implements Observer, ActionListener, WindowListener {
 		// just execute one more step
 		else if (e.getActionCommand() == Statics.NEXT_ITERATION) {
 
-			Lock l;
-			Condition c;
-
 			for (Sort temp : sortList) {
-
-				l = temp.getLock();
-				c = temp.getCondition();
-
-				try {
-					l.lock();
-					c.signal();
-				} finally {
-					l.unlock();
-				}
+				temp.unlockSignal();
 			}
 
 		}
@@ -303,12 +293,16 @@ public class Controller implements Observer, ActionListener, WindowListener {
 
 			if (sortList.size() > 0) {
 
+				// FIXME
+				Sort.setFlashingAnimation(false);
 				sortList.get(vspIndex).unlockSignal();
+				sortList.get(vspIndex).deleteObservers();
+				
 				Future<?> f = executor.submit(sortList.get(vspIndex));  
 				f.cancel(true);
 				window.removeSort(vspIndex);
 				sortList.remove(vspIndex);
-				
+				Sort.setFlashingAnimation(true);
 				
 
 			}
@@ -382,17 +376,8 @@ public class Controller implements Observer, ActionListener, WindowListener {
 
 		if (runningThreads != 0 && byUserStopped == false) {
 			Sort.resume();
-			for (int i = 0; i < sortList.size(); i++) {
-
-				Lock l = sortList.get(i).getLock();
-				Condition c = sortList.get(i).getCondition();
-
-				try {
-					l.lock();
-					c.signal();
-				} finally {
-					l.unlock();
-				}
+			for (Sort temp : sortList) {
+				temp.unlockSignal();
 			}
 
 		}
