@@ -81,6 +81,7 @@ public class ShakerSort extends Sort {
 
 		}
 
+		if(flashing) svp.flashing();
 		setChanged();
 		notifyObservers();
 	}

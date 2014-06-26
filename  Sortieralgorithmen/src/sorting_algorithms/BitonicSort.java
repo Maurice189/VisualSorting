@@ -47,7 +47,7 @@ public class BitonicSort extends Sort {
 
 		
 		bitonicSort(0, elements.length, ASCENDING);
-	
+		if(flashing) svp.flashing();
 		
 		setChanged();
 		notifyObservers();

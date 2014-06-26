@@ -7,13 +7,11 @@ public class HeapSort extends Sort {
 	private int n;
 
 	public HeapSort() {
-		// TODO Auto-generated constructor stub
 		super();
 
 	}
 
 	public HeapSort(SortVisualtionPanel svp) {
-		// TODO Auto-generated constructor stub
 		super(svp);
 
 	}

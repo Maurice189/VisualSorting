@@ -53,6 +53,7 @@ public class ShellSort extends Sort {
 			}
 		}
 
+		if(flashing) svp.flashing();
 		setChanged();
 		notifyObservers();
 

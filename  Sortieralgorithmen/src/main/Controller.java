@@ -88,7 +88,6 @@ public class Controller implements Observer, ActionListener, WindowListener {
 	}
 
 	public void actionPerformed(ActionEvent e) {
-		// TODO Auto-generated method stub
 
 		if (e.getActionCommand() == Statics.ADD_SORT) {
 
@@ -192,23 +191,16 @@ public class Controller implements Observer, ActionListener, WindowListener {
 					temp.deleteObservers();
 					temp.unlockSignal();
 
-
 				}
 
 				executor.shutdownNow();
+				
 				try {
 					executor.awaitTermination(2000, TimeUnit.MILLISECONDS); 
-																			
-				} catch (InterruptedException e1) {
-					e1.printStackTrace();
-					System.out.println("INTERRUPTED NOT GOOGS");
-				}
+				} catch (InterruptedException e1) {e1.printStackTrace();}
 
-				if (executor.isTerminated())
-					System.out.println("executor service is terminated !");
-				else 
+				if (!executor.isTerminated())
 					System.out.println("executor service isn't terminated !");
-				
 				
 				for (Sort temp : sortList) {
 					temp.initElements();
@@ -293,7 +285,6 @@ public class Controller implements Observer, ActionListener, WindowListener {
 
 			if (sortList.size() > 0) {
 
-				// FIXME
 				Sort.setFlashingAnimation(false);
 				sortList.get(vspIndex).unlockSignal();
 				sortList.get(vspIndex).deleteObservers();
@@ -302,8 +293,8 @@ public class Controller implements Observer, ActionListener, WindowListener {
 				f.cancel(true);
 				window.removeSort(vspIndex);
 				sortList.remove(vspIndex);
-				Sort.setFlashingAnimation(true);
 				runningThreads--;
+				Sort.setFlashingAnimation(true);
 				
 
 			}
@@ -329,7 +320,6 @@ public class Controller implements Observer, ActionListener, WindowListener {
 	// this method will be called by an EDT foreign thread
 	@Override
 	public void update(Observable o, Object arg) {
-		// TODO Auto-generated method stub
 
 		if (--runningThreads == 0) {
 			EventQueue.invokeLater(new Runnable() {

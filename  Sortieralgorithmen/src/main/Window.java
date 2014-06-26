@@ -412,7 +412,6 @@ public class Window extends JFrame {
 			componentFont = new Font("Monospace", Font.BOLD, 13);
 			e.printStackTrace();
 		} catch (FontFormatException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 			componentFont = new Font("Monospace", Font.BOLD, 13);
 		}
@@ -448,10 +447,7 @@ public class Window extends JFrame {
 			Sort.setDelayNs(Integer.parseInt(InternalConfig.getValue("delayns")));
 			nofelements = Integer.parseInt(InternalConfig.getValue("nofelements"));
 			
-		} catch (IOException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
+		} catch (IOException e1) {e1.printStackTrace();}
 		
 		// define resources
 		Statics.initXMLDefintions();

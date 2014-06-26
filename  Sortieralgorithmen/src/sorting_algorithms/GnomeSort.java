@@ -53,6 +53,7 @@ public class GnomeSort extends Sort {
 			
 		}
 		
+		if(flashing) svp.flashing();
 		setChanged();
 		notifyObservers();
 

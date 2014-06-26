@@ -58,7 +58,7 @@ public class RadixSort extends Sort{
 	
 		radixSort(3);
 	
-		
+		if(flashing) svp.flashing();
 		setChanged();
 		notifyObservers();
 	}
