@@ -6,18 +6,16 @@ import java.awt.event.MouseListener;
 import java.awt.event.WindowEvent;
 
 import javax.swing.ImageIcon;
-import javax.swing.JDialog;
 import javax.swing.JLabel;
 
 import main.Controller;
 import main.Statics;
-import main.Statics.COMPONENT_TITLE;
 
 
 public class InfoDialog extends OptionDialog{
 
 	public InfoDialog(Controller controller,int width, int height) {
-		super(controller,Statics.COMPONENT_TITLE.INFO, width, height);
+		super(controller,Statics.COMPONENT_TITLE.ABOUT, width, height);
 		
 	}
 
