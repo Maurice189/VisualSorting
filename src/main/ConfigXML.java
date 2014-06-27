@@ -22,7 +22,6 @@ public class ConfigXML {
 	private String source;
 
 	public ConfigXML() {
-		// TODO Auto-generated constructor stub
 	}
 	
 	public String getValue(String xmlTag){
