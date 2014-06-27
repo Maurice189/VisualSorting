@@ -29,7 +29,7 @@ public class InfoDialog extends OptionDialog{
 	public void actionPerformed(ActionEvent e) {
 		
 		if (e.getSource() == nextRight) {
-		
+		// test
 		}
 		
 		else if (e.getSource() == nextLeft) {
