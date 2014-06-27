@@ -37,7 +37,8 @@ public class Statics {
 	public static final String REPORT = "action_report";
 	
 	public static final String DELAY = "action_delay";
-	public static final String INFO = "action_Info";
+	public static final String ABOUT = "action_about";
+	public static final String INFO = "action_info";
 	public static final String POPUP_MENU_SORT = "action_sort";
 	public static final String POPUP_MENU_ELEMENT = "action_element";
 

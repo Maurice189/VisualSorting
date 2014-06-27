@@ -22,7 +22,6 @@ public abstract class OptionDialog extends JDialog implements ActionListener{
 		initComponents();
 		setSize(width, height);
 		setTitle(Statics.getNamebyXml(title));
-		setResizable(false);
 		setLocationRelativeTo(null);
 		setVisible(true);
 	}

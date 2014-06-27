@@ -119,7 +119,7 @@ public class Window extends JFrame {
 		about = new JMenuItem(Statics.getNamebyXml(
 				Statics.COMPONENT_TITLE.ABOUT).concat(" ").concat(title));
 		about.addActionListener(controller);
-		about.setActionCommand(Statics.INFO);
+		about.setActionCommand(Statics.ABOUT);
 		about.setFont(componentFont);
 
 		de = new JRadioButtonMenuItem("German");

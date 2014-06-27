@@ -1,90 +1,92 @@
 package OptionDialogs;
-import java.awt.BorderLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.awt.event.WindowEvent;
 
-import javax.swing.ImageIcon;
-import javax.swing.JLabel;
+import java.awt.BorderLayout;
+import java.awt.Dimension;
+import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.io.IOException;
+
+import javax.swing.BorderFactory;
+import javax.swing.JButton;
+import javax.swing.JEditorPane;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 
 import main.Controller;
 import main.Statics;
 
-
 public class InfoDialog extends OptionDialog{
+	
+	private JPanel btnPanel;
+	private JButton selAlg[],nextRight,nextLeft;
 
-	public InfoDialog(Controller controller,int width, int height) {
-		super(controller,Statics.COMPONENT_TITLE.ABOUT, width, height);
+	public InfoDialog(Controller controller,String infoName,int width, int height) {
+		super(controller,Statics.COMPONENT_TITLE.INFO, width, height);
 		
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		// TODO Auto-generated method stub
 		
-	}
-
-	@Override
-	public void updateComponentsLabel() {
-		// TODO Auto-generated method stub
+		if (e.getSource() == nextRight) {
+		
+		}
+		
+		else if (e.getSource() == nextLeft) {
+			
+		}
 		
 	}
 
 	@Override
 	protected void initComponents() {
 		
-		
-		JLabel cpr = new JLabel("©2014 M.Koch - ".concat(Statics.getVersion()));
-		ImageIcon bg = null;
-
-		cpr.setFont(Statics.getDefaultFont(12f));
+		System.out.println("INFO");
 		setLayout(new BorderLayout());
 
-		java.net.URL helpURL = InfoDialog.class.getClassLoader().getResource(
-				"resources/VisualSorting_Logo_small_transparent.png");
-		if (helpURL != null) {
-			bg = new ImageIcon(helpURL);
-
-			addMouseListener(new MouseListener() {
-
-				public void mouseClicked(MouseEvent e) {
-					// TODO Auto-generated method stub
-					dispose();
-
-				}
-
-				public void mousePressed(MouseEvent e) {
-					// TODO Auto-generated method stub
-
-				}
-
-				public void mouseReleased(MouseEvent e) {
-					// TODO Auto-generated method stub
-
-				}
-
-				public void mouseEntered(MouseEvent e) {
-					// TODO Auto-generated method stub
-
-				}
-
-				public void mouseExited(MouseEvent e) {
-					// TODO Auto-generated method stub
-
-				}
-
-			});
-
-			add(BorderLayout.CENTER, new JLabel(bg));
-			add(BorderLayout.SOUTH, cpr);
-			helpURL = InfoDialog.class.getClassLoader().getResource(
-					"resources/frameIcon2.png");
-			if (helpURL != null) {
-				setIconImage(new ImageIcon(helpURL).getImage());
-			}
-			setSize(bg.getIconWidth(), bg.getIconHeight() + 65);
+		final int length = Statics.SORT_ALGORITHMNS.length;
+		
+		JPanel btnPanel = new JPanel(new GridLayout(0,length));
+		JButton selAlg[] = new JButton[length];
+		nextLeft = new JButton("->");
+		nextLeft.addActionListener(this);
+		nextRight = new JButton("<-");
+		nextRight.addActionListener(this);
+		
+		for(int i = 0; i<length;i++){
+			selAlg[i] = new JButton(Statics.SORT_ALGORITHMNS[i]);
+			selAlg[i].setBorder(BorderFactory.createEmptyBorder());
+			btnPanel.add(selAlg[i]);
+			
 		}
+		
+		JEditorPane manual = new JEditorPane();
+		manual.setEditable(false);
+
+		java.net.URL helpURL = ManualDialog.class.getClassLoader().getResource(
+				"resources/manual.html");
+		if (helpURL != null) {
+			try {
+				manual.setPage(helpURL);
+			} catch (IOException e) {
+				System.err.println("Attempted to read a bad URL: " + helpURL);
+			}
+		} else {
+			System.err.println("Couldn't find file: TextSamplerDemoHelp.html");
+		}
+
+		JScrollPane editorScrollPane = new JScrollPane(manual);
+		editorScrollPane
+				.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+		editorScrollPane.setPreferredSize(new Dimension(250, 145));
+		editorScrollPane.setMinimumSize(new Dimension(10, 10));
+		
+		add(BorderLayout.NORTH,btnPanel);
+		add(BorderLayout.CENTER,editorScrollPane);
+		
+		setVisible(true);
+		
+		
 	}
 
 }

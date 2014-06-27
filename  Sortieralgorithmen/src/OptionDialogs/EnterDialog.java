@@ -269,6 +269,8 @@ public class EnterDialog extends OptionDialog {
 		if (helpURL != null) {
 			setIconImage(new ImageIcon(helpURL).getImage());
 		}
+		
+		setResizable(false);
 	
 	}
 

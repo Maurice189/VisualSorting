@@ -86,6 +86,8 @@ public class SortVisualtionPanel extends JPanel implements ComponentListener {
 		remove.setPreferredSize(new Dimension(16,16));
 		
 		JButton info = new JButton();
+		info.addActionListener(controller);
+		info.setActionCommand(Statics.INFO);
 		info.setIcon(new ImageIcon(Statics.class.getResource("/resources/info_visualsort_1.png")));
 		info.setRolloverIcon(new ImageIcon(Statics.class.getResource("/resources/info_visualsort_rollover_1.png")));
 		info.setBorder(BorderFactory.createEmptyBorder());

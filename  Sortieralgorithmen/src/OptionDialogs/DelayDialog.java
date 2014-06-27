@@ -117,6 +117,8 @@ public final class DelayDialog extends OptionDialog{
 		add(slider);
 		add(Box.createVerticalStrut(25));
 		
+		setResizable(false);
+		
 	}
 	
 	

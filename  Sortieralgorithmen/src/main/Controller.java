@@ -13,8 +13,10 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
+
 import OptionDialogs.DelayDialog;
 import OptionDialogs.EnterDialog;
+import OptionDialogs.AboutDialog;
 import OptionDialogs.InfoDialog;
 import OptionDialogs.ManualDialog;
 import OptionDialogs.OptionDialog;
@@ -234,9 +236,14 @@ public class Controller implements Observer, ActionListener, WindowListener {
 			dialogs.add(EnterDialog.getInstance(this, 500, 300));
 		}
 
+		else if (e.getActionCommand() == Statics.ABOUT) {
+
+			dialogs.add(new AboutDialog(this, 300, 190));
+		}
+		
 		else if (e.getActionCommand() == Statics.INFO) {
 
-			dialogs.add(new InfoDialog(this, 300, 190));
+			dialogs.add(new InfoDialog(this,"Name", 400, 200));
 		}
 
 		else if (e.getActionCommand() == Statics.LANG_DE) {
