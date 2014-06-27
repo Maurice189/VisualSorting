@@ -7,7 +7,6 @@ import javax.swing.JDialog;
 
 import main.Controller;
 import main.Statics;
-import main.Statics.COMPONENT_TITLE;
 
 
 
