@@ -20,48 +20,6 @@ public class InfoDialog extends OptionDialog{
 	}
 
 	@Override
-	public void windowOpened(WindowEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void windowClosing(WindowEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void windowClosed(WindowEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void windowIconified(WindowEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void windowDeiconified(WindowEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void windowActivated(WindowEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void windowDeactivated(WindowEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
 		
@@ -84,7 +42,7 @@ public class InfoDialog extends OptionDialog{
 		setLayout(new BorderLayout());
 
 		java.net.URL helpURL = InfoDialog.class.getClassLoader().getResource(
-				"resources/LOGO_MANUAL.png");
+				"resources/VisualSorting_Logo_small_transparent.png");
 		if (helpURL != null) {
 			bg = new ImageIcon(helpURL);
 
