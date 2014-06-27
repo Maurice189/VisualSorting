@@ -61,7 +61,7 @@ public class Window extends JFrame {
 	private Controller controller;
 	private JLabel info;
 	private JComboBox<String> sortChooser;
-	private JMenuItem about, list, delay, manual;
+	private JMenuItem about, list, delay;
 	private JRadioButtonMenuItem de, en, fr;
 	private JMenu help, settings, languages;
 	private JToolBar toolBar;
@@ -122,15 +122,6 @@ public class Window extends JFrame {
 		about.setActionCommand(Statics.INFO);
 		about.setFont(componentFont);
 
-		manual = new JMenuItem(
-				Statics.getNamebyXml(Statics.COMPONENT_TITLE.MANUAL));
-		manual.addActionListener(controller);
-		manual.setActionCommand(Statics.MANUAL);
-		manual.setFont(componentFont);
-		
-		manual.addActionListener(controller);
-		manual.setActionCommand(Statics.REPORT);
-
 		de = new JRadioButtonMenuItem("German");
 		de.addActionListener(controller);
 		de.setActionCommand(Statics.LANG_DE);
@@ -162,7 +153,6 @@ public class Window extends JFrame {
 		languages.add(de);
 		languages.add(fr);
 
-		help.add(manual);
 		help.add(about);
 		settings.add(list);
 		settings.add(languages);
@@ -291,7 +281,6 @@ public class Window extends JFrame {
 		  about.setText(Statics.getNamebyXml(Statics.COMPONENT_TITLE.ABOUT));
 		  list.setText(Statics.getNamebyXml(Statics.COMPONENT_TITLE.SORTLIST));
 		  delay.setText(Statics.getNamebyXml(Statics.COMPONENT_TITLE.DELAY));
-		  manual.setText(Statics.getNamebyXml(Statics.COMPONENT_TITLE.MANUAL));
 		  help.setText(Statics.getNamebyXml(Statics.COMPONENT_TITLE.HELP));
 		  settings.setText(Statics.getNamebyXml(Statics.COMPONENT_TITLE.SETTINGS));
 	  	  languages.setText(Statics.getNamebyXml(Statics.COMPONENT_TITLE.LANG)); 

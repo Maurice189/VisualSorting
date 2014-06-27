@@ -9,7 +9,6 @@ import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
-import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
@@ -35,7 +34,6 @@ public final class DelayDialog extends OptionDialog{
 	private JLabel delay;
 	private JSlider slider;
 	private JRadioButton ms,ns;
-	private JButton exit,set;
 	private boolean active = true;
 	
 	private DelayDialog(Controller controller,int width, int height) {
@@ -52,13 +50,8 @@ public final class DelayDialog extends OptionDialog{
 		ms.addActionListener(this);
 	    ns = new JRadioButton("ns");
 	    ns.addActionListener(this);
-		exit = new JButton(Statics.getNamebyXml(Statics.COMPONENT_TITLE.EXIT));
-		exit.addActionListener(this);
-		set = new JButton(Statics.getNamebyXml(Statics.COMPONENT_TITLE.SET));
-		set.addActionListener(this);
+	
 		 
-		 
-		JPanel panel = new JPanel(new FlowLayout(FlowLayout.CENTER));
 		JPanel panel2 = new JPanel(new FlowLayout(FlowLayout.CENTER));
 		JPanel panel3 = new JPanel();
 		panel3.setLayout(new BoxLayout(panel3, BoxLayout.X_AXIS));
@@ -78,9 +71,7 @@ public final class DelayDialog extends OptionDialog{
 
 		setLayout(new BoxLayout(getContentPane(),
 				BoxLayout.Y_AXIS));
-		panel.add(set);
-		panel.add(exit);
-		
+	
 		
 		slider.setPaintTicks(true);
 		slider.setMajorTickSpacing(10);
@@ -127,7 +118,6 @@ public final class DelayDialog extends OptionDialog{
 		add(Box.createVerticalStrut(8));
 		add(slider);
 		add(Box.createVerticalStrut(25));
-	//	add(panel);
 		
 	}
 	
@@ -136,8 +126,7 @@ public final class DelayDialog extends OptionDialog{
 	public void updateComponentsLabel() {
 		
 		super.updateComponentsLabel();
-		exit.setText(Statics.getNamebyXml(Statics.COMPONENT_TITLE.EXIT));
-		set.setText(Statics.getNamebyXml(Statics.COMPONENT_TITLE.SET));
+
 	}
 
 	
@@ -171,9 +160,6 @@ public final class DelayDialog extends OptionDialog{
 		
 		}
 		
-		else if(e.getSource() == exit){
-			dispose();
-		}
 		
 	}
 

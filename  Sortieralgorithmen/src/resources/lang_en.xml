@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <app lang="en" version="0.3 Beta">
   
-    <startani>Start animation</startani>
-    <stopani>Stop animation</stopani> 
+
     <reset>Reset</reset>
     <settings>Settings</settings>
     <iterations>iterations</iterations>
@@ -13,15 +12,11 @@
     <delay>Set delay</delay>
     <help>Help</help>
     <about>About</about>
-    <manual>Manual</manual>
     <info>Add some sort algorithmn</info>
     <add>Add</add>
-    <remove>Remove</remove>
     <rnumber>Create random numbers</rnumber>
     <lang>Languages</lang>
     <exit>Exit</exit>
-    <report>Suggestions and bugs</report>
-    <set>Set</set>
     <error0>Your enter couldn't be resolved as an integer\n Please enter integers, only !</error0>
 
 </app>

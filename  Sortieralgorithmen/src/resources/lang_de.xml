@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <app lang="de" version="0.3 Beta">
   
-    <startani>Starte Animation</startani>
-    <stopani>Stoppe Animation</stopani> 
+
     <reset>Reset</reset>
     <settings>Einstellungen</settings>
     <setManual>Setze Manuell</setManual>
@@ -13,15 +12,11 @@
     <delay>Verzögerung festlegen</delay>
     <help>Hilfe</help>
     <about>Über</about>
-    <manual>Bedienungsanleitung</manual>
     <info>Fügen Sie Sortieralgorithmen hinzu</info>
     <add>Hinzufügen</add>
     <rnumber>Erzeuge Zufallszahlen</rnumber>
-    <remove>Entfernen</remove>
     <lang>Sprachen</lang>
-    <report>Anregungen und Bugs</report>
     <exit>Beenden</exit>
-    <set>Setze</set>
     <error0>Ihre Eingabe konnte nicht als Zahl interpretiert werden. \nBitte geben Sie nur Ganzzahlen ein!</error0>
 
 </app>
