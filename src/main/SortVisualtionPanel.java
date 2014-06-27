@@ -25,6 +25,7 @@ import main.Statics.COMPONENT_TITLE;
  * @author maurice
  * 
  * 
+ * 
  * */
 
 public class SortVisualtionPanel extends JPanel implements ComponentListener {

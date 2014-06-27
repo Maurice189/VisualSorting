@@ -37,7 +37,7 @@ import sorting_algorithms.Sort;
  * @version BETA
  * 
  * This class respresents, as the name implies, the view(GUI) in the MVC pattern.
- * 
+
  */
 
 

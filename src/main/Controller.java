@@ -38,6 +38,7 @@ import sorting_algorithms.Sort;
  * @author Maurice Koch
  * @version BETA
  * 
+ * 
  *          This class respresents, as the name implies, the controller in the
  *          MVC pattern. Moreover this class implements the observer pattern, so
  *          the controller can be informed, if a visualsation thread ends
@@ -77,6 +78,7 @@ public class Controller implements Observer, ActionListener, WindowListener {
 
 	public ArrayList<Sort> getList() {
 		return sortList;
+		
 	}
 
 	public void setView(Window window) {

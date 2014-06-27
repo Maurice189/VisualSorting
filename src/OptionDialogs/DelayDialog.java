@@ -23,6 +23,7 @@ import sorting_algorithms.Sort;
 /**
  * <b>Used Pattern: Singleton</b>  
  * @author maurice
+ * 
  */
 
 public final class DelayDialog extends OptionDialog{

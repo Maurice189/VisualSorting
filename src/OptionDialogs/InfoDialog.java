@@ -17,6 +17,8 @@ import main.Statics;
 
 public class InfoDialog extends OptionDialog{
 	
+	private final static int SIZE = 5;
+	
 	private JPanel btnPanel;
 	private JButton selAlg[],nextRight,nextLeft;
 
@@ -46,14 +48,14 @@ public class InfoDialog extends OptionDialog{
 
 		final int length = Statics.SORT_ALGORITHMNS.length;
 		
-		JPanel btnPanel = new JPanel(new GridLayout(0,length));
-		JButton selAlg[] = new JButton[length];
+		JPanel btnPanel = new JPanel(new GridLayout(0,SIZE));
+		JButton selAlg[] = new JButton[SIZE];
 		nextLeft = new JButton("->");
 		nextLeft.addActionListener(this);
 		nextRight = new JButton("<-");
 		nextRight.addActionListener(this);
 		
-		for(int i = 0; i<length;i++){
+		for(int i = 0; i<SIZE;i++){
 			selAlg[i] = new JButton(Statics.SORT_ALGORITHMNS[i]);
 			selAlg[i].setBorder(BorderFactory.createEmptyBorder());
 			btnPanel.add(selAlg[i]);
