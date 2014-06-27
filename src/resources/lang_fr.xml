@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<app lang="fr" version="0.3 Beta">
+  
+     <reset>Réinitialiser</reset>
+     <settings>Paramètres</settings>
+     <iterations>iterations french</iterations>
+     <sortlist>Liste de tri ensemble</sortlist>
+     <setManual>Set manual FRENCH</setManual>
+     <setList>Generate random numbers FRENCH</setList>
+     <selection>Selection FRENCH</selection>
+     <delay>Régler la temporisation</delay>
+     <help>Aider</help>
+     <about>Propos</about>
+     <info>Ajouter algorithmes de tri</info> 
+     <add>Ajouter</add>
+     <rnumber>Générer des nombres aléatoires</rnumber>
+     <exit>Quitter</exit>
+     <lang>Langues</lang>
+     <error0>Votre entrée n'a pas pu être interprétée comme un nombre. \ nVeuillez entrer que des nombres entiers a</error0>
+
+</app>

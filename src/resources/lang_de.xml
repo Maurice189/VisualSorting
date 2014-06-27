@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<app lang="de" version="0.3 Beta">
+  
+
+    <reset>Reset</reset>
+    <settings>Einstellungen</settings>
+    <setManual>Setze Manuell</setManual>
+    <setList>Erzeuge Zufallszahlen</setList>
+    <selection>Auswahl</selection>
+    <iterations>Iterationen</iterations>
+    <sortlist>Sortierliste festlegen</sortlist>
+    <delay>Verzögerung festlegen</delay>
+    <help>Hilfe</help>
+    <about>Über</about>
+    <info>Fügen Sie Sortieralgorithmen hinzu</info>
+    <add>Hinzufügen</add>
+    <rnumber>Erzeuge Zufallszahlen</rnumber>
+    <lang>Sprachen</lang>
+    <exit>Beenden</exit>
+    <error0>Ihre Eingabe konnte nicht als Zahl interpretiert werden. \nBitte geben Sie nur Ganzzahlen ein!</error0>
+
+</app>
