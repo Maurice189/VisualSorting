@@ -17,10 +17,11 @@ import main.Statics;
 
 public class InfoDialog extends OptionDialog{
 	
-	private final static int SIZE = 5;
+	private final static int SIZE = 3;
 	
 	private JPanel btnPanel;
 	private JButton selAlg[],nextRight,nextLeft;
+	private int currentIndex = 0;
 
 	public InfoDialog(Controller controller,String infoName,int width, int height) {
 		super(controller,Statics.COMPONENT_TITLE.INFO, width, height);
@@ -31,11 +32,47 @@ public class InfoDialog extends OptionDialog{
 	public void actionPerformed(ActionEvent e) {
 		
 		if (e.getSource() == nextRight) {
-		// test
+			
+			
+				if(currentIndex+SIZE < Statics.SORT_ALGORITHMNS.length){
+					
+					btnPanel.removeAll();
+					currentIndex++;
+					btnPanel.add(nextLeft);
+					for(int i = currentIndex; i<currentIndex+SIZE;i++){
+						
+						if(i!=currentIndex+1)selAlg[i].setEnabled(false);
+						else 				 selAlg[i].setEnabled(true);
+						btnPanel.add(selAlg[i]);
+						
+					}
+					
+					btnPanel.add(nextRight);
+					revalidate();
+					repaint();
+				}
 		}
 		
 		else if (e.getSource() == nextLeft) {
 			
+			
+			if(currentIndex > 0){
+				
+				btnPanel.removeAll();
+				currentIndex--;
+				btnPanel.add(nextLeft);
+				for(int i = currentIndex; i<currentIndex+SIZE;i++){
+					
+					if(i!=currentIndex+1)selAlg[i].setEnabled(false);
+					else 				 selAlg[i].setEnabled(true);
+					btnPanel.add(selAlg[i]);
+					
+				}
+				
+				btnPanel.add(nextRight);
+				revalidate();
+				repaint();
+			}
 		}
 		
 	}
@@ -48,25 +85,31 @@ public class InfoDialog extends OptionDialog{
 
 		final int length = Statics.SORT_ALGORITHMNS.length;
 		
-		JPanel btnPanel = new JPanel(new GridLayout(0,SIZE));
-		JButton selAlg[] = new JButton[SIZE];
-		nextLeft = new JButton("->");
+		btnPanel = new JPanel(new GridLayout(0,SIZE+2));
+		selAlg = new JButton[length];
+		nextLeft = new JButton("<-");
 		nextLeft.addActionListener(this);
-		nextRight = new JButton("<-");
+		nextLeft.setBorder(BorderFactory.createEmptyBorder());
+		nextRight = new JButton("->");
+		nextRight.setBorder(BorderFactory.createEmptyBorder());
 		nextRight.addActionListener(this);
 		
-		for(int i = 0; i<SIZE;i++){
+		btnPanel.add(nextLeft);
+		for(int i = 0; i<length;i++){
 			selAlg[i] = new JButton(Statics.SORT_ALGORITHMNS[i]);
+			if(i!=currentIndex+1)selAlg[i].setEnabled(false);
 			selAlg[i].setBorder(BorderFactory.createEmptyBorder());
-			btnPanel.add(selAlg[i]);
+			if(i<SIZE)btnPanel.add(selAlg[i]);
 			
 		}
+		
+		btnPanel.add(nextRight);
 		
 		JEditorPane manual = new JEditorPane();
 		manual.setEditable(false);
 
-		java.net.URL helpURL = ManualDialog.class.getClassLoader().getResource(
-				"resources/manual.html");
+		java.net.URL helpURL = InfoDialog.class.getClassLoader().getResource(
+				"resources/infopage_qsort.html");
 		if (helpURL != null) {
 			try {
 				manual.setPage(helpURL);
@@ -74,7 +117,7 @@ public class InfoDialog extends OptionDialog{
 				System.err.println("Attempted to read a bad URL: " + helpURL);
 			}
 		} else {
-			System.err.println("Couldn't find file: TextSamplerDemoHelp.html");
+			System.err.println("Couldn't find file: infopage_qsort.html");
 		}
 
 		JScrollPane editorScrollPane = new JScrollPane(manual);
