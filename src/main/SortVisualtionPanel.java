@@ -38,6 +38,7 @@ public class SortVisualtionPanel extends JPanel implements ComponentListener {
 	private static final int offsetY = 30;
 
 	private TitledBorder leftBorder;
+	private JButton remove;
 	private BufferedImage buffer;
 	private Graphics2D gbuffer;
 	private int width, height, refWidth, refHeight;
@@ -78,7 +79,7 @@ public class SortVisualtionPanel extends JPanel implements ComponentListener {
 		gbc.weighty = 1;
 		gbc.insets = new Insets(-7, 0, 0, 2);
 		gbc.anchor = GridBagConstraints.FIRST_LINE_END;
-		JButton remove = new JButton();
+		remove = new JButton();
 		remove.addActionListener(controller);
 		remove.setActionCommand(Statics.REMOVE_SORT);
 		remove.setIcon(new ImageIcon(Statics.class.getResource("/resources/delete_visualsort_1.png")));
@@ -100,6 +101,10 @@ public class SortVisualtionPanel extends JPanel implements ComponentListener {
 		
 		add(remove,gbc);
 		add(info,gbc2);
+	}
+	
+	public void enableRemoveButton(boolean enable){
+		remove.setEnabled(enable);
 	}
 
 	public void setInfo(String info) {

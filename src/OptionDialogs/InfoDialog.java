@@ -1,6 +1,7 @@
 package OptionDialogs;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
@@ -9,6 +10,7 @@ import java.io.IOException;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JEditorPane;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
@@ -20,7 +22,8 @@ public class InfoDialog extends OptionDialog{
 	private final static int SIZE = 3;
 	
 	private JPanel btnPanel;
-	private JButton selAlg[],nextRight,nextLeft;
+	private JLabel selAlg[];
+	private JButton nextRight,nextLeft;
 	private int currentIndex = 0;
 
 	public InfoDialog(Controller controller,String infoName,int width, int height) {
@@ -37,20 +40,35 @@ public class InfoDialog extends OptionDialog{
 				if(currentIndex+SIZE < Statics.SORT_ALGORITHMNS.length){
 					
 					btnPanel.removeAll();
-					currentIndex++;
 					btnPanel.add(nextLeft);
-					for(int i = currentIndex; i<currentIndex+SIZE;i++){
+					
+					if(currentIndex+SIZE == Statics.SORT_ALGORITHMNS.length){
+						selAlg[currentIndex-1].setEnabled(false);
+						selAlg[currentIndex].setEnabled(false);
+						selAlg[currentIndex+1].setEnabled(true);
+						btnPanel.add(selAlg[currentIndex-1]);
+						btnPanel.add(selAlg[currentIndex]);
+						btnPanel.add(selAlg[currentIndex+1]);
+					}
+					else{
+					
+					
+						for(int i = currentIndex;i<currentIndex+SIZE;i++){
 						
-						if(i!=currentIndex+1)selAlg[i].setEnabled(false);
-						else 				 selAlg[i].setEnabled(true);
-						btnPanel.add(selAlg[i]);
+							if(i!=currentIndex+1)selAlg[i].setEnabled(false);
+							else 				 selAlg[i].setEnabled(true);
+							btnPanel.add(selAlg[i]);
 						
+						}
+					
+						currentIndex++;
 					}
 					
 					btnPanel.add(nextRight);
 					revalidate();
 					repaint();
 				}
+				
 		}
 		
 		else if (e.getSource() == nextLeft) {
@@ -80,13 +98,12 @@ public class InfoDialog extends OptionDialog{
 	@Override
 	protected void initComponents() {
 		
-		System.out.println("INFO");
 		setLayout(new BorderLayout());
 
 		final int length = Statics.SORT_ALGORITHMNS.length;
 		
 		btnPanel = new JPanel(new GridLayout(0,SIZE+2));
-		selAlg = new JButton[length];
+		selAlg = new JLabel[length];
 		nextLeft = new JButton("<-");
 		nextLeft.addActionListener(this);
 		nextLeft.setBorder(BorderFactory.createEmptyBorder());
@@ -96,9 +113,8 @@ public class InfoDialog extends OptionDialog{
 		
 		btnPanel.add(nextLeft);
 		for(int i = 0; i<length;i++){
-			selAlg[i] = new JButton(Statics.SORT_ALGORITHMNS[i]);
+			selAlg[i] = new JLabel(Statics.SORT_ALGORITHMNS[i]);
 			if(i!=currentIndex+1)selAlg[i].setEnabled(false);
-			selAlg[i].setBorder(BorderFactory.createEmptyBorder());
 			if(i<SIZE)btnPanel.add(selAlg[i]);
 			
 		}

@@ -147,12 +147,16 @@ public class Controller implements Observer, ActionListener, WindowListener {
 					Sort.resume();
 					for (Sort temp : sortList) {
 						temp.unlockSignal();
+						temp.getSortVisualtionPanel().enableRemoveButton(false);
 					}
 
 					byUserStopped = false;
 					window.unlockManualIteration(false);
 				} else {
 					Sort.stop();
+					for (Sort temp : sortList) {
+						temp.getSortVisualtionPanel().enableRemoveButton(true);
+					}
 					window.unlockManualIteration(true);
 					byUserStopped = true;
 				}
@@ -168,6 +172,7 @@ public class Controller implements Observer, ActionListener, WindowListener {
 				for (Sort temp : sortList) {
 
 					temp.initElements();
+					temp.getSortVisualtionPanel().enableRemoveButton(false);
 					executor.execute(temp);
 					runningThreads++;
 
