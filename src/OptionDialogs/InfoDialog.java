@@ -2,11 +2,14 @@ package OptionDialogs;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
-import java.awt.GridLayout;
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.io.IOException;
 
 import javax.swing.BorderFactory;
+import javax.swing.Box;
+import javax.swing.BoxLayout;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JEditorPane;
 import javax.swing.JLabel;
@@ -19,6 +22,9 @@ import main.Statics;
 public class InfoDialog extends OptionDialog {
 
 	private final static int SIZE = 3, CENTER_PLUS = 1;
+	private final static Font NFONT_SIZE = new Font("Monospace", Font.PLAIN, 14),
+							  SFONT_SIZE = new Font("Monospace", Font.PLAIN, 10);
+	
 	private static String nameInfopage[];
 
 	private JEditorPane manual;
@@ -47,6 +53,7 @@ public class InfoDialog extends OptionDialog {
 
 			btnPanel.removeAll();
 			btnPanel.add(nextLeft);
+			btnPanel.add(Box.createHorizontalGlue());
 
 			if (activeIndex < currentIndex + CENTER_PLUS)
 				activeIndex++;
@@ -59,15 +66,20 @@ public class InfoDialog extends OptionDialog {
 
 			for (int i = currentIndex; i < currentIndex + SIZE; i++) {
 
-				if (i != activeIndex)
+				if (i != activeIndex){
 					selAlg[i].setEnabled(false);
-				else
+					selAlg[i].setFont(SFONT_SIZE);
+				}
+				else{
 					selAlg[i].setEnabled(true);
+					selAlg[i].setFont(NFONT_SIZE);
+				}
 				btnPanel.add(selAlg[i]);
+				btnPanel.add(Box.createHorizontalGlue());
 
 			}
 			
-			setPage(activeIndex);
+			//setPage(activeIndex);
 
 			btnPanel.add(nextRight);
 			revalidate();
@@ -87,16 +99,22 @@ public class InfoDialog extends OptionDialog {
 
 			btnPanel.removeAll();
 			btnPanel.add(nextLeft);
+			btnPanel.add(Box.createHorizontalGlue());
 			for (int i = currentIndex; i < currentIndex + SIZE; i++) {
 
-				if (i != activeIndex)
+				if (i != activeIndex){
 					selAlg[i].setEnabled(false);
-				else
+					selAlg[i].setFont(SFONT_SIZE);
+				}
+				else{
 					selAlg[i].setEnabled(true);
+					selAlg[i].setFont(NFONT_SIZE);
+				}
 				btnPanel.add(selAlg[i]);
+				btnPanel.add(Box.createHorizontalGlue());
 
 			}
-			setPage(activeIndex);
+			//setPage(activeIndex);
 
 			btnPanel.add(nextRight);
 			revalidate();
@@ -130,27 +148,35 @@ public class InfoDialog extends OptionDialog {
 
 		final int length = Statics.SORT_ALGORITHMNS.length;
 
-		btnPanel = new JPanel(new GridLayout(0, SIZE + 2));
+		btnPanel = new JPanel();
+		btnPanel.setLayout(new BoxLayout(btnPanel,BoxLayout.X_AXIS));
 		selAlg = new JLabel[length];
-		nextLeft = new JButton("<-");
+		nextLeft = new JButton(new ImageIcon(Statics.class.getResource("/resources/next_left_visualsort.png")));
 		nextLeft.addActionListener(this);
 		nextLeft.setBorder(BorderFactory.createEmptyBorder());
-		nextRight = new JButton("->");
+		nextRight = new JButton(new ImageIcon(Statics.class.getResource("/resources/next_right_visualsort.png")));
 		nextRight.setBorder(BorderFactory.createEmptyBorder());
 		nextRight.addActionListener(this);
 
+		
 		btnPanel.add(nextLeft);
+		btnPanel.add(Box.createHorizontalGlue());
 		activeIndex = currentIndex + CENTER_PLUS;
 		for (int i = 0; i < length; i++) {
 			selAlg[i] = new JLabel(Statics.SORT_ALGORITHMNS[i]);
-			if (i != activeIndex)
+			if (i != activeIndex){
 				selAlg[i].setEnabled(false);
-			if (i>=currentIndex && i<currentIndex+SIZE)
+				selAlg[i].setFont(SFONT_SIZE);
+			}
+			else selAlg[i].setFont(NFONT_SIZE);
+			
+			if (i>=currentIndex && i<currentIndex+SIZE){
 				btnPanel.add(selAlg[i]);
+				btnPanel.add(Box.createHorizontalGlue());
+			}
 
 		}
 		
-
 		btnPanel.add(nextRight);
 
 		JEditorPane manual = new JEditorPane();
