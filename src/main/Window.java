@@ -29,6 +29,7 @@ import javax.swing.JToolBar;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
+import OptionDialogs.InfoDialog;
 import sorting_algorithms.Sort;
 
 
@@ -441,6 +442,9 @@ public class Window extends JFrame {
 		// define resources
 		Statics.initXMLDefintions();
 		Statics.setConfigXML(configLanguage);
+		
+		InfoDialog.setInfoPageNames(new String[]{"infopage_qsort.html","infopage_qsort.html","infopage_qsort.html","infopage_qsort.html","infopage_qsort.html","infopage_qsort.html","infopage_qsort.html","infopage_qsort.html","infopage_qsort.html","infopage_qsort.html","infopage_qsort.html"
+				,"infopage_qsort.html","infopage_qsort.html","infopage_qsort.html","infopage_qsort.html","infopage_qsort.html","infopage_qsort.html","infopage_qsort.html","infopage_qsort.html"});
 		
 		// this font is used under the GPL from google fonts under 'Oxygen'
 		Statics.initDefaultFont("/resources/OxygenFont/Oxygen-Regular.ttf");

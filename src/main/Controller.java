@@ -212,6 +212,7 @@ public class Controller implements Observer, ActionListener, WindowListener {
 					System.out.println("executor service isn't terminated !");
 				
 				for (Sort temp : sortList) {
+					
 					temp.initElements();
 					temp.addObserver(this);
 
@@ -223,6 +224,7 @@ public class Controller implements Observer, ActionListener, WindowListener {
 
 			else{
 				for (Sort temp : sortList) {
+					temp.getSortVisualtionPanel().enableRemoveButton(true);
 					temp.initElements();
 
 				}
@@ -250,7 +252,7 @@ public class Controller implements Observer, ActionListener, WindowListener {
 		
 		else if (e.getActionCommand() == Statics.INFO) {
 
-			dialogs.add(new InfoDialog(this,"Name", 400, 200));
+			dialogs.add(new InfoDialog(this,1,"Name", 400, 200));
 		}
 
 		else if (e.getActionCommand() == Statics.LANG_DE) {

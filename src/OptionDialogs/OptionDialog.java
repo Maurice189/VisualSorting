@@ -25,6 +25,10 @@ public abstract class OptionDialog extends JDialog implements ActionListener{
 		setLocationRelativeTo(null);
 		setVisible(true);
 	}
+	
+	public OptionDialog(){
+		
+	}
 
 
 	
