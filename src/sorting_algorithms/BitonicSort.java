@@ -1,5 +1,7 @@
 package sorting_algorithms;
 
+import main.Statics.SORTALGORITHMS;
+
 
 public class BitonicSort extends Sort {
 
@@ -52,6 +54,12 @@ public class BitonicSort extends Sort {
 		setChanged();
 		notifyObservers();
 
+	}
+
+	@Override
+	public SORTALGORITHMS getAlgorithmName() {
+		// TODO Auto-generated method stub
+		return SORTALGORITHMS.Bitonicsort;
 	}
 
 } // end class BitonicSorter

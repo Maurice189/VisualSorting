@@ -2,6 +2,7 @@ package sorting_algorithms;
 import java.util.ArrayList;
 
 import main.SortVisualtionPanel;
+import main.Statics.SORTALGORITHMS;
 
 
 public class RadixSort extends Sort{
@@ -61,5 +62,11 @@ public class RadixSort extends Sort{
 		if(flashing) svp.flashing();
 		setChanged();
 		notifyObservers();
+	}
+	
+	@Override
+	public SORTALGORITHMS getAlgorithmName() {
+		// TODO Auto-generated method stub
+		return SORTALGORITHMS.Radixsort;
 	}
 }

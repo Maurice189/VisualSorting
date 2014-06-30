@@ -1,5 +1,6 @@
 package sorting_algorithms;
 import main.SortVisualtionPanel;
+import main.Statics.SORTALGORITHMS;
 
 public class ShellSort extends Sort {
 
@@ -57,5 +58,11 @@ public class ShellSort extends Sort {
 		setChanged();
 		notifyObservers();
 
+	}
+	
+	@Override
+	public SORTALGORITHMS getAlgorithmName() {
+		// TODO Auto-generated method stub
+		return SORTALGORITHMS.Shellsort;
 	}
 }

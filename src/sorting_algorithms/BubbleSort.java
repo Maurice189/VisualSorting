@@ -1,5 +1,6 @@
 package sorting_algorithms;
 import main.SortVisualtionPanel;
+import main.Statics.SORTALGORITHMS;
 
 public class BubbleSort extends Sort {
 
@@ -47,6 +48,11 @@ public class BubbleSort extends Sort {
 		setChanged();
 		notifyObservers();
 
+	}
+	@Override
+	public SORTALGORITHMS getAlgorithmName() {
+		// TODO Auto-generated method stub
+		return SORTALGORITHMS.Bubblesort;
 	}
 
 }

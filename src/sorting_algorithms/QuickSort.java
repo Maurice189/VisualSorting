@@ -1,5 +1,6 @@
 package sorting_algorithms;
 import main.SortVisualtionPanel;
+import main.Statics.SORTALGORITHMS;
 
 public class QuickSort extends Sort {
 
@@ -81,6 +82,12 @@ public class QuickSort extends Sort {
 		
 		
 
+	}
+	
+	@Override
+	public SORTALGORITHMS getAlgorithmName() {
+		// TODO Auto-generated method stub
+		return SORTALGORITHMS.Quicksort;
 	}
 
 }

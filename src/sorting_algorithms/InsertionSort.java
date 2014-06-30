@@ -1,5 +1,6 @@
 package sorting_algorithms;
 import main.SortVisualtionPanel;
+import main.Statics.SORTALGORITHMS;
 
 
 public class InsertionSort extends Sort{
@@ -48,6 +49,12 @@ public class InsertionSort extends Sort{
 		setChanged();
 		notifyObservers();
 		
+	}
+	
+	@Override
+	public SORTALGORITHMS getAlgorithmName() {
+		// TODO Auto-generated method stub
+		return SORTALGORITHMS.Insertionsort;
 	}
 
 }

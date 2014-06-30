@@ -1,5 +1,6 @@
 package sorting_algorithms;
 import main.SortVisualtionPanel;
+import main.Statics.SORTALGORITHMS;
 
 
 public class MergeSort extends Sort{
@@ -77,6 +78,13 @@ public class MergeSort extends Sort{
 
 	        }
 	    }
+	    
+	    
+	    @Override
+		public SORTALGORITHMS getAlgorithmName() {
+			// TODO Auto-generated method stub
+			return SORTALGORITHMS.Mergesort;
+		}
 
 	   
 	

@@ -5,6 +5,7 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.io.IOException;
+import java.util.HashMap;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
@@ -18,6 +19,7 @@ import javax.swing.JScrollPane;
 
 import main.Controller;
 import main.Statics;
+import main.Statics.SORTALGORITHMS;
 
 public class InfoDialog extends OptionDialog {
 
@@ -25,7 +27,7 @@ public class InfoDialog extends OptionDialog {
 	private final static Font NFONT_SIZE = new Font("Monospace", Font.PLAIN, 14),
 							  SFONT_SIZE = new Font("Monospace", Font.PLAIN, 10);
 	
-	private static String nameInfopage[];
+	private static HashMap<SORTALGORITHMS,String> infoPageRes;
 
 	private JEditorPane manual;
 	private JPanel btnPanel;
@@ -33,10 +35,10 @@ public class InfoDialog extends OptionDialog {
 	private JButton nextRight, nextLeft;
 	private int currentIndex = 0, activeIndex;
 
-	public InfoDialog(Controller controller,int currentIndex,String title, int width,
+	public InfoDialog(Controller controller,SORTALGORITHMS sortAlgorithms,String title, int width,
 			int height) {
-		
-		this.currentIndex = currentIndex;
+		System.out.println("ALGO: "+SORTALGORITHMS.values()[sortAlgorithms.ordinal()]);
+		this.activeIndex = sortAlgorithms.ordinal();
 		this.controller = controller;
 		initComponents();
 		setSize(width, height);
@@ -127,16 +129,16 @@ public class InfoDialog extends OptionDialog {
 	private void setPage(int index){
 		
 		java.net.URL helpURL = InfoDialog.class.getClassLoader().getResource(
-				"resources/".concat(nameInfopage[index]));
+				"resources/".concat(infoPageRes.get(SORTALGORITHMS.values()[index])));
 		if (helpURL != null) {
 			try {
-				System.out.println("URL: "+("resources/".concat(nameInfopage[index])));
+				System.out.println("URL: "+("resources/".concat(infoPageRes.get(SORTALGORITHMS.values()[index]))));
 				manual.setPage(helpURL);
 			} catch (IOException e) {
 				System.err.println("Attempted to read a bad URL: " + helpURL);
 			}
 		} else {
-			System.err.println("Couldn't find file: ".concat(nameInfopage[index]));
+			System.err.println("Couldn't find file: "+("resources/".concat(infoPageRes.get(SORTALGORITHMS.values()[index]))));
 		}
 
 	}
@@ -158,12 +160,15 @@ public class InfoDialog extends OptionDialog {
 		nextRight.setBorder(BorderFactory.createEmptyBorder());
 		nextRight.addActionListener(this);
 
-		
+	
 		btnPanel.add(nextLeft);
 		btnPanel.add(Box.createHorizontalGlue());
-		activeIndex = currentIndex + CENTER_PLUS;
+		currentIndex=activeIndex-CENTER_PLUS;
+		if(currentIndex<0) currentIndex = 0;
+		else if(currentIndex+SIZE>SORTALGORITHMS.length()) currentIndex = SORTALGORITHMS.length()-SIZE;
+		
 		for (int i = 0; i < length; i++) {
-			selAlg[i] = new JLabel(Statics.SORT_ALGORITHMNS[i]);
+			selAlg[i] = new JLabel(SORTALGORITHMS.values()[i].toString());
 			if (i != activeIndex){
 				selAlg[i].setEnabled(false);
 				selAlg[i].setFont(SFONT_SIZE);
@@ -179,20 +184,9 @@ public class InfoDialog extends OptionDialog {
 		
 		btnPanel.add(nextRight);
 
-		JEditorPane manual = new JEditorPane();
+		manual = new JEditorPane();
 		manual.setEditable(false);
-
-		java.net.URL helpURL = InfoDialog.class.getClassLoader().getResource(
-				"resources/infopage_qsort.html");
-		if (helpURL != null) {
-			try {
-				manual.setPage(helpURL);
-			} catch (IOException e) {
-				System.err.println("Attempted to read a bad URL: " + helpURL);
-			}
-		} else {
-			System.err.println("Couldn't find file: infopage_qsort.html");
-		}
+		setPage(activeIndex);
 
 		JScrollPane editorScrollPane = new JScrollPane(manual);
 		editorScrollPane
@@ -206,8 +200,10 @@ public class InfoDialog extends OptionDialog {
 
 	}
 	
-	public static void setInfoPageNames(String nameInfopage[]){
-		InfoDialog.nameInfopage = nameInfopage;
+	public static void initInfoPageResolver(HashMap<SORTALGORITHMS,String> infoPageRes){
+		InfoDialog.infoPageRes = infoPageRes;
+		
 	}
+	
 
 }

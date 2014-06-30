@@ -6,6 +6,7 @@ import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
 import main.SortVisualtionPanel;
+import main.Statics.SORTALGORITHMS;
 
 /**
  * <b>Used Pattern: Strategy Design Pattern/Observer Design Pattern</b>
@@ -120,6 +121,8 @@ public abstract class Sort extends Observable implements Runnable {
 		svp.setElements(elements);
 
 	}
+	
+	public abstract SORTALGORITHMS getAlgorithmName();
 
 	public static void stop() {
 		stop = true;

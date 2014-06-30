@@ -52,9 +52,7 @@ public class Controller implements Observer, ActionListener, WindowListener {
 
 	private Window window;
 	private ConfigXML langXMLInterface;
-
 	private int runningThreads, vspIndex; // number of running sortthreads, index of current clicked vsp-panel
-
 	private boolean byUserStopped = false; 
 	private ExecutorService executor; // we use executor service, because it's more memory efficient
 
@@ -252,7 +250,8 @@ public class Controller implements Observer, ActionListener, WindowListener {
 		
 		else if (e.getActionCommand() == Statics.INFO) {
 
-			dialogs.add(new InfoDialog(this,1,"Name", 600, 400));
+			dialogs.add(new InfoDialog(this,
+			sortList.get(SortVisualtionPanel.getReleasedID()).getAlgorithmName(),"Name", 600, 400));
 		}
 
 		else if (e.getActionCommand() == Statics.LANG_DE) {
@@ -300,17 +299,24 @@ public class Controller implements Observer, ActionListener, WindowListener {
 		else if (e.getActionCommand() == Statics.POPUP_REMOVE) {
 
 			if (sortList.size() > 0) {
-
-				Sort.setFlashingAnimation(false);
-				sortList.get(vspIndex).unlockSignal();
-				sortList.get(vspIndex).deleteObservers();
 				
-				Future<?> f = executor.submit(sortList.get(vspIndex));  
+				int selPanel = SortVisualtionPanel.getReleasedID();
+				System.out.println("Selected Panel: "+selPanel);
+				Sort.setFlashingAnimation(false);
+				sortList.get(selPanel).unlockSignal();
+				sortList.get(selPanel).deleteObservers();
+				
+				Future<?> f = executor.submit(sortList.get(selPanel));  
 				f.cancel(true);
-				window.removeSort(vspIndex);
-				sortList.remove(vspIndex);
+				window.removeSort(selPanel);
+				sortList.remove(selPanel);
+				for (Sort temp : sortList) temp.getSortVisualtionPanel().updateID();
+				SortVisualtionPanel.updateCounter();
+				
 				runningThreads--;
 				Sort.setFlashingAnimation(true);
+				
+				
 				
 
 			}
@@ -341,7 +347,6 @@ public class Controller implements Observer, ActionListener, WindowListener {
 			EventQueue.invokeLater(new Runnable() {
 				public void run() {
 					window.toggleStartStop();
-					System.out.println("ALL THREADS ENDED");
 				}
 			});
 		}

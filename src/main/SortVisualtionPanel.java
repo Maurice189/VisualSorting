@@ -9,6 +9,8 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.RenderingHints;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
 import java.awt.image.BufferedImage;
@@ -36,7 +38,8 @@ public class SortVisualtionPanel extends JPanel implements ComponentListener {
 	private static int gapSize = 3, marginTop = 20;
 	private static int margin = 7;
 	private static final int offsetY = 30;
-
+	private static int counter = 0,releasedID;
+	
 	private TitledBorder leftBorder;
 	private JButton remove;
 	private BufferedImage buffer;
@@ -44,10 +47,13 @@ public class SortVisualtionPanel extends JPanel implements ComponentListener {
 	private int width, height, refWidth, refHeight;
 	private int elements[], lstIndex1 = -1, lstIndex2 = -1;
 	private int lstInsert = -1;
+	private int ID;
 
 	public SortVisualtionPanel(Controller controller, String selectedSort,
 			int width, int height) {
 
+		ID = SortVisualtionPanel.counter++;
+		
 		this.width = width;
 		this.height = height;
 
@@ -67,7 +73,7 @@ public class SortVisualtionPanel extends JPanel implements ComponentListener {
 		manageButtons(controller);
 	}
 	
-	private void manageButtons(Controller controller){
+	private void manageButtons(final Controller controller){
 		
 		GridBagConstraints gbc = new GridBagConstraints();
 		setLayout(new GridBagLayout());
@@ -80,7 +86,15 @@ public class SortVisualtionPanel extends JPanel implements ComponentListener {
 		gbc.insets = new Insets(-7, 0, 0, 2);
 		gbc.anchor = GridBagConstraints.FIRST_LINE_END;
 		remove = new JButton();
-		remove.addActionListener(controller);
+		remove.addActionListener(new ActionListener(){
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				SortVisualtionPanel.releasedID = ID;
+				controller.actionPerformed(e);
+			}
+			
+		});
 		remove.setActionCommand(Statics.REMOVE_SORT);
 		remove.setIcon(new ImageIcon(Statics.class.getResource("/resources/delete_visualsort_1.png")));
 		remove.setRolloverIcon(new ImageIcon(Statics.class.getResource("/resources/delete_visualsort_rollover_1.png")));
@@ -88,7 +102,15 @@ public class SortVisualtionPanel extends JPanel implements ComponentListener {
 		remove.setPreferredSize(new Dimension(16,16));
 		
 		JButton info = new JButton();
-		info.addActionListener(controller);
+		info.addActionListener(new ActionListener(){
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				SortVisualtionPanel.releasedID = ID;
+				controller.actionPerformed(e);
+			}
+			
+		});
 		info.setActionCommand(Statics.INFO);
 		info.setIcon(new ImageIcon(Statics.class.getResource("/resources/info_visualsort_1.png")));
 		info.setRolloverIcon(new ImageIcon(Statics.class.getResource("/resources/info_visualsort_rollover_1.png")));
@@ -435,6 +457,18 @@ public class SortVisualtionPanel extends JPanel implements ComponentListener {
 	public void componentHidden(ComponentEvent e) {
 		// TODO Auto-generated method stub
 
+	}
+	
+	public void updateID(){
+		if(ID>SortVisualtionPanel.releasedID) ID--;
+	}
+	
+	public static void updateCounter(){
+		counter--;
+	}
+	
+	public static int getReleasedID(){
+		return SortVisualtionPanel.releasedID;
 	}
 
 }

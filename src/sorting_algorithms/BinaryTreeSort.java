@@ -1,6 +1,7 @@
 package sorting_algorithms;
 
 import main.SortVisualtionPanel;
+import main.Statics.SORTALGORITHMS;
 
 /*
  * BST class have only 1 constructor, which takes as parameter an Object type.
@@ -112,6 +113,12 @@ public class BinaryTreeSort extends Sort {
 			this.left = lLink;
 			this.right = rLink;
 		}
+	}
+
+	@Override
+	public SORTALGORITHMS getAlgorithmName() {
+		// TODO Auto-generated method stub
+		return SORTALGORITHMS.BST;
 	}
 
 }

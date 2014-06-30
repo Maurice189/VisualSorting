@@ -24,6 +24,15 @@ public class Statics {
 		ADD_SORT, STARTANI, STOPANI, ADD, RESET, SETTINGS, SORTLIST, DELAY, HELP, ABOUT, INFO, REMOVE, EXIT, SET, MANUAL,LANG,ERROR0,
 		VERSION,SLANGUAGE,RNUMBERS,REPORT,ITERATIONS,SETMANUAL,SETLIST,SELECTION
 	};
+	
+	public static enum SORTALGORITHMS {
+		Heapsort, Bubblesort, Quicksort, BST, Combsort,Gnomesort, Shakersort, Mergesort, Bitonicsort,
+		Radixsort, Shellsort, Insertionsort;
+		
+		public static int length(){
+			return SORTALGORITHMS.values().length;
+		}
+	};
 
 	private static String VERSION,LANGUAGE_SET; // prg version, language set
 	

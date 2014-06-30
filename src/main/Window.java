@@ -9,6 +9,7 @@ import java.awt.FontFormatException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
@@ -29,6 +30,7 @@ import javax.swing.JToolBar;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
+import main.Statics.SORTALGORITHMS;
 import OptionDialogs.InfoDialog;
 import sorting_algorithms.Sort;
 
@@ -295,10 +297,12 @@ public class Window extends JFrame {
 		if(stateStButton){
 			next.setIcon(new ImageIcon(Statics.class.getResource("/resources/pause_visualsort_1.png")));
 			next.setRolloverIcon(new ImageIcon(Statics.class.getResource("/resources/pause_visualsort_rollover_1.png")));
+			reset.setEnabled(false);
 		}
 		else{
 			next.setIcon(new ImageIcon(Statics.class.getResource("/resources/start_visualsort_1.png")));
 			next.setRolloverIcon(new ImageIcon(Statics.class.getResource("/resources/start_visualsort_rollover_1.png")));
+			reset.setEnabled(true);
 		}
 		
 		stateStButton = !stateStButton;
@@ -443,8 +447,20 @@ public class Window extends JFrame {
 		Statics.initXMLDefintions();
 		Statics.setConfigXML(configLanguage);
 		
-		InfoDialog.setInfoPageNames(new String[]{"infopage_qsort.html","infopage_qsort.html","infopage_qsort.html","infopage_qsort.html","infopage_qsort.html","infopage_qsort.html","infopage_qsort.html","infopage_qsort.html","infopage_qsort.html","infopage_qsort.html","infopage_qsort.html"
-				,"infopage_qsort.html","infopage_qsort.html","infopage_qsort.html","infopage_qsort.html","infopage_qsort.html","infopage_qsort.html","infopage_qsort.html","infopage_qsort.html"});
+		HashMap<SORTALGORITHMS,String> map = new HashMap<SORTALGORITHMS,String>();
+		map.put(SORTALGORITHMS.Bitonicsort, "infopage_qsort.html");
+		map.put(SORTALGORITHMS.BST, "infopage_qsort.html");
+		map.put(SORTALGORITHMS.Bubblesort, "infopage_qsort.html");
+		map.put(SORTALGORITHMS.Combsort, "infopage_qsort.html");
+		map.put(SORTALGORITHMS.Gnomesort, "infopage_qsort.html");
+		map.put(SORTALGORITHMS.Heapsort, "infopage_qsort.html");
+		map.put(SORTALGORITHMS.Insertionsort, "infopage_qsort.html");
+		map.put(SORTALGORITHMS.Mergesort, "infopage_qsort.html");
+		map.put(SORTALGORITHMS.Quicksort, "infopage_qsort.html");
+		map.put(SORTALGORITHMS.Radixsort, "infopage_qsort.html");
+		map.put(SORTALGORITHMS.Shakersort, "infopage_qsort.html");
+		map.put(SORTALGORITHMS.Shellsort, "infopage_qsort.html");
+		InfoDialog.initInfoPageResolver(map);
 		
 		// this font is used under the GPL from google fonts under 'Oxygen'
 		Statics.initDefaultFont("/resources/OxygenFont/Oxygen-Regular.ttf");

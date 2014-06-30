@@ -1,5 +1,6 @@
 package sorting_algorithms;
 import main.SortVisualtionPanel;
+import main.Statics.SORTALGORITHMS;
 
 public class HeapSort extends Sort {
 
@@ -73,6 +74,12 @@ public class HeapSort extends Sort {
 		
 		setChanged();
 		notifyObservers();
+	}
+	
+	@Override
+	public SORTALGORITHMS getAlgorithmName() {
+		// TODO Auto-generated method stub
+		return SORTALGORITHMS.Heapsort;
 	}
 
 }
