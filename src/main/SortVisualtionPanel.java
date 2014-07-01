@@ -48,7 +48,7 @@ public class SortVisualtionPanel extends JPanel implements ComponentListener {
 	private int lstInsert = -1;
 	private int ID;
 
-	public SortVisualtionPanel(Controller controller, String selectedSort,
+	public SortVisualtionPanel(ActionListener listener, String selectedSort,
 			int width, int height) {
 
 		ID = SortVisualtionPanel.counter++;
@@ -69,10 +69,10 @@ public class SortVisualtionPanel extends JPanel implements ComponentListener {
 		addComponentListener(this);
 		setBorder(leftBorder);
 
-		manageButtons(controller);
+		manageButtons(listener);
 	}
 	
-	private void manageButtons(final Controller controller){
+	private void manageButtons(final ActionListener listener){
 		
 		GridBagConstraints gbc = new GridBagConstraints();
 		setLayout(new GridBagLayout());
@@ -90,7 +90,7 @@ public class SortVisualtionPanel extends JPanel implements ComponentListener {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				SortVisualtionPanel.releasedID = ID;
-				controller.actionPerformed(e);
+				listener.actionPerformed(e);
 			}
 			
 		});
@@ -106,7 +106,7 @@ public class SortVisualtionPanel extends JPanel implements ComponentListener {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				SortVisualtionPanel.releasedID = ID;
-				controller.actionPerformed(e);
+				listener.actionPerformed(e);
 			}
 			
 		});
