@@ -22,7 +22,6 @@ import javax.swing.JSpinner;
 import javax.swing.JTextField;
 
 import main.Controller;
-import main.Statics;
 import sorting_algorithms.Sort;
 
 /**
@@ -45,7 +44,7 @@ public class EnterDialog extends OptionDialog {
 	private static EnterDialog instance;
 
 	private EnterDialog(Controller controller, int width, int height) {
-		super(controller, Statics.COMPONENT_TITLE.SORTLIST, width, height);
+		super(controller,"sortlist", width, height);
 
 	}
 
@@ -122,7 +121,7 @@ public class EnterDialog extends OptionDialog {
 						JOptionPane
 								.showMessageDialog(
 										null,
-										Statics.getNamebyXml(Statics.COMPONENT_TITLE.ERROR0),
+										langXML.getValue("error0"),
 										"Ungueltige Eingabe",
 										JOptionPane.ERROR_MESSAGE);
 					}
@@ -156,20 +155,21 @@ public class EnterDialog extends OptionDialog {
 		}
 
 	}
+	
+	
 
 	@Override
 	public void updateComponentsLabel() {
 
 		super.updateComponentsLabel();
 
-		//remove.setName(Statics.getNamebyXml(Statics.COMPONENT_TITLE.REMOVE));
-		crNmb.setName(Statics.getNamebyXml(Statics.COMPONENT_TITLE.RNUMBERS));
-		enterValue.setName(Statics.getNamebyXml(Statics.COMPONENT_TITLE.ADD));
-		ok.setName(Statics.getNamebyXml(Statics.COMPONENT_TITLE.EXIT));
-		crRandom.setText(Statics.getNamebyXml(Statics.COMPONENT_TITLE.SETLIST));
-		setMan.setText(Statics.getNamebyXml(Statics.COMPONENT_TITLE.SETMANUAL));
+		crNmb.setName(langXML.getValue("rnumber"));
+		enterValue.setName(langXML.getValue("add"));
+		ok.setName(langXML.getValue("exit"));
+		crRandom.setText(langXML.getValue("setList"));
+		setMan.setText(langXML.getValue("setManual"));
 		btnWrp1.setBorder(BorderFactory.createTitledBorder(
-				BorderFactory.createLineBorder(Color.GRAY), Statics.getNamebyXml(Statics.COMPONENT_TITLE.SELECTION)));
+				BorderFactory.createLineBorder(Color.GRAY),langXML.getValue("selection")));
 
 	}
 
@@ -200,15 +200,15 @@ public class EnterDialog extends OptionDialog {
 		tcnt.weightx = 1;
 		tcnt.weighty = 7;
 
-		crRandom = new JRadioButton(Statics.getNamebyXml(Statics.COMPONENT_TITLE.SETLIST));
+		crRandom = new JRadioButton(langXML.getValue("setList"));
 		crRandom.addActionListener(this);
 		crRandom.setSelected(true);
-		setMan = new JRadioButton(Statics.getNamebyXml(Statics.COMPONENT_TITLE.SETMANUAL));
+		setMan = new JRadioButton(langXML.getValue("setManual"));
 		setMan.addActionListener(this);
 
 		btnWrp1 = new JPanel(new FlowLayout(FlowLayout.LEFT));
 		btnWrp1.setBorder(BorderFactory.createTitledBorder(
-				BorderFactory.createLineBorder(Color.GRAY), Statics.getNamebyXml(Statics.COMPONENT_TITLE.SELECTION)));
+				BorderFactory.createLineBorder(Color.GRAY), langXML.getValue("selection")));
 		btnWrp1.add(crRandom);
 		btnWrp1.add(setMan);
 
@@ -228,14 +228,14 @@ public class EnterDialog extends OptionDialog {
 		btnWrpc1.insets = new Insets(4, 4, 4, 4);
 
 		crNmb = new JButton(
-				Statics.getNamebyXml(Statics.COMPONENT_TITLE.RNUMBERS));
+				langXML.getValue("rnumber"));
 		crNmb.addActionListener(this);
 
 		enterValue = new JButton(
-				Statics.getNamebyXml(Statics.COMPONENT_TITLE.ADD));
+				langXML.getValue("add"));
 		enterValue.addActionListener(this);
 
-		ok = new JButton(Statics.getNamebyXml(Statics.COMPONENT_TITLE.EXIT));
+		ok = new JButton(langXML.getValue("exit"));
 		ok.addActionListener(this);
 
 		btnWrp2 = new JPanel();

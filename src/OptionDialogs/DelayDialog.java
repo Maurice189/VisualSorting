@@ -16,7 +16,6 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import main.Controller;
-import main.Statics;
 import sorting_algorithms.Sort;
 
 
@@ -35,7 +34,7 @@ public final class DelayDialog extends OptionDialog{
 	private boolean active = true;
 	
 	private DelayDialog(Controller controller,int width, int height) {
-		super(controller,Statics.COMPONENT_TITLE.DELAY, width, height);
+		super(controller,"delay", width, height);
 		
 	}
 	
@@ -86,7 +85,6 @@ public final class DelayDialog extends OptionDialog{
 								.concat(String.valueOf((int) Sort.getDelayNs()))
 								.concat(" ns")));
 						Sort.setDelayMs(slider.getValue());
-						System.out.println(slider.getValue());
 
 					} else {
 
@@ -96,7 +94,6 @@ public final class DelayDialog extends OptionDialog{
 								.concat(String.valueOf(slider.getValue())
 										.concat(" ns")));
 						Sort.setDelayNs(slider.getValue());
-						System.out.println(slider.getValue());
 					}
 				}
 

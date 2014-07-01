@@ -21,8 +21,6 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.border.TitledBorder;
 
-import main.Statics.COMPONENT_TITLE;
-
 /**
  * @author maurice
  * 
@@ -39,6 +37,7 @@ public class SortVisualtionPanel extends JPanel implements ComponentListener {
 	private static int margin = 7;
 	private static final int offsetY = 30;
 	private static int counter = 0,releasedID;
+	private static LanguageFileXML langXML;
 	
 	private TitledBorder leftBorder;
 	private JButton remove;
@@ -137,7 +136,7 @@ public class SortVisualtionPanel extends JPanel implements ComponentListener {
 		
 		String info = 
 		algoname.concat(" - ").concat(String.valueOf(iterations)).concat(" ").concat(
-		Statics.getNamebyXml(COMPONENT_TITLE.ITERATIONS));
+		langXML.getValue("iterations"));
 		
 		leftBorder.setTitle(info);
 	}
@@ -469,6 +468,11 @@ public class SortVisualtionPanel extends JPanel implements ComponentListener {
 	
 	public static int getReleasedID(){
 		return SortVisualtionPanel.releasedID;
+	}
+	
+
+	public static void setLanguageFileXML(LanguageFileXML langXML){
+		SortVisualtionPanel.langXML = langXML;
 	}
 
 }

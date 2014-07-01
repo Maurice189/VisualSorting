@@ -51,12 +51,12 @@ public class Controller implements Observer, ActionListener, WindowListener {
 	private LinkedList<OptionDialog> dialogs; // references to the open dialogs, like settings etc.
 
 	private Window window;
-	private ConfigXML langXMLInterface;
+	private LanguageFileXML langXMLInterface;
 	private int runningThreads, vspIndex; // number of running sortthreads, index of current clicked vsp-panel
 	private boolean byUserStopped = false; 
 	private ExecutorService executor; // we use executor service, because it's more memory efficient
 
-	public Controller(ConfigXML langXMLInterface, final int nofelements) {
+	public Controller(LanguageFileXML langXMLInterface, final int nofelements) {
 
 		this.langXMLInterface = langXMLInterface;
 		int[] elements = new int[nofelements];
@@ -295,7 +295,6 @@ public class Controller implements Observer, ActionListener, WindowListener {
 			if (sortList.size() > 0) {
 				
 				int selPanel = SortVisualtionPanel.getReleasedID();
-				System.out.println("Selected Panel: "+selPanel);
 				Sort.setFlashingAnimation(false);
 				sortList.get(selPanel).unlockSignal();
 				sortList.get(selPanel).deleteObservers();

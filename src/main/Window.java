@@ -32,6 +32,7 @@ import javax.swing.UnsupportedLookAndFeelException;
 
 import main.Statics.SORTALGORITHMS;
 import OptionDialogs.InfoDialog;
+import OptionDialogs.OptionDialog;
 import sorting_algorithms.Sort;
 
 
@@ -57,7 +58,7 @@ public class Window extends JFrame {
 	private String title;
 	
 	private boolean stateStButton = true;
-	
+	private LanguageFileXML langXML;
 	
 	private JButton next, newSort, nextStep, reset,delayBtn,listBtn;
 	private JPanel content;
@@ -69,13 +70,14 @@ public class Window extends JFrame {
 	private JMenu help, settings, languages;
 	private JToolBar toolBar;
 
-	public Window(Controller controller, String title, int width, int height) {
+	public Window(Controller controller,LanguageFileXML langXML, String title, int width, int height) {
 
 		JMenuBar menuBar;
 		ButtonGroup bg = new ButtonGroup();
 		filler = new ArrayList<Component>();
 		this.title = title;
 		this.controller = controller;
+		this.langXML = langXML;
 		
 		/*
 		 *  the respective title for the components will be loaded from the xml-language definitions files
@@ -83,7 +85,7 @@ public class Window extends JFrame {
 		 *  This routine can be seen on every initalized component
 		 */
 		
-		info = new JLabel(Statics.getNamebyXml(Statics.COMPONENT_TITLE.INFO),
+		info = new JLabel(langXML.getValue("info"),
 				JLabel.CENTER);
 		info.setFont(Statics.getDefaultFont(30f));
 		info.setForeground(Color.GRAY);
@@ -100,27 +102,26 @@ public class Window extends JFrame {
 		menuBar = new JMenuBar();
 
 		languages = new JMenu(
-				Statics.getNamebyXml(Statics.COMPONENT_TITLE.LANG));
+				langXML.getValue("lang"));
 		languages.setFont(componentFont);
 		settings = new JMenu(
-				Statics.getNamebyXml(Statics.COMPONENT_TITLE.SETTINGS));
+				langXML.getValue("settings"));
 		settings.setFont(componentFont);
-		help = new JMenu(Statics.getNamebyXml(Statics.COMPONENT_TITLE.HELP));
+		help = new JMenu(langXML.getValue("help"));
 		help.setFont(componentFont);
 		list = new JMenuItem(
-				Statics.getNamebyXml(Statics.COMPONENT_TITLE.SORTLIST));
+				langXML.getValue("sortlist"));
 		list.addActionListener(controller);
 		list.setActionCommand(Statics.NEW_ELEMENTS);
 		list.setFont(componentFont);
 		
 		delay = new JMenuItem(
-				Statics.getNamebyXml(Statics.COMPONENT_TITLE.DELAY));
+				langXML.getValue("delay"));
 		delay.addActionListener(controller);
 		delay.setActionCommand(Statics.DELAY);
 		delay.setFont(componentFont);
 
-		about = new JMenuItem(Statics.getNamebyXml(
-				Statics.COMPONENT_TITLE.ABOUT).concat(" ").concat(title));
+		about = new JMenuItem(langXML.getValue("about").concat(" ").concat(title));
 		about.addActionListener(controller);
 		about.setActionCommand(Statics.ABOUT);
 		about.setFont(componentFont);
@@ -278,19 +279,21 @@ public class Window extends JFrame {
 		setVisible(true);
 
 	}
+	
+	
 
 	
 	  // if the language was changed, component titles will be updated by this method
 	  public void updateLanguage(){
 	  
-		  info.setText(Statics.getNamebyXml(Statics.COMPONENT_TITLE.INFO));
+		  info.setText(langXML.getValue("info"));
 		 
-		  about.setText(Statics.getNamebyXml(Statics.COMPONENT_TITLE.ABOUT));
-		  list.setText(Statics.getNamebyXml(Statics.COMPONENT_TITLE.SORTLIST));
-		  delay.setText(Statics.getNamebyXml(Statics.COMPONENT_TITLE.DELAY));
-		  help.setText(Statics.getNamebyXml(Statics.COMPONENT_TITLE.HELP));
-		  settings.setText(Statics.getNamebyXml(Statics.COMPONENT_TITLE.SETTINGS));
-	  	  languages.setText(Statics.getNamebyXml(Statics.COMPONENT_TITLE.LANG)); 
+		  about.setText(langXML.getValue("about"));
+		  list.setText(langXML.getValue("sortlist"));
+		  delay.setText(langXML.getValue("delay"));
+		  help.setText(langXML.getValue("help"));
+		  settings.setText(langXML.getValue("settings"));
+	  	  languages.setText(langXML.getValue("lang"));
 	  	
 	  }
 	
@@ -434,7 +437,7 @@ public class Window extends JFrame {
 			// handle exception
 		}
 		
-		ConfigXML configLanguage = new ConfigXML();
+		LanguageFileXML configLanguage = new LanguageFileXML();
 		int nofelements = 100;
 		
 		try {
@@ -447,9 +450,11 @@ public class Window extends JFrame {
 			
 		} catch (IOException e1) {e1.printStackTrace();}
 		
+		configLanguage.readXML("/resources/".concat(InternalConfig.getValue("language")),true);
+		
 		// define resources
-		Statics.initXMLDefintions();
-		Statics.setConfigXML(configLanguage);
+		OptionDialog.setLanguageFileXML(configLanguage);
+		SortVisualtionPanel.setLanguageFileXML(configLanguage);
 		
 		HashMap<SORTALGORITHMS,String> map = new HashMap<SORTALGORITHMS,String>();
 		map.put(SORTALGORITHMS.Bitonicsort, "infopage_qsort.html");
@@ -475,7 +480,7 @@ public class Window extends JFrame {
 		
 		// init view and controller
 		Controller controller = new Controller(configLanguage,nofelements);
-		Window window = new Window(controller,"Visual Sorting - ".concat(Statics.getVersion()), 800, 550);
+		Window window = new Window(controller,configLanguage,"Visual Sorting - ".concat(Statics.getVersion()), 800, 550);
 		controller.setView(window);
 		
 	

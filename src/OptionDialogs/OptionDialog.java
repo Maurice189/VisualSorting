@@ -1,10 +1,11 @@
 package OptionDialogs;
 
 import java.awt.event.ActionListener;
+
 import javax.swing.JDialog;
 
 import main.Controller;
-import main.Statics;
+import main.LanguageFileXML;
 
 
 
@@ -13,15 +14,16 @@ public abstract class OptionDialog extends JDialog implements ActionListener{
 	
 	private static final long serialVersionUID = 1L;
 	protected Controller controller;
-	protected Statics.COMPONENT_TITLE title;
+	protected String titleXMLTag;
+	protected static LanguageFileXML langXML;
 	
-	public OptionDialog(Controller controller,Statics.COMPONENT_TITLE title,int width, int height) {
+	public OptionDialog(Controller controller,String titleXMLTag,int width, int height) {
 		
 		this.controller = controller;
-		this.title = title;
+		this.titleXMLTag = titleXMLTag;
 		initComponents();
 		setSize(width, height);
-		setTitle(Statics.getNamebyXml(title));
+		setTitle(langXML.getValue(titleXMLTag));
 		setLocationRelativeTo(null);
 		setVisible(true);
 	}
@@ -29,11 +31,15 @@ public abstract class OptionDialog extends JDialog implements ActionListener{
 	public OptionDialog(){
 		
 	}
+	
 
 
+	public static void setLanguageFileXML(LanguageFileXML langXML){
+		OptionDialog.langXML = langXML;
+	}
 	
 	public void updateComponentsLabel(){
-		setTitle(Statics.getNamebyXml(title));
+		setTitle(langXML.getValue(titleXMLTag));
 	}
 	protected abstract void initComponents();
 		

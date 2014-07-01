@@ -15,13 +15,13 @@ import org.jdom2.input.SAXBuilder;
 import org.jdom2.output.Format;
 import org.jdom2.output.XMLOutputter;
 
-public class ConfigXML {
+public class LanguageFileXML {
 
 	private Element element;
 	private Document document;
 	private String source;
 
-	public ConfigXML() {
+	public LanguageFileXML() {
 	}
 	
 	public String getValue(String xmlTag){
@@ -30,11 +30,8 @@ public class ConfigXML {
 	}
 	
 	public void setValue(String xmlTag,String value){
-		System.out.println("SET");
-		//element.getChild(xmlTag).addContent(value);
-		if(element.removeChild(xmlTag)){
-			System.out.println("SUCESSFULLY REMOVED");	
-		}
+		
+		element.removeChild(xmlTag);
 		Element ne = new Element(xmlTag);
 		ne.addContent(value);
 		element.addContent(ne);
@@ -51,19 +48,18 @@ public class ConfigXML {
 			try {
 				in = new FileInputStream(source);
 			} catch (FileNotFoundException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
 
 		try {
-			long t = System.currentTimeMillis();
+			//long t = System.currentTimeMillis();
 			document = new SAXBuilder().build(in);
 			element = document.getRootElement();
 			
 
-			System.out.println("Fully read in "
-					+ (System.currentTimeMillis() - t) + "ms");
+			/*System.out.println("Fully read in "
+					+ (System.currentTimeMillis() - t) + "ms");*/
 		} catch (JDOMException e) {
 			e.printStackTrace();
 			return false;

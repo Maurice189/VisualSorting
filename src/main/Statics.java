@@ -3,7 +3,6 @@ import java.awt.Font;
 import java.awt.FontFormatException;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.HashMap;
 
 /**
  * @author Maurice Koch
@@ -14,17 +13,10 @@ import java.util.HashMap;
 
 public class Statics {
 	
-	private static ConfigXML configLang;
 
 	// this font is used for components, the default font is monospace
 	private static Font defaultFont = new Font("Monospace", Font.PLAIN, 20);
 
-	// statics for component title
-	public static enum COMPONENT_TITLE {
-		ADD_SORT, STARTANI, STOPANI, ADD, RESET, SETTINGS, SORTLIST, DELAY, HELP, ABOUT, INFO, REMOVE, EXIT, SET, MANUAL,LANG,ERROR0,
-		VERSION,SLANGUAGE,RNUMBERS,REPORT,ITERATIONS,SETMANUAL,SETLIST,SELECTION
-	};
-	
 	public static enum SORTALGORITHMS {
 		Heapsort, Bubblesort, Quicksort, BST, Combsort,Gnomesort, Shakersort, Mergesort, Bitonicsort,
 		Radixsort, Shellsort, Insertionsort;
@@ -54,24 +46,7 @@ public class Statics {
 	public static final String LANG_DE = "action_de", LANG_EN = "action_en", LANG_FR = "action_fr";
 	public static final String POPUP_REMOVE = "action_remove";
 	public static final String DIALOG_EXIT = "action_exitDialog";
-	
-	/*
-	 * The view class should'nt work directly with the xml-tags, that's the reason why I use 
-	 * here a hashmap
-	 * 
-	 * with this indirect way by resolving COMPONENT_TITLE to the respective xml-tag
-	 * we reach less coupling.
-	 *
-	 */
-	private static HashMap<COMPONENT_TITLE,String> xmlDef;
 
-	
-	public static void setConfigXML(ConfigXML configLang){
-		
-		Statics.configLang  = configLang;
-		configLang.readXML("/resources/".concat(Statics.LANGUAGE_SET),true);
-
-	}
 
 	
 	public static void initDefaultFont(String source) {
@@ -101,16 +76,6 @@ public class Statics {
 		Statics.VERSION = version;
 		
 	}
-    
-
-	// here the component title is resolved into the respective xml-tag
-	public static String getNamebyXml(COMPONENT_TITLE title) {
-
-		String key = xmlDef.get(title);
-		if(key != null)  return configLang.getValue(xmlDef.get(title));
-		return null;
-	}
-
 	
 	public static String getLanguageSet(){
 		return Statics.LANGUAGE_SET;
@@ -118,40 +83,6 @@ public class Statics {
 	
 	public static String getVersion(){
 		return Statics.VERSION;
-	}
-	
-
-	
-    // here the component-titles and the respective xml-tags are linked in the hash-map
-	public static void initXMLDefintions(){
-		
-		xmlDef = new HashMap<COMPONENT_TITLE,String>();
-		
-		xmlDef.put(COMPONENT_TITLE.ABOUT, "about");
-		xmlDef.put(COMPONENT_TITLE.ADD, "add");
-		xmlDef.put(COMPONENT_TITLE.ADD_SORT, "add");
-		xmlDef.put(COMPONENT_TITLE.DELAY, "delay");
-		xmlDef.put(COMPONENT_TITLE.EXIT, "exit");
-		xmlDef.put(COMPONENT_TITLE.HELP, "help");
-		xmlDef.put(COMPONENT_TITLE.INFO, "info");
-		xmlDef.put(COMPONENT_TITLE.REMOVE, "remove");
-		xmlDef.put(COMPONENT_TITLE.RESET, "reset");
-		xmlDef.put(COMPONENT_TITLE.SET,"set");
-		xmlDef.put(COMPONENT_TITLE.SETTINGS, "settings");
-		xmlDef.put(COMPONENT_TITLE.SORTLIST, "sortlist");
-		xmlDef.put(COMPONENT_TITLE.STARTANI, "startani");
-		xmlDef.put(COMPONENT_TITLE.STOPANI, "stopani");
-		xmlDef.put(COMPONENT_TITLE.MANUAL, "manual");
-		xmlDef.put(COMPONENT_TITLE.LANG, "lang");
-		xmlDef.put(COMPONENT_TITLE.ERROR0, "error0");
-		xmlDef.put(COMPONENT_TITLE.VERSION, "version");
-		xmlDef.put(COMPONENT_TITLE.SLANGUAGE, "language");
-		xmlDef.put(COMPONENT_TITLE.RNUMBERS, "rnumber");
-		xmlDef.put(COMPONENT_TITLE.REPORT, "report");
-		xmlDef.put(COMPONENT_TITLE.ITERATIONS, "iterations");
-		xmlDef.put(COMPONENT_TITLE.SETMANUAL, "setManual");
-		xmlDef.put(COMPONENT_TITLE.SETLIST, "setList");
-		xmlDef.put(COMPONENT_TITLE.SELECTION, "selection");
 	}
 
 	public static Font getDefaultFont(float size) {

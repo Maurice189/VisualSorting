@@ -13,7 +13,7 @@ import main.Statics;
 public class AboutDialog extends OptionDialog{
 
 	public AboutDialog(Controller controller,int width, int height) {
-		super(controller,Statics.COMPONENT_TITLE.ABOUT, width, height);
+		super(controller,"about", width, height);
 		
 	}
 
