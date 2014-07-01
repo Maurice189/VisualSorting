@@ -47,7 +47,9 @@ import sorting_algorithms.Sort;
 
 public class Window extends JFrame {
 
-	private static Font componentFont = new Font("Monospace", Font.BOLD, 13);
+	private static Font componentFont = new Font("Monospace", Font.BOLD, 13),
+						     infoFont = new Font("Monospace", Font.BOLD, 43);
+	
 	private static final long serialVersionUID = 1L;
 
 	// we store the visualisation panels dynamically, so we can add and remove it much easier
@@ -87,7 +89,7 @@ public class Window extends JFrame {
 		
 		info = new JLabel(langXML.getValue("info"),
 				JLabel.CENTER);
-		info.setFont(Statics.getDefaultFont(30f));
+		info.setFont(infoFont);
 		info.setForeground(Color.GRAY);
 
 		setTitle(title);
@@ -177,20 +179,16 @@ public class Window extends JFrame {
 		content = new JPanel();
 		content.setLayout(new BorderLayout());
 
-		next = new JButton(
-				); //Statics.getNamebyXml(Statics.COMPONENT_TITLE.STARTANI)
+		next = new JButton(); 
 		next.addActionListener(controller);
 		next.setActionCommand(Statics.START);
-		next.setFont(componentFont);
 		next.setBorder(BorderFactory.createEmptyBorder());
 		next.setIcon(new ImageIcon(Statics.class.getResource("/resources/start_visualsort_1.png")));
 		next.setRolloverIcon(new ImageIcon(Statics.class.getResource("/resources/start_visualsort_rollover_1.png")));
 		
-		newSort = new JButton(
-				); //Statics.getNamebyXml(Statics.COMPONENT_TITLE.ADD_SORT)
+		newSort = new JButton(); 
 		newSort.addActionListener(controller);
 		newSort.setActionCommand(Statics.ADD_SORT);
-		newSort.setFont(componentFont);
 		
 		newSort.setBorder(BorderFactory.createEmptyBorder());
 		newSort.setIcon(new ImageIcon(Statics.class.getResource("/resources/add_visualsort_1.png")));
@@ -200,7 +198,6 @@ public class Window extends JFrame {
 		delayBtn = new JButton();
 		delayBtn.addActionListener(controller);
 		delayBtn.setActionCommand(Statics.DELAY);
-		delayBtn.setFont(componentFont);
 		
 		delayBtn.setBorder(BorderFactory.createEmptyBorder());
 		delayBtn.setIcon(new ImageIcon(Statics.class.getResource("/resources/delay_visualsort_1.png")));
@@ -209,18 +206,15 @@ public class Window extends JFrame {
 		listBtn = new JButton();
 		listBtn.addActionListener(controller);
 		listBtn.setActionCommand(Statics.NEW_ELEMENTS);
-		listBtn.setFont(componentFont);
 		
 		listBtn.setBorder(BorderFactory.createEmptyBorder());
 		listBtn.setIcon(new ImageIcon(Statics.class.getResource("/resources/elements_visualsort_1.png")));
 		listBtn.setRolloverIcon(new ImageIcon(Statics.class.getResource("/resources/elements_visualsort_rollover_1.png")));
 		
 		
-		nextStep = new JButton(
-				); //
+		nextStep = new JButton(); 
 		nextStep.addActionListener(controller);
 		nextStep.setActionCommand(Statics.NEXT_ITERATION);
-		nextStep.setFont(componentFont);
 		
 		nextStep.setBorder(BorderFactory.createEmptyBorder());
 		nextStep.setIcon(new ImageIcon(Statics.class.getResource("/resources/nextIter_visualsort_1.png")));
@@ -230,7 +224,6 @@ public class Window extends JFrame {
 		reset = new JButton(); //Statics.getNamebyXml(Statics.COMPONENT_TITLE.RESET)
 		reset.addActionListener(controller);
 		reset.setActionCommand(Statics.RESET);
-		reset.setFont(componentFont);
 		
 		reset.setBorder(BorderFactory.createEmptyBorder());
 		reset.setIcon(new ImageIcon(Statics.class.getResource("/resources/reset_visualsort_1.png")));
@@ -399,26 +392,41 @@ public class Window extends JFrame {
 	}
 	
 	
-	public static void initDefaultFont(String source, float size) {
-
-
+	
+	public static void setComponentFont(String source, float size) {
+		
 		try {
 
-			InputStream in = Statics.class.getResourceAsStream(source);
+			InputStream in = Window.class.getResourceAsStream(source);
 			componentFont = Font.createFont(Font.TRUETYPE_FONT,in);
+			
+			Statics.setDefaultFont(componentFont);
 			componentFont = componentFont.deriveFont(size);
-		
+			
 
 		} catch (IOException e) {
-			componentFont = new Font("Monospace", Font.BOLD, 13);
 			e.printStackTrace();
 		} catch (FontFormatException e) {
 			e.printStackTrace();
-			componentFont = new Font("Monospace", Font.BOLD, 13);
 		}
 	
+	}
+	
+	public static void setInfoFont(String source, float size) {
+		try {
 
-}
+			InputStream in = Window.class.getResourceAsStream(source);
+			infoFont = Font.createFont(Font.TRUETYPE_FONT,in);
+			infoFont = infoFont.deriveFont(size);
+
+		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (FontFormatException e) {
+			e.printStackTrace();
+		}
+		
+		
+	}
 
 	// TODO: use argument parameters for setting language
 	public static void main(String[] args) {
@@ -456,6 +464,10 @@ public class Window extends JFrame {
 		OptionDialog.setLanguageFileXML(configLanguage);
 		SortVisualtionPanel.setLanguageFileXML(configLanguage);
 		
+		// this font is used under the GPL from google fonts under 'OpenSans'
+		Window.setComponentFont("/resources/OpenSans/OpenSans-Semibold.ttf",13f);
+		Window.setInfoFont("/resources/OxygenFont/Oxygen-Regular.ttf",30f);
+		
 		HashMap<SORTALGORITHMS,String> map = new HashMap<SORTALGORITHMS,String>();
 		map.put(SORTALGORITHMS.Bitonicsort, "infopage_bitonicsort.html");
 		map.put(SORTALGORITHMS.BST, "infopage_bstsort.html");
@@ -471,12 +483,8 @@ public class Window extends JFrame {
 		map.put(SORTALGORITHMS.Shellsort, "infopage_shellsort.html");
 		InfoDialog.initInfoPageResolver(map);
 		
+	
 		
-		
-		// this font is used under the GPL from google fonts under 'Oxygen'
-		Statics.initDefaultFont("/resources/OxygenFont/Oxygen-Regular.ttf");
-		// this font is used under the GPL from google fonts under 'OpenSans'
-		Window.initDefaultFont("/resources/OpenSans/OpenSans-Semibold.ttf",13f);
 		
 		// init view and controller
 		Controller controller = new Controller(configLanguage,nofelements);

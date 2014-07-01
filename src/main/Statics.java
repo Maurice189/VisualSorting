@@ -1,8 +1,5 @@
 package main;
 import java.awt.Font;
-import java.awt.FontFormatException;
-import java.io.IOException;
-import java.io.InputStream;
 
 /**
  * @author Maurice Koch
@@ -49,20 +46,8 @@ public class Statics {
 
 
 	
-	public static void initDefaultFont(String source) {
-
-
-			try {
-
-				InputStream in = Statics.class.getResourceAsStream(source);
-				defaultFont = Font.createFont(Font.TRUETYPE_FONT,in);
-				
-			} catch (IOException e) {
-				e.printStackTrace();
-			} catch (FontFormatException e) {
-				e.printStackTrace();
-			}
-		
+	public static void setDefaultFont(Font defaultFont) {
+		Statics.defaultFont = defaultFont;
 
 	}
 	

@@ -36,7 +36,6 @@ public class AboutDialog extends OptionDialog{
 		JLabel cpr = new JLabel("©2014 M.Koch - ".concat(Statics.getVersion()));
 		ImageIcon bg = null;
 
-		cpr.setFont(Statics.getDefaultFont(12f));
 		setLayout(new BorderLayout());
 
 		java.net.URL helpURL = AboutDialog.class.getClassLoader().getResource(
