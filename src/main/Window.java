@@ -165,7 +165,11 @@ public class Window extends JFrame {
 		menuBar.add(help);
 		setJMenuBar(menuBar);
 
-		sortChooser = new JComboBox<String>(Statics.SORT_ALGORITHMNS);
+		String names[] = new String[SORTALGORITHMS.length()];
+		for(int i = 0; i<SORTALGORITHMS.length(); i++) 
+			names[i] = SORTALGORITHMS.values()[i].toString();
+		
+		sortChooser = new JComboBox<String>(names);
 		sortChooser.setFont(componentFont);
 		sortChooser.setMaximumSize(new Dimension(220, 30));
 		
@@ -461,6 +465,8 @@ public class Window extends JFrame {
 		map.put(SORTALGORITHMS.Shakersort, "infopage_qsort.html");
 		map.put(SORTALGORITHMS.Shellsort, "infopage_qsort.html");
 		InfoDialog.initInfoPageResolver(map);
+		
+		
 		
 		// this font is used under the GPL from google fonts under 'Oxygen'
 		Statics.initDefaultFont("/resources/OxygenFont/Oxygen-Regular.ttf");

@@ -54,13 +54,6 @@ public class Statics {
 	public static final String LANG_DE = "action_de", LANG_EN = "action_en", LANG_FR = "action_fr";
 	public static final String POPUP_REMOVE = "action_remove";
 	public static final String DIALOG_EXIT = "action_exitDialog";
-	public static final String MANUAL = "action_manual";
-
-	// name of all sort algorithms
-	public static final String SORT_ALGORITHMNS[] = { "Heapsort", "Bubblesort",
-			"Quicksort", "Binary Tree Sort", "Combsort", "Gnomesort",
-			"Shakersort (Cocktailsort)", "Mergesort", "Bitonicsort",
-			"Radixsort", "Shellsort", "Insertionsort" };
 	
 	/*
 	 * The view class should'nt work directly with the xml-tags, that's the reason why I use 

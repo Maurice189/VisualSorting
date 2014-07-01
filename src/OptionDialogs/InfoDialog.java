@@ -37,7 +37,8 @@ public class InfoDialog extends OptionDialog {
 
 	public InfoDialog(Controller controller,SORTALGORITHMS sortAlgorithms,String title, int width,
 			int height) {
-		System.out.println("ALGO: "+SORTALGORITHMS.values()[sortAlgorithms.ordinal()]);
+		
+		
 		this.activeIndex = sortAlgorithms.ordinal();
 		this.controller = controller;
 		initComponents();
@@ -60,10 +61,10 @@ public class InfoDialog extends OptionDialog {
 			if (activeIndex < currentIndex + CENTER_PLUS)
 				activeIndex++;
 
-			else if (currentIndex + SIZE < Statics.SORT_ALGORITHMNS.length) {
+			else if (currentIndex + SIZE < SORTALGORITHMS.length()) {
 				currentIndex++;
 				activeIndex = currentIndex + CENTER_PLUS;
-			} else if (activeIndex < Statics.SORT_ALGORITHMNS.length - 1)
+			} else if (activeIndex < SORTALGORITHMS.length() - 1)
 				activeIndex++;
 
 			for (int i = currentIndex; i < currentIndex + SIZE; i++) {
@@ -132,14 +133,11 @@ public class InfoDialog extends OptionDialog {
 				"resources/".concat(infoPageRes.get(SORTALGORITHMS.values()[index])));
 		if (helpURL != null) {
 			try {
-				System.out.println("URL: "+("resources/".concat(infoPageRes.get(SORTALGORITHMS.values()[index]))));
 				manual.setPage(helpURL);
 			} catch (IOException e) {
 				System.err.println("Attempted to read a bad URL: " + helpURL);
 			}
-		} else {
-			System.err.println("Couldn't find file: "+("resources/".concat(infoPageRes.get(SORTALGORITHMS.values()[index]))));
-		}
+		} 
 
 	}
 
@@ -148,7 +146,7 @@ public class InfoDialog extends OptionDialog {
 
 		setLayout(new BorderLayout());
 
-		final int length = Statics.SORT_ALGORITHMNS.length;
+		final int length = SORTALGORITHMS.length();
 
 		btnPanel = new JPanel();
 		btnPanel.setLayout(new BoxLayout(btnPanel,BoxLayout.X_AXIS));

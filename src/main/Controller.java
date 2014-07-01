@@ -14,11 +14,11 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 
+import main.Statics.SORTALGORITHMS;
 import OptionDialogs.DelayDialog;
 import OptionDialogs.EnterDialog;
 import OptionDialogs.AboutDialog;
 import OptionDialogs.InfoDialog;
-import OptionDialogs.ManualDialog;
 import OptionDialogs.OptionDialog;
 import sorting_algorithms.BinaryTreeSort;
 import sorting_algorithms.BitonicSort;
@@ -104,29 +104,29 @@ public class Controller implements Observer, ActionListener, WindowListener {
 
 			selectedSort = window.getSelectedSort();
 
-			if (selectedSort.equals(Statics.SORT_ALGORITHMNS[0]))
+			if (selectedSort.equals(SORTALGORITHMS.Heapsort.toString()))
 				sort = new HeapSort();
-			else if (selectedSort.equals(Statics.SORT_ALGORITHMNS[1]))
+			else if (selectedSort.equals(SORTALGORITHMS.Bubblesort.toString()))
 				sort = new BubbleSort();
-			else if (selectedSort.equals(Statics.SORT_ALGORITHMNS[2]))
+			else if (selectedSort.equals(SORTALGORITHMS.Quicksort.toString()))
 				sort = new QuickSort();
-			else if (selectedSort.equals(Statics.SORT_ALGORITHMNS[3]))
+			else if (selectedSort.equals(SORTALGORITHMS.BST.toString()))
 				sort = new BinaryTreeSort();
-			else if (selectedSort.equals(Statics.SORT_ALGORITHMNS[4]))
+			else if (selectedSort.equals(SORTALGORITHMS.Combsort.toString()))
 				sort = new CombSort();
-			else if (selectedSort.equals(Statics.SORT_ALGORITHMNS[5]))
+			else if (selectedSort.equals(SORTALGORITHMS.Gnomesort.toString()))
 				sort = new GnomeSort();
-			else if (selectedSort.equals(Statics.SORT_ALGORITHMNS[6]))
+			else if (selectedSort.equals(SORTALGORITHMS.Shakersort.toString()))
 				sort = new ShakerSort();
-			else if (selectedSort.equals(Statics.SORT_ALGORITHMNS[7]))
+			else if (selectedSort.equals(SORTALGORITHMS.Mergesort.toString()))
 				sort = new MergeSort();
-			else if (selectedSort.equals(Statics.SORT_ALGORITHMNS[8]))
+			else if (selectedSort.equals(SORTALGORITHMS.Bitonicsort.toString()))
 				sort = new BitonicSort();
-			else if (selectedSort.equals(Statics.SORT_ALGORITHMNS[9]))
+			else if (selectedSort.equals(SORTALGORITHMS.Radixsort.toString()))
 				sort = new RadixSort();
-			else if (selectedSort.equals(Statics.SORT_ALGORITHMNS[10])) 
+			else if (selectedSort.equals(SORTALGORITHMS.Shellsort.toString())) 
 				sort = new ShellSort();
-			else if (selectedSort.equals(Statics.SORT_ALGORITHMNS[11]))
+			else if (selectedSort.equals(SORTALGORITHMS.Insertionsort.toString()))
 				sort = new InsertionSort();
 			else
 				sort = new HeapSort();
@@ -230,12 +230,6 @@ public class Controller implements Observer, ActionListener, WindowListener {
 
 			window.unlockAddSort(true);
 			runningThreads = 0;
-		}
-
-		else if (e.getActionCommand() == Statics.MANUAL) {
-
-			dialogs.add(new ManualDialog(this, "Bedienungsanleitung", 300, 700));
-
 		}
 
 		else if (e.getActionCommand() == Statics.NEW_ELEMENTS) {
