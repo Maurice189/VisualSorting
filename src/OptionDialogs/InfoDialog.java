@@ -82,7 +82,7 @@ public class InfoDialog extends OptionDialog {
 
 			}
 			
-			//setPage(activeIndex);
+			setPage(activeIndex);
 
 			btnPanel.add(nextRight);
 			revalidate();
@@ -117,7 +117,7 @@ public class InfoDialog extends OptionDialog {
 				btnPanel.add(Box.createHorizontalGlue());
 
 			}
-			//setPage(activeIndex);
+			setPage(activeIndex);
 
 			btnPanel.add(nextRight);
 			revalidate();
