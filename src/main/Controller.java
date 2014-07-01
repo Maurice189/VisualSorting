@@ -221,6 +221,7 @@ public class Controller implements Observer, ActionListener, WindowListener {
 			}
 
 			else{
+				
 				for (Sort temp : sortList) {
 					temp.getSortVisualtionPanel().enableRemoveButton(true);
 					temp.initElements();
@@ -297,20 +298,22 @@ public class Controller implements Observer, ActionListener, WindowListener {
 			if (sortList.size() > 0) {
 				
 				int selPanel = SortVisualtionPanel.getReleasedID();
-				Sort.setFlashingAnimation(false);
-				sortList.get(selPanel).unlockSignal();
-				sortList.get(selPanel).deleteObservers();
 				
-				Future<?> f = executor.submit(sortList.get(selPanel));  
-				f.cancel(true);
+				if(runningThreads != 0){
+					Sort.setFlashingAnimation(false);
+					sortList.get(selPanel).unlockSignal();
+					sortList.get(selPanel).deleteObservers();
+					Future<?> f = executor.submit(sortList.get(selPanel));  
+					f.cancel(true);
+					runningThreads--;
+				
+				}
+				
 				window.removeSort(selPanel);
 				sortList.remove(selPanel);
 				for (Sort temp : sortList) temp.getSortVisualtionPanel().updateID();
 				SortVisualtionPanel.updateCounter();
-				
-				runningThreads--;
 				Sort.setFlashingAnimation(true);
-				
 				
 				
 
