@@ -6,7 +6,6 @@ import java.awt.event.ActionEvent;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
-import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
@@ -100,12 +99,7 @@ public final class DelayDialog extends OptionDialog{
 			}
 
 		});
-		
-		java.net.URL helpURL = DelayDialog.class.getClassLoader().getResource(
-				"resources/frameIcon2.png");
-		if (helpURL != null) {
-			setIconImage(new ImageIcon(helpURL).getImage());
-		}
+	
 
 		add(panel3);
 		add(Box.createVerticalStrut(4));

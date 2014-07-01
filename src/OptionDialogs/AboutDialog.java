@@ -76,11 +76,6 @@ public class AboutDialog extends OptionDialog{
 
 			add(BorderLayout.CENTER, new JLabel(bg));
 			add(BorderLayout.SOUTH, cpr);
-			helpURL = AboutDialog.class.getClassLoader().getResource(
-					"resources/frameIcon2.png");
-			if (helpURL != null) {
-				setIconImage(new ImageIcon(helpURL).getImage());
-			}
 			setSize(bg.getIconWidth(), bg.getIconHeight() + 65);
 		}
 	}

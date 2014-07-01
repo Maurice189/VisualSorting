@@ -244,8 +244,10 @@ public class Controller implements Observer, ActionListener, WindowListener {
 		
 		else if (e.getActionCommand() == Statics.INFO) {
 
+			SORTALGORITHMS selAlgorithm = sortList.get(SortVisualtionPanel.getReleasedID()).getAlgorithmName();
+			
 			dialogs.add(new InfoDialog(this,
-			sortList.get(SortVisualtionPanel.getReleasedID()).getAlgorithmName(),"Name", 600, 400));
+			selAlgorithm,selAlgorithm.toString(), 600, 400));
 		}
 
 		else if (e.getActionCommand() == Statics.LANG_DE) {

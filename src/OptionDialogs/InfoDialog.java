@@ -38,13 +38,12 @@ public class InfoDialog extends OptionDialog {
 	public InfoDialog(Controller controller,SORTALGORITHMS sortAlgorithms,String title, int width,
 			int height) {
 		
-		
+		super();
 		this.activeIndex = sortAlgorithms.ordinal();
 		this.controller = controller;
 		initComponents();
-		setSize(width, height);
 		setTitle(title);
-		setLocationRelativeTo(null);
+		setSize(width, height);
 		setVisible(true);
 
 	}
@@ -134,6 +133,7 @@ public class InfoDialog extends OptionDialog {
 		if (helpURL != null) {
 			try {
 				manual.setPage(helpURL);
+				setTitle(SORTALGORITHMS.values()[index].toString());
 			} catch (IOException e) {
 				System.err.println("Attempted to read a bad URL: " + helpURL);
 			}

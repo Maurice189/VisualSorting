@@ -11,7 +11,6 @@ import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.ButtonGroup;
 import javax.swing.DefaultListModel;
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
@@ -262,13 +261,6 @@ public class EnterDialog extends OptionDialog {
 		add(sp, tcnt);
 		add(btnWrp1, btnWrpc1);
 		add(btnWrp2, btnWrpc2);
-
-		java.net.URL helpURL = EnterDialog.class.getClassLoader().getResource(
-				"resources/frameIcon2.png");
-
-		if (helpURL != null) {
-			setIconImage(new ImageIcon(helpURL).getImage());
-		}
 		
 		setResizable(false);
 	

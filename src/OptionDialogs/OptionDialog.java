@@ -2,6 +2,7 @@ package OptionDialogs;
 
 import java.awt.event.ActionListener;
 
+import javax.swing.ImageIcon;
 import javax.swing.JDialog;
 
 import main.Controller;
@@ -25,11 +26,23 @@ public abstract class OptionDialog extends JDialog implements ActionListener{
 		setSize(width, height);
 		setTitle(langXML.getValue(titleXMLTag));
 		setLocationRelativeTo(null);
+		
+		java.net.URL helpURL = OptionDialog.class.getClassLoader().getResource(
+				"resources/frameIcon2.png");
+		if (helpURL != null) {
+			setIconImage(new ImageIcon(helpURL).getImage());
+		}
 		setVisible(true);
 	}
 	
 	public OptionDialog(){
 		
+		setLocationRelativeTo(null);
+		java.net.URL helpURL = OptionDialog.class.getClassLoader().getResource(
+				"resources/frameIcon2.png");
+		if (helpURL != null) {
+			setIconImage(new ImageIcon(helpURL).getImage());
+		}
 	}
 	
 
