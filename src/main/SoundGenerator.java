@@ -1,5 +1,8 @@
 package main;
 
+/**
+ * @author maurice
+ */
 import javax.sound.sampled.AudioFormat;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
@@ -19,6 +22,7 @@ public class SoundGenerator {
 		af = new AudioFormat(44100, 16, 1, true, false);
 		sinusTone = getSinusTone(level * refPitchLevel, af);
 	}
+
 
 	private byte[] getSinusTone(int frequency, AudioFormat af) {
 		byte sample_size = (byte) (af.getSampleSizeInBits() / 8);

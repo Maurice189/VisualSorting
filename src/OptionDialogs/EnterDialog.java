@@ -1,5 +1,23 @@
 package OptionDialogs;
 
+/*
+Visualsorting
+Copyright (C) 2014  Maurice Koch
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+*/
+
 import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
@@ -24,9 +42,15 @@ import main.Controller;
 import sorting_algorithms.Sort;
 
 /**
- * <b>Used Pattern: Singleton</b>
+ * This class is responsible for editing the sorting list.
+ * You can either set the number of elements that should contain the list, then 
+ * every value is randomly determined, or you can set every value invidually.
  * 
- * @author maurice
+ * 
+ * @author Maurice Koch
+ * @category Dialogs
+ * @version BETA
+ * 
  * 
  */
 
@@ -42,8 +66,8 @@ public class EnterDialog extends OptionDialog {
 	private JPanel btnWrp1,btnWrp2; 
 	private static EnterDialog instance;
 
-	private EnterDialog(Controller controller, int width, int height) {
-		super(controller,"sortlist", width, height);
+	private EnterDialog(int width, int height) {
+		super("sortlist", width, height);
 
 	}
 
@@ -156,8 +180,10 @@ public class EnterDialog extends OptionDialog {
 	}
 	
 	
-
-	@Override
+	/**
+	 * {@inheritDoc} overriden method
+	 * @Override
+	 */
 	public void updateComponentsLabel() {
 
 		super.updateComponentsLabel();
@@ -172,6 +198,10 @@ public class EnterDialog extends OptionDialog {
 
 	}
 
+	/**
+	 * {@inheritDoc} overriden method
+	 */
+	
 	@Override
 	protected void initComponents() {
 		listModel = new DefaultListModel<Integer>();
@@ -266,18 +296,24 @@ public class EnterDialog extends OptionDialog {
 	
 	}
 
-	public static EnterDialog getInstance(Controller controller, int width,
+	/**
+	 * 
+	 * @param width width of the frame
+	 * @param height height of the frame
+	 * @return an instance of EnterDialog, if the wasn't requested before,
+	 * it will be created. For more info see 'Singleton' (Design Pattern) 
+	 * @category Singelton (Design Pattern)
+	 */
+	public static EnterDialog getInstance(int width,
 			int height) {
 
 		if (instance == null)
-			instance = new EnterDialog(controller, width, height);
+			instance = new EnterDialog(width, height);
 
 		instance.setVisible(true);
 		return instance;
 	}
 
-	public static EnterDialog getInstance() {
-		return instance;
-	}
+
 
 }

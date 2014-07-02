@@ -1,5 +1,38 @@
 package OptionDialogs;
 
+/*
+Visualsorting
+Copyright (C) 2014  Maurice Koch
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+*/
+
+
+/**
+ * This class is used to show the 'InfoDialog'. This dialog is opened, when
+ * the left button on the 'SortVisualisationPanel' is clicked.
+ * Each algorithm provides it's own html file (stored in resources, for e.g 'infopage_quicksort.html).
+ * This page is displayed via a suitible component. You can even switch between the pages with
+ * two control buttons on the right and the left side.
+ * 
+ * @author Maurice Koch
+ * @category Dialogs
+ * @version BETA
+ * 
+ * 
+ */
+
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Font;
@@ -17,7 +50,6 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
-import main.Controller;
 import main.Statics;
 import main.Statics.SORTALGORITHMS;
 
@@ -35,12 +67,19 @@ public class InfoDialog extends OptionDialog {
 	private JButton nextRight, nextLeft;
 	private int currentIndex = 0, activeIndex;
 
-	public InfoDialog(Controller controller,SORTALGORITHMS sortAlgorithms,String title, int width,
+	/**
+	 * 
+	 * @param sortAlgorithms a enumertion list of all existing sort algoritms, is
+	 * 						 used for displaying 
+	 * @param title {@inheritDoc}
+	 * @param width {@inheritDoc}
+	 * @param height {@inheritDoc}
+	 */
+	public InfoDialog(SORTALGORITHMS sortAlgorithms,String title, int width,
 			int height) {
 		
 		super();
 		this.activeIndex = sortAlgorithms.ordinal();
-		this.controller = controller;
 		initComponents();
 		setTitle(title);
 		setSize(width, height);
@@ -125,7 +164,13 @@ public class InfoDialog extends OptionDialog {
 		
 		
 	}
-	
+	/**
+	 * The value of the index in SORTALGORITHMS enumertion resolved into the respective
+	 * html-file path. 
+	 * @see initInfoPageResolver(HashMap<SORTALGORITHMS,String> infoPageRes)
+	 * 
+	 * @param index the page of the index in the enumertionlist of SORTALGORITHMS is shown 
+	 */
 	private void setPage(int index){
 		
 		java.net.URL helpURL = InfoDialog.class.getClassLoader().getResource(
@@ -198,6 +243,12 @@ public class InfoDialog extends OptionDialog {
 
 	}
 	
+	/**
+	 * 
+	 * HashMap: key = 'name of sort algorithm'
+	 * 			value = 'path of the respective html-file'
+	 * @param infoPageRes map for resolving each sort algorithm into the respective html-file path
+	 */
 	public static void initInfoPageResolver(HashMap<SORTALGORITHMS,String> infoPageRes){
 		InfoDialog.infoPageRes = infoPageRes;
 		

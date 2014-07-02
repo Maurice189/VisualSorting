@@ -1,5 +1,14 @@
 package sorting_algorithms;
 
+/**
+ * 
+ * Implementation of the respective sort algorithm.
+ * 
+ * @author maurice
+ * @version BETA
+ * @category Sort
+ */
+
 import main.SortVisualtionPanel;
 import main.Statics.SORTALGORITHMS;
 

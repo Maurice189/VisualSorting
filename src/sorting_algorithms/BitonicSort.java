@@ -1,5 +1,15 @@
 package sorting_algorithms;
 
+
+/**
+ * 
+ * Implementation of the respective sort algorithm.
+ * 
+ * @author maurice
+ * @version BETA
+ * @category Sort
+ */
+
 import main.Statics.SORTALGORITHMS;
 
 
@@ -56,6 +66,9 @@ public class BitonicSort extends Sort {
 
 	}
 
+	/**
+	 * {@inheritDoc} return specific value
+	 */
 	@Override
 	public SORTALGORITHMS getAlgorithmName() {
 		// TODO Auto-generated method stub

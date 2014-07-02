@@ -9,20 +9,33 @@ import main.SortVisualtionPanel;
 import main.Statics.SORTALGORITHMS;
 
 /**
- * <b>Used Pattern: Strategy Design Pattern/Observer Design Pattern</b>
+ * 
+ * <h3>Used Design Patterns</h3></br>
+ * <ul>
+ * 		<li><b>Model</b>-View-Controller</br></li>
+ * 		<li>Strategy Design Pattern</li>
+ * 		<li>Observer Design Pattern</li>
+ * </ul>
+ * 
+ * </br><h3>Abstract</h3></br>
  * 
  * As the Strategy Design Pattern declares, every single sort algorithmn is
  * implemented as a own class. This abstract class defines the interface and
- * implements <b>Runnable</b> in order to execute every single sort algorithmn
+ * implements Runnable in order to execute every single sort algorithmn
  * in a own thread. Moreover every sort object has its reference to a own
- * canvas(named: <b>SortVisualtionPanel</b>) <br>
- * <br>
+ * canvas 
  * Even we need to know(for the GUI) when the sort proceedure has terminated.
- * Thats the reason, why we need the Obserable interface
+ * Thats the reason, why we need the Observable interface 
+ * After a thread has terminated, it notifys the Controller 
+ * 
  * 
  * 
  * @author maurice
  * @version BETA
+ * @category Strategy
+ * @see main.Controller
+ * @see java.util.Observable
+ * @see main.SortVisualtionPanel
  * 
  */
 
@@ -41,23 +54,15 @@ public abstract class Sort extends Observable implements Runnable {
 	protected Condition condition = lock.newCondition();
 
 
-	/** @param <b>svp</b> */
-	public Sort(SortVisualtionPanel svp) { // permite write only per copy
-		// TODO Auto-generated constructor stub
+	/** 
+	 * @param svp
+	 * Each object hold its own SortVisualtionPanel and redirect every 
+	 * changes that are done on the sortlist
+	 */
+	public Sort(SortVisualtionPanel svp) {
 
 		this.svp = svp;
 
-		/*
-		 * this block is redundant, if 'initElements()' is called always before
-		 * the animation launchs
-		 * 
-		 * 
-		 * this.elements = new int[Sort.gElement.length]; System.arraycopy(
-		 * Sort.gElement, 0, elements, 0, Sort.gElement.length );
-		 * 
-		 * 
-		 * svp.setElements(this.elements); svp.drawElements();
-		 */
 
 	}
 
@@ -71,11 +76,20 @@ public abstract class Sort extends Observable implements Runnable {
 		// svp.drawElements();
 	}
 
+	/**
+	 * 
+	 * @param elements
+	 * sortling list, that can accessed from every object, in order to create a copy
+	 */
 	public static void setElements(int elements[]) {
 		Sort.gElement = elements;
 
 	}
 
+	/**
+	 * a copy of the static sortlist is created 
+	 * @see setElements(int elements[])
+	 */
 	public Sort() {
 		// TODO Auto-generated constructor stub
 
@@ -84,6 +98,9 @@ public abstract class Sort extends Observable implements Runnable {
 
 	}
 	
+	/**
+	 * The paused thread resume
+	 */
 	public void unlockSignal(){
 		try {
 			lock.lock();
@@ -93,6 +110,12 @@ public abstract class Sort extends Observable implements Runnable {
 		}
 	}
 
+	/**
+	 * This method is called in the run method from every algorithm that is running
+	 * This is needed to provide the start/stop functionality that is based
+	 * on locks and condition. 
+	 * 
+	 */
 	protected void checkRunCondition() {
 
 		try {
@@ -111,6 +134,15 @@ public abstract class Sort extends Observable implements Runnable {
 		}
 	}
 
+	/**
+	 * 
+	 * @return is used for displaying the sorting list in 'EnterDialog'
+	 * and for saving the number of elements in the configuration file
+	 * 
+	 * @see OptionDialogs.EnterDialog
+	 * @see main.Controller
+	 * @see main.InternalConfig
+	 */
 	public static int[] getElements() {
 		return Sort.gElement;
 	}
@@ -122,56 +154,81 @@ public abstract class Sort extends Observable implements Runnable {
 
 	}
 	
+	/**
+	 * @return the specific algorithm name (identifying is needed for the info dialog)
+	 * @see OptionDialogs.InfoDialog
+	 */
 	public abstract SORTALGORITHMS getAlgorithmName();
 
 	public static void stop() {
 		stop = true;
 
 	}
-
 	public static void resume() {
 		stop = false;
 
 	}
 	
+	/**
+	 * 
+	 * @param flashing decide wheather to animated the ending of a sorting proceedure
+	 */
 	public static void setFlashingAnimation(boolean flashing){
 		
 		Sort.flashing = flashing;
 	}
-
+	
+	/**
+	 * 
+0	 * @return is especially needed for the controller
+	 */
 	public static boolean isStopped() {
 		return stop;
 	}
 
+	/**
+	 * 
+	 * @return is used to apply modifications on the 'SortVisualtionPanel' object
+	 * for e.g enable the remove button
+	 */
 	public SortVisualtionPanel getSortVisualtionPanel() {
 
 		return svp;
 	}
 
-	public Condition getCondition() {
-		return condition;
-	}
-
-	public Lock getLock() {
-		return lock;
-	}
-
+	/**
+	 * 
+	 * @param delayNs  set the delay(nanoseconds) for all threads
+	 */
 	public static void setDelayNs(int delayNs) {
 
 		Sort.delayNs = delayNs;
 
 	}
 
+
+	/**
+	 * 
+	 * @param delayNs  set the delay(milliseconds) for all threads
+	 */
 	public static void setDelayMs(long delayMs) {
 
 		Sort.delayMs = delayMs;
 
 	}
 
+	/**
+	 * 
+	 * @return The delay is saved in the configuartion file
+	 */
 	public static long getDelayMs() {
 		return Sort.delayMs;
 	}
 
+	/**
+	 * 
+	 * @return The delay is saved in the configuartion file
+	 */
 	public static long getDelayNs() {
 		return Sort.delayNs;
 	}

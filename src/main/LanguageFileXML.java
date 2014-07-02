@@ -1,34 +1,71 @@
 package main;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
+/*
+Visualsorting
+Copyright (C) 2014  Maurice Koch
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+*/
+
+/**
+ * 
+ * The application provides multiple languages.
+ * This class is used to load a specific language file. The respective 
+ * values (often times component titles) are stored in a XML file. 
+ * 
+ * For loading/reading the XML file I used <a href="http://www.jdom.org/">http://www.jdom.org/</a>
+ * API. It's easier to deal with than the API in the Java SDK.
+ * 
+ * 
+ * @author maurice
+ * @category persistence
+ * @version BETA
+ * 
+ *  
+ */
+
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.URISyntaxException;
-
 import org.jdom2.Document;
 import org.jdom2.Element;
 import org.jdom2.JDOMException;
 import org.jdom2.input.SAXBuilder;
-import org.jdom2.output.Format;
-import org.jdom2.output.XMLOutputter;
 
 public class LanguageFileXML {
 
 	private Element element;
 	private Document document;
-	private String source;
 
 	public LanguageFileXML() {
 	}
 	
+	
+	/**
+	 * 
+	 * @param xmlTag the addressed component title
+	 * @return value(title)
+	 */
 	public String getValue(String xmlTag){
 		
 		return element.getChild(xmlTag).getValue();
 	}
 	
+	/**
+	 * 
+	 * @param xmlTag key
+	 * @param value value
+	 */
 	public void setValue(String xmlTag,String value){
 		
 		element.removeChild(xmlTag);
@@ -38,19 +75,14 @@ public class LanguageFileXML {
 		
 	}
 
-	public boolean readXML(String source,boolean isResource) {
-
-		this.source = source;
-		InputStream in = null;
+	/**
+	 * 
+	 * @param source path to the xml-file
+	 * @return true when language xml-file could be loaded
+	 */
+	public boolean readXML(String source) {
 		
-		if(isResource) in = Statics.class.getResourceAsStream(source);
-		else{
-			try {
-				in = new FileInputStream(source);
-			} catch (FileNotFoundException e) {
-				e.printStackTrace();
-			}
-		}
+		InputStream in = Statics.class.getResourceAsStream(source);
 
 		try {
 			//long t = System.currentTimeMillis();
@@ -72,19 +104,5 @@ public class LanguageFileXML {
 
 	}
 
-	public void closeDOM() throws JDOMException, IOException, URISyntaxException {
-		
-
-		File file = new File(source);
-		FileOutputStream fos = new FileOutputStream(file);
-		XMLOutputter outputter = new XMLOutputter(Format.getPrettyFormat());
-		outputter.output(document, fos);
-		fos.flush();
-		fos.close();
-		element = null;
-
-	}
-
-	
 
 }

@@ -1,5 +1,43 @@
 package main;
 
+/*
+Visualsorting
+Copyright (C) 2014  Maurice Koch
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+*/
+
+/**
+ * 
+ * <h3>Used Design Patterns</h3></br>
+ * <ul>
+ * 		<li>Model-<b>View</b>-Controller</br></li>
+ * </ul>
+ * </br><h3>Abstract</h3></br>
+ * This class respresents, as the name implies, the view(GUI) in the MVC pattern.
+ * 
+ * @author Maurice Koch
+ * @category MVC
+ * @version BETA
+ * 
+ * 
+ * 
+ * 
+ */
+
+
+
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
@@ -36,13 +74,7 @@ import OptionDialogs.OptionDialog;
 import sorting_algorithms.Sort;
 
 
-/**
- * @author Maurice Koch
- * @version BETA
- * 
- * This class respresents, as the name implies, the view(GUI) in the MVC pattern.
 
- */
 
 
 public class Window extends JFrame {
@@ -458,7 +490,7 @@ public class Window extends JFrame {
 			
 		} catch (IOException e1) {e1.printStackTrace();}
 		
-		configLanguage.readXML("/resources/".concat(InternalConfig.getValue("language")),true);
+		configLanguage.readXML("/resources/".concat(InternalConfig.getValue("language")));
 		
 		// define resources
 		OptionDialog.setLanguageFileXML(configLanguage);

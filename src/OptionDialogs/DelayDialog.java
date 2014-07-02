@@ -1,5 +1,36 @@
 package OptionDialogs;
 
+/*
+Visualsorting
+Copyright (C) 2014  Maurice Koch
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+*/
+
+/**
+ * This class is responsible setting the delay time, that every running sort algorithm 
+ * wait each iteration. The milliseconds as well as the nanoseconds can be set.
+ * The respective values are immediately set in 'Sort'
+ * @see sorting_algorithms.Sort
+ * 
+ * 
+ * @author Maurice Koch
+ * @category Dialogs
+ * @version BETA
+ * 
+ * 
+ */
 
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
@@ -14,15 +45,8 @@ import javax.swing.border.EtchedBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-import main.Controller;
 import sorting_algorithms.Sort;
 
-
-/**
- * <b>Used Pattern: Singleton</b>  
- * @author maurice
- * 
- */
 
 public final class DelayDialog extends OptionDialog{
 	
@@ -32,12 +56,15 @@ public final class DelayDialog extends OptionDialog{
 	private JRadioButton ms,ns;
 	private boolean active = true;
 	
-	private DelayDialog(Controller controller,int width, int height) {
-		super(controller,"delay", width, height);
+	private DelayDialog(int width, int height) {
+		super("delay", width, height);
 		
 	}
 	
-	@Override
+	/**
+	 * {@inheritDoc} overriden method
+	 * @Override
+	 */
 	protected void initComponents() {
 		
 		delay = new JLabel();
@@ -113,13 +140,6 @@ public final class DelayDialog extends OptionDialog{
 	}
 	
 	
-	@Override
-	public void updateComponentsLabel() {
-		
-		super.updateComponentsLabel();
-
-	}
-
 	
 	@Override
 	public void actionPerformed(ActionEvent e) {
@@ -154,11 +174,17 @@ public final class DelayDialog extends OptionDialog{
 		
 	}
 
-	
-	
-	public static DelayDialog getInstance(Controller controller,int width, int height){
+	/**
+	 * 
+	 * @param width width of the frame
+	 * @param height height of the frame
+	 * @return an instance of EnterDialog, if the wasn't requested before,
+	 * it will be created. For more info see 'Singleton' (Design Pattern) 
+	 * @category Singelton (Design Pattern)
+	 */
+	public static DelayDialog getInstance(int width, int height){
 		
-		if(instance == null) instance = new DelayDialog(controller,width,height);
+		if(instance == null) instance = new DelayDialog(width,height);
 		
 		instance.setVisible(true);
 		return instance;

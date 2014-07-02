@@ -1,5 +1,45 @@
 package main;
 
+/*
+Visualsorting
+Copyright (C) 2014  Maurice Koch
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+*/
+
+
+/**
+ * 
+ * <h3>Used Design Patterns</h3></br>
+ * <ul>
+ * 		<li>Model-View-<b>Controller</li>
+ * 		<li>Observer Design Pattern</li>
+ * </ul>
+ * 
+ * </br><h3>Abstract</h3></br>
+ * 
+ * This class respresents, as the name implies, the controller in the
+ * MVC pattern. Moreover this class implements the observer pattern,
+ * so the controller can be informed, if a visualsation thread ends
+ * 
+ * @author Maurice Koch
+ * @version BETA
+ * @category MVC
+ * 
+ */
+
+
 import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -34,28 +74,25 @@ import sorting_algorithms.ShakerSort;
 import sorting_algorithms.ShellSort;
 import sorting_algorithms.Sort;
 
-/**
- * @author Maurice Koch
- * @version BETA
- * 
- * 
- *          This class respresents, as the name implies, the controller in the
- *          MVC pattern. Moreover this class implements the observer pattern, so
- *          the controller can be informed, if a visualsation thread ends
- */
 
 
 public class Controller implements Observer, ActionListener, WindowListener {
 
-	private ArrayList<Sort> sortList; // dynamic storage for the sort algorithmns
-	private LinkedList<OptionDialog> dialogs; // references to the open dialogs, like settings etc.
+	private ArrayList<Sort> sortList; 
+	private LinkedList<OptionDialog> dialogs; 
 
 	private Window window;
 	private LanguageFileXML langXMLInterface;
-	private int runningThreads, vspIndex; // number of running sortthreads, index of current clicked vsp-panel
-	private boolean byUserStopped = false; 
-	private ExecutorService executor; // we use executor service, because it's more memory efficient
+	private int runningThreads, vspIndex; 
+	private boolean byUserStopped = false;
+	private ExecutorService executor; 
 
+	/**
+	 * 
+	 * @param langXMLInterface interface for language
+	 * @param nofelements number of elements that are supposed to generate
+	 * (this is determined by the value in the config.txt)
+	 */
 	public Controller(LanguageFileXML langXMLInterface, final int nofelements) {
 
 		this.langXMLInterface = langXMLInterface;
@@ -68,16 +105,12 @@ public class Controller implements Observer, ActionListener, WindowListener {
 
 		// fill random numbers to the sort list
 		for (int i = 0; i < nofelements; i++)
-			elements[i] = Controller.getRandomNumber(0, nofelements/3);
+			elements[i] = Controller.getRandomNumber(0, nofelements / 3);
 
 		Sort.setElements(elements);
 
 	}
 
-	public ArrayList<Sort> getList() {
-		return sortList;
-		
-	}
 
 	public void setView(Window window) {
 
@@ -85,10 +118,11 @@ public class Controller implements Observer, ActionListener, WindowListener {
 		SortVisualtionPanel.setBackgroundColor(window.getBackground());
 	}
 
+	
 	public static int getRandomNumber(int low, int high) {
 		return (int) (Math.random() * (high - low) + low);
 	}
-
+	
 	public void actionPerformed(ActionEvent e) {
 
 		if (e.getActionCommand() == Statics.ADD_SORT) {
@@ -124,9 +158,10 @@ public class Controller implements Observer, ActionListener, WindowListener {
 				sort = new BitonicSort();
 			else if (selectedSort.equals(SORTALGORITHMS.Radixsort.toString()))
 				sort = new RadixSort();
-			else if (selectedSort.equals(SORTALGORITHMS.Shellsort.toString())) 
+			else if (selectedSort.equals(SORTALGORITHMS.Shellsort.toString()))
 				sort = new ShellSort();
-			else if (selectedSort.equals(SORTALGORITHMS.Insertionsort.toString()))
+			else if (selectedSort.equals(SORTALGORITHMS.Insertionsort
+					.toString()))
 				sort = new InsertionSort();
 			else
 				sort = new HeapSort();
@@ -189,10 +224,10 @@ public class Controller implements Observer, ActionListener, WindowListener {
 		else if (e.getActionCommand() == Statics.RESET) {
 
 			if (Sort.isStopped()) {
-				
+
 				Sort.resume();
 				Sort.setFlashingAnimation(false);
-				
+
 				for (Sort temp : sortList) {
 
 					temp.deleteObservers();
@@ -201,27 +236,29 @@ public class Controller implements Observer, ActionListener, WindowListener {
 				}
 
 				executor.shutdownNow();
-				
+
 				try {
-					executor.awaitTermination(2000, TimeUnit.MILLISECONDS); 
-				} catch (InterruptedException e1) {e1.printStackTrace();}
+					executor.awaitTermination(2000, TimeUnit.MILLISECONDS);
+				} catch (InterruptedException e1) {
+					e1.printStackTrace();
+				}
 
 				if (!executor.isTerminated())
 					System.out.println("executor service isn't terminated !");
-				
+
 				for (Sort temp : sortList) {
-					
+
 					temp.initElements();
 					temp.addObserver(this);
 
 				}
-				
+
 				Sort.setFlashingAnimation(true);
 
 			}
 
-			else{
-				
+			else {
+
 				for (Sort temp : sortList) {
 					temp.getSortVisualtionPanel().enableRemoveButton(true);
 					temp.initElements();
@@ -235,26 +272,27 @@ public class Controller implements Observer, ActionListener, WindowListener {
 
 		else if (e.getActionCommand() == Statics.NEW_ELEMENTS) {
 
-			dialogs.add(EnterDialog.getInstance(this, 500, 300));
+			dialogs.add(EnterDialog.getInstance(500, 300));
 		}
 
 		else if (e.getActionCommand() == Statics.ABOUT) {
 
-			dialogs.add(new AboutDialog(this, 300, 190));
+			dialogs.add(new AboutDialog(300, 190));
 		}
-		
+
 		else if (e.getActionCommand() == Statics.INFO) {
 
-			SORTALGORITHMS selAlgorithm = sortList.get(SortVisualtionPanel.getReleasedID()).getAlgorithmName();
-			
-			dialogs.add(new InfoDialog(this,
-			selAlgorithm,selAlgorithm.toString(), 600, 400));
+			SORTALGORITHMS selAlgorithm = sortList.get(
+					SortVisualtionPanel.getReleasedID()).getAlgorithmName();
+
+			dialogs.add(new InfoDialog(selAlgorithm, selAlgorithm
+					.toString(), 600, 400));
 		}
 
 		else if (e.getActionCommand() == Statics.LANG_DE) {
 
 			Statics.setLanguage("lang_de.xml");
-			langXMLInterface.readXML("/resources/lang_de.xml",true);
+			langXMLInterface.readXML("/resources/lang_de.xml");
 			window.updateLanguage();
 			for (OptionDialog temp : dialogs)
 				temp.updateComponentsLabel(); // update language on every open
@@ -265,7 +303,7 @@ public class Controller implements Observer, ActionListener, WindowListener {
 		else if (e.getActionCommand() == Statics.LANG_EN) {
 
 			Statics.setLanguage("lang_en.xml");
-			langXMLInterface.readXML("/resources/lang_en.xml",true);
+			langXMLInterface.readXML("/resources/lang_en.xml");
 			window.updateLanguage();
 			for (OptionDialog temp : dialogs)
 				temp.updateComponentsLabel(); // update language on every open
@@ -276,7 +314,7 @@ public class Controller implements Observer, ActionListener, WindowListener {
 		else if (e.getActionCommand() == Statics.LANG_FR) {
 
 			Statics.setLanguage("lang_fr.xml");
-			langXMLInterface.readXML("/resources/lang_fr.xml",true);
+			langXMLInterface.readXML("/resources/lang_fr.xml");
 			window.updateLanguage();
 			for (OptionDialog temp : dialogs)
 				temp.updateComponentsLabel(); // update language on every open
@@ -296,26 +334,25 @@ public class Controller implements Observer, ActionListener, WindowListener {
 		else if (e.getActionCommand() == Statics.POPUP_REMOVE) {
 
 			if (sortList.size() > 0) {
-				
+
 				int selPanel = SortVisualtionPanel.getReleasedID();
-				
-				if(runningThreads != 0){
+
+				if (runningThreads != 0) {
 					Sort.setFlashingAnimation(false);
 					sortList.get(selPanel).unlockSignal();
 					sortList.get(selPanel).deleteObservers();
-					Future<?> f = executor.submit(sortList.get(selPanel));  
+					Future<?> f = executor.submit(sortList.get(selPanel));
 					f.cancel(true);
 					runningThreads--;
-				
+
 				}
-				
+
 				window.removeSort(selPanel);
 				sortList.remove(selPanel);
-				for (Sort temp : sortList) temp.getSortVisualtionPanel().updateID();
+				for (Sort temp : sortList)
+					temp.getSortVisualtionPanel().updateID();
 				SortVisualtionPanel.updateCounter();
 				Sort.setFlashingAnimation(true);
-				
-				
 
 			}
 		}
@@ -332,13 +369,18 @@ public class Controller implements Observer, ActionListener, WindowListener {
 
 		else if (e.getActionCommand() == Statics.DELAY) {
 
-			dialogs.add(DelayDialog.getInstance(this, 320, 150));
+			dialogs.add(DelayDialog.getInstance(320, 150));
 		}
 
 	}
 
-	// this method will be called by an EDT foreign thread
-	@Override
+	/**
+	 *  This is part of the Observer Pattern
+	 *  this method will be called by an EDT foreign thread
+	 *  
+	 *  @Override
+	 */
+	
 	public void update(Observable o, Object arg) {
 
 		if (--runningThreads == 0) {
@@ -355,16 +397,21 @@ public class Controller implements Observer, ActionListener, WindowListener {
 	public void windowOpened(WindowEvent e) {
 	}
 
-	@Override
+	/**
+	 * If the window is closing the program values are set in the configuartion file
+	 * @see main.InternalConfig
+	 * @Override
+	 */
+	
 	public void windowClosing(WindowEvent e) {
-		
+
 		for (OptionDialog temp : dialogs)
 			temp.dispose();
-		
-		InternalConfig.setValue("delayms",Sort.getDelayMs());
-		InternalConfig.setValue("delayns",Sort.getDelayNs());
-		InternalConfig.setValue("language",Statics.getLanguageSet());
-		InternalConfig.setValue("nofelements",Sort.getElements().length);
+
+		InternalConfig.setValue("delayms", Sort.getDelayMs());
+		InternalConfig.setValue("delayns", Sort.getDelayNs());
+		InternalConfig.setValue("language", Statics.getLanguageSet());
+		InternalConfig.setValue("nofelements", Sort.getElements().length);
 		InternalConfig.saveChanges();
 	}
 
@@ -380,8 +427,10 @@ public class Controller implements Observer, ActionListener, WindowListener {
 	public void windowDeiconified(WindowEvent e) {
 	}
 
-	// animation will be released after the user reactivate the window
-	@Override
+	/**
+	 *  animation will be released after the user reactivate the window
+	 *  @Override
+	 */
 	public void windowActivated(WindowEvent e) {
 
 		if (runningThreads != 0 && byUserStopped == false) {
@@ -395,8 +444,11 @@ public class Controller implements Observer, ActionListener, WindowListener {
 
 	}
 
-	// animation will be paused if the user deactivate the window
-	@Override
+	/**
+	 *  animation will be paused if the user deactivate the window
+	 *  @Override
+	 */
+	
 	public void windowDeactivated(WindowEvent e) {
 		Sort.stop();
 		if (runningThreads != 0 && byUserStopped == false) {
