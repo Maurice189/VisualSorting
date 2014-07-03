@@ -1,6 +1,6 @@
 package sorting_algorithms;
 
-// copied from http://forgetcode.com/Java/1327-Shell-Sort
+// copied from http://rosettacode.org/wiki/Sorting_algorithms/Shell_sort#Java
 
 /**
  * 
@@ -28,50 +28,64 @@ public class ShellSort extends Sort {
 
 	}
 
+	public static void shell(int[] a) {
+		int increment = a.length / 2;
+		while (increment > 0) {
+			for (int i = increment; i < a.length; i++) {
+				int j = i;
+				int temp = a[i];
+				while (j >= increment && a[j - increment] > temp) {
+					a[j] = a[j - increment];
+					j = j - increment;
+				}
+				a[j] = temp;
+			}
+			if (increment == 2) {
+				increment = 1;
+			} else {
+				increment *= (5.0 / 11);
+			}
+		}
+	}
+
 	public void run() {
 		// TODO Auto-generated method stub
 
-		int i, j, increment, temp, number_of_elements = elements.length;
-
-		/* Shell Sort Program */
-		for (increment = number_of_elements / 2; increment > 0; increment /= 2) {
-			for (i = increment; i < number_of_elements; i++) {
-				temp = elements[i];
-				for (j = i; j >= increment; j -= increment) {
-
-					if (temp < elements[j - increment]) {
+		int increment = elements.length / 2;
+		while (increment > 0) {
+			for (int i = increment; i < elements.length; i++) {
+				int j = i;
+				int temp = elements[i];
+				while (j >= increment && elements[j - increment] > temp) {
 					
-						svp.visualInsert(j, elements[j - increment]);
-						svp.setInfo("Shellsort",iterates++);
-						
-						elements[j] = elements[j - increment];
-						checkRunCondition();
 
-					} else {
-
-						svp.visualCmp(i, j - increment, false);
-						svp.setInfo("Shellsort",iterates++);
-						
-						checkRunCondition();
-						break;
-					}
+					svp.visualInsert(j, elements[j - increment]);
+					svp.setInfo("Shellsort",iterates++);
+					checkRunCondition();
+					elements[j] = elements[j - increment];
+					j = j - increment;
 				}
 				
-				
 				svp.visualInsert(j, temp);
-				elements[j] = temp;
-				
+				svp.setInfo("Shellsort",iterates++);
 				checkRunCondition();
-
+				elements[j] = temp;
+			}
+			if (increment == 2) {
+				increment = 1;
+			} else {
+				increment *= (5.0 / 11);
 			}
 		}
 
-		if(flashing) svp.flashing();
+
+		if (flashing)
+			svp.flashing();
 		setChanged();
 		notifyObservers();
 
 	}
-	
+
 	@Override
 	public SORTALGORITHMS getAlgorithmName() {
 		// TODO Auto-generated method stub

@@ -1,5 +1,7 @@
 package sorting_algorithms;
 
+
+
 // copied from http://www.java-uni.de/index.php?Seite=86
 
 /**
@@ -87,8 +89,8 @@ public class QuickSort extends Sort {
 		// TODO Auto-generated method stub
 
 		qSort(elements, 0, elements.length - 1);
-	
-		svp.flashing();
+		if(flashing) svp.flashing();
+		
 		setChanged();
 		notifyObservers();
 		

@@ -1,7 +1,28 @@
 package sorting_algorithms;
 
 
-// copied from http://en.wikibooks.org/wiki/Algorithm_Implementation/Sorting/Gnome_sort
+/*
+Visualsorting
+Copyright (C) 2014  Maurice Koch
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+This sort algorithm is based on:
+http://rosettacode.org/wiki/Sorting_algorithms/Gnome_sort#Java
+(C) Ingy döt Net 
+
+*/
 
 /**
  * 
@@ -29,50 +50,45 @@ public class GnomeSort extends Sort {
 
 	}
 
+
 	public void run() {
 
-		int pos = 1, last = 0;
-		while (pos < elements.length) {
-			if (elements[pos] >= elements[pos - 1]) {
+		int i = 1;
+		int j = 2;
 
-				svp.visualCmp(pos, pos - 1, false);
-				svp.setInfo("Gnomesort",iterates++);
+		while (i < elements.length) {
+			if (elements[i - 1] <= elements[i]) {
 
-				if (last != 0) {
-					pos = last;
-					last = 0;
-				}
-				pos = pos + 1;
+				
+				svp.visualCmp(i, i - 1, false);
+				svp.setInfo("Gnomesort", iterates++);
+				
+				i = j;
+				j++;
+				
 			} else {
-				int swap = elements[pos];
-				elements[pos] = elements[pos - 1];
-				elements[pos - 1] = swap;
 
-				svp.visualCmp(pos, pos - 1, true);
-				svp.setInfo("Gnomesort",iterates++);
-
-				if (pos > 1) {
-					if (last == 0) {
-						last = pos;
-					}
-					pos = pos - 1;
-				} else {
-					pos = pos + 1;
-				}
-
+				int tmp = elements[i - 1];
+				elements[i - 1] = elements[i];
+				elements[i] = tmp;
+				
+				svp.visualCmp(i, i - 1, true);
+				svp.setInfo("Gnomesort", iterates++);
+				
+				i--;
+				i = (i == 0) ? j++ : i;
 			}
 
-		
 			checkRunCondition();
-			
 		}
-		
-		if(flashing) svp.flashing();
+
+		if (flashing)
+			svp.flashing();
 		setChanged();
 		notifyObservers();
 
 	}
-	
+
 	@Override
 	public SORTALGORITHMS getAlgorithmName() {
 		// TODO Auto-generated method stub

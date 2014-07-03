@@ -1,6 +1,28 @@
 package sorting_algorithms;
 
-// copied from http://www.iti.fh-flensburg.de/lang/algorithmen/sortieren/insert/insertion.htm
+
+/*
+Visualsorting
+Copyright (C) 2014  Maurice Koch
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+This sort algorithm is based on:
+http://rosettacode.org/wiki/Sorting_algorithms/Insertion_sort#Java
+(C) Ingy döt Net 
+
+*/
 
 /**
  * 
@@ -14,8 +36,7 @@ package sorting_algorithms;
 import main.SortVisualtionPanel;
 import main.Statics.SORTALGORITHMS;
 
-
-public class InsertionSort extends Sort{
+public class InsertionSort extends Sort {
 
 	public InsertionSort(SortVisualtionPanel svp) {
 		// TODO Auto-generated constructor stub
@@ -28,41 +49,46 @@ public class InsertionSort extends Sort{
 		super();
 
 	}
-	
+
+	public static void insertSort(int[] A) {
+		for (int i = 1; i < A.length; i++) {
+			int value = A[i];
+			int j = i - 1;
+			while (j >= 0 && A[j] > value) {
+				A[j + 1] = A[j];
+				j = j - 1;
+			}
+			A[j + 1] = value;
+		}
+	}
 
 	public void run() {
-		
-		int temp;
-		
+
 		for (int i = 1; i < elements.length; i++) {
-			temp = elements[i];
-			int j = i;
-			while (j > 0 && elements[j - 1] > temp) {
-				
-				svp.visualInsert(j, elements[j - 1]);
-				svp.setInfo("Insertionsort",iterates++);
-				
-				elements[j] = elements[j - 1];
+			int value = elements[i];
+			int j = i - 1;
+			while (j >= 0 && elements[j] > value) {
+
+				svp.visualInsert(j+1,elements[j]);
+				svp.setInfo("Insertionsort", iterates++);
 				checkRunCondition();
-			
-				
-				j--;
+				elements[j + 1] = elements[j];
+				j = j - 1;
 			}
-			
-			svp.visualInsert(j, temp);
-			svp.setInfo("Insertionsort",iterates++);
-			
-			elements[j] = temp;
+
+			svp.visualInsert(j + 1, value);
+			svp.setInfo("Insertionsort", iterates++);
 			checkRunCondition();
-		
+			elements[j + 1] = value;
 		}
-		
-		if(flashing) svp.flashing();
+
+		if (flashing)
+			svp.flashing();
 		setChanged();
 		notifyObservers();
-		
+
 	}
-	
+
 	@Override
 	public SORTALGORITHMS getAlgorithmName() {
 		// TODO Auto-generated method stub
