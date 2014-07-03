@@ -1,5 +1,7 @@
 package sorting_algorithms;
 
+// copied from http://www.javabeginners.de/Algorithmen/Sortieralgorithmen/Shakersort.php
+
 /**
  * 
  * Implementation of the respective sort algorithm.

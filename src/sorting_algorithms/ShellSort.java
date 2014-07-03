@@ -1,5 +1,7 @@
 package sorting_algorithms;
 
+// copied from http://forgetcode.com/Java/1327-Shell-Sort
+
 /**
  * 
  * Implementation of the respective sort algorithm.

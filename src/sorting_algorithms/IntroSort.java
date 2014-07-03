@@ -1,5 +1,7 @@
 package sorting_algorithms;
 
+// copied from http://www.cs.waikato.ac.nz/~bernhard/317/source/IntroSort.java
+
 /**
  * 
  * Implementation of the respective sort algorithm.

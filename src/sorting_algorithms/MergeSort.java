@@ -1,5 +1,10 @@
 package sorting_algorithms;
 
+/*
+ *  copied from http://www.javabeginners.de/Algorithmen/Sortieralgorithmen/Mergesort.php
+ *  Copyright Jörg Czeschla
+ */
+
 /**
  * 
  * Implementation of the respective sort algorithm.

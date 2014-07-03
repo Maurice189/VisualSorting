@@ -1,5 +1,8 @@
 package sorting_algorithms;
 
+
+// copied from http://en.wikibooks.org/wiki/Algorithm_Implementation/Sorting/Gnome_sort
+
 /**
  * 
  * Implementation of the respective sort algorithm.

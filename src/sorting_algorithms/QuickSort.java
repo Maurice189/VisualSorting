@@ -1,5 +1,7 @@
 package sorting_algorithms;
 
+// copied from http://www.java-uni.de/index.php?Seite=86
+
 /**
  * 
  * Implementation of the respective sort algorithm.

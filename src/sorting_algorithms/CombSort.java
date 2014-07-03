@@ -1,5 +1,9 @@
 package sorting_algorithms;
 
+
+// copied from http://rosettacode.org/wiki/Sorting_algorithms/Comb_sort
+// copyright Ingy döt Net 
+
 /**
  * 
  * Implementation of the respective sort algorithm.

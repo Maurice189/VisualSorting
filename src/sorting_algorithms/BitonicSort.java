@@ -1,6 +1,8 @@
 package sorting_algorithms;
 
 
+// copied from http://www.iti.fh-flensburg.de/lang/algorithmen/sortieren/bitonic/bitonicen.htm
+
 /**
  * 
  * Implementation of the respective sort algorithm.

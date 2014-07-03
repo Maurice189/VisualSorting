@@ -51,7 +51,7 @@ import javax.swing.border.TitledBorder;
  * @category graphics
  * 
  * 
- * */
+ **/
 
 public class SortVisualtionPanel extends JPanel implements ComponentListener {
 
