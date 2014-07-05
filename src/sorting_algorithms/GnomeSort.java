@@ -45,7 +45,6 @@ public class GnomeSort extends Sort {
 	}
 
 	public GnomeSort() {
-		// TODO Auto-generated constructor stub
 		super();
 
 	}

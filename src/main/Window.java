@@ -16,6 +16,7 @@ GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
 */
 
 /**
@@ -87,7 +88,7 @@ public class Window extends JFrame {
 	// we store the visualisation panels dynamically, so we can add and remove it much easier
 	private ArrayList<SortVisualtionPanel> vsPanel;
 	
-	// the filler is used for the vertical space between the visualisation panels
+	// the filler is used for the vertical space between the visualization panels
 	private ArrayList<Component> filler;
 	private String title;
 	

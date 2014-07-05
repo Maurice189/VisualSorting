@@ -92,6 +92,8 @@ public class Controller implements Observer, ActionListener, WindowListener {
 	 * @param langXMLInterface interface for language
 	 * @param nofelements number of elements that are supposed to generate
 	 * (this is determined by the value in the config.txt)
+	 * 
+	 * 
 	 */
 	public Controller(LanguageFileXML langXMLInterface, final int nofelements) {
 

@@ -76,7 +76,6 @@ public class LanguageFileXML {
 	}
 
 	/**
-	 * 
 	 * @param source path to the xml-file
 	 * @return true when language xml-file could be loaded
 	 */
