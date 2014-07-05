@@ -3,14 +3,14 @@
   
 
     <reset>Reset</reset>
-    <settings>Settings</settings>
+    <settings>SETTINGS</settings>
     <iterations>iterations</iterations>
     <sortlist>Set List</sortlist>
     <setManual>Set manual</setManual>
     <setList>Generate random numbers</setList>
     <selection>Selection</selection>
     <delay>Set delay</delay>
-    <help>Help</help>
+    <help>HELP</help>
     <about>About</about>
     <info>Add some sort algorithmn</info>
     <add>Add</add>

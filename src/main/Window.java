@@ -467,7 +467,7 @@ public class Window extends JFrame {
 		// set look and feel
 		try {
 			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-			 //UIManager.setLookAndFeel("com.sun.java.swing.plaf.nimbus.NimbusLookAndFeel");
+			//UIManager.setLookAndFeel("com.sun.java.swing.plaf.nimbus.NimbusLookAndFeel");
 		} catch (UnsupportedLookAndFeelException e) {
 			// handle exception
 		} catch (ClassNotFoundException e) {
@@ -498,7 +498,7 @@ public class Window extends JFrame {
 		SortVisualtionPanel.setLanguageFileXML(configLanguage);
 		
 		// this font is used under the GPL from google fonts under 'OpenSans'
-		Window.setComponentFont("/resources/OpenSans/OpenSans-Semibold.ttf",13f);
+		Window.setComponentFont("/resources/OpenSans/OpenSans-Regular.ttf",13f);
 		Window.setInfoFont("/resources/OxygenFont/Oxygen-Regular.ttf",30f);
 		
 		HashMap<SORTALGORITHMS,String> map = new HashMap<SORTALGORITHMS,String>();
