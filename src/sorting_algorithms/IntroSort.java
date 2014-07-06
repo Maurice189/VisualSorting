@@ -13,7 +13,6 @@ package sorting_algorithms;
 
 import main.Statics.SORTALGORITHMS;
 
-// TODO implementiere Grafikausgabe etc.
 public class IntroSort extends Sort {
 	  /* 
      * Class Variables 
@@ -172,33 +171,15 @@ public class IntroSort extends Sort {
     {  
         return (int)(Math.floor(Math.log(a)/Math.log(2)));  
     }  
-    
-    private static Sortable [] createMedianOf3KillerArray ( int length )  
-   {  
-       if (( length %2)==1)  
-           return null;  
-       int k= length /2;  
-       Sortable [] a = new Sortable [ length ];  
-       for (int i=1; i<=k; i++)  
-       {  
-           if ((i \%2) == 1)  
-           {  
-               a[i -1] = new SortableInteger (i);  
-               a[i] = new SortableInteger (k+i);  
-           }  
-           a[k+i -1] = new SortableInteger (2*i);  
-       }  
-       return a;  
-   }  
-
+ 
 	public void run() {
-		// TODO Auto-generated method stub
-
+		for(int i = 0; i<elements.length;i++){
+			a[i] = elements[i];
+		}
 	}
 
 	@Override
 	public SORTALGORITHMS getAlgorithmName() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 	

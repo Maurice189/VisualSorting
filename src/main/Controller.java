@@ -62,6 +62,7 @@ import OptionDialogs.InfoDialog;
 import OptionDialogs.OptionDialog;
 import sorting_algorithms.BinaryTreeSort;
 import sorting_algorithms.BitonicSort;
+import sorting_algorithms.BogoSort;
 import sorting_algorithms.BubbleSort;
 import sorting_algorithms.CombSort;
 import sorting_algorithms.GnomeSort;
@@ -165,6 +166,9 @@ public class Controller implements Observer, ActionListener, WindowListener {
 			else if (selectedSort.equals(SORTALGORITHMS.Insertionsort
 					.toString()))
 				sort = new InsertionSort();
+			else if (selectedSort.equals(SORTALGORITHMS.Bogosort
+					.toString()))
+				sort = new BogoSort();
 			else
 				sort = new HeapSort();
 

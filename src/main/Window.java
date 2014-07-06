@@ -132,6 +132,7 @@ public class Window extends JFrame {
 		addWindowListener(controller);
 
 		toolBar = new JToolBar();
+		toolBar.setBorder(BorderFactory.createLineBorder(this.getBackground(), 3));
 		toolBar.setFloatable(false);
 		toolBar.setRollover(true);
 		menuBar = new JMenuBar();
@@ -514,6 +515,7 @@ public class Window extends JFrame {
 		map.put(SORTALGORITHMS.Radixsort, "infopage_radixsort.html");
 		map.put(SORTALGORITHMS.Shakersort, "infopage_shakersort.html");
 		map.put(SORTALGORITHMS.Shellsort, "infopage_shellsort.html");
+		map.put(SORTALGORITHMS.Bogosort, "infopage_bogosort.html");
 		InfoDialog.initInfoPageResolver(map);
 		
 	
