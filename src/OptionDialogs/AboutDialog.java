@@ -31,9 +31,16 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
 import java.awt.BorderLayout;
+import java.awt.Cursor;
+import java.awt.Desktop;
 import java.awt.event.ActionEvent;
+import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
+
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 
@@ -58,8 +65,24 @@ public class AboutDialog extends OptionDialog{
 	protected void initComponents() {
 		
 		
-		JLabel cpr = new JLabel("©2014 M.Koch - ".concat(Statics.getVersion()));
+		JLabel cpr = new JLabel();
 		ImageIcon bg = null;
+		
+		cpr.setText("(C) 2014 M.Koch - ".concat(Statics.getVersion()).concat(" - Clicke here to visit on GitHub"));
+		cpr.setCursor(new Cursor(Cursor.HAND_CURSOR));
+		cpr.addMouseListener(new MouseAdapter() {
+	            @Override
+	            public void mouseClicked(MouseEvent e) {
+	                   
+	                 try {
+						Desktop.getDesktop().browse(new URI("https://github.com/Maurice189/VisualSorting"));
+					} catch (IOException | URISyntaxException e1) {
+						e1.printStackTrace();
+					}
+	                   
+	            }
+	    });
+	    
 
 		setLayout(new BorderLayout());
 
