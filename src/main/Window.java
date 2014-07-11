@@ -57,6 +57,7 @@ import javax.swing.ButtonGroup;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JMenu;
@@ -68,6 +69,12 @@ import javax.swing.JSeparator;
 import javax.swing.JToolBar;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
+import javax.swing.border.Border;
+import javax.swing.border.CompoundBorder;
+import javax.swing.border.EmptyBorder;
+import javax.swing.plaf.ComboBoxUI;
+import javax.swing.plaf.basic.BasicArrowButton;
+import javax.swing.plaf.basic.BasicComboBoxUI;
 
 import main.Statics.SORTALGORITHMS;
 import OptionDialogs.InfoDialog;
@@ -132,10 +139,13 @@ public class Window extends JFrame {
 		addWindowListener(controller);
 
 		toolBar = new JToolBar();
-		toolBar.setBorder(BorderFactory.createLineBorder(this.getBackground(), 3));
 		toolBar.setFloatable(false);
 		toolBar.setRollover(true);
 		menuBar = new JMenuBar();
+		
+		Border border = BorderFactory.createEtchedBorder();
+		Border margin = new EmptyBorder(5,1,5,1);
+		toolBar.setBorder(new CompoundBorder(border, margin));
 
 		languages = new JMenu(
 				langXML.getValue("lang"));
@@ -209,6 +219,7 @@ public class Window extends JFrame {
 		sortChooser = new JComboBox<String>(names);
 		sortChooser.setFont(componentFont);
 		sortChooser.setMaximumSize(new Dimension(220, 30));
+		//sortChooser.setUI(ColorArrowUI.createUI(sortChooser));
 		
 		content = new JPanel();
 		content.setLayout(new BorderLayout());
@@ -298,9 +309,9 @@ public class Window extends JFrame {
 		if (helpURL != null) {
 			setIconImage(new ImageIcon(helpURL).getImage());
 		}
-		setLayout(new BorderLayout());
-		add(BorderLayout.PAGE_START, toolBar);
-		add(BorderLayout.CENTER, content);
+		setLayout(new BoxLayout(this.getContentPane(),BoxLayout.Y_AXIS));
+		add(toolBar);
+		add(content);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setLocationRelativeTo(null);
 		setVisible(true);
@@ -464,7 +475,7 @@ public class Window extends JFrame {
 
 	// TODO: use argument parameters for setting language
 	public static void main(String[] args) {
-
+		/*
 		// set look and feel
 		try {
 			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
@@ -478,7 +489,7 @@ public class Window extends JFrame {
 		} catch (IllegalAccessException e) {
 			// handle exception
 		}
-		
+		*/
 		LanguageFileXML configLanguage = new LanguageFileXML();
 		int nofelements = 100;
 		
@@ -528,6 +539,21 @@ public class Window extends JFrame {
 		
 	
 
+	}
+	
+	
+	static class ColorArrowUI extends BasicComboBoxUI {
+
+	    public static ComboBoxUI createUI(JComponent c) {
+	        return new ColorArrowUI();
+	    }
+
+	    @Override protected JButton createArrowButton() {
+	        return new BasicArrowButton(
+	            BasicArrowButton.LEFT,
+	            Color.blue, Color.magenta,
+	            Color.white, Color.white);
+	    }
 	}
 
 }

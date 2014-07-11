@@ -1,23 +1,22 @@
 package OptionDialogs;
 
 /*
-Visualsorting
-Copyright (C) 2014  Maurice Koch
+ Visualsorting
+ Copyright (C) 2014  Maurice Koch
 
-This program is free software: you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option) any later version.
+ This program is free software: you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation, either version 3 of the License, or
+ (at your option) any later version.
 
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
+ This program is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU General Public License for more details.
 
-You should have received a copy of the GNU General Public License
-along with this program.  If not, see <http://www.gnu.org/licenses/>.
-*/
-
+ You should have received a copy of the GNU General Public License
+ along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
 
 /**
  * This class is used to show the 'InfoDialog'. This dialog is opened, when
@@ -34,7 +33,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.io.IOException;
@@ -57,33 +58,62 @@ public class InfoDialog extends OptionDialog {
 
 	private final static int SIZE = 3, CENTER_PLUS = 1;
 	private final static Font NFONT_SIZE = new Font("Monospace", Font.PLAIN, 14),
-							  SFONT_SIZE = new Font("Monospace", Font.PLAIN, 10);
-	
-	private static HashMap<SORTALGORITHMS,String> infoPageRes;
+			SFONT_SIZE = new Font("Monospace", Font.PLAIN, 10);
+
+	private static HashMap<SORTALGORITHMS, String> infoPageRes;
 
 	private JEditorPane manual;
 	private JPanel btnPanel;
 	private JLabel selAlg[];
 	private JButton nextRight, nextLeft;
 	private int currentIndex = 0, activeIndex;
+	private JScrollPane editorScrollPane;
 
 	/**
 	 * 
-	 * @param sortAlgorithms a enumertion list of all existing sort algoritms, is
-	 * 						 used for displaying 
-	 * @param title {@inheritDoc}
-	 * @param width {@inheritDoc}
-	 * @param height {@inheritDoc}
+	 * @param sortAlgorithms
+	 *            a enumertion list of all existing sort algoritms, is used for
+	 *            displaying
+	 * @param title
+	 *            {@inheritDoc}
+	 * @param width
+	 *            {@inheritDoc}
+	 * @param height
+	 *            {@inheritDoc}
 	 */
-	public InfoDialog(SORTALGORITHMS sortAlgorithms,String title, int width,
+	public InfoDialog(SORTALGORITHMS sortAlgorithms, String title, int width,
 			int height) {
-		
+
 		super();
+
+		final JLabel loadGif = new JLabel(new ImageIcon(
+				Statics.class.getResource("/resources/loading.gif")),
+				JLabel.CENTER);
 		this.activeIndex = sortAlgorithms.ordinal();
-		initComponents();
+
 		setTitle(title);
 		setSize(width, height);
+		setLayout(new BorderLayout());
+		add(loadGif);
 		setVisible(true);
+
+		new Thread(new Runnable() {
+
+			@Override
+			public void run() {
+				
+				initComponents();
+				remove(loadGif);
+				
+				EventQueue.invokeLater(new Runnable() {
+					public void run() {
+						setVisible(true);
+					}
+				});
+
+			}
+
+		}).start();
 
 	}
 
@@ -107,11 +137,10 @@ public class InfoDialog extends OptionDialog {
 
 			for (int i = currentIndex; i < currentIndex + SIZE; i++) {
 
-				if (i != activeIndex){
+				if (i != activeIndex) {
 					selAlg[i].setEnabled(false);
 					selAlg[i].setFont(SFONT_SIZE);
-				}
-				else{
+				} else {
 					selAlg[i].setEnabled(true);
 					selAlg[i].setFont(NFONT_SIZE);
 				}
@@ -119,7 +148,7 @@ public class InfoDialog extends OptionDialog {
 				btnPanel.add(Box.createHorizontalGlue());
 
 			}
-			
+
 			setPage(activeIndex);
 
 			btnPanel.add(nextRight);
@@ -143,11 +172,10 @@ public class InfoDialog extends OptionDialog {
 			btnPanel.add(Box.createHorizontalGlue());
 			for (int i = currentIndex; i < currentIndex + SIZE; i++) {
 
-				if (i != activeIndex){
+				if (i != activeIndex) {
 					selAlg[i].setEnabled(false);
 					selAlg[i].setFont(SFONT_SIZE);
-				}
-				else{
+				} else {
 					selAlg[i].setEnabled(true);
 					selAlg[i].setFont(NFONT_SIZE);
 				}
@@ -161,20 +189,25 @@ public class InfoDialog extends OptionDialog {
 			revalidate();
 			repaint();
 		}
-		
-		
+
 	}
+
 	/**
-	 * The value of the index in SORTALGORITHMS enumertion resolved into the respective
-	 * html-file path. 
+	 * The value of the index in SORTALGORITHMS enumertion resolved into the
+	 * respective html-file path.
+	 * 
 	 * @see initInfoPageResolver(HashMap<SORTALGORITHMS,String> infoPageRes)
 	 * 
-	 * @param index the page of the index in the enumertionlist of SORTALGORITHMS is shown 
+	 * @param index
+	 *            the page of the index in the enumertionlist of SORTALGORITHMS
+	 *            is shown
 	 */
-	private void setPage(int index){
-		
-		java.net.URL helpURL = InfoDialog.class.getClassLoader().getResource(
-				"resources/".concat(infoPageRes.get(SORTALGORITHMS.values()[index])));
+	private void setPage(int index) {
+
+		java.net.URL helpURL = InfoDialog.class.getClassLoader()
+				.getResource(
+						"resources/".concat(infoPageRes.get(SORTALGORITHMS
+								.values()[index])));
 		if (helpURL != null) {
 			try {
 				manual.setPage(helpURL);
@@ -182,7 +215,7 @@ public class InfoDialog extends OptionDialog {
 			} catch (IOException e) {
 				System.err.println("Attempted to read a bad URL: " + helpURL);
 			}
-		} 
+		}
 
 	}
 
@@ -194,44 +227,61 @@ public class InfoDialog extends OptionDialog {
 		final int length = SORTALGORITHMS.length();
 
 		btnPanel = new JPanel();
-		btnPanel.setLayout(new BoxLayout(btnPanel,BoxLayout.X_AXIS));
+		btnPanel.setLayout(new BoxLayout(btnPanel, BoxLayout.X_AXIS));
+		btnPanel.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY));
+
 		selAlg = new JLabel[length];
-		nextLeft = new JButton(new ImageIcon(Statics.class.getResource("/resources/next_left_visualsort.png")));
+		nextLeft = new JButton(new ImageIcon(
+				Statics.class
+						.getResource("/resources/next_left_visualsort.png")));
+		nextLeft.setRolloverIcon(new ImageIcon(Statics.class
+				.getResource("/resources/next_left_visualsort.png")));
+		nextLeft.setRolloverEnabled(true);
 		nextLeft.addActionListener(this);
 		nextLeft.setBorder(BorderFactory.createEmptyBorder());
-		nextRight = new JButton(new ImageIcon(Statics.class.getResource("/resources/next_right_visualsort.png")));
+		nextLeft.setOpaque(false);
+		nextLeft.setContentAreaFilled(false);
+		nextLeft.setBorderPainted(false);
+
+		nextRight = new JButton(new ImageIcon(
+				Statics.class
+						.getResource("/resources/next_right_visualsort.png")));
 		nextRight.setBorder(BorderFactory.createEmptyBorder());
+		nextRight.setOpaque(false);
+		nextRight.setContentAreaFilled(false);
+		nextRight.setBorderPainted(false);
 		nextRight.addActionListener(this);
 
-	
 		btnPanel.add(nextLeft);
 		btnPanel.add(Box.createHorizontalGlue());
-		currentIndex=activeIndex-CENTER_PLUS;
-		if(currentIndex<0) currentIndex = 0;
-		else if(currentIndex+SIZE>SORTALGORITHMS.length()) currentIndex = SORTALGORITHMS.length()-SIZE;
-		
+		currentIndex = activeIndex - CENTER_PLUS;
+		if (currentIndex < 0)
+			currentIndex = 0;
+		else if (currentIndex + SIZE > SORTALGORITHMS.length())
+			currentIndex = SORTALGORITHMS.length() - SIZE;
+
 		for (int i = 0; i < length; i++) {
 			selAlg[i] = new JLabel(SORTALGORITHMS.values()[i].toString());
-			if (i != activeIndex){
+			if (i != activeIndex) {
 				selAlg[i].setEnabled(false);
 				selAlg[i].setFont(SFONT_SIZE);
-			}
-			else selAlg[i].setFont(NFONT_SIZE);
-			
-			if (i>=currentIndex && i<currentIndex+SIZE){
+			} else
+				selAlg[i].setFont(NFONT_SIZE);
+
+			if (i >= currentIndex && i < currentIndex + SIZE) {
 				btnPanel.add(selAlg[i]);
 				btnPanel.add(Box.createHorizontalGlue());
 			}
 
 		}
-		
+
 		btnPanel.add(nextRight);
 
 		manual = new JEditorPane();
 		manual.setEditable(false);
 		setPage(activeIndex);
 
-		JScrollPane editorScrollPane = new JScrollPane(manual);
+		editorScrollPane = new JScrollPane(manual);
 		editorScrollPane
 				.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 		editorScrollPane.setPreferredSize(new Dimension(250, 145));
@@ -240,19 +290,21 @@ public class InfoDialog extends OptionDialog {
 		add(BorderLayout.NORTH, btnPanel);
 		add(BorderLayout.CENTER, editorScrollPane);
 
-
 	}
-	
+
 	/**
 	 * 
-	 * HashMap: key = 'name of sort algorithm'
-	 * 			value = 'path of the respective html-file'
-	 * @param infoPageRes map for resolving each sort algorithm into the respective html-file path
+	 * HashMap: key = 'name of sort algorithm' value = 'path of the respective
+	 * html-file'
+	 * 
+	 * @param infoPageRes
+	 *            map for resolving each sort algorithm into the respective
+	 *            html-file path
 	 */
-	public static void initInfoPageResolver(HashMap<SORTALGORITHMS,String> infoPageRes){
+	public static void initInfoPageResolver(
+			HashMap<SORTALGORITHMS, String> infoPageRes) {
 		InfoDialog.infoPageRes = infoPageRes;
-		
+
 	}
-	
 
 }

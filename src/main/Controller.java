@@ -350,6 +350,7 @@ public class Controller implements Observer, ActionListener, WindowListener {
 					Future<?> f = executor.submit(sortList.get(selPanel));
 					f.cancel(true);
 					runningThreads--;
+					
 
 				}
 

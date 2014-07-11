@@ -3,14 +3,14 @@
   
 
     <reset>Reset</reset>
-    <settings>EINSTELLUNGEN</settings>
+    <settings>Einstellungen</settings>
     <setManual>Setze Manuell</setManual>
     <setList>Erzeuge Zufallszahlen</setList>
     <selection>Auswahl</selection>
     <iterations>Iterationen</iterations>
     <sortlist>Sortierliste festlegen</sortlist>
     <delay>Verzögerung festlegen</delay>
-    <help>HILFE</help>
+    <help>Hilfe</help>
     <about>Über</about>
     <info>Fügen Sie Sortieralgorithmen hinzu</info>
     <add>Hinzufügen</add>
