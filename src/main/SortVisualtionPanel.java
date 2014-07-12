@@ -88,6 +88,7 @@ public class SortVisualtionPanel extends JPanel implements ComponentListener {
 	
 		leftBorder = BorderFactory.createTitledBorder("");
 		leftBorder.setTitleJustification(TitledBorder.ABOVE_TOP);
+		leftBorder.setTitleFont(Statics.getDefaultFont(12f));
 		setInfo(selectedSort,0);
 
 		
@@ -329,11 +330,9 @@ public class SortVisualtionPanel extends JPanel implements ComponentListener {
 			h2 = refHeight * elements[lstIndex2];
 
 			gbuffer.setColor(Color.GRAY);
-			// gbuffer.setClip(r1);
 			gbuffer.drawRect(x1, y1, refWidth, h1);
 			gbuffer.fillRect(x1, y1, refWidth, h1);
 
-			// gbuffer.setClip(r2);
 			gbuffer.drawRect(x2, y2, refWidth, h2);
 			gbuffer.fillRect(x2, y2, refWidth, h2);
 

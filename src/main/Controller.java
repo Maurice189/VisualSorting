@@ -283,7 +283,7 @@ public class Controller implements Observer, ActionListener, WindowListener {
 
 		else if (e.getActionCommand() == Statics.ABOUT) {
 
-			dialogs.add(new AboutDialog(300, 190));
+			dialogs.add(new AboutDialog(400, 415));
 		}
 
 		else if (e.getActionCommand() == Statics.INFO) {

@@ -57,8 +57,8 @@ import main.Statics.SORTALGORITHMS;
 public class InfoDialog extends OptionDialog {
 
 	private final static int SIZE = 3, CENTER_PLUS = 1;
-	private final static Font NFONT_SIZE = new Font("Monospace", Font.PLAIN, 14),
-			SFONT_SIZE = new Font("Monospace", Font.PLAIN, 10);
+	private final static Font NFONT_SIZE = Statics.getDefaultFont(14f),
+			SFONT_SIZE = Statics.getDefaultFont(10f);
 
 	private static HashMap<SORTALGORITHMS, String> infoPageRes;
 
@@ -85,6 +85,7 @@ public class InfoDialog extends OptionDialog {
 			int height) {
 
 		super();
+		
 
 		final JLabel loadGif = new JLabel(new ImageIcon(
 				Statics.class.getResource("/resources/loading.gif")),
@@ -102,9 +103,11 @@ public class InfoDialog extends OptionDialog {
 			@Override
 			public void run() {
 				
+				long t = System.currentTimeMillis();
 				initComponents();
+				System.out.println("NEEDED TIME : "+(System.currentTimeMillis()-t));
 				remove(loadGif);
-				
+			
 				EventQueue.invokeLater(new Runnable() {
 					public void run() {
 						setVisible(true);
@@ -274,6 +277,7 @@ public class InfoDialog extends OptionDialog {
 			}
 
 		}
+		
 
 		btnPanel.add(nextRight);
 
@@ -289,6 +293,7 @@ public class InfoDialog extends OptionDialog {
 
 		add(BorderLayout.NORTH, btnPanel);
 		add(BorderLayout.CENTER, editorScrollPane);
+		
 
 	}
 

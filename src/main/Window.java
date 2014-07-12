@@ -218,8 +218,7 @@ public class Window extends JFrame {
 		
 		sortChooser = new JComboBox<String>(names);
 		sortChooser.setFont(componentFont);
-		sortChooser.setMaximumSize(new Dimension(220, 30));
-		//sortChooser.setUI(ColorArrowUI.createUI(sortChooser));
+		sortChooser.setMaximumSize(new Dimension(230, 30));
 		
 		content = new JPanel();
 		content.setLayout(new BorderLayout());
@@ -385,7 +384,7 @@ public class Window extends JFrame {
 	}
 	
 	public void appStopped(){
-		this.setTitle(title.concat(" - Stopped"));
+		this.setTitle(title.concat(" - Paused"));
 	}
 
 	public String getSelectedSort() {
@@ -542,18 +541,5 @@ public class Window extends JFrame {
 	}
 	
 	
-	static class ColorArrowUI extends BasicComboBoxUI {
-
-	    public static ComboBoxUI createUI(JComponent c) {
-	        return new ColorArrowUI();
-	    }
-
-	    @Override protected JButton createArrowButton() {
-	        return new BasicArrowButton(
-	            BasicArrowButton.LEFT,
-	            Color.blue, Color.magenta,
-	            Color.white, Color.white);
-	    }
-	}
 
 }

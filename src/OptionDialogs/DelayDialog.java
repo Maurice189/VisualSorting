@@ -34,6 +34,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
+
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -45,6 +46,7 @@ import javax.swing.border.EtchedBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import main.Statics;
 import sorting_algorithms.Sort;
 
 
@@ -68,10 +70,13 @@ public final class DelayDialog extends OptionDialog{
 	protected void initComponents() {
 		
 		delay = new JLabel();
+		delay.setFont(Statics.getDefaultFont(13f));
 		slider = new JSlider(0, 300, 50);
 		ms = new JRadioButton("ms");
+		ms.setFont(Statics.getDefaultFont(13f));
 		ms.addActionListener(this);
 	    ns = new JRadioButton("ns");
+	    ns.setFont(Statics.getDefaultFont(13f));
 	    ns.addActionListener(this);
 	
 		 
