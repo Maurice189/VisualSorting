@@ -8,6 +8,11 @@
     <sortlist>Set List</sortlist>
     <setManual>Set manual</setManual>
     <setList>Generate random numbers</setList>
+    <cmp>comparisons</cmp>
+    <access>array accesses</access>
+    <nof>elements</nof>
+    <autopause>Automatic pause</autopause>
+    <prgfunc>Program functions</prgfunc>
     <selection>Selection</selection>
     <delay>Set delay</delay>
     <help>Help</help>

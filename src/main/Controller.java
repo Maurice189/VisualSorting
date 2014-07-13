@@ -53,6 +53,9 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.locks.Condition;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 import main.Statics.SORTALGORITHMS;
 import OptionDialogs.DelayDialog;
@@ -85,8 +88,10 @@ public class Controller implements Observer, ActionListener, WindowListener {
 	private Window window;
 	private LanguageFileXML langXMLInterface;
 	private int runningThreads, vspIndex; 
-	private boolean byUserStopped = false;
+	private boolean byUserStopped = false, autoPauseOn = true;
 	private ExecutorService executor; 
+	private javax.swing.Timer appTimer;
+	
 
 	/**
 	 * 
@@ -111,14 +116,42 @@ public class Controller implements Observer, ActionListener, WindowListener {
 			elements[i] = Controller.getRandomNumber(0, nofelements / 3);
 
 		Sort.setElements(elements);
+		createTimer();
+	
+	}
+	
+	
+	private void createTimer(){
+		
+		appTimer = new javax.swing.Timer(100, new ActionListener() {
+			 
+			  private int leftMs,leftSec;
 
+			  public void actionPerformed( ActionEvent e ) {
+				  
+				  leftMs+=100;
+				  if (leftMs == 1000) {
+						leftMs = 0;
+						leftSec++;
+				  }
+				  
+				  window.setClockParam(leftSec, leftMs);
+			  }
+			  
+		});
+	 
+		if(window!=null) window.setClockParam(0,0);
 	}
 
+	public void showNumberOfElements(){
+		window.updateNumberOfElements(Sort.getElements().length);
+	}
 
 	public void setView(Window window) {
 
 		this.window = window;
 		SortVisualtionPanel.setBackgroundColor(window.getBackground());
+		window.updateNumberOfElements(Sort.getElements().length);
 	}
 
 	
@@ -191,6 +224,9 @@ public class Controller implements Observer, ActionListener, WindowListener {
 
 					byUserStopped = false;
 					window.unlockManualIteration(false);
+					appTimer.start();
+
+					
 				} else {
 					Sort.stop();
 					for (Sort temp : sortList) {
@@ -198,6 +234,9 @@ public class Controller implements Observer, ActionListener, WindowListener {
 					}
 					window.unlockManualIteration(true);
 					byUserStopped = true;
+					appTimer.stop();
+					
+
 				}
 
 			}
@@ -222,9 +261,15 @@ public class Controller implements Observer, ActionListener, WindowListener {
 											// continues here
 				window.unlockManualIteration(false);
 				window.unlockAddSort(false);
+				
+				createTimer();
+				appTimer.start();
+				
+	
 			}
 
 			window.toggleStartStop();
+			
 		}
 
 		else if (e.getActionCommand() == Statics.RESET) {
@@ -260,6 +305,8 @@ public class Controller implements Observer, ActionListener, WindowListener {
 				}
 
 				Sort.setFlashingAnimation(true);
+				createTimer();
+
 
 			}
 
@@ -275,10 +322,17 @@ public class Controller implements Observer, ActionListener, WindowListener {
 			window.unlockAddSort(true);
 			runningThreads = 0;
 		}
+		
+		else if (e.getActionCommand() == Statics.AUTO_PAUSE) {
+
+			autoPauseOn = !autoPauseOn;
+			System.out.println("PRESSED");
+		}
+
 
 		else if (e.getActionCommand() == Statics.NEW_ELEMENTS) {
 
-			dialogs.add(EnterDialog.getInstance(500, 300));
+			dialogs.add(EnterDialog.getInstance(this,500, 300));
 		}
 
 		else if (e.getActionCommand() == Statics.ABOUT) {
@@ -396,6 +450,8 @@ public class Controller implements Observer, ActionListener, WindowListener {
 					window.toggleStartStop();
 				}
 			});
+			
+			appTimer.stop();
 		}
 
 	}
@@ -411,6 +467,8 @@ public class Controller implements Observer, ActionListener, WindowListener {
 	 */
 	
 	public void windowClosing(WindowEvent e) {
+		
+		appTimer.stop();
 
 		for (OptionDialog temp : dialogs)
 			temp.dispose();
@@ -420,6 +478,7 @@ public class Controller implements Observer, ActionListener, WindowListener {
 		InternalConfig.setValue("language", Statics.getLanguageSet());
 		InternalConfig.setValue("nofelements", Sort.getElements().length);
 		InternalConfig.saveChanges();
+		
 	}
 
 	@Override
@@ -440,15 +499,20 @@ public class Controller implements Observer, ActionListener, WindowListener {
 	 */
 	public void windowActivated(WindowEvent e) {
 
-		if (runningThreads != 0 && byUserStopped == false) {
-			Sort.resume();
-			for (Sort temp : sortList) {
-				temp.unlockSignal();
+		if(autoPauseOn){
+			if (runningThreads != 0 && byUserStopped == false) {
+			 	Sort.resume();
+			 	appTimer.start();
+			 	for (Sort temp : sortList) {
+			 		temp.unlockSignal();
+			 	}
+
 			}
-
-		}
-		window.appReleased();
-
+			
+			window.appReleased();
+		 
+	 	}
+		
 	}
 
 	/**
@@ -457,10 +521,18 @@ public class Controller implements Observer, ActionListener, WindowListener {
 	 */
 	
 	public void windowDeactivated(WindowEvent e) {
-		Sort.stop();
-		if (runningThreads != 0 && byUserStopped == false) {
-			window.appStopped();
+		
+		if(autoPauseOn){
+			Sort.stop();
+			if (runningThreads != 0 && byUserStopped == false) {
+				window.appStopped();
+				appTimer.stop();
+			}
 		}
 	}
+	
+
+	
+	
 
 }

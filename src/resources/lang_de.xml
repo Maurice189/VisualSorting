@@ -8,6 +8,11 @@
     <setList>Erzeuge Zufallszahlen</setList>
     <selection>Auswahl</selection>
     <iterations>Iterationen</iterations>
+    <autopause>Automatisches pausieren</autopause>
+    <cmp>Vergleiche</cmp>
+    <access>Array Zugriffe</access>
+    <nof>Elemente</nof>
+    <prgfunc>Programminterne Einstellungen</prgfunc>
     <sortlist>Sortierliste festlegen</sortlist>
     <delay>Verzögerung festlegen</delay>
     <help>Hilfe</help>

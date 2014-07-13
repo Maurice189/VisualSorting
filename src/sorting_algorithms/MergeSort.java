@@ -82,9 +82,11 @@ public class MergeSort extends Sort{
 	        int i, j;
 	        for (i = l; i <= q; i++) {
 	            arr[i] = elements[i];
+	            svp.setInfo("Mergesort",accesses++,comparisons);
 	        }
 	        for (j = q + 1; j <= r; j++) {
 	            arr[r + q + 1 - j] = elements[j];
+	            svp.setInfo("Mergesort",accesses++,comparisons);
 	  
 	        }
 	        i = l;
@@ -95,14 +97,16 @@ public class MergeSort extends Sort{
 	            if (arr[i] <= arr[j]) {
 	            	svp.visualInsert(k, arr[i]);
 	                elements[k] = arr[i];
-	                svp.setInfo("Mergesort",iterates++);
+	                //svp.setInfo("Mergesort",iterates++);
+	                svp.setInfo("Mergesort",accesses++,comparisons++);
 	                
 	                i++;
 	            } else {
 	            	
 	            	svp.visualInsert(k, arr[j]);
 	                elements[k] = arr[j];
-	                svp.setInfo("Mergesort",iterates++);
+	                //svp.setInfo("Mergesort",iterates++);
+	                svp.setInfo("Mergesort",accesses++,comparisons++);
 	                
 	                j--;
 	            }

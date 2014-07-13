@@ -39,16 +39,25 @@ public class BogoSort extends Sort{
 		elements[j]=temp;
 		
 		svp.visualCmp(i,j, true);
-		svp.setInfo("Bogosort", iterates++);
+		//svp.setInfo("Bogosort", iterates++);
+		svp.setInfo("Bogosort",accesses,comparisons);
+		accesses+=3;
+		
 		checkRunCondition();
 	}
 	boolean isSorted()
 	{
  
-		for(int i=1;i<elements.length;i++)
+		for(int i=1;i<elements.length;i++){
+			
+			svp.setInfo("Bogosort",accesses,comparisons++);
 			if(elements[i]<elements[i-1])
 				return false;
+			
+		}
 		return true;
+		
+		
 	}
 
 	

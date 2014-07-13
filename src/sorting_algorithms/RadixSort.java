@@ -43,6 +43,7 @@ public class RadixSort extends Sort{
             for(int j =0; j < elements.length; j++){
                 int number = (elements[j]/exp)%10;
                 bucketList[number].add(elements[j]);
+                svp.setInfo("Radixsort",accesses++,comparisons);
      
             }
             exp *= 10;
@@ -51,7 +52,9 @@ public class RadixSort extends Sort{
                 for(int num: bucketList[k]){
                 	
                 	svp.visualInsert(index,num);
-                	svp.setInfo("Radixsort",iterates++);
+                	//svp.setInfo("Radixsort",iterates++);
+                	svp.setInfo("Radixsort",accesses++,comparisons);
+
                 	
                     elements[index] = num;
                    

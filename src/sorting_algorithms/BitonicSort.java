@@ -44,13 +44,16 @@ public class BitonicSort extends Sort {
 			elements[i] = elements[j];
 			elements[j] = h;
 			svp.visualCmp(i, j, true);
-			svp.setInfo("Bitonicsort",iterates++);
+			//svp.setInfo("Bitonicsort",iterates++);
+			svp.setInfo("Bitonicsort",accesses,comparisons++);
+			accesses+=3;
 
 		}
 		
 		else{
 			svp.visualCmp(i, j, false);
-			svp.setInfo("Bitonicsort",iterates++);
+			//svp.setInfo("Bitonicsort",iterates++);
+			svp.setInfo("Bitonicsort",accesses,comparisons++);
 		}
 		
 		checkRunCondition();

@@ -56,8 +56,8 @@ import javax.swing.BoxLayout;
 import javax.swing.ButtonGroup;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JComboBox;
-import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JMenu;
@@ -67,14 +67,9 @@ import javax.swing.JPanel;
 import javax.swing.JRadioButtonMenuItem;
 import javax.swing.JSeparator;
 import javax.swing.JToolBar;
-import javax.swing.UIManager;
-import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.border.Border;
 import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
-import javax.swing.plaf.ComboBoxUI;
-import javax.swing.plaf.basic.BasicArrowButton;
-import javax.swing.plaf.basic.BasicComboBoxUI;
 
 import main.Statics.SORTALGORITHMS;
 import OptionDialogs.InfoDialog;
@@ -105,12 +100,14 @@ public class Window extends JFrame {
 	private JButton next, newSort, nextStep, reset,delayBtn,listBtn;
 	private JPanel content;
 	private Controller controller;
-	private JLabel info;
+	private JLabel info,clock,nofLabel;
 	private JComboBox<String> sortChooser;
 	private JMenuItem about, list, delay;
 	private JRadioButtonMenuItem de, en, fr;
-	private JMenu help, settings, languages;
+	private JCheckBoxMenuItem switchIntPause;
+	private JMenu help, settings, languages, programmFunctions;
 	private JToolBar toolBar;
+	private JPanel bottomBar;
 
 	public Window(Controller controller,LanguageFileXML langXML, String title, int width, int height) {
 
@@ -120,6 +117,7 @@ public class Window extends JFrame {
 		this.title = title;
 		this.controller = controller;
 		this.langXML = langXML;
+	
 		
 		/*
 		 *  the respective title for the components will be loaded from the xml-language definitions files
@@ -131,7 +129,24 @@ public class Window extends JFrame {
 				JLabel.CENTER);
 		info.setFont(infoFont);
 		info.setForeground(Color.GRAY);
-
+		
+		clock = new JLabel();
+		clock.setFont(Statics.getDefaultFont(13f));
+		clock.setIcon(new ImageIcon(Statics.class.getResource("/resources/stop_watch_icon2.png")));
+		
+		switchIntPause = new JCheckBoxMenuItem(langXML.getValue("autopause"));
+		switchIntPause.addActionListener(controller);
+		switchIntPause.setActionCommand(Statics.AUTO_PAUSE);
+		switchIntPause.setState(true);
+		switchIntPause.setFont(componentFont);
+		
+		programmFunctions = new JMenu(langXML.getValue("prgfunc"));
+		programmFunctions.setFont(componentFont);
+		programmFunctions.add(switchIntPause);
+		
+		nofLabel = new JLabel();
+		nofLabel.setFont(Statics.getDefaultFont(13f));
+		
 		setTitle(title);
 		setFont(componentFont);
 		setSize(width, height);
@@ -146,6 +161,13 @@ public class Window extends JFrame {
 		Border border = BorderFactory.createEtchedBorder();
 		Border margin = new EmptyBorder(5,1,5,1);
 		toolBar.setBorder(new CompoundBorder(border, margin));
+		
+		bottomBar = new JPanel();
+		bottomBar.setLayout(new BoxLayout(bottomBar,BoxLayout.X_AXIS));
+		bottomBar.setBorder(BorderFactory.createEtchedBorder());
+		bottomBar.add(clock);
+		bottomBar.add(Box.createHorizontalGlue());
+		bottomBar.add(nofLabel);
 
 		languages = new JMenu(
 				langXML.getValue("lang"));
@@ -168,6 +190,7 @@ public class Window extends JFrame {
 		delay.setFont(componentFont);
 
 		about = new JMenuItem(langXML.getValue("about").concat(" ").concat(title));
+		
 		about.addActionListener(controller);
 		about.setActionCommand(Statics.ABOUT);
 		about.setFont(componentFont);
@@ -204,9 +227,11 @@ public class Window extends JFrame {
 		languages.add(fr);
 
 		help.add(about);
-		settings.add(list);
+		settings.add(programmFunctions);
 		settings.add(languages);
+		settings.add(list);
 		settings.add(delay);
+		
 
 		menuBar.add(settings);
 		menuBar.add(help);
@@ -311,6 +336,7 @@ public class Window extends JFrame {
 		setLayout(new BoxLayout(this.getContentPane(),BoxLayout.Y_AXIS));
 		add(toolBar);
 		add(content);
+		add(bottomBar);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setLocationRelativeTo(null);
 		setVisible(true);
@@ -324,13 +350,16 @@ public class Window extends JFrame {
 	  public void updateLanguage(){
 	  
 		  info.setText(langXML.getValue("info"));
-		 
+		  switchIntPause.setText(langXML.getValue("autopause"));
+		  programmFunctions.setText(langXML.getValue("prgfunc"));
 		  about.setText(langXML.getValue("about"));
 		  list.setText(langXML.getValue("sortlist"));
 		  delay.setText(langXML.getValue("delay"));
 		  help.setText(langXML.getValue("help"));
 		  settings.setText(langXML.getValue("settings"));
 	  	  languages.setText(langXML.getValue("lang"));
+	  	  nofLabel.setText(String.valueOf(Sort.getElements().length).concat(" ").concat
+	  	  (langXML.getValue("nof")));
 	  	
 	  }
 	
@@ -469,6 +498,28 @@ public class Window extends JFrame {
 			e.printStackTrace();
 		}
 		
+		
+	}
+	
+	public void updateNumberOfElements(int nof){
+		
+		nofLabel.setText(String.valueOf(nof).concat(" ").concat(langXML.getValue("nof")));
+		
+	}
+	
+	public void setClockParam(int sec, int msec){
+		
+		String smsec,ssec;
+		
+		if(msec < 10) smsec = "00".concat(String.valueOf(msec));
+		else if(msec < 100) smsec = "0".concat(String.valueOf(msec));
+		else smsec = String.valueOf(msec);
+		
+		if(sec < 10) ssec = "0".concat(String.valueOf(sec));
+		else ssec = String.valueOf(sec);
+		
+		
+		clock.setText(ssec.concat("s : ").concat(smsec).concat("ms"));
 		
 	}
 

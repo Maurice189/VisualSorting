@@ -68,9 +68,11 @@ public class EnterDialog extends OptionDialog {
 
 	private JPanel btnWrp1,btnWrp2; 
 	private static EnterDialog instance;
+	private Controller controller;
 
-	private EnterDialog(int width, int height) {
+	private EnterDialog(Controller controller,int width, int height) {
 		super("sortlist", width, height);
+		this.controller = controller;
 
 	}
 
@@ -167,6 +169,8 @@ public class EnterDialog extends OptionDialog {
 				listModel.removeAllElements();
 				for (int i = 0; i < temp; i++)
 					listModel.addElement(Controller.getRandomNumber(0, temp/3));
+				
+				
 
 			}
 		}
@@ -176,7 +180,8 @@ public class EnterDialog extends OptionDialog {
 			for (int i = 0; i < listModel.size(); i++)
 				temp[i] = listModel.get(i);
 			Sort.setElements(temp);
-
+			controller.showNumberOfElements();
+			
 			dispose();
 		}
 
@@ -319,11 +324,11 @@ public class EnterDialog extends OptionDialog {
 	 * it will be created. For more info see 'Singleton' (Design Pattern) 
 	 * @category Singelton (Design Pattern)
 	 */
-	public static EnterDialog getInstance(int width,
+	public static EnterDialog getInstance(Controller controller,int width,
 			int height) {
 
 		if (instance == null)
-			instance = new EnterDialog(width, height);
+			instance = new EnterDialog(controller,width, height);
 
 		instance.setVisible(true);
 		return instance;

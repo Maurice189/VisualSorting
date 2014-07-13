@@ -66,7 +66,9 @@ public class HeapSort extends Sort {
 			elements[0] = tmp;
 			
 			svp.visualCmp(0,end, true);
-			svp.setInfo("Heapsort",iterates++);
+			//svp.setInfo("Heapsort",iterates++);
+			svp.setInfo("Heapsort",accesses,comparisons);
+			accesses+=3;
 			checkRunCondition();
 			
 			//put the heap back in max-heap order
@@ -106,7 +108,9 @@ public class HeapSort extends Sort {
 				a[child] = tmp;
 				
 				svp.visualCmp(child,root, true);
-				svp.setInfo("Heapsort",iterates++);
+				//svp.setInfo("Heapsort",iterates++);
+				svp.setInfo("Heapsort",accesses,comparisons++);
+				accesses+=3;
 				checkRunCondition();
 				
 				root = child;                //repeat to continue sifting down the child now
@@ -115,7 +119,8 @@ public class HeapSort extends Sort {
 				
 			}else{
 				svp.visualCmp(child,root, false);
-				svp.setInfo("Heapsort",iterates++);
+				//svp.setInfo("Heapsort",iterates++);
+				svp.setInfo("Heapsort",accesses,comparisons++);
 				checkRunCondition();
 				return;
 			}

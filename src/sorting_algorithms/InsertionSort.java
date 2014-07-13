@@ -70,14 +70,20 @@ public class InsertionSort extends Sort {
 			while (j >= 0 && elements[j] > value) {
 
 				svp.visualInsert(j+1,elements[j]);
-				svp.setInfo("Insertionsort", iterates++);
+				//svp.setInfo("Insertionsort", iterates++);
+				svp.setInfo("Insertionsort",accesses,comparisons++);
+				accesses+=2;
+				
 				checkRunCondition();
 				elements[j + 1] = elements[j];
 				j = j - 1;
 			}
 
 			svp.visualInsert(j + 1, value);
-			svp.setInfo("Insertionsort", iterates++);
+			//svp.setInfo("Insertionsort", iterates++);
+			svp.setInfo("Insertionsort",accesses,comparisons++);
+			accesses+=2;
+			
 			checkRunCondition();
 			elements[j + 1] = value;
 		}

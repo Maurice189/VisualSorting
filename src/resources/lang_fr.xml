@@ -8,6 +8,11 @@
      <setManual>Set manual FRENCH</setManual>
      <setList>Generate random numbers FRENCH</setList>
      <selection>Selection FRENCH</selection>
+     <cmp>comparisons FRENCH</cmp>
+     <access>array accesses FRENCH</access>
+     <nof>elements FRENCH</nof>
+     <autopause>Automatic pause FRENCH</autopause>
+     <prgfunc>Program functions FRENCH</prgfunc>
      <delay>Régler la temporisation</delay>
      <help>Aider</help>
      <about>Propos</about>

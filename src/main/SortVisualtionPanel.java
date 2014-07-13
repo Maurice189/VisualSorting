@@ -89,7 +89,7 @@ public class SortVisualtionPanel extends JPanel implements ComponentListener {
 		leftBorder = BorderFactory.createTitledBorder("");
 		leftBorder.setTitleJustification(TitledBorder.ABOVE_TOP);
 		leftBorder.setTitleFont(Statics.getDefaultFont(12f));
-		setInfo(selectedSort,0);
+		setInfo(selectedSort,0,0);
 
 		
 		addComponentListener(this);
@@ -158,14 +158,16 @@ public class SortVisualtionPanel extends JPanel implements ComponentListener {
 		leftBorder.setTitle(info);
 	}
 	
-	public void setInfo(String algoname,int iterations) {
+	
+	public void setInfo(String algoname,int accesses,int comparisons) {
 		
 		String info = 
-		algoname.concat(" - ").concat(String.valueOf(iterations)).concat(" ").concat(
-		langXML.getValue("iterations"));
+		algoname.concat(" - ").concat(String.valueOf(comparisons)).concat(
+		" comparisons - ").concat(String.valueOf(accesses)).concat(" array accesses");
 		
 		leftBorder.setTitle(info);
 	}
+
 
 	public static void setBackgroundColor(Color color) {
 		SortVisualtionPanel.backgroundColor = color;

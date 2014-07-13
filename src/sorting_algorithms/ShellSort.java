@@ -60,14 +60,18 @@ public class ShellSort extends Sort {
 					
 
 					svp.visualInsert(j, elements[j - increment]);
-					svp.setInfo("Shellsort",iterates++);
+					//svp.setInfo("Shellsort",iterates++);
+					svp.setInfo("Shellsort",accesses,comparisons++);
+					accesses+=2;
+					
 					checkRunCondition();
 					elements[j] = elements[j - increment];
 					j = j - increment;
 				}
 				
 				svp.visualInsert(j, temp);
-				svp.setInfo("Shellsort",iterates++);
+				//svp.setInfo("Shellsort",iterates++);
+				svp.setInfo("Shellsort",accesses++,comparisons++);
 				checkRunCondition();
 				elements[j] = temp;
 			}

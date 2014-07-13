@@ -48,7 +48,7 @@ public abstract class Sort extends Observable implements Runnable {
 	
 
 	protected int elements[];
-	protected int iterates;
+	protected int iterates,accesses,comparisons;
 	protected SortVisualtionPanel svp;
 	protected Lock lock = new ReentrantLock();
 	protected Condition condition = lock.newCondition();
