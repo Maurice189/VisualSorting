@@ -269,6 +269,24 @@ public class SortVisualtionPanel extends JPanel implements ComponentListener {
 
 		repaint();
 	}
+	
+
+	
+	public void visualPivot(int pivotIndex){
+		
+		int x = (pivotIndex * (refWidth + SortVisualtionPanel.gapSize))
+				+ SortVisualtionPanel.margin;
+
+		int y = (height - (refHeight * elements[pivotIndex])) - offsetY;
+		int h = refHeight * elements[pivotIndex];
+		
+		gbuffer.setColor(Color.CYAN);
+		gbuffer.drawRect(x, y, refWidth, h);
+		gbuffer.fillRect(x, y, refWidth, h);
+		
+		
+		
+	}
 
 	public void visualInsert(int c, int value) {
 

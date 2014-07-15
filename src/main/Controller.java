@@ -274,53 +274,7 @@ public class Controller implements Observer, ActionListener, WindowListener {
 
 		else if (e.getActionCommand() == Statics.RESET) {
 
-			if (Sort.isStopped()) {
-
-				Sort.resume();
-				Sort.setFlashingAnimation(false);
-
-				for (Sort temp : sortList) {
-
-					temp.deleteObservers();
-					temp.unlockSignal();
-
-				}
-
-				executor.shutdownNow();
-
-				try {
-					executor.awaitTermination(2000, TimeUnit.MILLISECONDS);
-				} catch (InterruptedException e1) {
-					e1.printStackTrace();
-				}
-
-				if (!executor.isTerminated())
-					System.out.println("executor service isn't terminated !");
-
-				for (Sort temp : sortList) {
-
-					temp.initElements();
-					temp.addObserver(this);
-
-				}
-
-				Sort.setFlashingAnimation(true);
-				createTimer();
-
-
-			}
-
-			else {
-
-				for (Sort temp : sortList) {
-					temp.getSortVisualtionPanel().enableRemoveButton(true);
-					temp.initElements();
-
-				}
-			}
-
-			window.unlockAddSort(true);
-			runningThreads = 0;
+			reset();
 		}
 		
 		else if (e.getActionCommand() == Statics.AUTO_PAUSE) {
@@ -433,6 +387,63 @@ public class Controller implements Observer, ActionListener, WindowListener {
 			dialogs.add(DelayDialog.getInstance(320, 150));
 		}
 
+	}
+	
+	public void reset(){
+		
+		System.out.println("RESET");
+		
+		if (Sort.isStopped()) {
+
+			Sort.resume();
+			Sort.setFlashingAnimation(false);
+
+			for (Sort temp : sortList) {
+
+				temp.deleteObservers();
+				temp.unlockSignal();
+
+			}
+
+			executor.shutdownNow();
+
+			try {
+				executor.awaitTermination(2000, TimeUnit.MILLISECONDS);
+			} catch (InterruptedException e1) {
+				e1.printStackTrace();
+			}
+
+			if (!executor.isTerminated())
+				System.out.println("executor service isn't terminated !");
+
+			for (Sort temp : sortList) {
+
+				temp.initElements();
+				temp.addObserver(this);
+
+			}
+
+			Sort.setFlashingAnimation(true);
+			createTimer();
+
+			System.out.println("RICHTIG");
+		}
+		
+		else {
+
+			for (Sort temp : sortList) {
+				temp.getSortVisualtionPanel().enableRemoveButton(true);
+				temp.initElements();
+
+			}
+			
+			System.out.println("FALSCH");
+		}
+
+		window.unlockAddSort(true);
+		runningThreads = 0;
+		
+		
 	}
 
 	/**

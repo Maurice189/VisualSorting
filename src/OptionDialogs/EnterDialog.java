@@ -159,6 +159,7 @@ public class EnterDialog extends OptionDialog {
 
 					value.setText("");
 					value.requestFocus();
+	
 				}
 
 			}
@@ -170,9 +171,9 @@ public class EnterDialog extends OptionDialog {
 				for (int i = 0; i < temp; i++)
 					listModel.addElement(Controller.getRandomNumber(0, temp/3));
 				
-				
-
 			}
+			
+			
 		}
 
 		else if (e.getSource() == ok) {
@@ -181,7 +182,7 @@ public class EnterDialog extends OptionDialog {
 				temp[i] = listModel.get(i);
 			Sort.setElements(temp);
 			controller.showNumberOfElements();
-			
+			controller.reset();
 			dispose();
 		}
 
@@ -202,7 +203,7 @@ public class EnterDialog extends OptionDialog {
 		crRandom.setText(langXML.getValue("setList"));
 		setMan.setText(langXML.getValue("setManual"));
 		btnWrp1.setBorder(BorderFactory.createTitledBorder(
-				BorderFactory.createLineBorder(Color.GRAY),langXML.getValue("selection")));
+		BorderFactory.createLineBorder(Color.GRAY),langXML.getValue("selection")));
 
 	}
 

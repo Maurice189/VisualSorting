@@ -17,6 +17,8 @@ import main.SortVisualtionPanel;
 import main.Statics.SORTALGORITHMS;
 
 public class QuickSort extends Sort {
+	
+	private int pivotIndex;
 
 	public QuickSort(SortVisualtionPanel svp) {
 		// TODO Auto-generated constructor stub
@@ -41,47 +43,50 @@ public class QuickSort extends Sort {
 
 	private int partition(int x[], int links, int rechts){
 		int pivot, i, j, help;
+		
 		pivot = x[rechts];
+		pivotIndex = rechts;
+		
+		
 		i = links;
 		j = rechts - 1;
 		while (i <= j) {
 			
 			if (x[i] > pivot) {
-				// tausche x[i] und x[j]
+	
 				help = x[i];
 				x[i] = x[j];
 				x[j] = help;
 				
-				//svp.drawElements(i, j, true);
 				svp.visualCmp(i, j,true);
-				//svp.setInfo("Quicksort",iterates++);
+				svp.visualPivot(pivotIndex);
 				svp.setInfo("Quicksort",accesses,comparisons++);
 				accesses+=3;
 
 				j--;
 			} else{
 				
-				
-				//svp.drawElements(i, rechts, false);
+	
 				svp.visualCmp(i, rechts,false);
-				//svp.setInfo("Quicksort",iterates++);
+				svp.visualPivot(pivotIndex);
 				svp.setInfo("Quicksort",accesses,comparisons++);
 				
 				
 				i++;
 			}
 			
+			
 			checkRunCondition();
 				
 		}
-		// tausche x[i] und x[rechts]
+
 		help = x[i];
 		x[i] = x[rechts];
 		x[rechts] = help;
 
-		//svp.drawElements(i, rechts, true);
+		
 		svp.visualCmp(i, rechts,true);
-		//svp.setInfo("Quicksort",iterates++);
+		svp.visualPivot(pivotIndex);
 		svp.setInfo("Quicksort",accesses,comparisons++);
 		accesses+=3;
 		
