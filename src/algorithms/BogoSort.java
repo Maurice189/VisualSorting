@@ -1,4 +1,4 @@
-package sorting_algorithms;
+package algorithms;
 
 import main.SortVisualtionPanel;
 import main.Statics.SORTALGORITHMS;

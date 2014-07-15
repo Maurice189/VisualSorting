@@ -1,4 +1,4 @@
-package sorting_algorithms;
+package algorithms;
 
 // copied from http://puzzlersworld.com/interview-questions/sort-the-array-radix-sort-java/
 

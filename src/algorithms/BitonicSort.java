@@ -1,4 +1,4 @@
-package sorting_algorithms;
+package algorithms;
 
 
 // copied from http://www.iti.fh-flensburg.de/lang/algorithmen/sortieren/bitonic/bitonicen.htm
@@ -44,7 +44,6 @@ public class BitonicSort extends Sort {
 			elements[i] = elements[j];
 			elements[j] = h;
 			svp.visualCmp(i, j, true);
-			//svp.setInfo("Bitonicsort",iterates++);
 			svp.setInfo("Bitonicsort",accesses,comparisons++);
 			accesses+=3;
 
@@ -52,7 +51,6 @@ public class BitonicSort extends Sort {
 		
 		else{
 			svp.visualCmp(i, j, false);
-			//svp.setInfo("Bitonicsort",iterates++);
 			svp.setInfo("Bitonicsort",accesses,comparisons++);
 		}
 		

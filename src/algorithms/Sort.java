@@ -1,4 +1,4 @@
-package sorting_algorithms;
+package algorithms;
 
 import java.util.Observable;
 import java.util.concurrent.locks.Condition;
@@ -138,7 +138,7 @@ public abstract class Sort extends Observable implements Runnable {
 	 * @return is used for displaying the sorting list in 'EnterDialog'
 	 * and for saving the number of elements in the configuration file
 	 * 
-	 * @see OptionDialogs.EnterDialog
+	 * @see dialogs.EnterDialog
 	 * @see main.Controller
 	 * @see main.InternalConfig
 	 */
@@ -155,7 +155,7 @@ public abstract class Sort extends Observable implements Runnable {
 	
 	/**
 	 * @return the specific algorithm name (identifying is needed for the info dialog)
-	 * @see OptionDialogs.InfoDialog
+	 * @see dialogs.InfoDialog
 	 */
 	public abstract SORTALGORITHMS getAlgorithmName();
 

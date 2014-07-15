@@ -71,10 +71,10 @@ import javax.swing.border.Border;
 import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
 
+import algorithms.Sort;
+import dialogs.InfoDialog;
+import dialogs.OptionDialog;
 import main.Statics.SORTALGORITHMS;
-import OptionDialogs.InfoDialog;
-import OptionDialogs.OptionDialog;
-import sorting_algorithms.Sort;
 
 
 
@@ -560,8 +560,8 @@ public class Window extends JFrame {
 		SortVisualtionPanel.setLanguageFileXML(configLanguage);
 		
 		// this font is used under the GPL from google fonts under 'OpenSans'
-		Window.setComponentFont("/resources/OpenSans/OpenSans-Regular.ttf",13f);
-		Window.setInfoFont("/resources/OxygenFont/Oxygen-Regular.ttf",30f);
+		Window.setComponentFont("/resources/Fonts/OpenSans-Regular.ttf",13f);
+		Window.setInfoFont("/resources/Fonts/Oxygen-Regular.ttf",30f);
 		
 		HashMap<SORTALGORITHMS,String> map = new HashMap<SORTALGORITHMS,String>();
 		map.put(SORTALGORITHMS.Bitonicsort, "infopage_bitonicsort.html");
@@ -586,7 +586,6 @@ public class Window extends JFrame {
 		Controller controller = new Controller(configLanguage,nofelements);
 		Window window = new Window(controller,configLanguage,"Visual Sorting - ".concat(Statics.getVersion()), 800, 550);
 		controller.setView(window);
-		
 	
 
 	}

@@ -57,26 +57,26 @@ import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
+import algorithms.BinaryTreeSort;
+import algorithms.BitonicSort;
+import algorithms.BogoSort;
+import algorithms.BubbleSort;
+import algorithms.CombSort;
+import algorithms.GnomeSort;
+import algorithms.HeapSort;
+import algorithms.InsertionSort;
+import algorithms.MergeSort;
+import algorithms.QuickSort;
+import algorithms.RadixSort;
+import algorithms.ShakerSort;
+import algorithms.ShellSort;
+import algorithms.Sort;
+import dialogs.AboutDialog;
+import dialogs.DelayDialog;
+import dialogs.EnterDialog;
+import dialogs.InfoDialog;
+import dialogs.OptionDialog;
 import main.Statics.SORTALGORITHMS;
-import OptionDialogs.DelayDialog;
-import OptionDialogs.EnterDialog;
-import OptionDialogs.AboutDialog;
-import OptionDialogs.InfoDialog;
-import OptionDialogs.OptionDialog;
-import sorting_algorithms.BinaryTreeSort;
-import sorting_algorithms.BitonicSort;
-import sorting_algorithms.BogoSort;
-import sorting_algorithms.BubbleSort;
-import sorting_algorithms.CombSort;
-import sorting_algorithms.GnomeSort;
-import sorting_algorithms.HeapSort;
-import sorting_algorithms.InsertionSort;
-import sorting_algorithms.MergeSort;
-import sorting_algorithms.QuickSort;
-import sorting_algorithms.RadixSort;
-import sorting_algorithms.ShakerSort;
-import sorting_algorithms.ShellSort;
-import sorting_algorithms.Sort;
 
 
 
@@ -87,7 +87,7 @@ public class Controller implements Observer, ActionListener, WindowListener {
 
 	private Window window;
 	private LanguageFileXML langXMLInterface;
-	private int runningThreads, vspIndex; 
+	private int threadsAlive; 
 	private boolean byUserStopped = false, autoPauseOn = true;
 	private ExecutorService executor; 
 	private javax.swing.Timer appTimer;
@@ -138,8 +138,7 @@ public class Controller implements Observer, ActionListener, WindowListener {
 				  window.setClockParam(leftSec, leftMs);
 			  }
 			  
-		});
-	 
+		}); 
 		if(window!=null) window.setClockParam(0,0);
 	}
 
@@ -169,7 +168,7 @@ public class Controller implements Observer, ActionListener, WindowListener {
 			Sort.resume();
 			for (Sort temp : sortList) {
 				temp.initElements();
-				runningThreads = 0;
+				threadsAlive = 0;
 			}
 
 			selectedSort = window.getSelectedSort();
@@ -213,7 +212,7 @@ public class Controller implements Observer, ActionListener, WindowListener {
 
 		else if (e.getActionCommand() == Statics.START) {
 
-			if (runningThreads != 0) {
+			if (threadsAlive != 0) {
 				if (Sort.isStopped()) {
 
 					Sort.resume();
@@ -252,7 +251,7 @@ public class Controller implements Observer, ActionListener, WindowListener {
 					temp.initElements();
 					temp.getSortVisualtionPanel().enableRemoveButton(false);
 					executor.execute(temp);
-					runningThreads++;
+					threadsAlive++;
 
 				}
 
@@ -345,19 +344,19 @@ public class Controller implements Observer, ActionListener, WindowListener {
 
 		}
 
-		else if (e.getActionCommand() == Statics.POPUP_REMOVE) {
+		else if (e.getActionCommand() == Statics.REMOVE_SORT) {
 
 			if (sortList.size() > 0) {
 
 				int selPanel = SortVisualtionPanel.getReleasedID();
 
-				if (runningThreads != 0) {
+				if (threadsAlive != 0) {
 					Sort.setFlashingAnimation(false);
 					sortList.get(selPanel).unlockSignal();
 					sortList.get(selPanel).deleteObservers();
 					Future<?> f = executor.submit(sortList.get(selPanel));
 					f.cancel(true);
-					runningThreads--;
+					threadsAlive--;
 					
 
 				}
@@ -372,15 +371,6 @@ public class Controller implements Observer, ActionListener, WindowListener {
 			}
 		}
 
-		else if (e.getActionCommand() == Statics.REPORT) {
-
-			if (sortList.size() > 0) {
-
-				window.removeSort(vspIndex);
-				sortList.remove(vspIndex);
-
-			}
-		}
 
 		else if (e.getActionCommand() == Statics.DELAY) {
 
@@ -391,7 +381,6 @@ public class Controller implements Observer, ActionListener, WindowListener {
 	
 	public void reset(){
 		
-		System.out.println("RESET");
 		
 		if (Sort.isStopped()) {
 
@@ -426,7 +415,6 @@ public class Controller implements Observer, ActionListener, WindowListener {
 			Sort.setFlashingAnimation(true);
 			createTimer();
 
-			System.out.println("RICHTIG");
 		}
 		
 		else {
@@ -436,12 +424,12 @@ public class Controller implements Observer, ActionListener, WindowListener {
 				temp.initElements();
 
 			}
-			
-			System.out.println("FALSCH");
+
 		}
 
+		
 		window.unlockAddSort(true);
-		runningThreads = 0;
+		threadsAlive = 0;
 		
 		
 	}
@@ -455,7 +443,7 @@ public class Controller implements Observer, ActionListener, WindowListener {
 	
 	public void update(Observable o, Object arg) {
 
-		if (--runningThreads == 0) {
+		if (--threadsAlive == 0) {
 			EventQueue.invokeLater(new Runnable() {
 				public void run() {
 					window.toggleStartStop();
@@ -463,6 +451,11 @@ public class Controller implements Observer, ActionListener, WindowListener {
 			});
 			
 			appTimer.stop();
+			
+			for (Sort temp : sortList) 
+				temp.getSortVisualtionPanel().enableRemoveButton(true);
+
+			
 		}
 
 	}
@@ -511,7 +504,7 @@ public class Controller implements Observer, ActionListener, WindowListener {
 	public void windowActivated(WindowEvent e) {
 
 		if(autoPauseOn){
-			if (runningThreads != 0 && byUserStopped == false) {
+			if (threadsAlive != 0 && byUserStopped == false) {
 			 	Sort.resume();
 			 	appTimer.start();
 			 	for (Sort temp : sortList) {
@@ -535,7 +528,7 @@ public class Controller implements Observer, ActionListener, WindowListener {
 		
 		if(autoPauseOn){
 			Sort.stop();
-			if (runningThreads != 0 && byUserStopped == false) {
+			if (threadsAlive != 0 && byUserStopped == false) {
 				window.appStopped();
 				appTimer.stop();
 			}

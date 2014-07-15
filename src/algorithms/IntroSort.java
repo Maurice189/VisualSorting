@@ -1,4 +1,4 @@
-package sorting_algorithms;
+package algorithms;
 
 // copied from http://www.codecodex.com/wiki/Introsort
 

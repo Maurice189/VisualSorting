@@ -55,17 +55,13 @@ public class Statics {
 	public static final String NEW_ELEMENTS = "action_setElements";
 	public static final String NEXT_ITERATION = "action_nextIter";
 	public static final String RESET = "action_reset";
-	public static final String REPORT = "action_report";
 	
 	public static final String DELAY = "action_delay";
 	public static final String ABOUT = "action_about";
 	public static final String INFO = "action_info";
-	public static final String POPUP_MENU_SORT = "action_sort";
-	public static final String POPUP_MENU_ELEMENT = "action_element";
 	public static final String AUTO_PAUSE = "action_auto";
 
 	public static final String LANG_DE = "action_de", LANG_EN = "action_en", LANG_FR = "action_fr";
-	public static final String POPUP_REMOVE = "action_remove";
 	public static final String DIALOG_EXIT = "action_exitDialog";
 
 

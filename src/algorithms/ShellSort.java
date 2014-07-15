@@ -1,4 +1,4 @@
-package sorting_algorithms;
+package algorithms;
 
 // copied from http://rosettacode.org/wiki/Sorting_algorithms/Shell_sort#Java
 

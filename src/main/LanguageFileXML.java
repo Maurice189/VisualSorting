@@ -87,8 +87,7 @@ public class LanguageFileXML {
 			//long t = System.currentTimeMillis();
 			document = new SAXBuilder().build(in);
 			element = document.getRootElement();
-			
-
+	
 			/*System.out.println("Fully read in "
 					+ (System.currentTimeMillis() - t) + "ms");*/
 		} catch (JDOMException e) {
@@ -98,6 +97,15 @@ public class LanguageFileXML {
 			e.printStackTrace();
 			return false;
 		}
+		finally{
+			try {
+				in.close();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		
 		
 		return true;
 

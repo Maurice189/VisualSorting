@@ -1,5 +1,4 @@
-package sorting_algorithms;
-
+package algorithms;
 
 /*
 Visualsorting
@@ -17,12 +16,8 @@ GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
-
-This sort algorithm is based on:
-http://rosettacode.org/wiki/Sorting_algorithms/Gnome_sort#Java
-(C) Ingy döt Net 
-
 */
+
 
 /**
  * 
@@ -36,65 +31,61 @@ http://rosettacode.org/wiki/Sorting_algorithms/Gnome_sort#Java
 import main.SortVisualtionPanel;
 import main.Statics.SORTALGORITHMS;
 
-public class GnomeSort extends Sort {
+public class BubbleSort extends Sort {
 
-	public GnomeSort(SortVisualtionPanel svp) {
+	public BubbleSort(SortVisualtionPanel svp) {
 		// TODO Auto-generated constructor stub
 		super(svp);
 
 	}
 
-	public GnomeSort() {
+	public BubbleSort() {
+		// TODO Auto-generated constructor stub
 		super();
+
 
 	}
 
-
 	public void run() {
 
-		int i = 1;
-		int j = 2;
+		int tmp = 0;
+		
+		for (int j = elements.length; j > 1; j--) {
+			for (int i = 0; i < elements.length - 1; i++) {
 
-		while (i < elements.length) {
-			if (elements[i - 1] <= elements[i]) {
+				
+				if (elements[i] > elements[i + 1]) {
 
-				
-				svp.visualCmp(i, i - 1, false);
-				//svp.setInfo("Gnomesort", iterates++);
-				svp.setInfo("Gnomesort",accesses,comparisons++);
-				
-				i = j;
-				j++;
-				
-			} else {
+					tmp = elements[i];
+					elements[i] = elements[i + 1];
+					elements[i + 1] = tmp;
+					svp.visualCmp(i, i + 1, true);
+					//svp.setInfo("Bubblesort",iterates++);
+					svp.setInfo("Bubblesort",accesses,comparisons++);
+					accesses+=3;
 
-				int tmp = elements[i - 1];
-				elements[i - 1] = elements[i];
-				elements[i] = tmp;
+				} else {
+					svp.visualCmp(i, i + 1, false);
+					//svp.setInfo("Bubblesort",iterates++);
+					svp.setInfo("Bubblesort",accesses,comparisons++);
+					
+				}
 				
-				svp.visualCmp(i, i - 1, true);
-				//svp.setInfo("Gnomesort", iterates++);
-				svp.setInfo("Gnomesort",accesses,comparisons++);
-				accesses+=3;
-				
-				i--;
-				i = (i == 0) ? j++ : i;
+				checkRunCondition();
+			
+
 			}
-
-			checkRunCondition();
 		}
-
-		if (flashing)
-			svp.flashing();
+		
+		if(flashing) svp.flashing();
 		setChanged();
 		notifyObservers();
 
 	}
-
 	@Override
 	public SORTALGORITHMS getAlgorithmName() {
 		// TODO Auto-generated method stub
-		return SORTALGORITHMS.Gnomesort;
+		return SORTALGORITHMS.Bubblesort;
 	}
 
 }

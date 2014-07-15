@@ -1,4 +1,4 @@
-package sorting_algorithms;
+package algorithms;
 
 
 /*
@@ -19,7 +19,7 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 This sort algorithm is based on:
-http://rosettacode.org/wiki/Sorting_algorithms/Comb_sort
+http://rosettacode.org/wiki/Sorting_algorithms/Gnome_sort#Java
 (C) Ingy döt Net 
 
 */
@@ -36,71 +36,65 @@ http://rosettacode.org/wiki/Sorting_algorithms/Comb_sort
 import main.SortVisualtionPanel;
 import main.Statics.SORTALGORITHMS;
 
-public class CombSort extends Sort {
+public class GnomeSort extends Sort {
 
-	public CombSort() {
-		// TODO Auto-generated constructor stub
-		super();
-
-	}
-
-	public CombSort(SortVisualtionPanel svp) {
+	public GnomeSort(SortVisualtionPanel svp) {
 		// TODO Auto-generated constructor stub
 		super(svp);
 
 	}
 
+	public GnomeSort() {
+		super();
+
+	}
+
+
 	public void run() {
-		
-		System.out.println("GO");
 
-		float shrink = 1.3f;
-		int swap;
-		int i, gap = elements.length;
-		boolean swapped = false;
+		int i = 1;
+		int j = 2;
 
-		while ((gap > 1) || swapped) {
-			if (gap > 1) {
-				gap = (int) ((float) gap / shrink);
+		while (i < elements.length) {
+			if (elements[i - 1] <= elements[i]) {
+
+				
+				svp.visualCmp(i, i - 1, false);
+				//svp.setInfo("Gnomesort", iterates++);
+				svp.setInfo("Gnomesort",accesses,comparisons++);
+				
+				i = j;
+				j++;
+				
+			} else {
+
+				int tmp = elements[i - 1];
+				elements[i - 1] = elements[i];
+				elements[i] = tmp;
+				
+				svp.visualCmp(i, i - 1, true);
+				//svp.setInfo("Gnomesort", iterates++);
+				svp.setInfo("Gnomesort",accesses,comparisons++);
+				accesses+=3;
+				
+				i--;
+				i = (i == 0) ? j++ : i;
 			}
-			swapped = false;
-			for (i = 0; gap + i < elements.length; ++i) {
-				if (elements[i] - elements[i + gap] > 0) {
-					swap = elements[i];
-					elements[i] = elements[i + gap];
-					elements[i + gap] = swap;
-					swapped = true;
-					svp.visualCmp(i, i + gap, true);
-					//svp.setInfo("Combsort",iterates++);
-					svp.setInfo("Combsort",accesses,comparisons++);
-					accesses+=3;
 
-				}
-				
-				else{
-					
-					svp.visualCmp(i, i + gap, false);
-					//svp.setInfo("Combsort",iterates++);
-					svp.setInfo("Combsort",accesses,comparisons++);
-				}
-				
-				
-				checkRunCondition();
-			
-			}
+			checkRunCondition();
 		}
-		
-		if(flashing) svp.flashing();
+
+		if (flashing)
+			svp.flashing();
 		setChanged();
 		notifyObservers();
+
 	}
-	
+
 	@Override
 	public SORTALGORITHMS getAlgorithmName() {
 		// TODO Auto-generated method stub
-		return SORTALGORITHMS.Combsort;
+		return SORTALGORITHMS.Gnomesort;
 	}
-	
-	
 
 }

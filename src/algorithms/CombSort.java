@@ -1,4 +1,4 @@
-package sorting_algorithms;
+package algorithms;
 
 
 /*
@@ -19,7 +19,7 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 This sort algorithm is based on:
-http://rosettacode.org/wiki/Sorting_algorithms/Insertion_sort#Java
+http://rosettacode.org/wiki/Sorting_algorithms/Comb_sort
 (C) Ingy döt Net 
 
 */
@@ -36,69 +36,71 @@ http://rosettacode.org/wiki/Sorting_algorithms/Insertion_sort#Java
 import main.SortVisualtionPanel;
 import main.Statics.SORTALGORITHMS;
 
-public class InsertionSort extends Sort {
+public class CombSort extends Sort {
 
-	public InsertionSort(SortVisualtionPanel svp) {
-		// TODO Auto-generated constructor stub
-		super(svp);
-
-	}
-
-	public InsertionSort() {
+	public CombSort() {
 		// TODO Auto-generated constructor stub
 		super();
 
 	}
 
-	public static void insertSort(int[] A) {
-		for (int i = 1; i < A.length; i++) {
-			int value = A[i];
-			int j = i - 1;
-			while (j >= 0 && A[j] > value) {
-				A[j + 1] = A[j];
-				j = j - 1;
-			}
-			A[j + 1] = value;
-		}
+	public CombSort(SortVisualtionPanel svp) {
+		// TODO Auto-generated constructor stub
+		super(svp);
+
 	}
 
 	public void run() {
+		
+		System.out.println("GO");
 
-		for (int i = 1; i < elements.length; i++) {
-			int value = elements[i];
-			int j = i - 1;
-			while (j >= 0 && elements[j] > value) {
+		float shrink = 1.3f;
+		int swap;
+		int i, gap = elements.length;
+		boolean swapped = false;
 
-				svp.visualInsert(j+1,elements[j]);
-				//svp.setInfo("Insertionsort", iterates++);
-				svp.setInfo("Insertionsort",accesses,comparisons++);
-				accesses+=2;
+		while ((gap > 1) || swapped) {
+			if (gap > 1) {
+				gap = (int) ((float) gap / shrink);
+			}
+			swapped = false;
+			for (i = 0; gap + i < elements.length; ++i) {
+				if (elements[i] - elements[i + gap] > 0) {
+					swap = elements[i];
+					elements[i] = elements[i + gap];
+					elements[i + gap] = swap;
+					swapped = true;
+					svp.visualCmp(i, i + gap, true);
+					//svp.setInfo("Combsort",iterates++);
+					svp.setInfo("Combsort",accesses,comparisons++);
+					accesses+=3;
+
+				}
+				
+				else{
+					
+					svp.visualCmp(i, i + gap, false);
+					//svp.setInfo("Combsort",iterates++);
+					svp.setInfo("Combsort",accesses,comparisons++);
+				}
+				
 				
 				checkRunCondition();
-				elements[j + 1] = elements[j];
-				j = j - 1;
-			}
-
-			svp.visualInsert(j + 1, value);
-			//svp.setInfo("Insertionsort", iterates++);
-			svp.setInfo("Insertionsort",accesses,comparisons++);
-			accesses+=2;
 			
-			checkRunCondition();
-			elements[j + 1] = value;
+			}
 		}
-
-		if (flashing)
-			svp.flashing();
+		
+		if(flashing) svp.flashing();
 		setChanged();
 		notifyObservers();
-
 	}
-
+	
 	@Override
 	public SORTALGORITHMS getAlgorithmName() {
 		// TODO Auto-generated method stub
-		return SORTALGORITHMS.Insertionsort;
+		return SORTALGORITHMS.Combsort;
 	}
+	
+	
 
 }

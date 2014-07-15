@@ -1,4 +1,4 @@
-package OptionDialogs;
+package dialogs;
 
 /*
 Visualsorting

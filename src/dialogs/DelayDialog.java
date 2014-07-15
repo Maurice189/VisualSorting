@@ -1,4 +1,4 @@
-package OptionDialogs;
+package dialogs;
 
 /*
 Visualsorting
@@ -46,8 +46,8 @@ import javax.swing.border.EtchedBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import algorithms.Sort;
 import main.Statics;
-import sorting_algorithms.Sort;
 
 
 public final class DelayDialog extends OptionDialog{

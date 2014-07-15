@@ -1,4 +1,4 @@
-package OptionDialogs;
+package dialogs;
 
 /*
 Visualsorting
@@ -40,9 +40,9 @@ import javax.swing.JSpinner;
 import javax.swing.JTextField;
 import javax.swing.border.TitledBorder;
 
+import algorithms.Sort;
 import main.Controller;
 import main.Statics;
-import sorting_algorithms.Sort;
 
 /**
  * This class is responsible for editing the sorting list.
@@ -220,7 +220,6 @@ public class EnterDialog extends OptionDialog {
 		value.setFont(Statics.getDefaultFont(13f));
 		values = new JSpinner();
 		values.setFont(Statics.getDefaultFont(15f));
-
 		setLayout(new GridBagLayout());
 
 		JScrollPane sp = new JScrollPane(elements);

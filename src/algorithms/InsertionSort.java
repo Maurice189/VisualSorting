@@ -1,4 +1,5 @@
-package sorting_algorithms;
+package algorithms;
+
 
 /*
 Visualsorting
@@ -16,8 +17,12 @@ GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
-*/
 
+This sort algorithm is based on:
+http://rosettacode.org/wiki/Sorting_algorithms/Insertion_sort#Java
+(C) Ingy döt Net 
+
+*/
 
 /**
  * 
@@ -31,61 +36,69 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 import main.SortVisualtionPanel;
 import main.Statics.SORTALGORITHMS;
 
-public class BubbleSort extends Sort {
+public class InsertionSort extends Sort {
 
-	public BubbleSort(SortVisualtionPanel svp) {
+	public InsertionSort(SortVisualtionPanel svp) {
 		// TODO Auto-generated constructor stub
 		super(svp);
 
 	}
 
-	public BubbleSort() {
+	public InsertionSort() {
 		// TODO Auto-generated constructor stub
 		super();
 
+	}
 
+	public static void insertSort(int[] A) {
+		for (int i = 1; i < A.length; i++) {
+			int value = A[i];
+			int j = i - 1;
+			while (j >= 0 && A[j] > value) {
+				A[j + 1] = A[j];
+				j = j - 1;
+			}
+			A[j + 1] = value;
+		}
 	}
 
 	public void run() {
 
-		int tmp = 0;
-		
-		for (int j = elements.length; j > 1; j--) {
-			for (int i = 0; i < elements.length - 1; i++) {
+		for (int i = 1; i < elements.length; i++) {
+			int value = elements[i];
+			int j = i - 1;
+			while (j >= 0 && elements[j] > value) {
 
-				
-				if (elements[i] > elements[i + 1]) {
-
-					tmp = elements[i];
-					elements[i] = elements[i + 1];
-					elements[i + 1] = tmp;
-					svp.visualCmp(i, i + 1, true);
-					//svp.setInfo("Bubblesort",iterates++);
-					svp.setInfo("Bubblesort",accesses,comparisons++);
-					accesses+=3;
-
-				} else {
-					svp.visualCmp(i, i + 1, false);
-					//svp.setInfo("Bubblesort",iterates++);
-					svp.setInfo("Bubblesort",accesses,comparisons++);
-					
-				}
+				svp.visualInsert(j+1,elements[j]);
+				//svp.setInfo("Insertionsort", iterates++);
+				svp.setInfo("Insertionsort",accesses,comparisons++);
+				accesses+=2;
 				
 				checkRunCondition();
-			
-
+				elements[j + 1] = elements[j];
+				j = j - 1;
 			}
+
+			svp.visualInsert(j + 1, value);
+			//svp.setInfo("Insertionsort", iterates++);
+			svp.setInfo("Insertionsort",accesses,comparisons++);
+			accesses+=2;
+			
+			checkRunCondition();
+			elements[j + 1] = value;
 		}
-		
-		if(flashing) svp.flashing();
+
+		if (flashing)
+			svp.flashing();
 		setChanged();
 		notifyObservers();
 
 	}
+
 	@Override
 	public SORTALGORITHMS getAlgorithmName() {
 		// TODO Auto-generated method stub
-		return SORTALGORITHMS.Bubblesort;
+		return SORTALGORITHMS.Insertionsort;
 	}
 
 }
