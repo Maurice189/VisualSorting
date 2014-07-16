@@ -1,7 +1,7 @@
 package main;
 
 /*
-Visualsorting
+VisualSorting
 Copyright (C) 2014  Maurice Koch
 
 This program is free software: you can redistribute it and/or modify
@@ -26,7 +26,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
  * 		<li>Model-<b>View</b>-Controller</br></li>
  * </ul>
  * </br><h3>Abstract</h3></br>
- * This class respresents, as the name implies, the view(GUI) in the MVC pattern.
+ * This class represents, as the name implies, the view(GUI) in the MVC pattern.
  * 
  * @author Maurice Koch
  * @category MVC
@@ -67,6 +67,8 @@ import javax.swing.JPanel;
 import javax.swing.JRadioButtonMenuItem;
 import javax.swing.JSeparator;
 import javax.swing.JToolBar;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.border.Border;
 import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
@@ -87,7 +89,7 @@ public class Window extends JFrame {
 	
 	private static final long serialVersionUID = 1L;
 
-	// we store the visualisation panels dynamically, so we can add and remove it much easier
+	// we store the visualization panels dynamically, so we can add and remove it much easier
 	private ArrayList<SortVisualtionPanel> vsPanel;
 	
 	// the filler is used for the vertical space between the visualization panels
@@ -111,6 +113,7 @@ public class Window extends JFrame {
 
 	public Window(Controller controller,LanguageFileXML langXML, String title, int width, int height) {
 
+		Font font = componentFont.deriveFont(13f);
 		JMenuBar menuBar;
 		ButtonGroup bg = new ButtonGroup();
 		filler = new ArrayList<Component>();
@@ -121,8 +124,8 @@ public class Window extends JFrame {
 		
 		/*
 		 *  the respective title for the components will be loaded from the xml-language definitions files
-		 *  The language depends on which language was last used. The default language is english.
-		 *  This routine can be seen on every initalized component
+		 *  The language depends on which language was last used. The default language is English.
+		 *  This routine can be seen on every initialized component
 		 */
 		
 		info = new JLabel(langXML.getValue("info"),
@@ -131,24 +134,24 @@ public class Window extends JFrame {
 		info.setForeground(Color.GRAY);
 		
 		clock = new JLabel();
-		clock.setFont(Statics.getDefaultFont(13f));
+		clock.setFont(font);
 		clock.setIcon(new ImageIcon(Statics.class.getResource("/resources/stop_watch_icon2.png")));
 		
 		switchIntPause = new JCheckBoxMenuItem(langXML.getValue("autopause"));
 		switchIntPause.addActionListener(controller);
 		switchIntPause.setActionCommand(Statics.AUTO_PAUSE);
-		switchIntPause.setState(true);
-		switchIntPause.setFont(componentFont);
+		switchIntPause.setState(InternalConfig.isAutoPauseEnabled());
+		switchIntPause.setFont(font);
 		
 		programmFunctions = new JMenu(langXML.getValue("prgfunc"));
-		programmFunctions.setFont(componentFont);
+		programmFunctions.setFont(font);
 		programmFunctions.add(switchIntPause);
 		
 		nofLabel = new JLabel();
-		nofLabel.setFont(Statics.getDefaultFont(13f));
+		nofLabel.setFont(font);
 		
 		setTitle(title);
-		setFont(componentFont);
+		setFont(font);
 		setSize(width, height);
 		vsPanel = new ArrayList<SortVisualtionPanel>();
 		addWindowListener(controller);
@@ -171,50 +174,50 @@ public class Window extends JFrame {
 
 		languages = new JMenu(
 				langXML.getValue("lang"));
-		languages.setFont(componentFont);
+		languages.setFont(font);
 		settings = new JMenu(
 				langXML.getValue("settings"));
-		settings.setFont(componentFont);
+		settings.setFont(font);
 		help = new JMenu(langXML.getValue("help"));
-		help.setFont(componentFont);
+		help.setFont(font);
 		list = new JMenuItem(
 				langXML.getValue("sortlist"));
 		list.addActionListener(controller);
 		list.setActionCommand(Statics.NEW_ELEMENTS);
-		list.setFont(componentFont);
+		list.setFont(font);
 		
 		delay = new JMenuItem(
 				langXML.getValue("delay"));
 		delay.addActionListener(controller);
 		delay.setActionCommand(Statics.DELAY);
-		delay.setFont(componentFont);
+		delay.setFont(font);
 
 		about = new JMenuItem(langXML.getValue("about").concat(" ").concat(title));
 		
 		about.addActionListener(controller);
 		about.setActionCommand(Statics.ABOUT);
-		about.setFont(componentFont);
+		about.setFont(font);
 
 		de = new JRadioButtonMenuItem("German");
 		de.addActionListener(controller);
 		de.setActionCommand(Statics.LANG_DE);
-		de.setFont(componentFont);
+		de.setFont(font);
 
 		en = new JRadioButtonMenuItem("English");
 		en.addActionListener(controller);
 		en.setActionCommand(Statics.LANG_EN);
-		en.setFont(componentFont);
+		en.setFont(font);
 
 		fr = new JRadioButtonMenuItem("France");
 		fr.addActionListener(controller);
 		fr.setActionCommand(Statics.LANG_FR);
-		fr.setFont(componentFont);
+		fr.setFont(font);
 
 		bg.add(de);
 		bg.add(en);
 		bg.add(fr);
 
-		String tmp = Statics.getLanguageSet();
+		String tmp = InternalConfig.getLanguageSet();
 		if (tmp.equals("lang_de.xml"))
 			de.setSelected(true);
 		else if (tmp.equals("lang_en.xml"))
@@ -242,7 +245,7 @@ public class Window extends JFrame {
 			names[i] = SORTALGORITHMS.values()[i].toString();
 		
 		sortChooser = new JComboBox<String>(names);
-		sortChooser.setFont(componentFont);
+		sortChooser.setFont(font);
 		sortChooser.setMaximumSize(new Dimension(230, 30));
 		
 		content = new JPanel();
@@ -466,16 +469,12 @@ public class Window extends JFrame {
 	
 	
 	
-	public static void setComponentFont(String source, float size) {
+	public static void setComponentFont(String source) {
 		
 		try {
 
 			InputStream in = Window.class.getResourceAsStream(source);
-			componentFont = Font.createFont(Font.TRUETYPE_FONT,in);
-			
-			Statics.setDefaultFont(componentFont);
-			componentFont = componentFont.deriveFont(size);
-			
+			componentFont = Font.createFont(Font.TRUETYPE_FONT,in);			
 
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -483,6 +482,10 @@ public class Window extends JFrame {
 			e.printStackTrace();
 		}
 	
+	}
+	
+	public static Font getComponentFont(float size){
+		return componentFont.deriveFont(size);
 	}
 	
 	public static void setInfoFont(String source, float size) {
@@ -538,21 +541,10 @@ public class Window extends JFrame {
 			// handle exception
 		} catch (IllegalAccessException e) {
 			// handle exception
-		}
-		*/
+		}*/
+		
 		LanguageFileXML configLanguage = new LanguageFileXML();
-		int nofelements = 100;
-		
-		try {
-			InternalConfig.loadConfigFile();
-			Statics.setLanguage(InternalConfig.getValue("language"));
-			Statics.setVersion(InternalConfig.getValue("version"));
-			Sort.setDelayMs(Long.parseLong(InternalConfig.getValue("delayms")));
-			Sort.setDelayNs(Integer.parseInt(InternalConfig.getValue("delayns")));
-			nofelements = Integer.parseInt(InternalConfig.getValue("nofelements"));
-			
-		} catch (IOException e1) {e1.printStackTrace();}
-		
+		InternalConfig.loadConfigFile();
 		configLanguage.readXML("/resources/".concat(InternalConfig.getValue("language")));
 		
 		// define resources
@@ -560,7 +552,7 @@ public class Window extends JFrame {
 		SortVisualtionPanel.setLanguageFileXML(configLanguage);
 		
 		// this font is used under the GPL from google fonts under 'OpenSans'
-		Window.setComponentFont("/resources/Fonts/OpenSans-Regular.ttf",13f);
+		Window.setComponentFont("/resources/Fonts/OpenSans-Regular.ttf");
 		Window.setInfoFont("/resources/Fonts/Oxygen-Regular.ttf",30f);
 		
 		HashMap<SORTALGORITHMS,String> map = new HashMap<SORTALGORITHMS,String>();
@@ -579,12 +571,10 @@ public class Window extends JFrame {
 		map.put(SORTALGORITHMS.Bogosort, "infopage_bogosort.html");
 		InfoDialog.initInfoPageResolver(map);
 		
-	
-		
 		
 		// init view and controller
-		Controller controller = new Controller(configLanguage,nofelements);
-		Window window = new Window(controller,configLanguage,"Visual Sorting - ".concat(Statics.getVersion()), 800, 550);
+		Controller controller = new Controller(configLanguage);
+		Window window = new Window(controller,configLanguage,"Visual Sorting - ".concat(InternalConfig.getVersion()), 800, 550);
 		controller.setView(window);
 	
 

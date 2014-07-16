@@ -53,10 +53,6 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
-import java.util.concurrent.locks.Condition;
-import java.util.concurrent.locks.Lock;
-import java.util.concurrent.locks.ReentrantLock;
-
 import algorithms.BinaryTreeSort;
 import algorithms.BitonicSort;
 import algorithms.BogoSort;
@@ -88,7 +84,7 @@ public class Controller implements Observer, ActionListener, WindowListener {
 	private Window window;
 	private LanguageFileXML langXMLInterface;
 	private int threadsAlive; 
-	private boolean byUserStopped = false, autoPauseOn = true;
+	private boolean byUserStopped = false;
 	private ExecutorService executor; 
 	private javax.swing.Timer appTimer;
 	
@@ -101,21 +97,16 @@ public class Controller implements Observer, ActionListener, WindowListener {
 	 * 
 	 * 
 	 */
-	public Controller(LanguageFileXML langXMLInterface, final int nofelements) {
+	public Controller(LanguageFileXML langXMLInterface) {
 
 		this.langXMLInterface = langXMLInterface;
-		int[] elements = new int[nofelements];
+
 
 		sortList = new ArrayList<Sort>();
 		dialogs = new LinkedList<OptionDialog>();
 
 		executor = Executors.newCachedThreadPool();
 
-		// fill random numbers to the sort list
-		for (int i = 0; i < nofelements; i++)
-			elements[i] = Controller.getRandomNumber(0, nofelements / 3);
-
-		Sort.setElements(elements);
 		createTimer();
 	
 	}
@@ -278,7 +269,7 @@ public class Controller implements Observer, ActionListener, WindowListener {
 		
 		else if (e.getActionCommand() == Statics.AUTO_PAUSE) {
 
-			autoPauseOn = !autoPauseOn;
+			InternalConfig.toggleAutoPause();
 			System.out.println("PRESSED");
 		}
 
@@ -290,7 +281,7 @@ public class Controller implements Observer, ActionListener, WindowListener {
 
 		else if (e.getActionCommand() == Statics.ABOUT) {
 
-			dialogs.add(new AboutDialog(400, 415));
+			dialogs.add(AboutDialog.getInstance(400, 415));
 		}
 
 		else if (e.getActionCommand() == Statics.INFO) {
@@ -304,7 +295,7 @@ public class Controller implements Observer, ActionListener, WindowListener {
 
 		else if (e.getActionCommand() == Statics.LANG_DE) {
 
-			Statics.setLanguage("lang_de.xml");
+			InternalConfig.setLanguage("lang_de.xml");
 			langXMLInterface.readXML("/resources/lang_de.xml");
 			window.updateLanguage();
 			for (OptionDialog temp : dialogs)
@@ -315,7 +306,7 @@ public class Controller implements Observer, ActionListener, WindowListener {
 
 		else if (e.getActionCommand() == Statics.LANG_EN) {
 
-			Statics.setLanguage("lang_en.xml");
+			InternalConfig.setLanguage("lang_en.xml");
 			langXMLInterface.readXML("/resources/lang_en.xml");
 			window.updateLanguage();
 			for (OptionDialog temp : dialogs)
@@ -326,7 +317,7 @@ public class Controller implements Observer, ActionListener, WindowListener {
 
 		else if (e.getActionCommand() == Statics.LANG_FR) {
 
-			Statics.setLanguage("lang_fr.xml");
+			InternalConfig.setLanguage("lang_fr.xml");
 			langXMLInterface.readXML("/resources/lang_fr.xml");
 			window.updateLanguage();
 			for (OptionDialog temp : dialogs)
@@ -433,6 +424,10 @@ public class Controller implements Observer, ActionListener, WindowListener {
 		
 		
 	}
+	
+
+	
+	
 
 	/**
 	 *  This is part of the Observer Pattern
@@ -477,10 +472,6 @@ public class Controller implements Observer, ActionListener, WindowListener {
 		for (OptionDialog temp : dialogs)
 			temp.dispose();
 
-		InternalConfig.setValue("delayms", Sort.getDelayMs());
-		InternalConfig.setValue("delayns", Sort.getDelayNs());
-		InternalConfig.setValue("language", Statics.getLanguageSet());
-		InternalConfig.setValue("nofelements", Sort.getElements().length);
 		InternalConfig.saveChanges();
 		
 	}
@@ -503,7 +494,7 @@ public class Controller implements Observer, ActionListener, WindowListener {
 	 */
 	public void windowActivated(WindowEvent e) {
 
-		if(autoPauseOn){
+		if(InternalConfig.isAutoPauseEnabled()){
 			if (threadsAlive != 0 && byUserStopped == false) {
 			 	Sort.resume();
 			 	appTimer.start();
@@ -526,7 +517,7 @@ public class Controller implements Observer, ActionListener, WindowListener {
 	
 	public void windowDeactivated(WindowEvent e) {
 		
-		if(autoPauseOn){
+		if(InternalConfig.isAutoPauseEnabled()){
 			Sort.stop();
 			if (threadsAlive != 0 && byUserStopped == false) {
 				window.appStopped();

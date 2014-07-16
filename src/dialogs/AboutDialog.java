@@ -51,10 +51,13 @@ import javax.swing.UIManager;
 import javax.swing.border.CompoundBorder;
 import javax.swing.border.TitledBorder;
 
-import main.Statics;
+import main.Window;
 
 
 public class AboutDialog extends OptionDialog{
+	
+	
+	private static AboutDialog instance;
 
 	public AboutDialog(int width, int height) {
 		super("about", width, height);
@@ -77,18 +80,18 @@ public class AboutDialog extends OptionDialog{
 		JPanel hyperlinks = new JPanel(new GridLayout(2,0));
 		TitledBorder tb = BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.GRAY),
 		"Visual Sorting - Copyright 2014 by Maurice Koch");
-		tb.setTitleFont(Statics.getDefaultFont(11f));
+		tb.setTitleFont(Window.getComponentFont(11f));
 		
-		cpr.setFont(Statics.getDefaultFont(11f));
+		cpr.setFont(Window.getComponentFont(11f));
 		cpr.setBackground(UIManager.getColor("Panel.background"));
 		cpr.setEditable(false);
 		hyperlinks.setBorder(BorderFactory.createEmptyBorder(0, 6, 2, 0));
 		cpr.setBorder(new CompoundBorder(BorderFactory.createEmptyBorder(11, 5, 5, 5),tb));
-		hyperlinkGitHub.setFont(Statics.getDefaultFont(11f));
-		hyperlinkGNU.setFont(Statics.getDefaultFont(11f));
+		hyperlinkGitHub.setFont(Window.getComponentFont(11f));
+		hyperlinkGNU.setFont(Window.getComponentFont(11f));
 		ImageIcon bg = null;
 		hyperlinkGitHub.setText("<html>Click here to visit on <a href=\"\">GitHub</a> (for comments/bug report/etc.)</html> ");
-		hyperlinkGNU.setText("<html>Click here to visit <a href=\"\">http://www.gnu.org/licenses/gpl-3.0.html</a></html>");
+		hyperlinkGNU.setText("<html>Click here to visit <a href=\"\">http://www.gnu.org/licenses/</a></html>");
 		cpr.setText(
 		 "\nThis program is free software: you can redistribute it and/or modify\n"+
 		 "it under the terms of the GNU General Public License as published by\n"+
@@ -123,7 +126,7 @@ public class AboutDialog extends OptionDialog{
 	            public void mouseClicked(MouseEvent e) {
 	                   
 	                 try {
-						Desktop.getDesktop().browse(new URI("http://www.gnu.org/licenses/gpl-3.0.html"));
+						Desktop.getDesktop().browse(new URI("http://www.gnu.org/licenses/"));
 					} catch (IOException | URISyntaxException e1) {
 						e1.printStackTrace();
 					}
@@ -157,6 +160,16 @@ public class AboutDialog extends OptionDialog{
 			add(BorderLayout.SOUTH,hyperlinks);
 			setResizable(false);
 		}
+	}
+	
+	public static AboutDialog getInstance(int width,
+			int height) {
+
+		if (instance == null)
+			instance = new AboutDialog(width, height);
+
+		instance.setVisible(true);
+		return instance;
 	}
 
 }

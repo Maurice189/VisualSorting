@@ -1,5 +1,4 @@
 package main;
-import java.awt.Font;
 
 /*
 Visualsorting
@@ -34,9 +33,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 public class Statics {
 	
 
-	// this font is used for components, the default font is monospace
-	private static Font defaultFont = new Font("Monospace", Font.PLAIN, 20);
-
 	public static enum SORTALGORITHMS {
 		Heapsort, Bubblesort, Quicksort, BST, Combsort,Gnomesort, Shakersort, Mergesort, Bitonicsort,
 		Radixsort, Shellsort, Insertionsort,Bogosort;
@@ -46,8 +42,6 @@ public class Statics {
 		}
 	};
 
-	private static String VERSION,LANGUAGE_SET; // prg version, language set
-	
 	// actionlistener use actioncommands 
 	public static final String ADD_SORT = "action_add";
 	public static final String REMOVE_SORT = "action_remove";
@@ -66,33 +60,5 @@ public class Statics {
 
 
 	
-	public static void setDefaultFont(Font defaultFont) {
-		Statics.defaultFont = defaultFont;
-
-	}
-	
-	
-	public static void setLanguage(String lang_name){
-		Statics.LANGUAGE_SET = lang_name;
-		
-	}
-	
-	public static void setVersion(String version){
-		Statics.VERSION = version;
-		
-	}
-	
-	public static String getLanguageSet(){
-		return Statics.LANGUAGE_SET;
-	}
-	
-	public static String getVersion(){
-		return Statics.VERSION;
-	}
-
-	public static Font getDefaultFont(float size) {
-		return defaultFont.deriveFont(size);
-
-	}
 
 }

@@ -52,13 +52,14 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
 import main.Statics;
+import main.Window;
 import main.Statics.SORTALGORITHMS;
 
 public class InfoDialog extends OptionDialog {
 
 	private final static int SIZE = 3, CENTER_PLUS = 1;
-	private final static Font NFONT_SIZE = Statics.getDefaultFont(14f),
-			SFONT_SIZE = Statics.getDefaultFont(10f);
+	private final static Font NFONT_SIZE = Window.getComponentFont(14f),
+			SFONT_SIZE = Window.getComponentFont(10f);
 
 	private static HashMap<SORTALGORITHMS, String> infoPageRes;
 

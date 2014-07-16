@@ -83,12 +83,12 @@ public class SortVisualtionPanel extends JPanel implements ComponentListener {
 
 		buffer = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
 		gbuffer = (Graphics2D) buffer.getGraphics();
-		gbuffer.setFont(Statics.getDefaultFont(14f));
+		gbuffer.setFont(Window.getComponentFont(14f));
 		gbuffer.setBackground(SortVisualtionPanel.backgroundColor);
 	
 		leftBorder = BorderFactory.createTitledBorder("");
 		leftBorder.setTitleJustification(TitledBorder.ABOVE_TOP);
-		leftBorder.setTitleFont(Statics.getDefaultFont(12f));
+		leftBorder.setTitleFont(Window.getComponentFont(12f));
 		setInfo(selectedSort,0,0);
 
 		
@@ -219,7 +219,7 @@ public class SortVisualtionPanel extends JPanel implements ComponentListener {
 				BufferedImage.TYPE_INT_ARGB);
 		gbuffer = (Graphics2D) buffer.getGraphics();
 		gbuffer.setBackground(SortVisualtionPanel.backgroundColor);
-		gbuffer.setFont(Statics.getDefaultFont(14f));
+		gbuffer.setFont(Window.getComponentFont(14f));
 
 		for (int i = 0; i < elements.length; i++) {
 			if (elements[i] > max)
@@ -447,7 +447,7 @@ public class SortVisualtionPanel extends JPanel implements ComponentListener {
 
 			if (bi < 19) {
 				gbuffer.setColor(Color.WHITE);
-				gbuffer.setFont(Statics.getDefaultFont(26f));
+				gbuffer.setFont(Window.getComponentFont(26f));
 				gbuffer.drawString("Finished", (int) (width * 0.46), height >> 1);
 			}
 			repaint();

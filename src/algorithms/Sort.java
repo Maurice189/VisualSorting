@@ -78,7 +78,7 @@ public abstract class Sort extends Observable implements Runnable {
 	/**
 	 * 
 	 * @param elements
-	 * sortling list, that can accessed from every object, in order to create a copy
+	 * Sorting list, that can accessed from every object, in order to create a copy
 	 */
 	public static void setElements(int elements[]) {
 		Sort.gElement = elements;

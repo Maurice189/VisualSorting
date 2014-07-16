@@ -42,7 +42,7 @@ import javax.swing.border.TitledBorder;
 
 import algorithms.Sort;
 import main.Controller;
-import main.Statics;
+import main.Window;
 
 /**
  * This class is responsible for editing the sorting list.
@@ -190,7 +190,7 @@ public class EnterDialog extends OptionDialog {
 	
 	
 	/**
-	 * {@inheritDoc} overriden method
+	 * {@inheritDoc} overridden method
 	 * @Override
 	 */
 	public void updateComponentsLabel() {
@@ -208,18 +208,18 @@ public class EnterDialog extends OptionDialog {
 	}
 
 	/**
-	 * {@inheritDoc} overriden method
+	 * {@inheritDoc} overridden method
 	 */
 	
 	@Override
 	protected void initComponents() {
 		listModel = new DefaultListModel<Integer>();
 		elements = new JList<Integer>(listModel);
-		elements.setFont(Statics.getDefaultFont(13f));
+		elements.setFont(Window.getComponentFont(13f));
 		value = new JTextField();
-		value.setFont(Statics.getDefaultFont(13f));
+		value.setFont(Window.getComponentFont(13f));
 		values = new JSpinner();
-		values.setFont(Statics.getDefaultFont(15f));
+		values.setFont(Window.getComponentFont(15f));
 		setLayout(new GridBagLayout());
 
 		JScrollPane sp = new JScrollPane(elements);
@@ -241,18 +241,18 @@ public class EnterDialog extends OptionDialog {
 		tcnt.weighty = 7;
 
 		crRandom = new JRadioButton(langXML.getValue("setList"));
-		crRandom.setFont(Statics.getDefaultFont(13f));
+		crRandom.setFont(Window.getComponentFont(13f));
 		crRandom.addActionListener(this);
 		crRandom.setSelected(true);
 		setMan = new JRadioButton(langXML.getValue("setManual"));
-		setMan.setFont(Statics.getDefaultFont(13f));
+		setMan.setFont(Window.getComponentFont(13f));
 		setMan.addActionListener(this);
 
 		btnWrp1 = new JPanel(new FlowLayout(FlowLayout.LEFT));
 		TitledBorder tb= BorderFactory.createTitledBorder(
 				BorderFactory.createLineBorder(Color.GRAY), langXML.getValue("selection"));
 				
-		tb.setTitleFont(Statics.getDefaultFont(13f));
+		tb.setTitleFont(Window.getComponentFont(13f));
 		btnWrp1.setBorder(tb);
 		btnWrp1.add(crRandom);
 		btnWrp1.add(setMan);
@@ -274,17 +274,17 @@ public class EnterDialog extends OptionDialog {
 
 		crNmb = new JButton(
 				langXML.getValue("rnumber"));
-		crNmb.setFont(Statics.getDefaultFont(13f));
+		crNmb.setFont(Window.getComponentFont(13f));
 		crNmb.addActionListener(this);
 		
-
+		
 		enterValue = new JButton(
 				langXML.getValue("add"));
-		enterValue.setFont(Statics.getDefaultFont(13f));
+		enterValue.setFont(Window.getComponentFont(13f));
 		enterValue.addActionListener(this);
 
 		ok = new JButton(langXML.getValue("exit"));
-		ok.setFont(Statics.getDefaultFont(13f));
+		ok.setFont(Window.getComponentFont(13f));
 		ok.addActionListener(this);
 
 		btnWrp2 = new JPanel();
@@ -322,7 +322,7 @@ public class EnterDialog extends OptionDialog {
 	 * @param height height of the frame
 	 * @return an instance of EnterDialog, if the wasn't requested before,
 	 * it will be created. For more info see 'Singleton' (Design Pattern) 
-	 * @category Singelton (Design Pattern)
+	 * @category Singleton (Design Pattern)
 	 */
 	public static EnterDialog getInstance(Controller controller,int width,
 			int height) {

@@ -48,6 +48,7 @@ import javax.swing.event.ChangeListener;
 
 import algorithms.Sort;
 import main.Statics;
+import main.Window;
 
 
 public final class DelayDialog extends OptionDialog{
@@ -70,13 +71,13 @@ public final class DelayDialog extends OptionDialog{
 	protected void initComponents() {
 		
 		delay = new JLabel();
-		delay.setFont(Statics.getDefaultFont(13f));
+		delay.setFont(Window.getComponentFont(13f));
 		slider = new JSlider(0, 300, 50);
 		ms = new JRadioButton("ms");
-		ms.setFont(Statics.getDefaultFont(13f));
+		ms.setFont(Window.getComponentFont(13f));
 		ms.addActionListener(this);
 	    ns = new JRadioButton("ns");
-	    ns.setFont(Statics.getDefaultFont(13f));
+	    ns.setFont(Window.getComponentFont(13f));
 	    ns.addActionListener(this);
 	
 		 

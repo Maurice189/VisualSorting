@@ -1,7 +1,7 @@
 package main;
 
 /*
-Visualsorting
+VisualSorting
 Copyright (C) 2014  Maurice Koch
 
 This program is free software: you can redistribute it and/or modify

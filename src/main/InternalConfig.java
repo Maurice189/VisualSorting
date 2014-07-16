@@ -36,10 +36,16 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Properties;
 
+import algorithms.Sort;
+
 public class InternalConfig {
 
 	private static final String PROPORTIES_NAME = "config.txt";
 	private static Properties prop;
+	
+	private static String version,languageSet; // prg version, language set
+	private static boolean autoPauseOn;
+	
 
 	/**
 	 * 
@@ -49,7 +55,7 @@ public class InternalConfig {
 	 * is launched the first time
 	 * 
 	 */
-	public static void loadConfigFile() throws IOException {
+	public static void loadConfigFile() {
 
 		FileReader reader = null;
 
@@ -59,23 +65,61 @@ public class InternalConfig {
 
 			System.out.println("Info: config file does not exist\n --> create config file with default parameters");
 			FileWriter writer;
-			writer = new FileWriter(PROPORTIES_NAME);
-
 			Properties prConfig = new Properties(System.getProperties());
-			prConfig.setProperty("version", "0.5 Beta");
-			prConfig.setProperty("language", "lang_de.xml");
-			prConfig.setProperty("delayms", "100");
-			prConfig.setProperty("delayns", "10");
-			prConfig.setProperty("nofelements", "100");
-			prConfig.store(writer, null);
-			writer.close();
+			
+			try {
+				writer = new FileWriter(PROPORTIES_NAME);
+				prConfig.setProperty("version", "0.5 Beta");
+				prConfig.setProperty("language", "lang_de.xml");
+				prConfig.setProperty("delayms", "100");
+				prConfig.setProperty("delayns", "10");
+				prConfig.setProperty("nofelements", "100");
+				prConfig.setProperty("auto_pause", "true");
+				prConfig.store(writer, null);
+				writer.close();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
+			
+	
 
 		}
 
-		reader = new FileReader(PROPORTIES_NAME);
-		prop = new Properties();
-		prop.load(reader);
-		reader.close();
+		try {
+			reader = new FileReader(PROPORTIES_NAME);
+			prop = new Properties();
+			prop.load(reader);
+			reader.close();
+			setValues();
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	
+
+	}
+	
+	
+	private static void setValues(){
+		
+		
+		
+		
+		languageSet = getValue("language");
+		version = getValue("version");
+		int nofelements = Integer.parseInt(getValue("nofelements"));
+		autoPauseOn = Boolean.parseBoolean(getValue("auto_pause"));
+		Sort.setDelayMs(Long.parseLong(getValue("delayms")));
+		Sort.setDelayNs(Integer.parseInt(getValue("delayns")));
+		
+		int[] elements = new int[nofelements];
+		for (int i = 0; i < nofelements; i++)
+			elements[i] = Controller.getRandomNumber(0, nofelements / 3);
+
+		Sort.setElements(elements);
 
 	}
 
@@ -104,6 +148,13 @@ public class InternalConfig {
 	 */
 	public static void saveChanges() {
 		
+		
+		setValue("delayms", Sort.getDelayMs());
+		setValue("delayns", Sort.getDelayNs());
+		setValue("language", languageSet);
+		setValue("nofelements", Sort.getElements().length);
+		setValue("auto_pause", String.valueOf(autoPauseOn));
+		
 		FileWriter writer;
 		try {
 			writer = new FileWriter(PROPORTIES_NAME);
@@ -114,5 +165,34 @@ public class InternalConfig {
 		}
 
 	}
-
+	
+	public static void setLanguage(String lang_name){
+		InternalConfig.languageSet = lang_name;
+		
+	}
+	
+	
+	public static void toggleAutoPause(){
+		
+		InternalConfig.autoPauseOn = ! InternalConfig.autoPauseOn;
+		
+	}
+	
+	public static void setVersion(String version){
+		InternalConfig.version = version;
+		
+	}
+	
+	public static String getLanguageSet(){
+		return InternalConfig.languageSet;
+	}
+	
+	public static boolean isAutoPauseEnabled(){
+		return InternalConfig.autoPauseOn;
+	}
+	
+	public static String getVersion(){
+		return InternalConfig.version;
+	}
+	
 }
