@@ -137,7 +137,7 @@ public class IntroSort extends Sort {
 		    
 		    
 		    svp.visualInsert(lo+i-1,a[lo+child-1]);
-			svp.setInfo("Introsort",accesses++,comparisons++);
+		    panelUI.setInfo("Introsort",accesses++,comparisons++);
 			checkRunCondition();
 			
 		    a[lo+i-1] = a[lo+child-1];
@@ -146,7 +146,7 @@ public class IntroSort extends Sort {
 		  }
 	      
 	      svp.visualInsert(lo+i-1,d);
-		  svp.setInfo("Introsort",accesses++,comparisons++);
+	      panelUI.setInfo("Introsort",accesses++,comparisons++);
 		  checkRunCondition();
 	      a[lo+i-1] = d;
 	    }
@@ -166,14 +166,14 @@ public class IntroSort extends Sort {
 			{
 		    	
 		      svp.visualInsert(j,a[j-1]);
-			  svp.setInfo("Introsort",accesses++,comparisons++);
+		      panelUI.setInfo("Introsort",accesses++,comparisons++);
 			  checkRunCondition();
 			  a[j] = a[j-1];
 			  j--;
 			}
 		    
 		    svp.visualInsert(j,t);
-			svp.setInfo("Introsort",accesses++,comparisons);
+		    panelUI.setInfo("Introsort",accesses++,comparisons);
 			checkRunCondition();
 		    a[j] = t;
 		  }
@@ -189,7 +189,7 @@ public class IntroSort extends Sort {
 	      a[j]=t;
 	      
 	      svp.visualCmp(i,j,true);
-		  svp.setInfo("Introsort",accesses,comparisons++);
+	      panelUI.setInfo("Introsort",accesses,comparisons++);
 		  accesses+=3;
 		  checkRunCondition();
 	      
@@ -205,7 +205,7 @@ public class IntroSort extends Sort {
 		
 		sort();
 		setChanged();
-		notifyObservers(svp.getID());
+		notifyObservers(panelUI.getID());
 
 		if (flashing)
 			svp.flashing();

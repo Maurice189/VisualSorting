@@ -44,14 +44,14 @@ public class BitonicSort extends Sort {
 			elements[i] = elements[j];
 			elements[j] = h;
 			svp.visualCmp(i, j, true);
-			svp.setInfo("Bitonicsort",accesses,comparisons++);
+			panelUI.setInfo("Bitonicsort",accesses,comparisons++);
 			accesses+=3;
 
 		}
 		
 		else{
 			svp.visualCmp(i, j, false);
-			svp.setInfo("Bitonicsort",accesses,comparisons++);
+			panelUI.setInfo("Bitonicsort",accesses,comparisons++);
 		}
 		
 		checkRunCondition();
@@ -65,7 +65,7 @@ public class BitonicSort extends Sort {
 		if(flashing) svp.flashing();
 		
 		setChanged();
-		notifyObservers(svp.getID());
+		notifyObservers(panelUI.getID());
 
 	}
 

@@ -60,7 +60,7 @@ public class QuickSort extends Sort {
 				
 				svp.visualCmp(i, j,true);
 				svp.visualPivot(pivotIndex);
-				svp.setInfo("Quicksort",accesses,comparisons++);
+				panelUI.setInfo("Quicksort",accesses,comparisons++);
 				accesses+=3;
 
 				j--;
@@ -69,7 +69,7 @@ public class QuickSort extends Sort {
 	
 				svp.visualCmp(i, rechts,false);
 				svp.visualPivot(pivotIndex);
-				svp.setInfo("Quicksort",accesses,comparisons++);
+				panelUI.setInfo("Quicksort",accesses,comparisons++);
 				
 				
 				i++;
@@ -87,7 +87,7 @@ public class QuickSort extends Sort {
 		
 		svp.visualCmp(i, rechts,true);
 		svp.visualPivot(pivotIndex);
-		svp.setInfo("Quicksort",accesses,comparisons++);
+		panelUI.setInfo("Quicksort",accesses,comparisons++);
 		accesses+=3;
 		
 
@@ -102,7 +102,7 @@ public class QuickSort extends Sort {
 		qSort(elements, 0, elements.length - 1);
 		
 		setChanged();
-		notifyObservers(svp.getID());
+		notifyObservers(panelUI.getID());
 		
 		if(flashing) svp.flashing();
 		

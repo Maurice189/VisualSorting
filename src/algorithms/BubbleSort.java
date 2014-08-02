@@ -60,13 +60,13 @@ public class BubbleSort extends Sort {
 					elements[i] = elements[i + 1];
 					elements[i + 1] = tmp;
 					svp.visualCmp(i, i + 1, true);
-					svp.setInfo("Bubblesort",accesses,comparisons++);
+					panelUI.setInfo("Bubblesort",accesses,comparisons++);
 					accesses+=3;
 					swapped = true;
 
 				} else {
 					svp.visualCmp(i, i + 1, false);
-					svp.setInfo("Bubblesort",accesses,comparisons++);
+					panelUI.setInfo("Bubblesort",accesses,comparisons++);
 					
 				}
 				
@@ -77,7 +77,7 @@ public class BubbleSort extends Sort {
 		}while(swapped);
 		
 		setChanged();
-		notifyObservers(svp.getID());
+		notifyObservers(panelUI.getID());
 		
 		if(flashing) svp.flashing();
 	

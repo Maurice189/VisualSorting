@@ -406,11 +406,13 @@ public class Window extends JFrame {
 			content.add(Box.createVerticalStrut(20));
 			next.setEnabled(true);
 			reset.setEnabled(true);
-		}
-		final SortVisualtionPanel temp = new SortVisualtionPanel(controller,
-				selectedSort, this.getWidth(), this.getHeight());
+		}		
 		
-		sort.setSortVisualtionPanel(temp);
+		;
+		final SortVisualtionPanel temp = new SortVisualtionPanel(this.getWidth(), this.getHeight());
+		PanelUI panelUI = new PanelUI(controller,temp,selectedSort);
+		
+		sort.setSortVisualtionPanel(temp,panelUI);
 		vsPanel.add(temp);
 		content.add(temp);
 		
@@ -583,7 +585,7 @@ public class Window extends JFrame {
 		
 		// define resources
 		OptionDialog.setLanguageFileXML(configLanguage);
-		SortVisualtionPanel.setLanguageFileXML(configLanguage);
+		PanelUI.setLanguageFileXML(configLanguage);
 		
 		// this font is used under the GPL from google fonts under 'OpenSans'
 		Window.setComponentFont("/resources/Fonts/OpenSans-Regular.ttf");

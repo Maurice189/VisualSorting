@@ -61,7 +61,7 @@ public class ShellSort extends Sort {
 
 					svp.visualInsert(j, elements[j - increment]);
 					//svp.setInfo("Shellsort",iterates++);
-					svp.setInfo("Shellsort",accesses,comparisons++);
+					panelUI.setInfo("Shellsort",accesses,comparisons++);
 					accesses+=2;
 					
 					checkRunCondition();
@@ -71,7 +71,7 @@ public class ShellSort extends Sort {
 				
 				svp.visualInsert(j, temp);
 				//svp.setInfo("Shellsort",iterates++);
-				svp.setInfo("Shellsort",accesses++,comparisons++);
+				panelUI.setInfo("Shellsort",accesses++,comparisons++);
 				checkRunCondition();
 				elements[j] = temp;
 			}
@@ -83,7 +83,7 @@ public class ShellSort extends Sort {
 		}
 
 		setChanged();
-		notifyObservers(svp.getID());
+		notifyObservers(panelUI.getID());
 
 		if (flashing)
 			svp.flashing();

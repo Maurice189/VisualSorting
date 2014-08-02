@@ -40,7 +40,7 @@ public class BogoSort extends Sort{
 		
 		svp.visualCmp(i,j, true);
 		//svp.setInfo("Bogosort", iterates++);
-		svp.setInfo("Bogosort",accesses,comparisons);
+		panelUI.setInfo("Bogosort",accesses,comparisons);
 		accesses+=3;
 		
 		checkRunCondition();
@@ -50,7 +50,7 @@ public class BogoSort extends Sort{
  
 		for(int i=1;i<elements.length;i++){
 			
-			svp.setInfo("Bogosort",accesses,comparisons++);
+			panelUI.setInfo("Bogosort",accesses,comparisons++);
 			if(elements[i]<elements[i-1])
 				return false;
 			
@@ -68,7 +68,7 @@ public class BogoSort extends Sort{
 		bogo();
 		
 		setChanged();
-		notifyObservers(svp.getID());
+		notifyObservers(panelUI.getID());
 		
 		if (flashing)
 			svp.flashing();

@@ -72,7 +72,7 @@ public class CombSort extends Sort {
 					swapped = true;
 					svp.visualCmp(i, i + gap, true);
 					//svp.setInfo("Combsort",iterates++);
-					svp.setInfo("Combsort",accesses,comparisons++);
+					panelUI.setInfo("Combsort",accesses,comparisons++);
 					accesses+=3;
 
 				}
@@ -81,7 +81,7 @@ public class CombSort extends Sort {
 					
 					svp.visualCmp(i, i + gap, false);
 					//svp.setInfo("Combsort",iterates++);
-					svp.setInfo("Combsort",accesses,comparisons++);
+					panelUI.setInfo("Combsort",accesses,comparisons++);
 				}
 				
 				
@@ -91,7 +91,7 @@ public class CombSort extends Sort {
 		}
 		
 		setChanged();
-		notifyObservers(svp.getID());
+		notifyObservers(panelUI.getID());
 		
 		if(flashing) svp.flashing();
 		

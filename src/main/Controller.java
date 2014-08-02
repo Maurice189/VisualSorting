@@ -43,6 +43,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ComponentEvent;
+import java.awt.event.ComponentListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.util.ArrayList;
@@ -82,7 +84,7 @@ import main.Statics.SORTALGORITHMS;
 
 
 
-public class Controller implements Observer, ActionListener, WindowListener {
+public class Controller implements Observer,ComponentListener,ActionListener, WindowListener {
 
 	private ArrayList<Sort> sortList; 
 	private LinkedList<OptionDialog> dialogs; 
@@ -106,7 +108,7 @@ public class Controller implements Observer, ActionListener, WindowListener {
 	public Controller(LanguageFileXML langXMLInterface) {
 
 		this.langXMLInterface = langXMLInterface;
-
+		
 
 		sortList = new ArrayList<Sort>();
 		dialogs = new LinkedList<OptionDialog>();
@@ -159,6 +161,7 @@ public class Controller implements Observer, ActionListener, WindowListener {
 
 		this.window = window;
 		SortVisualtionPanel.setBackgroundColor(window.getBackground());
+		window.addComponentListener(this);
 		window.updateNumberOfElements(Sort.getElements().length);
 	}
 
@@ -226,6 +229,7 @@ public class Controller implements Observer, ActionListener, WindowListener {
 			sort.addObserver(this);
 			sortList.add(sort);
 			window.addNewSort(sort, selectedSort);
+			resize();
 
 		}
 
@@ -265,7 +269,7 @@ public class Controller implements Observer, ActionListener, WindowListener {
 				for (Sort temp : sortList) {
 
 					temp.initElements();
-					temp.getSortVisualtionPanel().enableRemoveButton(false);
+					temp.getPanelUI().enableRemoveButton(false);
 					executor.execute(temp);
 					threadsAlive++;
 
@@ -295,7 +299,6 @@ public class Controller implements Observer, ActionListener, WindowListener {
 		else if (e.getActionCommand() == Statics.AUTO_PAUSE) {
 
 			InternalConfig.toggleAutoPause();
-			System.out.println("PRESSED");
 		}
 
 
@@ -312,7 +315,7 @@ public class Controller implements Observer, ActionListener, WindowListener {
 		else if (e.getActionCommand() == Statics.INFO) {
 
 			SORTALGORITHMS selAlgorithm = sortList.get(
-					SortVisualtionPanel.getReleasedID()).getAlgorithmName();
+					PanelUI.getReleasedID()).getAlgorithmName();
 
 			dialogs.add(new InfoDialog(selAlgorithm, selAlgorithm
 					.toString(), 600, 400));
@@ -364,7 +367,7 @@ public class Controller implements Observer, ActionListener, WindowListener {
 
 			if (sortList.size() > 0) {
 
-				int selPanel = SortVisualtionPanel.getReleasedID();
+				int selPanel = PanelUI.getReleasedID();
 
 				if (threadsAlive != 0) {
 					Sort.setFlashingAnimation(false);
@@ -380,8 +383,8 @@ public class Controller implements Observer, ActionListener, WindowListener {
 				window.removeSort(selPanel);
 				sortList.remove(selPanel);
 				for (Sort temp : sortList)
-					temp.getSortVisualtionPanel().updateID();
-				SortVisualtionPanel.updateCounter();
+					temp.getPanelUI().updateID();
+				PanelUI.updateCounter();
 				Sort.setFlashingAnimation(true);
 
 			}
@@ -408,7 +411,7 @@ public class Controller implements Observer, ActionListener, WindowListener {
 
 				temp.deleteObservers();
 				temp.unlockSignal();	
-				temp.getSortVisualtionPanel().enableRemoveButton(true);
+				temp.getPanelUI().enableRemoveButton(true);
 				
 
 			}
@@ -443,7 +446,7 @@ public class Controller implements Observer, ActionListener, WindowListener {
 		else {
 
 			for (Sort temp : sortList) {
-				temp.getSortVisualtionPanel().enableRemoveButton(true);
+				temp.getPanelUI().enableRemoveButton(true);
 				temp.initElements();
 
 			}
@@ -481,14 +484,14 @@ public class Controller implements Observer, ActionListener, WindowListener {
 			appTimer.stop();
 			
 			for (Sort temp : sortList) 
-				temp.getSortVisualtionPanel().enableRemoveButton(true);
+				temp.getPanelUI().enableRemoveButton(true);
 
 			
 		}
 		
 		
 			
-		sortList.get((int)arg).getSortVisualtionPanel().setDuration(leftSec, leftMs);
+		sortList.get((int)arg).getPanelUI().setDuration(leftSec, leftMs);
 			
 		
 		
@@ -568,6 +571,50 @@ public class Controller implements Observer, ActionListener, WindowListener {
 				appTimer.stop();
 			}
 		}
+	}
+	 
+	 private void resize(){
+		 
+		 if(sortList.size() > 0){
+				SortVisualtionPanel.updateSize(
+											sortList.get(0).getSortVisualtionPanel().getSize().width, 
+											sortList.get(0).getSortVisualtionPanel().getSize().height);
+				
+				for(Sort tmp:sortList)
+					tmp.getSortVisualtionPanel().updatePanelSize();
+				
+			}
+	 }
+
+
+	@Override
+	public void componentResized(ComponentEvent e) {
+		
+		resize();
+			
+		
+	
+	}
+
+
+	@Override
+	public void componentMoved(ComponentEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	@Override
+	public void componentShown(ComponentEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	@Override
+	public void componentHidden(ComponentEvent e) {
+		// TODO Auto-generated method stub
+		
 	}
 	
 

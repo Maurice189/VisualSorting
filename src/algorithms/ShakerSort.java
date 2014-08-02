@@ -73,7 +73,7 @@ public class ShakerSort extends Sort {
 				elements[j + 1] = k;
 				svp.visualCmp(j, j + 1, true);
 				//svp.setInfo("Shakersort",iterates++);
-				svp.setInfo("Shakersort",accesses,comparisons++);
+				panelUI.setInfo("Shakersort",accesses,comparisons++);
 				accesses+=3;
 
 			}
@@ -81,7 +81,7 @@ public class ShakerSort extends Sort {
 			else {
 				svp.visualCmp(j, j + 1, false);
 				//svp.setInfo("Shakersort",iterates++);
-				svp.setInfo("Shakersort",accesses,comparisons++);
+				panelUI.setInfo("Shakersort",accesses,comparisons++);
 			}
 
 			checkRunCondition();
@@ -97,7 +97,7 @@ public class ShakerSort extends Sort {
 
 				svp.visualCmp(j, j + 1, true);
 				//svp.setInfo("Shakersort",iterates++);
-				svp.setInfo("Shakersort",accesses,comparisons++);
+				panelUI.setInfo("Shakersort",accesses,comparisons++);
 				accesses+=3;
 
 			}
@@ -105,7 +105,7 @@ public class ShakerSort extends Sort {
 			else {
 				svp.visualCmp(j, j + 1, false);
 				//svp.setInfo("Shakersort",iterates++);
-				svp.setInfo("Shakersort",accesses,comparisons++);
+				panelUI.setInfo("Shakersort",accesses,comparisons++);
 			}
 
 			checkRunCondition();
@@ -124,7 +124,7 @@ public class ShakerSort extends Sort {
 		}
 
 		setChanged();
-		notifyObservers(svp.getID());
+		notifyObservers(panelUI.getID());
 		
 		if(flashing) svp.flashing();
 		

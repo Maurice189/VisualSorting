@@ -61,7 +61,7 @@ public class GnomeSort extends Sort {
 				
 				svp.visualCmp(i, i - 1, false);
 				//svp.setInfo("Gnomesort", iterates++);
-				svp.setInfo("Gnomesort",accesses,comparisons++);
+				panelUI.setInfo("Gnomesort",accesses,comparisons++);
 				
 				i = j;
 				j++;
@@ -74,7 +74,7 @@ public class GnomeSort extends Sort {
 				
 				svp.visualCmp(i, i - 1, true);
 				//svp.setInfo("Gnomesort", iterates++);
-				svp.setInfo("Gnomesort",accesses,comparisons++);
+				panelUI.setInfo("Gnomesort",accesses,comparisons++);
 				accesses+=3;
 				
 				i--;
@@ -85,7 +85,7 @@ public class GnomeSort extends Sort {
 		}
 		
 		setChanged();
-		notifyObservers(svp.getID());
+		notifyObservers(panelUI.getID());
 
 		if (flashing)
 			svp.flashing();

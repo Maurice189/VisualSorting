@@ -5,6 +5,7 @@ import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
+import main.PanelUI;
 import main.SortVisualtionPanel;
 import main.Statics.SORTALGORITHMS;
 
@@ -44,6 +45,7 @@ public abstract class Sort extends Observable implements Runnable {
 	protected int elements[];
 	protected int iterates,accesses,comparisons;
 	protected SortVisualtionPanel svp;
+	protected PanelUI panelUI;
 	protected Lock lock = new ReentrantLock();
 	protected Condition condition = lock.newCondition();
 
@@ -138,12 +140,18 @@ public abstract class Sort extends Observable implements Runnable {
 		return Sort.gElement;
 	}
 
-	public void setSortVisualtionPanel(SortVisualtionPanel svp) {
+	public void setSortVisualtionPanel(SortVisualtionPanel svp,PanelUI panelUI) {
 
 		this.svp = svp;
+		this.panelUI = panelUI;
 		svp.setElements(elements);
 
 	}
+	
+	public PanelUI getPanelUI(){
+		return panelUI;
+	}
+	
 	
 	public static void setInterruptFlag(boolean interrupt){
 		Sort.interrupt = interrupt;

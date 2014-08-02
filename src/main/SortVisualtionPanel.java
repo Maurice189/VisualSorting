@@ -21,24 +21,15 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import java.awt.BasicStroke;
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.Insets;
 import java.awt.RenderingHints;
-import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.ComponentEvent;
-import java.awt.event.ComponentListener;
 import java.awt.image.BufferedImage;
 
-import javax.swing.BorderFactory;
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
 import javax.swing.JPanel;
-import javax.swing.border.TitledBorder;
+
+import algorithms.Sort;
 
 /**
  * 
@@ -53,127 +44,37 @@ import javax.swing.border.TitledBorder;
  * 
  **/
 
-public class SortVisualtionPanel extends JPanel implements ComponentListener {
+public class SortVisualtionPanel extends JPanel {
 
-	private static final long serialVersionUID = 1L;
-	private static final int preferredGapSize = 3;
 	private static Color backgroundColor = Color.white;
-	private static int gapSize = 3, marginTop = 25;
-	private static int margin = 7;
-	private static final int offsetY = 20;
-	private static int counter = 0,releasedID;
-	private static LanguageFileXML langXML;
+	private static final int preferredGapSize = 3,offsetY = 20;
+	private static int width,height,refWidth,refHeight,margin = 7,gapSize = 3, marginTop = 25;
 	
-	private TitledBorder leftBorder;
-	private JButton remove;
+	
 	private BufferedImage buffer;
 	private Graphics2D gbuffer;
-	private int width, height, refWidth, refHeight;
 	private int elements[], lstIndex1 = -1, lstIndex2 = -1,lstInsert = -1,lstPivot = -1;
-	private int ID;
 
 	public SortVisualtionPanel(ActionListener listener, String selectedSort,
 			int width, int height) {
-
-		ID = SortVisualtionPanel.counter++;
-		
-		this.width = width;
-		this.height = height;
 
 		buffer = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
 		gbuffer = (Graphics2D) buffer.getGraphics();
 		gbuffer.setFont(Window.getComponentFont(12f));
 		gbuffer.setBackground(SortVisualtionPanel.backgroundColor);
-	
-		leftBorder = BorderFactory.createTitledBorder("");
-		leftBorder.setTitleJustification(TitledBorder.ABOVE_TOP);
-		leftBorder.setTitleFont(Window.getComponentFont(12f));
-		setInfo(selectedSort,0,0);
-
-		
-		addComponentListener(this);
-		setBorder(leftBorder);
-
-		manageButtons(listener);
-	}
-	
-	private void manageButtons(final ActionListener listener){
-		
-		GridBagConstraints gbc = new GridBagConstraints();
-		setLayout(new GridBagLayout());
-		gbc.gridx = 1;
-		gbc.gridy = 0;
-		gbc.gridwidth = 1;
-		gbc.gridheight = 1;
-		gbc.weightx = 0;
-		gbc.weighty = 1;
-		gbc.insets = new Insets(-7, 0, 0, 2);
-		gbc.anchor = GridBagConstraints.FIRST_LINE_END;
-		remove = new JButton();
-		remove.addActionListener(new ActionListener(){
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				SortVisualtionPanel.releasedID = ID;
-				listener.actionPerformed(e);
-			}
-			
-		});
-		remove.setActionCommand(Statics.REMOVE_SORT);
-		remove.setIcon(new ImageIcon(Statics.class.getResource("/resources/delete_visualsort_1.png")));
-		remove.setRolloverIcon(new ImageIcon(Statics.class.getResource("/resources/delete_visualsort_rollover_1.png")));
-		remove.setBorder(BorderFactory.createEmptyBorder());
-		remove.setPreferredSize(new Dimension(16,16));
-		
-		JButton info = new JButton();
-		info.addActionListener(new ActionListener(){
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				SortVisualtionPanel.releasedID = ID;
-				listener.actionPerformed(e);
-			}
-			
-		});
-		info.setActionCommand(Statics.INFO);
-		info.setIcon(new ImageIcon(Statics.class.getResource("/resources/info_visualsort_1.png")));
-		info.setRolloverIcon(new ImageIcon(Statics.class.getResource("/resources/info_visualsort_rollover_1.png")));
-		info.setBorder(BorderFactory.createEmptyBorder());
-		info.setPreferredSize(new Dimension(16,16));
-		GridBagConstraints gbc2 = (GridBagConstraints) gbc.clone();
-		gbc2.gridx = 0;
-		gbc2.weightx = 1;
-		gbc2.weighty = 1;
-		
-		add(remove,gbc);
-		add(info,gbc2);
-	}
-	
-	public void enableRemoveButton(boolean enable){
-		remove.setEnabled(enable);
-	}
-
-	public void setInfo(String info) {
-		leftBorder.setTitle(info);
-	}
-	
-	
-	public void setInfo(String algoname,int accesses,int comparisons) {
-		
-		String info = 
-		algoname+(" - ( ")+String.valueOf(comparisons)+(" ")+
-		langXML.getValue("cmp")+(" | ")+String.valueOf(accesses)+(" ")+langXML.getValue("access")+" )";
-		
-		leftBorder.setTitle(info);
 
 	}
 	
-	public void setDuration(int sec, int msec){
-		
-		String durInfo = " in ".concat(String.valueOf(sec).concat(":")).concat(String.valueOf(msec)).concat(" sec.");
-		leftBorder.setTitle(leftBorder.getTitle().concat(durInfo));
-		repaint();
+	public SortVisualtionPanel(
+			int width, int height) {
+
+		buffer = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
+		gbuffer = (Graphics2D) buffer.getGraphics();
+		gbuffer.setFont(Window.getComponentFont(12f));
+		gbuffer.setBackground(SortVisualtionPanel.backgroundColor);
+
 	}
+
 
 
 	public static void setBackgroundColor(Color color) {
@@ -217,40 +118,12 @@ public class SortVisualtionPanel extends JPanel implements ComponentListener {
 
 	public void updatePanelSize() {
 
-		int max = 1;
-
-		width = this.getWidth();
-		height = this.getHeight();
 
 		buffer = new BufferedImage(this.getWidth(), this.getHeight(),
 				BufferedImage.TYPE_INT_ARGB);
 		gbuffer = (Graphics2D) buffer.getGraphics();
 		gbuffer.setBackground(SortVisualtionPanel.backgroundColor);
 		gbuffer.setFont(Window.getComponentFont(14f));
-
-		for (int i = 0; i < elements.length; i++) {
-			if (elements[i] > max)
-				max = elements[i];
-		}
-
-		refHeight = (height - offsetY - SortVisualtionPanel.marginTop) / max;
-		refWidth = (width - (elements.length * SortVisualtionPanel.preferredGapSize))
-				/ elements.length;
-
-		if (refHeight <= 0)
-			refHeight = 1;
-		if (refWidth <= 0){
-			
-			double newBorder = ((elements.length-width)/((double)(-1)*elements.length));
-			if(newBorder > 0) SortVisualtionPanel.gapSize = (int) newBorder;
-			else SortVisualtionPanel.gapSize = 1;
-			refWidth = 1;
-			
-		}
-		
-		else SortVisualtionPanel.gapSize = 3;
-
-		SortVisualtionPanel.margin = (width - (elements.length * (refWidth + SortVisualtionPanel.gapSize))) / 2;
 		drawElements();
 
 	}
@@ -353,7 +226,6 @@ public class SortVisualtionPanel extends JPanel implements ComponentListener {
 
 	}
 
-	// FIXME
 	public void visualCmp(int c1, int c2, boolean changed) {
 
 		// long t = System.currentTimeMillis();
@@ -492,6 +364,36 @@ public class SortVisualtionPanel extends JPanel implements ComponentListener {
 		gbuffer.setRenderingHints(rh);
 
 	}
+	
+	public static void updateSize(int width,int height){
+
+		int elements[] = Sort.getElements(),max = 0;
+		SortVisualtionPanel.width = width;
+		SortVisualtionPanel.height = height;
+
+		for (int i = 0; i < elements.length; i++) {
+			if (elements[i] > max)
+				max = elements[i];
+		}
+
+		refHeight = (height - offsetY - SortVisualtionPanel.marginTop) / max;
+		refWidth = (width - (elements.length * SortVisualtionPanel.preferredGapSize))
+				/ elements.length;
+
+		if (refHeight <= 0)
+			refHeight = 1;
+		if (refWidth <= 0){
+			
+			double newBorder = ((elements.length-width)/((double)(-1)*elements.length));
+			if(newBorder > 0) SortVisualtionPanel.gapSize = (int) newBorder;
+			else SortVisualtionPanel.gapSize = 1;
+			refWidth = 1;
+		}
+		
+		else SortVisualtionPanel.gapSize = 3;
+
+		SortVisualtionPanel.margin = (width - (elements.length * (refWidth + SortVisualtionPanel.gapSize))) / 2;
+	}
 
 	@Override
 	protected void paintComponent(Graphics g) {
@@ -501,48 +403,10 @@ public class SortVisualtionPanel extends JPanel implements ComponentListener {
 
 	}
 
-	@Override
-	public void componentResized(ComponentEvent e) {
-		// TODO Auto-generated method stub
-		updatePanelSize();
-	}
 
-	@Override
-	public void componentMoved(ComponentEvent e) {
-		// TODO Auto-generated method stub
 
-	}
-
-	@Override
-	public void componentShown(ComponentEvent e) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void componentHidden(ComponentEvent e) {
-		// TODO Auto-generated method stub
-
-	}
 	
-	public void updateID(){
-		if(ID>SortVisualtionPanel.releasedID) ID--;
-	}
 	
-	public static void updateCounter(){
-		counter--;
-	}
 	
-	public static int getReleasedID(){
-		return SortVisualtionPanel.releasedID;
-	}
-	
-	public int getID(){
-		return ID;
-	}
-
-	public static void setLanguageFileXML(LanguageFileXML langXML){
-		SortVisualtionPanel.langXML = langXML;
-	}
 
 }

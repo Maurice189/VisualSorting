@@ -71,7 +71,7 @@ public class InsertionSort extends Sort {
 
 				svp.visualInsert(j+1,elements[j]);
 				//svp.setInfo("Insertionsort", iterates++);
-				svp.setInfo("Insertionsort",accesses,comparisons++);
+				panelUI.setInfo("Insertionsort",accesses,comparisons++);
 				accesses+=2;
 				
 				checkRunCondition();
@@ -81,7 +81,7 @@ public class InsertionSort extends Sort {
 
 			svp.visualInsert(j + 1, value);
 			//svp.setInfo("Insertionsort", iterates++);
-			svp.setInfo("Insertionsort",accesses,comparisons++);
+			panelUI.setInfo("Insertionsort",accesses,comparisons++);
 			accesses+=2;
 			
 			checkRunCondition();
@@ -89,7 +89,7 @@ public class InsertionSort extends Sort {
 		}
 		
 		setChanged();
-		notifyObservers(svp.getID());
+		notifyObservers(panelUI.getID());
 
 		if (flashing)
 			svp.flashing();
