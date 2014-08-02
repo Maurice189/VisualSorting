@@ -28,38 +28,39 @@
 
 # RUN THE SCRIPT IN YOUR CONSOLE WITH THE COMMAND: 'sh install.sh'
 #
-# IF YOUR NOT CURRENTLY IN THE DIRECTORY WHERE 'install.sh' IS LOCATED, YOU HAVE TO CHANGE DIRECTORY WITH 
+# IF YOUR NOT CURRENTLY IN THE DIRECTORY WHERE './install.sh' IS LOCATED, YOU HAVE TO CHANGE DIRECTORY WITH 
 # 'cd /DIRECTORY_PATH/'
   
 
 # PLEASE REMEMBER FOLLOWING HINTS:
 #  
-#     - DO RUN THE SCRIPT IN SUPER PRIVELEGE MODE, OTHERWISE THE SCRIPT WON'T OPERATE PROPERLY
+#     - RUN THE SCRIPT IN SUPER PRIVELEGE MODE, OTHERWISE THE SCRIPT CAN'T PERFORM THE 
+#       THE DIRECTORY GENERATION IN '/opt' AS WELL AS PLACE THE DESKTOP ICON IN '/usr/share/applications/'
 #
 
 
 if [[ $EUID -ne 0 ]]; then
-   echo "You must be root to do this."
+   echo "You must be root to execute the installation process. For more information open this file with an editor"
    exit 
 fi
 
 USER_HOME=$(getent passwd $SUDO_USER | cut -d: -f6)
-FOLDERPATH=$PWD
+FOLDER_PATH=$PWD
 
 
 cd src
 javac algorithms/*.java main/*.java dialogs/*.java 
-jar -cvfm $FOLDERPATH/VisualSorting.jar $FOLDERPATH/manifest.mf *
+jar -cvfm $FOLDER_PATH/VisualSorting.jar $FOLDER_PATH/manifest.mf *
 
 
 mkdir $USER_HOME/.VisualSorting/
 sudo chown -cR $SUDO_USER $USER_HOME/.VisualSorting/
 
 sudo mkdir /opt/VisualSorting/
-sudo cp $FOLDERPATH/VisualSortingIcon.png /opt/VisualSorting/VisualSortingIcon.png
-sudo cp $FOLDERPATH/VisualSorting.jar /opt/VisualSorting/VisualSorting.jar
-sudo cp $FOLDERPATH/splash.gif /opt/VisualSorting/splash.gif
-sudo cp $FOLDERPATH/LICENCE.txt /opt/VisualSorting/LICENCE.txt
+sudo cp $FOLDER_PATH/VisualSortingIcon.png /opt/VisualSorting/VisualSortingIcon.png
+sudo cp $FOLDER_PATH/VisualSorting.jar /opt/VisualSorting/VisualSorting.jar
+sudo cp $FOLDER_PATH/splash.gif /opt/VisualSorting/splash.gif
+sudo cp $FOLDER_PATH/LICENCE.txt /opt/VisualSorting/LICENCE.txt
 
 
 sudo echo "
