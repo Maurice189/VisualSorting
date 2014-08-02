@@ -108,7 +108,7 @@ public class InternalConfig {
 				languageSet = LANG.de;
 				writer = new FileWriter(PROPORTIES_NAME);
 				prConfig.setProperty("version", "0.5 Beta");
-				prConfig.setProperty("language",langDef.get(languageSet));
+				prConfig.setProperty("language",languageSet.name());
 				prConfig.setProperty("delayms", "100");
 				prConfig.setProperty("delayns", "10");
 				prConfig.setProperty("nofelements", "128");

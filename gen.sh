@@ -3,6 +3,7 @@
 stuser="maurice"
 cpath=$PWD
 
+
 cd src
 javac algorithms/*.java main/*.java dialogs/*.java 
 jar -cvfm $cpath/VisualSorting.jar $cpath/manifest.mf *
