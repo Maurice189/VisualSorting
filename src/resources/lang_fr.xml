@@ -3,16 +3,16 @@
   
      <reset>Réinitialiser</reset>
      <settings>Paramétres</settings>
-     <iterations>iterations french</iterations>
+     <iterations>itérations</iterations>
      <sortlist>Liste de tri ensemble</sortlist>
-     <setManual>Set manual FRENCH</setManual>
-     <setList>Generate random numbers FRENCH</setList>
-     <selection>Selection FRENCH</selection>
-     <cmp>comparisons FRENCH</cmp>
-     <access>array accesses FRENCH</access>
-     <nof>elements FRENCH</nof>
-     <autopause>Automatic pause FRENCH</autopause>
-     <prgfunc>Program functions FRENCH</prgfunc>
+     <setManual>définir manuellement</setManual>
+     <setList>générer des nombres aléatoires</setList>
+     <selection>sélection</selection>
+     <cmp>comparaisons</cmp>
+     <access>accès sur le terrain</access>
+     <nof>éléments</nof>
+     <autopause>pause automatique</autopause>
+     <prgfunc>Les paramètres du programme</prgfunc>
      <delay>Régler la temporisation</delay>
      <help>Aider</help>
      <about>Propos</about>
@@ -22,6 +22,6 @@
      <exit>Quitter</exit>
      <lang>Langues</lang>
      <error0>Votre entrée n'a pas pu être interprétée comme un nombre. \ nVeuillez entrer que des nombres entiers a</error0>
-	 <info0l0>Bitonicsort just works properly with a number of values,</info0l0>
-	<info0l1>that represents the power of 2. For e.g: 128,256,512,1024 FRENCH</info0l1>
+	 <info0l0>Bitonicsort ne fonctionne qu'avec un certain nombre d'éléments,</info0l0>
+	<info0l1>une puissance de deux est correcte. par exemple: 128,256,512,1024 FRENCH</info0l1>
 </app>

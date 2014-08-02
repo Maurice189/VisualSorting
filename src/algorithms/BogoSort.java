@@ -7,13 +7,11 @@ public class BogoSort extends Sort{
 	
 
 	public BogoSort(SortVisualtionPanel svp) {
-		// TODO Auto-generated constructor stub
 		super(svp);
 
 	}
 
 	public BogoSort() {
-		// TODO Auto-generated constructor stub
 		super();
 
 
@@ -22,8 +20,10 @@ public class BogoSort extends Sort{
 	void bogo()
 	{
 		int shuffle=1;
-		for(;!isSorted();shuffle++)
+		for(;!isSorted();shuffle++){
 			shuffle();
+		}
+			
 
 	}
 	void shuffle()

@@ -80,7 +80,7 @@ public class LanguageFileXML {
 	 * @return true when language xml-file could be loaded
 	 */
 	public boolean readXML(String source) {
-		
+		System.out.println("SOURCE "+source);
 		InputStream in = Statics.class.getResourceAsStream(source);
 
 		try {

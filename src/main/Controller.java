@@ -47,6 +47,7 @@ import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 import java.util.concurrent.ExecutorService;
@@ -76,6 +77,7 @@ import dialogs.DelayDialog;
 import dialogs.EnterDialog;
 import dialogs.InfoDialog;
 import dialogs.OptionDialog;
+import main.InternalConfig.LANG;
 import main.Statics.SORTALGORITHMS;
 
 
@@ -323,8 +325,8 @@ public class Controller implements Observer, ActionListener, WindowListener {
 
 		else if (e.getActionCommand() == Statics.LANG_DE) {
 
-			InternalConfig.setLanguage("lang_de.xml");
-			langXMLInterface.readXML("/resources/lang_de.xml");
+			InternalConfig.setLanguage(LANG.de);
+			langXMLInterface.readXML(InternalConfig.getLanguageSetPath());
 			window.updateLanguage();
 			for (OptionDialog temp : dialogs)
 				temp.updateComponentsLabel(); // update language on every open
@@ -334,8 +336,8 @@ public class Controller implements Observer, ActionListener, WindowListener {
 
 		else if (e.getActionCommand() == Statics.LANG_EN) {
 
-			InternalConfig.setLanguage("lang_en.xml");
-			langXMLInterface.readXML("/resources/lang_en.xml");
+			InternalConfig.setLanguage(LANG.en);
+			langXMLInterface.readXML(InternalConfig.getLanguageSetPath());
 			window.updateLanguage();
 			for (OptionDialog temp : dialogs)
 				temp.updateComponentsLabel(); // update language on every open
@@ -345,8 +347,8 @@ public class Controller implements Observer, ActionListener, WindowListener {
 
 		else if (e.getActionCommand() == Statics.LANG_FR) {
 
-			InternalConfig.setLanguage("lang_fr.xml");
-			langXMLInterface.readXML("/resources/lang_fr.xml");
+			InternalConfig.setLanguage(LANG.fr);
+			langXMLInterface.readXML(InternalConfig.getLanguageSetPath());
 			window.updateLanguage();
 			for (OptionDialog temp : dialogs)
 				temp.updateComponentsLabel(); // update language on every open
@@ -412,15 +414,19 @@ public class Controller implements Observer, ActionListener, WindowListener {
 				temp.unlockSignal();
 
 			}
-
-			executor.shutdownNow();
+			
 
 			try {
-				executor.awaitTermination(2000, TimeUnit.MILLISECONDS);
+			  executor.shutdown();
+		        if (!executor.awaitTermination(2000, TimeUnit.MILLISECONDS)) { //optional *
+		        	System.out.println("Executor did not terminate in the specified time."); //optional *
+		            List<Runnable> droppedTasks = executor.shutdownNow(); //optional **
+		            System.out.println("Executor was abruptly shut down. " + droppedTasks.size() + " tasks will not be executed."); //optional **
+		        }
 			} catch (InterruptedException e1) {
 				e1.printStackTrace();
 			}
-
+			
 			if (!executor.isTerminated())
 				System.out.println("executor service isn't terminated !");
 
@@ -430,7 +436,6 @@ public class Controller implements Observer, ActionListener, WindowListener {
 				temp.addObserver(this);
 
 			}
-
 			Sort.setFlashingAnimation(true);
 			createTimer();
 

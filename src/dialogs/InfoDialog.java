@@ -291,6 +291,7 @@ public class InfoDialog extends OptionDialog {
 				.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 		editorScrollPane.setPreferredSize(new Dimension(250, 145));
 		editorScrollPane.setMinimumSize(new Dimension(10, 10));
+		editorScrollPane.setBorder(BorderFactory.createLoweredBevelBorder());
 
 		add(BorderLayout.NORTH, btnPanel);
 		add(BorderLayout.CENTER, editorScrollPane);

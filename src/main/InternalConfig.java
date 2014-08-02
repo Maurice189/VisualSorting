@@ -34,16 +34,39 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.Properties;
 
 import algorithms.Sort;
 
 public class InternalConfig {
-
-	private static final String PROPORTIES_NAME = "config.txt";
+	
+	
+	public static enum LANG{
+		fr,en,de;
+		
+		public static LANG resolve(String langName){
+			
+			String tmpLang = langName.toLowerCase();
+			
+			if(tmpLang.equals("de"))
+				return LANG.de;
+			
+			else if(tmpLang.equals("en"))
+				return LANG.en;
+			
+			else if(tmpLang.equals("fr"))
+				return LANG.fr;
+			
+			return null;
+		}
+	};
+	private static HashMap<LANG,String> langDef = new HashMap<LANG,String>();
+	private static LANG languageSet = LANG.de;
+	private static String PROPORTIES_NAME = System.getProperty("user.home")+"/.VisualSorting/config.txt";
 	private static Properties prop;
 	
-	private static String version,languageSet; // prg version, language set
+	private static String version; // prg version, language set
 	private static boolean autoPauseOn;
 	
 
@@ -55,6 +78,18 @@ public class InternalConfig {
 	 * is launched the first time
 	 * 
 	 */
+	
+	public static void setNewLangDefEntry(LANG lang,String xmlName){
+		langDef.put(lang, xmlName);
+	}
+	
+	public static void setConfigFileDirectory(String configPath){
+		
+		PROPORTIES_NAME = configPath+"config.txt";
+		System.out.println("PATH: "+PROPORTIES_NAME);
+		
+	}
+	
 	public static void loadConfigFile() {
 
 		FileReader reader = null;
@@ -62,15 +97,18 @@ public class InternalConfig {
 		try {
 			reader = new FileReader(PROPORTIES_NAME);
 		} catch (FileNotFoundException e1) {
+		
 
 			System.out.println("Info: config file does not exist\n --> create config file with default parameters");
 			FileWriter writer;
 			Properties prConfig = new Properties(System.getProperties());
 			
+			
 			try {
+				languageSet = LANG.de;
 				writer = new FileWriter(PROPORTIES_NAME);
 				prConfig.setProperty("version", "0.5 Beta");
-				prConfig.setProperty("language", "lang_de.xml");
+				prConfig.setProperty("language",langDef.get(languageSet));
 				prConfig.setProperty("delayms", "100");
 				prConfig.setProperty("delayns", "10");
 				prConfig.setProperty("nofelements", "128");
@@ -81,9 +119,6 @@ public class InternalConfig {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-
-			
-	
 
 		}
 
@@ -107,8 +142,7 @@ public class InternalConfig {
 	 */
 	private static void setValues(){
 		
-		
-		languageSet = getValue("language");
+		languageSet = LANG.resolve(getValue("language"));
 		version = getValue("version");
 		int nofelements = Integer.parseInt(getValue("nofelements"));
 		autoPauseOn = Boolean.parseBoolean(getValue("auto_pause"));
@@ -151,7 +185,7 @@ public class InternalConfig {
 		
 		setValue("delayms", Sort.getDelayMs());
 		setValue("delayns", Sort.getDelayNs());
-		setValue("language", languageSet);
+		setValue("language", languageSet.name());
 		setValue("nofelements", Sort.getElements().length);
 		setValue("auto_pause", String.valueOf(autoPauseOn));
 		
@@ -166,8 +200,13 @@ public class InternalConfig {
 
 	}
 	
-	public static void setLanguage(String lang_name){
-		InternalConfig.languageSet = lang_name;
+	public static void setLanguage(String langName){
+		
+		InternalConfig.languageSet = LANG.resolve(langName);
+		
+	}
+	public static void setLanguage(LANG lang){
+		InternalConfig.languageSet = lang;
 		
 	}
 	
@@ -198,7 +237,11 @@ public class InternalConfig {
 	 * 
 	 * @return the defined application language
 	 */
-	public static String getLanguageSet(){
+	public static String getLanguageSetPath(){
+		return langDef.get(InternalConfig.languageSet);
+	}
+	
+	public static LANG getLanguageSet(){
 		return InternalConfig.languageSet;
 	}
 	

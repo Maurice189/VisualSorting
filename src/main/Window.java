@@ -76,6 +76,7 @@ import javax.swing.border.EmptyBorder;
 import algorithms.Sort;
 import dialogs.InfoDialog;
 import dialogs.OptionDialog;
+import main.InternalConfig.LANG;
 import main.Statics.SORTALGORITHMS;
 
 
@@ -228,12 +229,12 @@ public class Window extends JFrame {
 		bg.add(en);
 		bg.add(fr);
 
-		String tmp = InternalConfig.getLanguageSet();
-		if (tmp.equals("lang_de.xml"))
+		LANG lang = InternalConfig.getLanguageSet();
+		if (lang == LANG.de)
 			de.setSelected(true);
-		else if (tmp.equals("lang_en.xml"))
+		else if (lang == LANG.en)
 			en.setSelected(true);
-		else if (tmp.equals("lang_fr.xml"))
+		else if (lang == LANG.fr)
 			fr.setSelected(true);
 
 		languages.add(en);
@@ -548,6 +549,20 @@ public class Window extends JFrame {
 
 	// TODO: use argument parameters for setting language
 	public static void main(String[] args) {
+		
+		InternalConfig.setNewLangDefEntry(LANG.de,"/resources/lang_de.xml");
+		InternalConfig.setNewLangDefEntry(LANG.en,"/resources/lang_en.xml");
+		InternalConfig.setNewLangDefEntry(LANG.fr,"/resources/lang_fr.xml");
+		
+		for(int i = 0; i<args.length;i++){
+			if(args[i].startsWith("-configdir:")){
+				InternalConfig.setConfigFileDirectory(args[i].subSequence("-configdir:".length(), args[i].length()).toString());
+			}
+			else if(args[i].startsWith("-lang:")){
+				InternalConfig.setLanguage(args[i].subSequence("-lang:".length(), args[i].length()).toString());
+			}
+		}
+			
 		/*
 		// set look and feel
 		try {
@@ -565,7 +580,7 @@ public class Window extends JFrame {
 		
 		LanguageFileXML configLanguage = new LanguageFileXML();
 		InternalConfig.loadConfigFile();
-		configLanguage.readXML("/resources/".concat(InternalConfig.getLanguageSet()));
+		configLanguage.readXML(InternalConfig.getLanguageSetPath());
 		
 		// define resources
 		OptionDialog.setLanguageFileXML(configLanguage);

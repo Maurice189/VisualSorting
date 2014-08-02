@@ -121,7 +121,7 @@ public abstract class Sort extends Observable implements Runnable {
 				Thread.sleep(Sort.delayMs, Sort.delayNs);
 
 		} catch (InterruptedException e) {
-			System.out.println("INFO: INTERRUPTED WHILE SLEEPING"); //e.printStackTrace();
+			//System.out.println("INFO: INTERRUPTED WHILE SLEEPING"); //e.printStackTrace();
 			Thread.currentThread().interrupt();
 		}
 	}
@@ -163,6 +163,7 @@ public abstract class Sort extends Observable implements Runnable {
 		
 		Sort.flashing = flashing;
 	}
+
 	
 	/*
 	 * is especially needed for the controller
