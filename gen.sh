@@ -34,32 +34,37 @@
 
 # PLEASE REMEMBER FOLLOWING HINTS:
 #  
-#     - DO NOT RUN THE SCRIPT IN SUPER PRIVELEGE MODE, OTHERWISE THE SCRIPT WON'T OPERATE PROPERLY
+#     - DO RUN THE SCRIPT IN SUPER PRIVELEGE MODE, OTHERWISE THE SCRIPT WON'T OPERATE PROPERLY
 #
 
 
-stuser="maurice"
-cpath=$PWD
+if [ "$UID" -ne 0 ]
+  then echo "Please run as root"
+  exit
+fi
+
+USER_HOME=$(getent passwd $SUDO_USER | cut -d: -f6)
+FOLDERPATH=$PWD
 
 
 cd src
 javac algorithms/*.java main/*.java dialogs/*.java 
-jar -cvfm $cpath/VisualSorting.jar $cpath/manifest.mf *
+jar -cvfm $FOLDERPATH/VisualSorting.jar $FOLDERPATH/manifest.mf *
 
 
-mkdir /home/$stuser/.VisualSorting/
-sudo chown -cR $stuser /home/$stuser/.VisualSorting/
+mkdir $USER_HOME/.VisualSorting/
+sudo chown -cR $SUDO_USER $USER_HOME/.VisualSorting/
 
 sudo mkdir /opt/VisualSorting/
-sudo cp $cpath/VisualSortingIcon.png /opt/VisualSorting/VisualSortingIcon.png
-sudo cp $cpath/VisualSorting.jar /opt/VisualSorting/VisualSorting.jar
-sudo cp $cpath/splash.gif /opt/VisualSorting/splash.gif
-sudo cp $cpath/LICENCE.txt /opt/VisualSorting/LICENCE.txt
+sudo cp $FOLDERPATH/VisualSortingIcon.png /opt/VisualSorting/VisualSortingIcon.png
+sudo cp $FOLDERPATH/VisualSorting.jar /opt/VisualSorting/VisualSorting.jar
+sudo cp $FOLDERPATH/splash.gif /opt/VisualSorting/splash.gif
+sudo cp $FOLDERPATH/LICENCE.txt /opt/VisualSorting/LICENCE.txt
 
 
 sudo echo "
 #!/bin/bash
-java -jar -splash:/opt/VisualSorting/splash.gif -Xms1024m -Xmx1024m /opt/VisualSorting/VisualSorting.jar -configdir:/home/"$stuser"/.VisualSorting/
+java -jar -splash:/opt/VisualSorting/splash.gif -Xms1024m -Xmx1024m /opt/VisualSorting/VisualSorting.jar -configdir:"$USER_HOME"/.VisualSorting/
 " > /opt/VisualSorting/VisualSorting.sh
 
 

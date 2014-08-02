@@ -303,7 +303,7 @@ public class Controller implements Observer,ComponentListener,ActionListener, Wi
 
 		else if (e.getActionCommand() == Statics.ABOUT) {
 
-			dialogs.add(AboutDialog.getInstance(400, 415));
+			dialogs.add(AboutDialog.getInstance(370, 415));
 		}
 
 		else if (e.getActionCommand() == Statics.INFO) {
