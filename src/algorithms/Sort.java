@@ -38,7 +38,7 @@ public abstract class Sort extends Observable implements Runnable {
 	protected static int gElement[];
 	protected static long delayMs = 5;
 	protected static int delayNs = 0;
-	protected static boolean stop = true,flashing = true;
+	protected static boolean stop = true,flashing = true,interrupt;
 	
 
 	protected int elements[];
@@ -116,6 +116,9 @@ public abstract class Sort extends Observable implements Runnable {
 				condition.await();
 				lock.unlock();
 			}
+			
+			else if(Sort.interrupt)
+				Thread.currentThread().interrupt();
 
 			else
 				Thread.sleep(Sort.delayMs, Sort.delayNs);
@@ -140,6 +143,10 @@ public abstract class Sort extends Observable implements Runnable {
 		this.svp = svp;
 		svp.setElements(elements);
 
+	}
+	
+	public static void setInterruptFlag(boolean interrupt){
+		Sort.interrupt = interrupt;
 	}
 	
 	/*

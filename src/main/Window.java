@@ -67,8 +67,6 @@ import javax.swing.JPanel;
 import javax.swing.JRadioButtonMenuItem;
 import javax.swing.JSeparator;
 import javax.swing.JToolBar;
-import javax.swing.UIManager;
-import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.border.Border;
 import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
@@ -441,6 +439,7 @@ public class Window extends JFrame {
 	public void unlockManualIteration(boolean lock) {
 
 		nextStep.setEnabled(lock);
+		listBtn.setEnabled(lock);
 		
 	}
 	

@@ -124,8 +124,6 @@ public class Controller implements Observer, ActionListener, WindowListener {
 		leftSec = 0;
 		
 		appTimer = new javax.swing.Timer(10, new ActionListener() {
-			 
-			  
 
 			  public void actionPerformed( ActionEvent e ) {
 				  
@@ -239,7 +237,6 @@ public class Controller implements Observer, ActionListener, WindowListener {
 					Sort.resume();
 					for (Sort temp : sortList) {
 						temp.unlockSignal();
-						temp.getSortVisualtionPanel().enableRemoveButton(false);
 					}
 
 					byUserStopped = false;
@@ -249,9 +246,7 @@ public class Controller implements Observer, ActionListener, WindowListener {
 					
 				} else {
 					Sort.stop();
-					for (Sort temp : sortList) {
-						temp.getSortVisualtionPanel().enableRemoveButton(true);
-					}
+				
 					window.unlockManualIteration(true);
 					byUserStopped = true;
 					appTimer.stop();
@@ -405,20 +400,23 @@ public class Controller implements Observer, ActionListener, WindowListener {
 		
 		if (Sort.isStopped()) {
 
+			Sort.setInterruptFlag(true);
 			Sort.resume();
 			Sort.setFlashingAnimation(false);
 
 			for (Sort temp : sortList) {
 
 				temp.deleteObservers();
-				temp.unlockSignal();
+				temp.unlockSignal();	
+				temp.getSortVisualtionPanel().enableRemoveButton(true);
+				
 
 			}
 			
 
 			try {
 			  executor.shutdown();
-		        if (!executor.awaitTermination(2000, TimeUnit.MILLISECONDS)) { //optional *
+		        if (!executor.awaitTermination(1200, TimeUnit.MILLISECONDS)) { //optional *
 		        	System.out.println("Executor did not terminate in the specified time."); //optional *
 		            List<Runnable> droppedTasks = executor.shutdownNow(); //optional **
 		            System.out.println("Executor was abruptly shut down. " + droppedTasks.size() + " tasks will not be executed."); //optional **
@@ -436,9 +434,10 @@ public class Controller implements Observer, ActionListener, WindowListener {
 				temp.addObserver(this);
 
 			}
+			Sort.setInterruptFlag(false);
 			Sort.setFlashingAnimation(true);
 			createTimer();
-
+			
 		}
 		
 		else {
