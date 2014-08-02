@@ -81,37 +81,9 @@ public class SortVisualtionPanel extends JPanel {
 		SortVisualtionPanel.backgroundColor = color;
 	}
 
-	// FIXME: make static
 	public void setElements(int elements[]) {
 
 		this.elements = elements;
-		int max = 1;
-
-		for (int i = 0; i < elements.length; i++) {
-			if (elements[i] > max)
-				max = elements[i];
-		}
-
-		refHeight = (height - offsetY - SortVisualtionPanel.marginTop) / max;
-		refWidth = (width - (elements.length * SortVisualtionPanel.preferredGapSize))
-				/ elements.length;
-
-		if (refHeight <= 0)
-			refHeight = 1;
-		if (refWidth <= 0){
-			
-			
-			double newBorder = ((elements.length-width)/((double)(-1)*elements.length));
-			if(newBorder > 0) SortVisualtionPanel.gapSize = (int) newBorder;
-			else SortVisualtionPanel.gapSize = 1;
-			refWidth = 1;
-			
-		}
-		
-		else SortVisualtionPanel.gapSize = 3;
-			
-
-		SortVisualtionPanel.margin = (width - (elements.length * (refWidth + SortVisualtionPanel.gapSize))) / 2;
 		drawElements();
 
 	}
@@ -365,12 +337,10 @@ public class SortVisualtionPanel extends JPanel {
 
 	}
 	
-	public static void updateSize(int width,int height){
-
+	public static void updateBarSize(){
+		
 		int elements[] = Sort.getElements(),max = 0;
-		SortVisualtionPanel.width = width;
-		SortVisualtionPanel.height = height;
-
+		
 		for (int i = 0; i < elements.length; i++) {
 			if (elements[i] > max)
 				max = elements[i];
@@ -393,6 +363,14 @@ public class SortVisualtionPanel extends JPanel {
 		else SortVisualtionPanel.gapSize = 3;
 
 		SortVisualtionPanel.margin = (width - (elements.length * (refWidth + SortVisualtionPanel.gapSize))) / 2;
+	}
+	
+	public static void updateSize(int width,int height){
+
+		SortVisualtionPanel.width = width;
+		SortVisualtionPanel.height = height;
+		updateBarSize();
+		
 	}
 
 	@Override

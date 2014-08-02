@@ -42,6 +42,7 @@ import javax.swing.border.TitledBorder;
 
 import algorithms.Sort;
 import main.Controller;
+import main.SortVisualtionPanel;
 import main.Window;
 
 /**
@@ -181,6 +182,7 @@ public class EnterDialog extends OptionDialog {
 			for (int i = 0; i < listModel.size(); i++)
 				temp[i] = listModel.get(i);
 			Sort.setElements(temp);
+			SortVisualtionPanel.updateBarSize();
 			controller.showNumberOfElements();
 			controller.reset();
 			dispose();

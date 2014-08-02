@@ -450,6 +450,8 @@ public class Controller implements Observer,ComponentListener,ActionListener, Wi
 				temp.initElements();
 
 			}
+			
+			
 
 		}
 
@@ -591,8 +593,6 @@ public class Controller implements Observer,ComponentListener,ActionListener, Wi
 	public void componentResized(ComponentEvent e) {
 		
 		resize();
-			
-		
 	
 	}
 
