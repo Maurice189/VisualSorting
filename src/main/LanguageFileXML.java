@@ -37,14 +37,16 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import java.io.IOException;
 import java.io.InputStream;
-import org.jdom2.Document;
-import org.jdom2.Element;
-import org.jdom2.JDOMException;
-import org.jdom2.input.SAXBuilder;
+
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+
+import org.w3c.dom.Document;
+import org.xml.sax.SAXException;
 
 public class LanguageFileXML {
 
-	private Element element;
 	private Document document;
 
 	public LanguageFileXML() {
@@ -57,8 +59,8 @@ public class LanguageFileXML {
 	 * @return value(title)
 	 */
 	public String getValue(String xmlTag){
-		
-		return element.getChild(xmlTag).getValue();
+		return document.getElementsByTagName(xmlTag).item(0).getTextContent();
+		//return element.getChild(xmlTag).getValue();
 	}
 	
 	/**
@@ -68,10 +70,6 @@ public class LanguageFileXML {
 	 */
 	public void setValue(String xmlTag,String value){
 		
-		element.removeChild(xmlTag);
-		Element ne = new Element(xmlTag);
-		ne.addContent(value);
-		element.addContent(ne);
 		
 	}
 
@@ -80,33 +78,17 @@ public class LanguageFileXML {
 	 * @return true when language xml-file could be loaded
 	 */
 	public boolean readXML(String source) {
-		System.out.println("SOURCE "+source);
+		
 		InputStream in = Statics.class.getResourceAsStream(source);
-
+	    DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+	    DocumentBuilder builder;
+	  
 		try {
-			//long t = System.currentTimeMillis();
-			document = new SAXBuilder().build(in);
-			element = document.getRootElement();
-	
-			/*System.out.println("Fully read in "
-					+ (System.currentTimeMillis() - t) + "ms");*/
-		} catch (JDOMException e) {
+			builder = factory.newDocumentBuilder();
+			document = builder.parse(in);
+		} catch (ParserConfigurationException | SAXException | IOException e) {
 			e.printStackTrace();
-			return false;
-		} catch (IOException e) {
-			e.printStackTrace();
-			return false;
 		}
-		finally{
-			try {
-				in.close();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
-		
-		
 		return true;
 
 	}
