@@ -54,6 +54,7 @@ sudo mkdir /opt/VisualSorting/
 sudo cp $cpath/VisualSortingIcon.png /opt/VisualSorting/VisualSortingIcon.png
 sudo cp $cpath/VisualSorting.jar /opt/VisualSorting/VisualSorting.jar
 sudo cp $cpath/splash.gif /opt/VisualSorting/splash.gif
+sudo cp $cpath/LICENCE.txt /opt/VisualSorting/LICENCE.txt
 
 
 sudo echo "

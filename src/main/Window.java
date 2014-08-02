@@ -104,7 +104,7 @@ public class Window extends JFrame {
 	private JPanel bottomBar;
 	
 	// we store the visualization panels dynamically, so we can add and remove it much easier
-	private ArrayList<SortVisualtionPanel> vsPanel;
+	private ArrayList<SortVisualisationPanel> vsPanel;
 	
 	// the filler is used for the vertical space between the visualization panels
 	private ArrayList<Component> filler;
@@ -163,7 +163,7 @@ public class Window extends JFrame {
 		setTitle(title);
 		setFont(font);
 		setSize(width, height);
-		vsPanel = new ArrayList<SortVisualtionPanel>();
+		vsPanel = new ArrayList<SortVisualisationPanel>();
 		addWindowListener(controller);
 
 		toolBar = new JToolBar();
@@ -409,10 +409,10 @@ public class Window extends JFrame {
 		}		
 		
 		;
-		final SortVisualtionPanel temp = new SortVisualtionPanel(this.getWidth(), this.getHeight());
+		final SortVisualisationPanel temp = new SortVisualisationPanel(this.getWidth(), this.getHeight());
 		PanelUI panelUI = new PanelUI(controller,temp,selectedSort);
 		
-		sort.setSortVisualtionPanel(temp,panelUI);
+		sort.setSortVisualisationPanel(temp,panelUI);
 		vsPanel.add(temp);
 		content.add(temp);
 		
@@ -548,7 +548,6 @@ public class Window extends JFrame {
 		
 	}
 
-	// TODO: use argument parameters for setting language
 	public static void main(String[] args) {
 		
 		InternalConfig.setNewLangDefEntry(LANG.de,"/resources/lang_de.xml");
@@ -563,22 +562,7 @@ public class Window extends JFrame {
 				InternalConfig.setLanguage(args[i].subSequence("-lang:".length(), args[i].length()).toString());
 			}
 		}
-			
-		/*
-		// set look and feel
-		try {
-			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-			//UIManager.setLookAndFeel("com.sun.java.swing.plaf.nimbus.NimbusLookAndFeel");
-		} catch (UnsupportedLookAndFeelException e) {
-			// handle exception
-		} catch (ClassNotFoundException e) {
-			// handle exception
-		} catch (InstantiationException e) {
-			// handle exception
-		} catch (IllegalAccessException e) {
-			// handle exception
-		}*/
-		
+
 		LanguageFileXML configLanguage = new LanguageFileXML();
 		InternalConfig.loadConfigFile();
 		configLanguage.readXML(InternalConfig.getLanguageSetPath());
@@ -610,8 +594,6 @@ public class Window extends JFrame {
 		InfoDialog.initInfoPageResolver(map);
 		
 		
-		
-		// init. view and controller
 		Controller controller = new Controller(configLanguage);
 		Window window = new Window(controller,configLanguage,"Visual Sorting - ".concat(InternalConfig.getVersion()), 800, 550);
 		controller.setView(window);

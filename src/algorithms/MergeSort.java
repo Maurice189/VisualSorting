@@ -33,13 +33,13 @@ http://www.javabeginners.de/Algorithmen/Sortieralgorithmen/Mergesort.php
  * @category Sort
  */
 
-import main.SortVisualtionPanel;
+import main.SortVisualisationPanel;
 import main.Statics.SORTALGORITHMS;
 
 
 public class MergeSort extends Sort{
 
-	public MergeSort(SortVisualtionPanel svp) {
+	public MergeSort(SortVisualisationPanel svp) {
 		// TODO Auto-generated constructor stub
 		super(svp);
 

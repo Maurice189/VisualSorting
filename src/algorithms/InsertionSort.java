@@ -33,12 +33,12 @@ http://rosettacode.org/wiki/Sorting_algorithms/Insertion_sort#Java
  * @category Sort
  */
 
-import main.SortVisualtionPanel;
+import main.SortVisualisationPanel;
 import main.Statics.SORTALGORITHMS;
 
 public class InsertionSort extends Sort {
 
-	public InsertionSort(SortVisualtionPanel svp) {
+	public InsertionSort(SortVisualisationPanel svp) {
 		// TODO Auto-generated constructor stub
 		super(svp);
 

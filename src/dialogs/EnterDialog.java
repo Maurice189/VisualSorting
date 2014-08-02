@@ -42,7 +42,8 @@ import javax.swing.border.TitledBorder;
 
 import algorithms.Sort;
 import main.Controller;
-import main.SortVisualtionPanel;
+import main.MathFunc;
+import main.SortVisualisationPanel;
 import main.Window;
 
 /**
@@ -101,7 +102,7 @@ public class EnterDialog extends OptionDialog {
 				temp = (int) (values.getValue());
 				listModel.removeAllElements();
 				for (int i = 0; i < temp; i++)
-					listModel.addElement(Controller.getRandomNumber(0, temp));
+					listModel.addElement(MathFunc.getRandomNumber(0, temp));
 
 			}
 
@@ -170,7 +171,7 @@ public class EnterDialog extends OptionDialog {
 				temp = (int) (values.getValue());
 				listModel.removeAllElements();
 				for (int i = 0; i < temp; i++)
-					listModel.addElement(Controller.getRandomNumber(0, temp/3));
+					listModel.addElement(MathFunc.getRandomNumber(0, temp/3));
 				
 			}
 			
@@ -182,7 +183,7 @@ public class EnterDialog extends OptionDialog {
 			for (int i = 0; i < listModel.size(); i++)
 				temp[i] = listModel.get(i);
 			Sort.setElements(temp);
-			SortVisualtionPanel.updateBarSize();
+			SortVisualisationPanel.updateBarSize();
 			controller.showNumberOfElements();
 			controller.reset();
 			dispose();

@@ -83,7 +83,6 @@ import main.InternalConfig.LANG;
 import main.Statics.SORTALGORITHMS;
 
 
-
 public class Controller implements Observer,ComponentListener,ActionListener, WindowListener {
 
 	private ArrayList<Sort> sortList; 
@@ -109,12 +108,10 @@ public class Controller implements Observer,ComponentListener,ActionListener, Wi
 
 		this.langXMLInterface = langXMLInterface;
 		
-
 		sortList = new ArrayList<Sort>();
 		dialogs = new LinkedList<OptionDialog>();
 
 		executor = Executors.newCachedThreadPool();
-
 		createTimer();
 	
 	}
@@ -160,15 +157,12 @@ public class Controller implements Observer,ComponentListener,ActionListener, Wi
 	public void setView(Window window) {
 
 		this.window = window;
-		SortVisualtionPanel.setBackgroundColor(window.getBackground());
+		SortVisualisationPanel.setBackgroundColor(window.getBackground());
 		window.addComponentListener(this);
 		window.updateNumberOfElements(Sort.getElements().length);
 	}
 
-	
-	public static int getRandomNumber(int low, int high) {
-		return (int) (Math.random() * (high - low) + low);
-	}
+
 	
 	public void actionPerformed(ActionEvent e) {
 
@@ -578,12 +572,12 @@ public class Controller implements Observer,ComponentListener,ActionListener, Wi
 	 private void resize(){
 		 
 		 if(sortList.size() > 0){
-				SortVisualtionPanel.updateSize(
-											sortList.get(0).getSortVisualtionPanel().getSize().width, 
-											sortList.get(0).getSortVisualtionPanel().getSize().height);
+				SortVisualisationPanel.updateSize(
+											sortList.get(0).getSortVisualisationPanel().getSize().width, 
+											sortList.get(0).getSortVisualisationPanel().getSize().height);
 				
 				for(Sort tmp:sortList)
-					tmp.getSortVisualtionPanel().updatePanelSize();
+					tmp.getSortVisualisationPanel().updatePanelSize();
 				
 			}
 	 }
@@ -591,7 +585,6 @@ public class Controller implements Observer,ComponentListener,ActionListener, Wi
 
 	@Override
 	public void componentResized(ComponentEvent e) {
-		
 		resize();
 	
 	}

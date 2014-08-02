@@ -6,7 +6,7 @@ import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
 import main.PanelUI;
-import main.SortVisualtionPanel;
+import main.SortVisualisationPanel;
 import main.Statics.SORTALGORITHMS;
 
 /*
@@ -44,17 +44,17 @@ public abstract class Sort extends Observable implements Runnable {
 
 	protected int elements[];
 	protected int iterates,accesses,comparisons;
-	protected SortVisualtionPanel svp;
+	protected SortVisualisationPanel svp;
 	protected PanelUI panelUI;
 	protected Lock lock = new ReentrantLock();
 	protected Condition condition = lock.newCondition();
 
 
 	/*
-	 * Each object hold its own SortVisualtionPanel and redirect every 
+	 * Each object hold its own SortVisualisationPanel and redirect every 
 	 * changes that are done on the sortlist
 	 */
-	public Sort(SortVisualtionPanel svp) {
+	public Sort(SortVisualisationPanel svp) {
 
 		this.svp = svp;
 
@@ -140,7 +140,7 @@ public abstract class Sort extends Observable implements Runnable {
 		return Sort.gElement;
 	}
 
-	public void setSortVisualtionPanel(SortVisualtionPanel svp,PanelUI panelUI) {
+	public void setSortVisualisationPanel(SortVisualisationPanel svp,PanelUI panelUI) {
 
 		this.svp = svp;
 		this.panelUI = panelUI;
@@ -188,10 +188,10 @@ public abstract class Sort extends Observable implements Runnable {
 	}
 
 	/**
-	 * is used to apply modifications on the 'SortVisualtionPanel' object
+	 * is used to apply modifications on the 'SortVisualisationPanel' object
 	 * for e.g enable the remove button
 	 */
-	public SortVisualtionPanel getSortVisualtionPanel() {
+	public SortVisualisationPanel getSortVisualisationPanel() {
 
 		return svp;
 	}

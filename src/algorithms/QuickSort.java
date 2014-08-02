@@ -13,14 +13,14 @@ package algorithms;
  * @category Sort
  */
 
-import main.SortVisualtionPanel;
+import main.SortVisualisationPanel;
 import main.Statics.SORTALGORITHMS;
 
 public class QuickSort extends Sort {
 	
 	private int pivotIndex;
 
-	public QuickSort(SortVisualtionPanel svp) {
+	public QuickSort(SortVisualisationPanel svp) {
 		// TODO Auto-generated constructor stub
 		super(svp);
 

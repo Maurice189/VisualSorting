@@ -33,7 +33,7 @@ http://rosettacode.org/wiki/Sorting_algorithms/Comb_sort
  * @category Sort
  */
 
-import main.SortVisualtionPanel;
+import main.SortVisualisationPanel;
 import main.Statics.SORTALGORITHMS;
 
 public class CombSort extends Sort {
@@ -44,7 +44,7 @@ public class CombSort extends Sort {
 
 	}
 
-	public CombSort(SortVisualtionPanel svp) {
+	public CombSort(SortVisualisationPanel svp) {
 		// TODO Auto-generated constructor stub
 		super(svp);
 

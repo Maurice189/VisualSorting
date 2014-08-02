@@ -28,12 +28,12 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
  * @category Sort
  */
 
-import main.SortVisualtionPanel;
+import main.SortVisualisationPanel;
 import main.Statics.SORTALGORITHMS;
 
 public class BubbleSort extends Sort {
 
-	public BubbleSort(SortVisualtionPanel svp) {
+	public BubbleSort(SortVisualisationPanel svp) {
 		super(svp);
 
 	}

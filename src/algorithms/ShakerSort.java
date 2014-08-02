@@ -34,7 +34,7 @@ http://www.javabeginners.de/Algorithmen/Sortieralgorithmen/Shakersort.php
  * @category Sort
  */
 
-import main.SortVisualtionPanel;
+import main.SortVisualisationPanel;
 import main.Statics.SORTALGORITHMS;
 
 public class ShakerSort extends Sort {
@@ -47,7 +47,7 @@ public class ShakerSort extends Sort {
 
 	}
 
-	public ShakerSort(SortVisualtionPanel svp) {
+	public ShakerSort(SortVisualisationPanel svp) {
 		// TODO Auto-generated constructor stub
 		super(svp);
 

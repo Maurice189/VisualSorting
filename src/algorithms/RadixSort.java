@@ -12,14 +12,14 @@ package algorithms;
  */
 
 import java.util.ArrayList;
-import main.SortVisualtionPanel;
+import main.SortVisualisationPanel;
 import main.Statics.SORTALGORITHMS;
 
 
 public class RadixSort extends Sort{
 	
 	
-	public RadixSort(SortVisualtionPanel svp) {
+	public RadixSort(SortVisualisationPanel svp) {
 		super(svp);
 
 	}

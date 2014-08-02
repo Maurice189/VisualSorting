@@ -33,12 +33,12 @@ http://rosettacode.org/wiki/Sorting_algorithms/Gnome_sort#Java
  * @category Sort
  */
 
-import main.SortVisualtionPanel;
+import main.SortVisualisationPanel;
 import main.Statics.SORTALGORITHMS;
 
 public class GnomeSort extends Sort {
 
-	public GnomeSort(SortVisualtionPanel svp) {
+	public GnomeSort(SortVisualisationPanel svp) {
 		// TODO Auto-generated constructor stub
 		super(svp);
 

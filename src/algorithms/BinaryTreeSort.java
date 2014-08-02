@@ -9,7 +9,7 @@ package algorithms;
  * @category Sort
  */
 
-import main.SortVisualtionPanel;
+import main.SortVisualisationPanel;
 import main.Statics.SORTALGORITHMS;
 
 /*
@@ -29,7 +29,7 @@ public class BinaryTreeSort extends Sort {
 
 	}
 
-	public BinaryTreeSort(SortVisualtionPanel svp) {
+	public BinaryTreeSort(SortVisualisationPanel svp) {
 		super(svp);
 		root = new Node(new Element(elements[0],0));
 

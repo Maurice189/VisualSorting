@@ -35,7 +35,7 @@ http://rosettacode.org/wiki/Sorting_algorithms/Heapsort#Java
  * @category Sort
  */
 
-import main.SortVisualtionPanel;
+import main.SortVisualisationPanel;
 import main.Statics.SORTALGORITHMS;
 
 public class HeapSort extends Sort {
@@ -46,7 +46,7 @@ public class HeapSort extends Sort {
 
 	}
 
-	public HeapSort(SortVisualtionPanel svp) {
+	public HeapSort(SortVisualisationPanel svp) {
 		super(svp);
 
 	}

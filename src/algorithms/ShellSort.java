@@ -11,12 +11,12 @@ package algorithms;
  * @category Sort
  */
 
-import main.SortVisualtionPanel;
+import main.SortVisualisationPanel;
 import main.Statics.SORTALGORITHMS;
 
 public class ShellSort extends Sort {
 
-	public ShellSort(SortVisualtionPanel svp) {
+	public ShellSort(SortVisualisationPanel svp) {
 		// TODO Auto-generated constructor stub
 		super(svp);
 

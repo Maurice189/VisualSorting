@@ -68,26 +68,14 @@ public class InternalConfig {
 	
 	private static String version; // prg version, language set
 	private static boolean autoPauseOn;
-	
 
-	/**
-	 * 
-	 * @throws IOException
-	 * When config.txt could'nt be loaded, the file will be
-	 * created. This exception is always fired, whene the app
-	 * is launched the first time
-	 * 
-	 */
 	
 	public static void setNewLangDefEntry(LANG lang,String xmlName){
 		langDef.put(lang, xmlName);
 	}
 	
 	public static void setConfigFileDirectory(String configPath){
-		
 		PROPORTIES_NAME = configPath+"config.txt";
-		System.out.println("PATH: "+PROPORTIES_NAME);
-		
 	}
 	
 	public static void loadConfigFile() {
@@ -150,7 +138,7 @@ public class InternalConfig {
 		
 		int[] elements = new int[nofelements];
 		for (int i = 0; i < nofelements; i++)
-			elements[i] = Controller.getRandomNumber(0, nofelements / 3);
+			elements[i] = MathFunc.getRandomNumber(0, nofelements / 3);
 
 		Sort.setElements(elements);
 

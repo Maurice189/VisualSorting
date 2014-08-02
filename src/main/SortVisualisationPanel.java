@@ -44,7 +44,7 @@ import algorithms.Sort;
  * 
  **/
 
-public class SortVisualtionPanel extends JPanel {
+public class SortVisualisationPanel extends JPanel {
 
 	private static Color backgroundColor = Color.white;
 	private static final int preferredGapSize = 3,offsetY = 20;
@@ -55,30 +55,30 @@ public class SortVisualtionPanel extends JPanel {
 	private Graphics2D gbuffer;
 	private int elements[], lstIndex1 = -1, lstIndex2 = -1,lstInsert = -1,lstPivot = -1;
 
-	public SortVisualtionPanel(ActionListener listener, String selectedSort,
+	public SortVisualisationPanel(ActionListener listener, String selectedSort,
 			int width, int height) {
 
 		buffer = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
 		gbuffer = (Graphics2D) buffer.getGraphics();
 		gbuffer.setFont(Window.getComponentFont(12f));
-		gbuffer.setBackground(SortVisualtionPanel.backgroundColor);
+		gbuffer.setBackground(SortVisualisationPanel.backgroundColor);
 
 	}
 	
-	public SortVisualtionPanel(
+	public SortVisualisationPanel(
 			int width, int height) {
 
 		buffer = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
 		gbuffer = (Graphics2D) buffer.getGraphics();
 		gbuffer.setFont(Window.getComponentFont(12f));
-		gbuffer.setBackground(SortVisualtionPanel.backgroundColor);
+		gbuffer.setBackground(SortVisualisationPanel.backgroundColor);
 
 	}
 
 
 
 	public static void setBackgroundColor(Color color) {
-		SortVisualtionPanel.backgroundColor = color;
+		SortVisualisationPanel.backgroundColor = color;
 	}
 
 	public void setElements(int elements[]) {
@@ -94,7 +94,7 @@ public class SortVisualtionPanel extends JPanel {
 		buffer = new BufferedImage(this.getWidth(), this.getHeight(),
 				BufferedImage.TYPE_INT_ARGB);
 		gbuffer = (Graphics2D) buffer.getGraphics();
-		gbuffer.setBackground(SortVisualtionPanel.backgroundColor);
+		gbuffer.setBackground(SortVisualisationPanel.backgroundColor);
 		gbuffer.setFont(Window.getComponentFont(14f));
 		drawElements();
 
@@ -108,12 +108,12 @@ public class SortVisualtionPanel extends JPanel {
 
 		for (int i = 0; i < elements.length; i++) {
 
-			gbuffer.drawRect((i * (refWidth + SortVisualtionPanel.gapSize))
-					+ SortVisualtionPanel.margin,
+			gbuffer.drawRect((i * (refWidth + SortVisualisationPanel.gapSize))
+					+ SortVisualisationPanel.margin,
 					(height - (refHeight * elements[i])) - offsetY, refWidth,
 					refHeight * elements[i]);
-			gbuffer.fillRect((i * (refWidth + SortVisualtionPanel.gapSize))
-					+ SortVisualtionPanel.margin,
+			gbuffer.fillRect((i * (refWidth + SortVisualisationPanel.gapSize))
+					+ SortVisualisationPanel.margin,
 					(height - (refHeight * elements[i])) - offsetY, refWidth,
 					refHeight * elements[i]);
 
@@ -128,8 +128,8 @@ public class SortVisualtionPanel extends JPanel {
 		
 		
 		
-			int x = (pivotIndex * (refWidth + SortVisualtionPanel.gapSize))
-				+ SortVisualtionPanel.margin;
+			int x = (pivotIndex * (refWidth + SortVisualisationPanel.gapSize))
+				+ SortVisualisationPanel.margin;
 
 			int y = (height - (refHeight * elements[pivotIndex])) - offsetY;
 			int h = refHeight * elements[pivotIndex];
@@ -139,8 +139,8 @@ public class SortVisualtionPanel extends JPanel {
 			gbuffer.fillRect(x, y, refWidth, h);
 		
 			if(lstPivot != -1 && lstPivot != pivotIndex){
-				x = (lstPivot * (refWidth + SortVisualtionPanel.gapSize))
-					+ SortVisualtionPanel.margin;
+				x = (lstPivot * (refWidth + SortVisualisationPanel.gapSize))
+					+ SortVisualisationPanel.margin;
 
 				y = (height - (refHeight * elements[lstPivot])) - offsetY;
 				h = refHeight * elements[lstPivot];
@@ -162,34 +162,34 @@ public class SortVisualtionPanel extends JPanel {
 		if (lstInsert >= 0) {
 			gbuffer.setColor(Color.GRAY);
 			gbuffer.drawRect(
-					(lstInsert * (refWidth + SortVisualtionPanel.gapSize))
-							+ SortVisualtionPanel.margin,
+					(lstInsert * (refWidth + SortVisualisationPanel.gapSize))
+							+ SortVisualisationPanel.margin,
 					(height - (refHeight * elements[lstInsert])) - offsetY,
 					refWidth, refHeight * elements[lstInsert]);
 			gbuffer.fillRect(
-					(lstInsert * (refWidth + SortVisualtionPanel.gapSize))
-							+ SortVisualtionPanel.margin,
+					(lstInsert * (refWidth + SortVisualisationPanel.gapSize))
+							+ SortVisualisationPanel.margin,
 					(height - (refHeight * elements[lstInsert])) - offsetY,
 					refWidth, refHeight * elements[lstInsert]);
 
 		}
 
-		gbuffer.setColor(SortVisualtionPanel.backgroundColor);
-		gbuffer.drawRect((c * (refWidth + SortVisualtionPanel.gapSize))
-				+ SortVisualtionPanel.margin,
+		gbuffer.setColor(SortVisualisationPanel.backgroundColor);
+		gbuffer.drawRect((c * (refWidth + SortVisualisationPanel.gapSize))
+				+ SortVisualisationPanel.margin,
 				(height - (refHeight * elements[c])) - offsetY, refWidth,
 				refHeight * elements[c]);
-		gbuffer.fillRect((c * (refWidth + SortVisualtionPanel.gapSize))
-				+ SortVisualtionPanel.margin,
+		gbuffer.fillRect((c * (refWidth + SortVisualisationPanel.gapSize))
+				+ SortVisualisationPanel.margin,
 				(height - (refHeight * elements[c])) - offsetY, refWidth,
 				refHeight * elements[c]);
 
 		gbuffer.setColor(Color.GREEN);
-		gbuffer.drawRect((c * (refWidth + SortVisualtionPanel.gapSize))
-				+ SortVisualtionPanel.margin, (height - (refHeight * value))
+		gbuffer.drawRect((c * (refWidth + SortVisualisationPanel.gapSize))
+				+ SortVisualisationPanel.margin, (height - (refHeight * value))
 				- offsetY, refWidth, refHeight * value);
-		gbuffer.fillRect((c * (refWidth + SortVisualtionPanel.gapSize))
-				+ SortVisualtionPanel.margin, (height - (refHeight * value))
+		gbuffer.fillRect((c * (refWidth + SortVisualisationPanel.gapSize))
+				+ SortVisualisationPanel.margin, (height - (refHeight * value))
 				- offsetY, refWidth, refHeight * value);
 
 		lstInsert = c;
@@ -208,10 +208,10 @@ public class SortVisualtionPanel extends JPanel {
 
 		if (lstIndex1 >= 0 && lstIndex2 >= 0) {
 
-			x1 = (lstIndex1 * (refWidth + SortVisualtionPanel.gapSize))
-					+ SortVisualtionPanel.margin;
-			x2 = (lstIndex2 * (refWidth + SortVisualtionPanel.gapSize))
-					+ SortVisualtionPanel.margin;
+			x1 = (lstIndex1 * (refWidth + SortVisualisationPanel.gapSize))
+					+ SortVisualisationPanel.margin;
+			x2 = (lstIndex2 * (refWidth + SortVisualisationPanel.gapSize))
+					+ SortVisualisationPanel.margin;
 			y1 = (height - (refHeight * elements[lstIndex1])) - offsetY;
 			y2 = (height - (refHeight * elements[lstIndex2])) - offsetY;
 			h1 = refHeight * elements[lstIndex1];
@@ -226,10 +226,10 @@ public class SortVisualtionPanel extends JPanel {
 
 		}
 
-		x1 = (c1 * (refWidth + SortVisualtionPanel.gapSize))
-				+ SortVisualtionPanel.margin;
-		x2 = (c2 * (refWidth + SortVisualtionPanel.gapSize))
-				+ SortVisualtionPanel.margin;
+		x1 = (c1 * (refWidth + SortVisualisationPanel.gapSize))
+				+ SortVisualisationPanel.margin;
+		x2 = (c2 * (refWidth + SortVisualisationPanel.gapSize))
+				+ SortVisualisationPanel.margin;
 		y1 = (height - (refHeight * elements[c1])) - offsetY;
 		y2 = (height - (refHeight * elements[c2])) - offsetY;
 		h1 = refHeight * elements[c1];
@@ -237,7 +237,7 @@ public class SortVisualtionPanel extends JPanel {
 
 		if (changed) {
 
-			gbuffer.setColor(SortVisualtionPanel.backgroundColor);
+			gbuffer.setColor(SortVisualisationPanel.backgroundColor);
 			gbuffer.drawRect(x1, y2, refWidth, h2);
 			gbuffer.fillRect(x1, y2, refWidth, h2);
 
@@ -263,10 +263,10 @@ public class SortVisualtionPanel extends JPanel {
 
 	private void signalExchangedElements(int i1, int i2, int refWidth) {
 
-		int x1 = (int) (i1 * (refWidth + SortVisualtionPanel.gapSize) + (refWidth * 0.5))
-				+ SortVisualtionPanel.margin;
-		int x2 = (int) (i2 * (refWidth + SortVisualtionPanel.gapSize) + (refWidth * 0.5))
-				+ SortVisualtionPanel.margin;
+		int x1 = (int) (i1 * (refWidth + SortVisualisationPanel.gapSize) + (refWidth * 0.5))
+				+ SortVisualisationPanel.margin;
+		int x2 = (int) (i2 * (refWidth + SortVisualisationPanel.gapSize) + (refWidth * 0.5))
+				+ SortVisualisationPanel.margin;
 
 		gbuffer.setColor(Color.BLUE);
 		gbuffer.setStroke(new BasicStroke(1));
@@ -302,12 +302,12 @@ public class SortVisualtionPanel extends JPanel {
 			gbuffer.setColor(Color.GRAY);
 			for (int i = 0; i < elements.length; i++) {
 
-				gbuffer.drawRect((i * (refWidth + SortVisualtionPanel.gapSize))
-						+ SortVisualtionPanel.margin,
+				gbuffer.drawRect((i * (refWidth + SortVisualisationPanel.gapSize))
+						+ SortVisualisationPanel.margin,
 						(height - (refHeight * elements[i])) - offsetY,
 						refWidth, refHeight * elements[i]);
-				gbuffer.fillRect((i * (refWidth + SortVisualtionPanel.gapSize))
-						+ SortVisualtionPanel.margin,
+				gbuffer.fillRect((i * (refWidth + SortVisualisationPanel.gapSize))
+						+ SortVisualisationPanel.margin,
 						(height - (refHeight * elements[i])) - offsetY,
 						refWidth, refHeight * elements[i]);
 
@@ -339,15 +339,10 @@ public class SortVisualtionPanel extends JPanel {
 	
 	public static void updateBarSize(){
 		
-		int elements[] = Sort.getElements(),max = 0;
-		
-		for (int i = 0; i < elements.length; i++) {
-			if (elements[i] > max)
-				max = elements[i];
-		}
+		int elements[] = Sort.getElements();
 
-		refHeight = (height - offsetY - SortVisualtionPanel.marginTop) / max;
-		refWidth = (width - (elements.length * SortVisualtionPanel.preferredGapSize))
+		refHeight = (height - offsetY - SortVisualisationPanel.marginTop) / MathFunc.getMax(elements);
+		refWidth = (width - (elements.length * SortVisualisationPanel.preferredGapSize))
 				/ elements.length;
 
 		if (refHeight <= 0)
@@ -355,20 +350,20 @@ public class SortVisualtionPanel extends JPanel {
 		if (refWidth <= 0){
 			
 			double newBorder = ((elements.length-width)/((double)(-1)*elements.length));
-			if(newBorder > 0) SortVisualtionPanel.gapSize = (int) newBorder;
-			else SortVisualtionPanel.gapSize = 1;
+			if(newBorder > 0) SortVisualisationPanel.gapSize = (int) newBorder;
+			else SortVisualisationPanel.gapSize = 1;
 			refWidth = 1;
 		}
 		
-		else SortVisualtionPanel.gapSize = 3;
+		else SortVisualisationPanel.gapSize = 3;
 
-		SortVisualtionPanel.margin = (width - (elements.length * (refWidth + SortVisualtionPanel.gapSize))) / 2;
+		SortVisualisationPanel.margin = (width - (elements.length * (refWidth + SortVisualisationPanel.gapSize))) / 2;
 	}
 	
 	public static void updateSize(int width,int height){
 
-		SortVisualtionPanel.width = width;
-		SortVisualtionPanel.height = height;
+		SortVisualisationPanel.width = width;
+		SortVisualisationPanel.height = height;
 		updateBarSize();
 		
 	}

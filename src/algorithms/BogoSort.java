@@ -1,12 +1,12 @@
 package algorithms;
 
-import main.SortVisualtionPanel;
+import main.SortVisualisationPanel;
 import main.Statics.SORTALGORITHMS;
 
 public class BogoSort extends Sort{
 	
 
-	public BogoSort(SortVisualtionPanel svp) {
+	public BogoSort(SortVisualisationPanel svp) {
 		super(svp);
 
 	}
