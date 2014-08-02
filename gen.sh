@@ -38,9 +38,9 @@
 #
 
 
-if (( $EUID != 0 )); then
-    echo "Please run as root"
-    exit
+if [[ $EUID -ne 0 ]]; then
+   echo "You must be root to do this."
+   exit 
 fi
 
 USER_HOME=$(getent passwd $SUDO_USER | cut -d: -f6)
