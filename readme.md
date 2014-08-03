@@ -9,6 +9,8 @@ It was only tested on <b>java 1.7</b> it hasn't been tested with other versions.
 just an installation script for linux.A Windows installation script will be published as soon as possible.
 
 <br /><h3>Installation</h3>
+There are two ways to get the application work. Either you download the .zip and compile the
+source code yourself , or you use the installation scripts for your respective platform, if avaiable.<br /><br />
 First download the .zip file from the repository page or with the direct download link
 `https://github.com/Maurice189/VisualSorting/archive/master.zip`. Afterwards unzip the the downloaded file.
 <br /><br /><b>For Linux:</b><br />
