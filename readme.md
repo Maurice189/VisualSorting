@@ -14,7 +14,6 @@ source code yourself , or you use the installation scripts for your respective p
 
 <b>First way</b><br />
 Change directory into the unzipped folder:<br />
-
 compile source code with `javac algorithms/*.java main/*.java dialogs/*.java` <br />
 create executable jar with `jar -cvfm $FOLDER_PATH/VisualSorting.jar $FOLDER_PATH/manifest.mf *`
 <br /><br />
