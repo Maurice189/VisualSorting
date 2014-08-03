@@ -1,22 +1,33 @@
 VisualSorting
 =============
 
-THIS PROGRAM IS LICENSED UNDER THE <b>GPLv3</b>. SEE THE LICENCE FOR MORE INFORMATIONS.
+THIS PROGRAM IS LICENSED UNDER THE <b>GPL v3</b>. SEE THE LICENCE.txt FOR MORE INFORMATIONS.
 
 
 The program is written in java,so you can run it on every OS that has a JVM.
-It was only tested on java 1.7, but should also run fine under java 1.5 as well as java 1.6.
+It was only tested on <b>java 1.7</b> it hasn't been tested with other versions. Currently there is
+just an installation script for linux.A Windows installation script will be published as soon as possible.
 
 <br /><h3>Installation</h3>
 First download the .zip file from the repository page or with the direct download link
 `https://github.com/Maurice189/VisualSorting/archive/master.zip`. Afterwards unzip the the downloaded file.
-<br /><br /><b>For Linux users:</b><br />
+<br /><br /><b>For Linux:</b><br />
 
   1. open the shell
   2. change directory into unzipped folder with `cd`<br />
   3. Execute install.sh script with `sudo ./install.sh`<br />
   4. Now you can delete the unzipped folder if the script executed with no error<br />
   5. The deskton icon is located in `/usr/share/applications/VisualSorting.desktop` and should be now accessable from     your menu
+
+
+<br /><h3>Deinstallation</h3>
+In order to execute those commands you need to be root.<br />
+
+<b>For Linux:</b><br />
+
+ 1. `rm -R /home/USER_NAME/.VisualSorting/` replace `USER_NAME` with your user name
+ 2. `rm -R /opt/VisualSorting/`
+ 3. `rm /usr/share/applications/VisualSortingBeta.desktop`
 
 <br /><h3>About VisualSorting</h3><br /> 
 
