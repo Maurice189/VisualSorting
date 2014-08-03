@@ -8,18 +8,14 @@ The program is written in java,so you can run it on every OS that has a JVM.
 It was only tested on java 1.7, but should also run fine under java 1.5 as well as java 1.6.
 
 <br /><h3>Installation</h3><br />
-<ol>
-<li>download .zip</li>
-<li>unzip .zip</li>
-</ol>
-`sudo ./install.sh`
+First download the .zip file , then unpack the .zip.
 <br /><b>For Linux users:</b><br />
 
-open the shell
-change directory into unzipped folder with `cd`
-Execute install.sh script with `sudo ./install.sh`
-Now you can delete the unzipped folder if the script executed with no error
-The deskton icon is located in `/usr/share/applications/VisualSorting.desktop` and should be now accessable from your menu
+1. open the shell
+2. change directory into unzipped folder with `cd`<br />
+3. Execute install.sh script with `sudo ./install.sh`<br />
+4. Now you can delete the unzipped folder if the script executed with no error<br />
+5. The deskton icon is located in `/usr/share/applications/VisualSorting.desktop` and should be now accessable from your menu
 
 
 <br /><h3>About VisualSorting</h3><br /> 
