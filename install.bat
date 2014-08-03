@@ -28,11 +28,6 @@
 
 set FOLDER_PATH=%CD%
 
-cd src
-javac algorithms\*.java main\*.java dialogs\*.java 
-jar -cvfm %FOLDER_PATH%\VisualSorting.jar %FOLDER_PATH%\manifest.mf *
-
-
 mkdir %ProgramFiles%\Visualsorting\
 
 copy  %FOLDER_PATH%\VisualSortingIcon.ico %ProgramFiles%\Visualsorting\VisualSortingIcon.ico

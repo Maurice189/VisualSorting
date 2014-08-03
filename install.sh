@@ -50,11 +50,6 @@ USER_HOME=$(getent passwd $SUDO_USER | cut -d: -f6)
 FOLDER_PATH=$PWD
 
 
-cd src
-javac algorithms/*.java main/*.java dialogs/*.java 
-jar -cvfm $FOLDER_PATH/VisualSorting.jar $FOLDER_PATH/manifest.mf *
-
-
 mkdir $USER_HOME/.VisualSorting/
 sudo chown -cR $SUDO_USER $USER_HOME/.VisualSorting/
 
