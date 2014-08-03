@@ -21,7 +21,7 @@ create executable jar with `jar -cvfm $FOLDER_PATH/VisualSorting.jar $FOLDER_PAT
 
 <b>Second way</b><br />
 First download the .zip file from the repository page or with the direct download link
-`https://github.com/Maurice189/VisualSorting/archive/master.zip`. Afterwards unzip the the downloaded file.
+<a href ="https://github.com/Maurice189/VisualSorting/archive/master.zip">`https://github.com/Maurice189/VisualSorting/archive/master.zip`</a>. Afterwards unzip the the downloaded file.
 <br /><br /><b>For Linux:</b><br />
 
   1. open the shell
