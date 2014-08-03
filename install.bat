@@ -28,7 +28,7 @@
 
 set FOLDER_PATH=%CD%
 
-mkdir %ProgramFiles%\Visualsorting\
+mkdir "%ProgramFiles%"\Visualsorting\
 
 copy  "%FOLDER_PATH%\VisualSortingIcon.ico" "%ProgramFiles%\Visualsorting"
 copy  "%FOLDER_PATH%\VisualSorting.jar" "%ProgramFiles%\Visualsorting"
@@ -36,7 +36,7 @@ copy  "%FOLDER_PATH%\splash.gif" "%ProgramFiles%\Visualsorting"
 copy  "%FOLDER_PATH%\LICENCE.txt" "%ProgramFiles%\Visualsorting"
 
 
-cd %ProgramFiles%\VisualSorting\
+cd "%ProgramFiles%"\VisualSorting\
 
 (
 	echo @ECHO OFF
