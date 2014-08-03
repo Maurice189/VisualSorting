@@ -63,7 +63,7 @@ public class InternalConfig {
 	};
 	private static HashMap<LANG,String> langDef = new HashMap<LANG,String>();
 	private static LANG languageSet = LANG.de;
-	private static String PROPORTIES_NAME = System.getProperty("user.home")+"/.VisualSorting/config.txt";
+	private static String PROPORTIES_NAME = System.getProperty("user.home")+"/config.txt";
 	private static Properties prop;
 	
 	private static String version; // prg version, language set

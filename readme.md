@@ -9,12 +9,12 @@ It was only tested on java <b>1.7</b> it hasn't been tested with other versions.
 just an installation script for linux.A Windows installation script will be published as soon as possible.
 
 <br /><h3>Installation</h3>
-There are two ways to get the application work. Either you download the .zip and compile the
-source code yourself , or you use the installation scripts for your respective platform. The second 
-way is a fully integration in your desktop and therefore recommended<br /><br />
+For the installation a script is located in the repository folder. For every platform exist
+a sepeperate script. You could even compile the source code by yourself, but the application 
+needs special program paramters to work correctly. The installation script will create 
+a program folder and copy the executable jar and other files like images and a execute script into it. 
+As well as a shortcut icon is created to provide a easy way to start the application.<br /><br />
 
-
-<b>First way</b><br />
 First download the .zip file from the repository page or with the direct download link
 <a href ="https://github.com/Maurice189/VisualSorting/archive/master.zip">`https://github.com/Maurice189/VisualSorting/archive/master.zip`</a>. Afterwards unzip the the downloaded file.
 <br /><br /><b>For Linux:</b><br />
@@ -27,9 +27,11 @@ First download the .zip file from the repository page or with the direct downloa
 
 <br /><br /><b>For Windows:</b><br />
 
-  1. open the shell
-  2. change directory into unzipped folder with `cd`<br />
-   ... comming soon
+  1. open the unzipped directory<br />
+  2. double click on `install.bat`<br />
+  3. Now you can delete the unzipped folder<br />
+  4. A shortcut on your desktop named `VisualSorting` should now exist
+
 
 
 <br /><br /><b>For Mac:</b><br />
@@ -38,14 +40,7 @@ First download the .zip file from the repository page or with the direct downloa
   2. change directory into unzipped folder with `cd`<br />
   ... comming soon
 
-<br /><b>Second way</b><br />
-Change directory into the unzipped folder:<br />
-compile source code with `javac algorithms/*.java main/*.java dialogs/*.java` <br />
-create executable jar with `jar -cvfm $FOLDER_PATH/VisualSorting.jar $FOLDER_PATH/manifest.mf *`
-<br /><br />
 
-
- 
 <br /><h3>Deinstallation</h3>
 In order to execute those commands you need to be root.<br />
 
