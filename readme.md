@@ -12,6 +12,7 @@ It was only tested on java 1.7, but should also run fine under java 1.5 as well 
 <li>download .zip</li>
 <li>unzip .zip</li>
 </ol>
+`sudo ./install.sh`
 <br /><b>For Linux users:</b><br />
 <ol>
 <li>open the shell</li>
