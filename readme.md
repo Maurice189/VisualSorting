@@ -10,7 +10,8 @@ just an installation script for linux.A Windows installation script will be publ
 
 <br /><h3>Installation</h3>
 There are two ways to get the application work. Either you download the .zip and compile the
-source code yourself , or you use the installation scripts for your respective platform.<br /><br />
+source code yourself , or you use the installation scripts for your respective platform. The second 
+way is a fully integration in your desktop and therefore recommended<br /><br />
 
 <b>First way</b><br />
 Change directory into the unzipped folder:<br />
