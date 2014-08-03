@@ -47,7 +47,6 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import algorithms.Sort;
-import main.Statics;
 import main.Window;
 
 

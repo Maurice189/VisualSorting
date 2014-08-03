@@ -408,7 +408,6 @@ public class Window extends JFrame {
 			reset.setEnabled(true);
 		}		
 		
-		;
 		final SortVisualisationPanel temp = new SortVisualisationPanel(this.getWidth(), this.getHeight());
 		PanelUI panelUI = new PanelUI(controller,temp,selectedSort);
 		

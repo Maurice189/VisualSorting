@@ -44,6 +44,7 @@ import algorithms.Sort;
 import main.Controller;
 import main.MathFunc;
 import main.SortVisualisationPanel;
+import main.Statics;
 import main.Window;
 
 /**
@@ -75,7 +76,6 @@ public class EnterDialog extends OptionDialog {
 	private EnterDialog(Controller controller,int width, int height) {
 		super("sortlist", width, height);
 		this.controller = controller;
-
 	}
 
 
@@ -104,6 +104,7 @@ public class EnterDialog extends OptionDialog {
 				for (int i = 0; i < temp; i++)
 					listModel.addElement(MathFunc.getRandomNumber(0, temp));
 
+				
 			}
 
 		}
@@ -178,19 +179,18 @@ public class EnterDialog extends OptionDialog {
 			
 		}
 
-		else if (e.getSource() == ok) {
+		else if (e.getActionCommand() == Statics.ELEMENTS_SET) {
 			int[] temp = new int[listModel.size()];
 			for (int i = 0; i < listModel.size(); i++)
 				temp[i] = listModel.get(i);
 			Sort.setElements(temp);
 			SortVisualisationPanel.updateBarSize();
-			controller.showNumberOfElements();
-			controller.reset();
+			controller.actionPerformed(e);
 			dispose();
 		}
 
 	}
-	
+
 	
 	/**
 	 * {@inheritDoc} overridden method
@@ -288,6 +288,7 @@ public class EnterDialog extends OptionDialog {
 
 		ok = new JButton(langXML.getValue("exit"));
 		ok.setFont(Window.getComponentFont(13f));
+		ok.setActionCommand(Statics.ELEMENTS_SET);
 		ok.addActionListener(this);
 
 		btnWrp2 = new JPanel();

@@ -49,6 +49,7 @@ public class Statics {
 	public static final String NEW_ELEMENTS = "action_setElements";
 	public static final String NEXT_ITERATION = "action_nextIter";
 	public static final String RESET = "action_reset";
+	public static final String ELEMENTS_SET = "action_elements";
 	
 	public static final String DELAY = "action_delay";
 	public static final String ABOUT = "action_about";

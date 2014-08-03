@@ -139,20 +139,6 @@ public class Controller implements Observer,ComponentListener,ActionListener, Wi
 		if(window!=null) window.setClockParam(0,0);
 	}
 
-	public void showNumberOfElements(){
-		window.updateNumberOfElements(Sort.getElements().length);
-		for(Sort temp: sortList){
-			
-			if(temp.getAlgorithmName() == SORTALGORITHMS.Bitonicsort
-			&& Integer.bitCount(Sort.getElements().length) != 1){
-				
-				JOptionPane.showMessageDialog(window,
-				langXMLInterface.getValue("info0l0")+"\n"+langXMLInterface.getValue("info0l1"),
-				"Information",JOptionPane.INFORMATION_MESSAGE);		
-			}
-		}
-		
-	}
 
 	public void setView(Window window) {
 
@@ -388,6 +374,22 @@ public class Controller implements Observer,ComponentListener,ActionListener, Wi
 		else if (e.getActionCommand() == Statics.DELAY) {
 
 			dialogs.add(DelayDialog.getInstance(320, 150));
+		}
+		
+		else if (e.getActionCommand() == Statics.ELEMENTS_SET) {
+
+			window.updateNumberOfElements(Sort.getElements().length);
+			for(Sort temp: sortList){
+				
+				if(temp.getAlgorithmName() == SORTALGORITHMS.Bitonicsort
+				&& Integer.bitCount(Sort.getElements().length) != 1){
+					
+					JOptionPane.showMessageDialog(window,
+					langXMLInterface.getValue("info0l0")+"\n"+langXMLInterface.getValue("info0l1"),
+					"Information",JOptionPane.INFORMATION_MESSAGE);		
+				}
+			}
+			reset();
 		}
 
 	}
