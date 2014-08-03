@@ -20,7 +20,7 @@ It was only tested on java 1.7, but should also run fine under java 1.5 as well 
 If you just want to run the program, I highly recommend you choosing the first option.
 <br /><br /> 
 
-<h3>About VisualSorting</h3><br /> 
+<h3>About `VisualSorting`</h3><br /> 
 
 <b>VisualSorting</b> has been being mainly developed for educational purposes.<br /> 
 Following functionalities are supported by the application
