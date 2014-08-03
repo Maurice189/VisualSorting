@@ -10,7 +10,16 @@ just an installation script for linux.A Windows installation script will be publ
 
 <br /><h3>Installation</h3>
 There are two ways to get the application work. Either you download the .zip and compile the
-source code yourself , or you use the installation scripts for your respective platform, if avaiable.<br /><br />
+source code yourself , or you use the installation scripts for your respective platform.<br /><br />
+
+<b>First way</b><br />
+Change directory into the unzipped folder:<br />
+
+compile source code with `javac algorithms/*.java main/*.java dialogs/*.java` <br />
+create executable jar with `jar -cvfm $FOLDER_PATH/VisualSorting.jar $FOLDER_PATH/manifest.mf *`
+<br /><br />
+
+<b>Second way</b><br />
 First download the .zip file from the repository page or with the direct download link
 `https://github.com/Maurice189/VisualSorting/archive/master.zip`. Afterwards unzip the the downloaded file.
 <br /><br /><b>For Linux:</b><br />
