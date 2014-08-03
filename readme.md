@@ -14,13 +14,13 @@ It was only tested on java 1.7, but should also run fine under java 1.5 as well 
 </ol>
 `sudo ./install.sh`
 <br /><b>For Linux users:</b><br />
-<ol>
-<li>open the shell</li>
-<li>change directory into unzipped folder with `cd`</li>
-<li>Execute install.sh script with `sudo ./install.sh`</li>
-<li>Now you can delete the unzipped folder if the script executed with no error</li>
-<li>The deskton icon is located in `/usr/share/applications/VisualSorting.desktop` and should be now accessable from your menu</li>
-</ol>
+
+open the shell
+change directory into unzipped folder with `cd`
+Execute install.sh script with `sudo ./install.sh`
+Now you can delete the unzipped folder if the script executed with no error
+The deskton icon is located in `/usr/share/applications/VisualSorting.desktop` and should be now accessable from your menu
+
 
 <br /><h3>About VisualSorting</h3><br /> 
 
