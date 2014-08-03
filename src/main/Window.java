@@ -70,6 +70,7 @@ import javax.swing.JToolBar;
 import javax.swing.border.Border;
 import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
+import javax.swing.plaf.FontUIResource;
 
 import algorithms.Sort;
 import dialogs.InfoDialog;
@@ -128,7 +129,6 @@ public class Window extends JFrame {
 	 */
 	private void initComponents( int width, int height){
 		
-		Font font = componentFont.deriveFont(13f);
 		JMenuBar menuBar;
 		ButtonGroup bg = new ButtonGroup();
 		
@@ -144,24 +144,19 @@ public class Window extends JFrame {
 		info.setForeground(Color.GRAY);
 		
 		clock = new JLabel();
-		clock.setFont(font);
 		clock.setIcon(new ImageIcon(Statics.class.getResource("/resources/stop_watch_icon2.png")));
 		
 		switchIntPause = new JCheckBoxMenuItem(langXML.getValue("autopause"));
 		switchIntPause.addActionListener(controller);
 		switchIntPause.setActionCommand(Statics.AUTO_PAUSE);
 		switchIntPause.setState(InternalConfig.isAutoPauseEnabled());
-		switchIntPause.setFont(font);
 		
 		programmFunctions = new JMenu(langXML.getValue("prgfunc"));
-		programmFunctions.setFont(font);
 		programmFunctions.add(switchIntPause);
 			
 		nofLabel = new JLabel();
-		nofLabel.setFont(font);
 		
 		setTitle(title);
-		setFont(font);
 		setSize(width, height);
 		vsPanel = new ArrayList<SortVisualisationPanel>();
 		addWindowListener(controller);
@@ -184,44 +179,35 @@ public class Window extends JFrame {
 
 		languages = new JMenu(
 				langXML.getValue("lang"));
-		languages.setFont(font);
 		settings = new JMenu(
 				langXML.getValue("settings"));
-		settings.setFont(font);
 		help = new JMenu(langXML.getValue("help"));
-		help.setFont(font);
 		list = new JMenuItem(
 				langXML.getValue("sortlist"));
 		list.addActionListener(controller);
 		list.setActionCommand(Statics.NEW_ELEMENTS);
-		list.setFont(font);
 		
 		delay = new JMenuItem(
 				langXML.getValue("delay"));
 		delay.addActionListener(controller);
 		delay.setActionCommand(Statics.DELAY);
-		delay.setFont(font);
 
 		about = new JMenuItem(langXML.getValue("about").concat(" ").concat(title));
 		
 		about.addActionListener(controller);
 		about.setActionCommand(Statics.ABOUT);
-		about.setFont(font);
 
 		de = new JRadioButtonMenuItem("German");
 		de.addActionListener(controller);
 		de.setActionCommand(Statics.LANG_DE);
-		de.setFont(font);
 
 		en = new JRadioButtonMenuItem("English");
 		en.addActionListener(controller);
 		en.setActionCommand(Statics.LANG_EN);
-		en.setFont(font);
 
 		fr = new JRadioButtonMenuItem("France");
 		fr.addActionListener(controller);
 		fr.setActionCommand(Statics.LANG_FR);
-		fr.setFont(font);
 
 		bg.add(de);
 		bg.add(en);
@@ -255,7 +241,6 @@ public class Window extends JFrame {
 			names[i] = SORTALGORITHMS.values()[i].toString();
 		
 		sortChooser = new JComboBox<String>(names);
-		sortChooser.setFont(font);
 		sortChooser.setMaximumSize(new Dimension(230, 30));
 		
 		content = new JPanel();
@@ -573,6 +558,23 @@ public class Window extends JFrame {
 		// this font is used under the GPL from google fonts under 'OpenSans'
 		Window.setComponentFont("/resources/Fonts/OpenSans-Regular.ttf");
 		Window.setInfoFont("/resources/Fonts/Oxygen-Regular.ttf",30f);
+		
+		javax.swing.UIManager.put("OptionPane.messageFont", new FontUIResource(Window.getComponentFont(13f))); 
+		javax.swing.UIManager.put("Button.font",new FontUIResource(Window.getComponentFont(13f)));
+		javax.swing.UIManager.put("EditorPane.font",new FontUIResource(Window.getComponentFont(13f)));
+		javax.swing.UIManager.put("ComboBox.font", new FontUIResource(Window.getComponentFont(13f)));
+		javax.swing.UIManager.put("Label.font", new FontUIResource(Window.getComponentFont(12f)));
+		javax.swing.UIManager.put("MenuBar.font",new FontUIResource(Window.getComponentFont(13f)));
+		javax.swing.UIManager.put("MenuItem.font", new FontUIResource(Window.getComponentFont(13f)));
+		javax.swing.UIManager.put("RadioButton.font",new FontUIResource(Window.getComponentFont(13f)));
+		javax.swing.UIManager.put("CheckBox.font",new FontUIResource(Window.getComponentFont(13f)));
+		javax.swing.UIManager.put("RadioButtonMenuItem.font",new FontUIResource(Window.getComponentFont(13f)));
+		javax.swing.UIManager.put("CheckBoxMenuItem.font",new FontUIResource(Window.getComponentFont(13f)));
+		javax.swing.UIManager.put("TextField.font",new FontUIResource(Window.getComponentFont(13f)));
+		javax.swing.UIManager.put("TitledBorder.font",new FontUIResource(Window.getComponentFont(13f)));
+		javax.swing.UIManager.put("Menu.font",new FontUIResource(Window.getComponentFont(13f)));
+		javax.swing.UIManager.put("Spinner.font",new FontUIResource(Window.getComponentFont(13f)));
+		
 		
 		// hashmap for resolving sort into the respective infopage file
 		HashMap<SORTALGORITHMS,String> map = new HashMap<SORTALGORITHMS,String>();

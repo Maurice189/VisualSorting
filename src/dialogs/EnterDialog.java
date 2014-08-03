@@ -218,9 +218,7 @@ public class EnterDialog extends OptionDialog {
 	protected void initComponents() {
 		listModel = new DefaultListModel<Integer>();
 		elements = new JList<Integer>(listModel);
-		elements.setFont(Window.getComponentFont(13f));
 		value = new JTextField();
-		value.setFont(Window.getComponentFont(13f));
 		values = new JSpinner();
 		values.setFont(Window.getComponentFont(15f));
 		setLayout(new GridBagLayout());
@@ -244,18 +242,15 @@ public class EnterDialog extends OptionDialog {
 		tcnt.weighty = 7;
 
 		crRandom = new JRadioButton(langXML.getValue("setList"));
-		crRandom.setFont(Window.getComponentFont(13f));
 		crRandom.addActionListener(this);
 		crRandom.setSelected(true);
 		setMan = new JRadioButton(langXML.getValue("setManual"));
-		setMan.setFont(Window.getComponentFont(13f));
 		setMan.addActionListener(this);
 
 		btnWrp1 = new JPanel(new FlowLayout(FlowLayout.LEFT));
 		TitledBorder tb= BorderFactory.createTitledBorder(
 				BorderFactory.createLineBorder(Color.GRAY), langXML.getValue("selection"));
 				
-		tb.setTitleFont(Window.getComponentFont(13f));
 		btnWrp1.setBorder(tb);
 		btnWrp1.add(crRandom);
 		btnWrp1.add(setMan);
@@ -277,17 +272,14 @@ public class EnterDialog extends OptionDialog {
 
 		crNmb = new JButton(
 				langXML.getValue("rnumber"));
-		crNmb.setFont(Window.getComponentFont(13f));
 		crNmb.addActionListener(this);
 		
 		
 		enterValue = new JButton(
 				langXML.getValue("add"));
-		enterValue.setFont(Window.getComponentFont(13f));
 		enterValue.addActionListener(this);
 
 		ok = new JButton(langXML.getValue("exit"));
-		ok.setFont(Window.getComponentFont(13f));
 		ok.setActionCommand(Statics.ELEMENTS_SET);
 		ok.addActionListener(this);
 

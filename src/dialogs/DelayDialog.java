@@ -70,13 +70,10 @@ public final class DelayDialog extends OptionDialog{
 	protected void initComponents() {
 		
 		delay = new JLabel();
-		delay.setFont(Window.getComponentFont(13f));
 		slider = new JSlider(0, 300, 50);
 		ms = new JRadioButton("ms");
-		ms.setFont(Window.getComponentFont(13f));
 		ms.addActionListener(this);
 	    ns = new JRadioButton("ns");
-	    ns.setFont(Window.getComponentFont(13f));
 	    ns.addActionListener(this);
 	
 		 

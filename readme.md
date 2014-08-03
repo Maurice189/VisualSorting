@@ -52,7 +52,7 @@ In order to execute those commands you need to be root.<br />
 
 <b>For Windows:</b><br />
 ... comming soon
-<b>For Mac:</b><br />
+<br /><br /><b>For Mac:</b><br />
 ... comming soon
 
 <br /><h3>About VisualSorting</h3>

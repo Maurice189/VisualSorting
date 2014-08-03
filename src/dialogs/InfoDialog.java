@@ -284,6 +284,7 @@ public class InfoDialog extends OptionDialog {
 
 		manual = new JEditorPane();
 		manual.setEditable(false);
+		manual.putClientProperty(JEditorPane.HONOR_DISPLAY_PROPERTIES, true);
 		setPage(activeIndex);
 
 		editorScrollPane = new JScrollPane(manual);

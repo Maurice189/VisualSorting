@@ -172,6 +172,7 @@ public class Controller implements Observer,ComponentListener,ActionListener, Wi
 			else if (selectedSort.equals(SORTALGORITHMS.Bitonicsort.toString())){
 				sort = new BitonicSort();
 				if(Integer.bitCount(Sort.getElements().length) != 1){
+		
 					JOptionPane.showMessageDialog(window,
 					langXMLInterface.getValue("info0l0")+"\n"+langXMLInterface.getValue("info0l1"),
 					"Information",JOptionPane.INFORMATION_MESSAGE);		
