@@ -7,7 +7,7 @@ THIS PROGRAM IS LICENSED UNDER THE <b>GPLv3</b>. SEE THE LICENCE FOR MORE INFORM
 The program is written in java,so you can run it on every OS that has a JVM.
 It was only tested on java 1.7, but should also run fine under java 1.5 as well as java 1.6.
 
-<br /><h3>`Installation`</h3><br />
+<br /><h3>Installation</h3><br />
 <ol>
 <li>download .zip</li>
 <li>unzip .zip</li>
