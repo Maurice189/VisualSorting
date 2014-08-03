@@ -68,8 +68,8 @@ public class EnterDialog extends OptionDialog {
 	private JSpinner values;
 	private JButton enterValue, ok, remove, crNmb;
 	private JRadioButton crRandom, setMan;
-
 	private JPanel btnWrp1,btnWrp2; 
+	
 	private static EnterDialog instance;
 	private Controller controller;
 

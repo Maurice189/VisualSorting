@@ -90,20 +90,12 @@ public class Controller implements Observer,ComponentListener,ActionListener, Wi
 
 	private Window window;
 	private LanguageFileXML langXMLInterface;
-	private int threadsAlive; 
 	private boolean byUserStopped = false;
 	private ExecutorService executor; 
 	private javax.swing.Timer appTimer;
-	private int leftMs,leftSec;
+	private int leftMs,leftSec,threadsAlive;
 
-	/*
-	 * 
-	 *  'langXMLInterface' interface for language
-	 *  'nofelements' number of elements that are supposed to generate
-	 * (this is determined by the value in the config.txt)
-	 * 
-	 * 
-	 */
+
 	public Controller(LanguageFileXML langXMLInterface) {
 
 		this.langXMLInterface = langXMLInterface;
@@ -115,7 +107,6 @@ public class Controller implements Observer,ComponentListener,ActionListener, Wi
 		createTimer();
 	
 	}
-	
 	
 	private void createTimer(){
 		
@@ -139,7 +130,6 @@ public class Controller implements Observer,ComponentListener,ActionListener, Wi
 		if(window!=null) window.setClockParam(0,0);
 	}
 
-
 	public void setView(Window window) {
 
 		this.window = window;
@@ -148,8 +138,6 @@ public class Controller implements Observer,ComponentListener,ActionListener, Wi
 		window.updateNumberOfElements(Sort.getElements().length);
 	}
 
-
-	
 	public void actionPerformed(ActionEvent e) {
 
 		if (e.getActionCommand() == Statics.ADD_SORT) {
@@ -458,17 +446,6 @@ public class Controller implements Observer,ComponentListener,ActionListener, Wi
 		
 	}
 	
-
-	
-	
-
-	/*
-	 *  This is part of the Observer Pattern
-	 *  this method will be called by an EDT foreign thread
-	 *  
-	 *  
-	 */
-	
 	@Override
 	public void update(Observable o, Object arg) {
 
@@ -500,12 +477,6 @@ public class Controller implements Observer,ComponentListener,ActionListener, Wi
 	public void windowOpened(WindowEvent e) {
 	}
 
-	/*
-	 * If the window is closing the program values are set in the configuartion file
-	 * 
-	 * 
-	 */
-	
 	@Override
 	public void windowClosing(WindowEvent e) {
 		
@@ -530,11 +501,6 @@ public class Controller implements Observer,ComponentListener,ActionListener, Wi
 	public void windowDeiconified(WindowEvent e) {
 	}
 
-	/*
-	 *  animation will be released after the user reactivate the window
-	 * 
-	 */
-	
 	 @Override
 	public void windowActivated(WindowEvent e) {
 
@@ -554,11 +520,6 @@ public class Controller implements Observer,ComponentListener,ActionListener, Wi
 		
 	}
 
-	/*
-	 *  animation will be paused if the user deactivate the window
-	 *  
-	 */
-	
 	 @Override
 	public void windowDeactivated(WindowEvent e) {
 		
@@ -571,7 +532,7 @@ public class Controller implements Observer,ComponentListener,ActionListener, Wi
 		}
 	}
 	 
-	 private void resize(){
+	private void resize(){
 		 
 		 if(sortList.size() > 0){
 				SortVisualisationPanel.updateSize(
@@ -584,13 +545,11 @@ public class Controller implements Observer,ComponentListener,ActionListener, Wi
 			}
 	 }
 
-
 	@Override
 	public void componentResized(ComponentEvent e) {
 		resize();
 	
 	}
-
 
 	@Override
 	public void componentMoved(ComponentEvent e) {
@@ -598,13 +557,11 @@ public class Controller implements Observer,ComponentListener,ActionListener, Wi
 		
 	}
 
-
 	@Override
 	public void componentShown(ComponentEvent e) {
 		// TODO Auto-generated method stub
 		
 	}
-
 
 	@Override
 	public void componentHidden(ComponentEvent e) {

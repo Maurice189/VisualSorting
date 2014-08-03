@@ -50,7 +50,6 @@ public class SortVisualisationPanel extends JPanel {
 	private static final int preferredGapSize = 3,offsetY = 20;
 	private static int width,height,refWidth,refHeight,margin = 7,gapSize = 3, marginTop = 25;
 	
-	
 	private BufferedImage buffer;
 	private Graphics2D gbuffer;
 	private int elements[], lstIndex1 = -1, lstIndex2 = -1,lstInsert = -1,lstPivot = -1;
@@ -75,31 +74,6 @@ public class SortVisualisationPanel extends JPanel {
 
 	}
 
-
-
-	public static void setBackgroundColor(Color color) {
-		SortVisualisationPanel.backgroundColor = color;
-	}
-
-	public void setElements(int elements[]) {
-
-		this.elements = elements;
-		drawElements();
-
-	}
-
-	public void updatePanelSize() {
-
-
-		buffer = new BufferedImage(this.getWidth(), this.getHeight(),
-				BufferedImage.TYPE_INT_ARGB);
-		gbuffer = (Graphics2D) buffer.getGraphics();
-		gbuffer.setBackground(SortVisualisationPanel.backgroundColor);
-		gbuffer.setFont(Window.getComponentFont(14f));
-		drawElements();
-
-	}
-
 	public void drawElements() {
 
 		gbuffer.clearRect(0, 0, buffer.getWidth(), buffer.getHeight());
@@ -121,8 +95,6 @@ public class SortVisualisationPanel extends JPanel {
 
 		repaint();
 	}
-	
-
 	
 	public void visualPivot(int pivotIndex){
 		
@@ -336,6 +308,33 @@ public class SortVisualisationPanel extends JPanel {
 		gbuffer.setRenderingHints(rh);
 
 	}
+
+	public void updatePanelSize() {
+
+
+		buffer = new BufferedImage(this.getWidth(), this.getHeight(),
+				BufferedImage.TYPE_INT_ARGB);
+		gbuffer = (Graphics2D) buffer.getGraphics();
+		gbuffer.setBackground(SortVisualisationPanel.backgroundColor);
+		gbuffer.setFont(Window.getComponentFont(14f));
+		drawElements();
+
+	}
+	
+	public void setElements(int elements[]) {
+
+		this.elements = elements;
+		drawElements();
+
+	}
+	
+	@Override
+	protected void paintComponent(Graphics g) {
+		super.paintComponent(g);
+
+		g.drawImage(buffer, 0, 0, width, height, this);
+
+	}
 	
 	public static void updateBarSize(){
 		
@@ -368,13 +367,10 @@ public class SortVisualisationPanel extends JPanel {
 		
 	}
 
-	@Override
-	protected void paintComponent(Graphics g) {
-		super.paintComponent(g);
-
-		g.drawImage(buffer, 0, 0, width, height, this);
-
+	public static void setBackgroundColor(Color color) {
+		SortVisualisationPanel.backgroundColor = color;
 	}
+
 
 
 
