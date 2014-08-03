@@ -1,11 +1,11 @@
 VisualSorting
 =============
 
-THIS PROGRAM IS LICENSED UNDER THE <b>GPL v3</b>. SEE THE LICENCE.txt FOR MORE INFORMATIONS.
+THIS PROGRAM IS LICENSED UNDER THE <b>GPL v3</b>. SEE THE <a href="https://github.com/Maurice189/VisualSorting/blob/master/LICENCE.txt">LICENCE</a> FOR MORE INFORMATIONS.
 
 
 The program is written in java,so you can run it on every OS that has a JVM.
-It was only tested on <b>java 1.7</b> it hasn't been tested with other versions. Currently there is
+It was only tested on java <b>1.7</b> it hasn't been tested with other versions. Currently there is
 just an installation script for linux.A Windows installation script will be published as soon as possible.
 
 <br /><h3>Installation</h3>
@@ -13,13 +13,8 @@ There are two ways to get the application work. Either you download the .zip and
 source code yourself , or you use the installation scripts for your respective platform. The second 
 way is a fully integration in your desktop and therefore recommended<br /><br />
 
-<b>First way</b><br />
-Change directory into the unzipped folder:<br />
-compile source code with `javac algorithms/*.java main/*.java dialogs/*.java` <br />
-create executable jar with `jar -cvfm $FOLDER_PATH/VisualSorting.jar $FOLDER_PATH/manifest.mf *`
-<br /><br />
 
-<b>Second way</b><br />
+<b>First way</b><br />
 First download the .zip file from the repository page or with the direct download link
 <a href ="https://github.com/Maurice189/VisualSorting/archive/master.zip">`https://github.com/Maurice189/VisualSorting/archive/master.zip`</a>. Afterwards unzip the the downloaded file.
 <br /><br /><b>For Linux:</b><br />
@@ -28,7 +23,7 @@ First download the .zip file from the repository page or with the direct downloa
   2. change directory into unzipped folder with `cd`<br />
   3. Execute install.sh script with `sudo ./install.sh`<br />
   4. Now you can delete the unzipped folder if the script executed with no error<br />
-  5. The deskton icon is located in `/usr/share/applications/VisualSorting.desktop` and should be now accessable from     your menu
+  5. The deskton icon is located in `/usr/share/applications/VisualSorting.desktop` and should be now accessable from your menu
 
 <br /><br /><b>For Windows:</b><br />
 
@@ -42,6 +37,14 @@ First download the .zip file from the repository page or with the direct downloa
   1. open the shell
   2. change directory into unzipped folder with `cd`<br />
   ... comming soon
+
+<br /><b>Second way</b><br />
+Change directory into the unzipped folder:<br />
+compile source code with `javac algorithms/*.java main/*.java dialogs/*.java` <br />
+create executable jar with `jar -cvfm $FOLDER_PATH/VisualSorting.jar $FOLDER_PATH/manifest.mf *`
+<br /><br />
+
+
  
 <br /><h3>Deinstallation</h3>
 In order to execute those commands you need to be root.<br />
