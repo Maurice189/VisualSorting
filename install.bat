@@ -41,13 +41,13 @@ cd %ProgramFiles%\VisualSorting\
 (
 	echo @ECHO OFF
 	echo start javaw -jar -Xms1024m -Xmx1024m -splash:"%ProgramFiles%"\Visualsorting\splash.gif "%ProgramFiles%"\Visualsorting\VisualSorting.jar -configdir:"%ProgramFiles%"\Visualsorting\
-)>VisualSortingRun.bat
+)>VisualSorting.bat
 
 set SCRIPT="%TEMP%\%RANDOM%-%RANDOM%-%RANDOM%-%RANDOM%.vbs"
 echo Set oWS = WScript.CreateObject("WScript.Shell") >> %SCRIPT% 
 echo sLinkFile = "%USERPROFILE%\Desktop\VisualSorting.lnk" >> %SCRIPT% 
 echo Set oLink = oWS.CreateShortcut(sLinkFile) >> %SCRIPT%
-echo oLink.TargetPath = "%ProgramFiles%\VisualSorting\VisualSortingRun.bat" >> %SCRIPT%  
+echo oLink.TargetPath = "%ProgramFiles%\VisualSorting\VisualSorting.bat" >> %SCRIPT%  
 echo oLink.IconLocation = "%ProgramFiles%\VisualSorting\VisualSortingIcon.ico" >> %SCRIPT%  
 echo oLink.WorkingDirectory = "%ProgramFiles%\VisualSorting" >> %SCRIPT% 
 echo oLink.Save >> %SCRIPT% & cscript %SCRIPT% & del %SCRIPT%
