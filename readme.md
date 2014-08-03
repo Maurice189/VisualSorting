@@ -19,7 +19,19 @@ First download the .zip file from the repository page or with the direct downloa
   4. Now you can delete the unzipped folder if the script executed with no error<br />
   5. The deskton icon is located in `/usr/share/applications/VisualSorting.desktop` and should be now accessable from     your menu
 
+<br /><br /><b>For Windows:</b><br />
 
+  1. open the shell
+  2. change directory into unzipped folder with `cd`<br />
+   ... comming soon
+
+
+<br /><br /><b>For Mac:</b><br />
+
+  1. open the shell
+  2. change directory into unzipped folder with `cd`<br />
+  ... comming soon
+ 
 <br /><h3>Deinstallation</h3>
 In order to execute those commands you need to be root.<br />
 
@@ -29,7 +41,12 @@ In order to execute those commands you need to be root.<br />
  2. `rm -R /opt/VisualSorting/`
  3. `rm /usr/share/applications/VisualSortingBeta.desktop`
 
-<br /><h3>About VisualSorting</h3><br /> 
+<b>For Windows:</b><br />
+... comming soon
+<b>For Mac:</b><br />
+... comming soon
+
+<br /><h3>About VisualSorting</h3>
 
 <b>VisualSorting</b> has been being mainly developed for educational purposes.<br /> 
 Following functionalities are supported by the application
