@@ -93,7 +93,7 @@ public class InternalConfig {
 			
 			
 			try {
-				languageSet = LANG.de;
+				languageSet = LANG.en;
 				writer = new FileWriter(PROPORTIES_NAME);
 				prConfig.setProperty("version", "0.5 Beta");
 				prConfig.setProperty("language",languageSet.name());

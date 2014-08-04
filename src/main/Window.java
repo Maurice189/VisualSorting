@@ -534,6 +534,7 @@ public class Window extends JFrame {
 
 	public static void main(String[] args) {
 		
+		
 		InternalConfig.setNewLangDefEntry(LANG.de,"/resources/lang_de.xml");
 		InternalConfig.setNewLangDefEntry(LANG.en,"/resources/lang_en.xml");
 		InternalConfig.setNewLangDefEntry(LANG.fr,"/resources/lang_fr.xml");
@@ -594,12 +595,11 @@ public class Window extends JFrame {
 		map.put(SORTALGORITHMS.Introsort, "infopage_introsort.html");
 		InfoDialog.initInfoPageResolver(map);
 		
-		
 		Controller controller = new Controller(configLanguage);
 		Window window = new Window(controller,configLanguage,"Visual Sorting - ".concat(InternalConfig.getVersion()), 800, 550);
 		controller.setView(window);
 	
-
+		
 	}
 	
 	

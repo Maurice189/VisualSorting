@@ -287,7 +287,7 @@ public class Controller implements Observer,ComponentListener,ActionListener, Wi
 					PanelUI.getReleasedID()).getAlgorithmName();
 
 			dialogs.add(new InfoDialog(selAlgorithm, selAlgorithm
-					.toString(), 600, 400));
+					.toString(), 500, 400));
 		}
 
 		else if (e.getActionCommand() == Statics.LANG_DE) {
@@ -355,7 +355,7 @@ public class Controller implements Observer,ComponentListener,ActionListener, Wi
 					temp.getPanelUI().updateID();
 				PanelUI.updateCounter();
 				Sort.setFlashingAnimation(true);
-
+				resize();
 			}
 		}
 
@@ -450,10 +450,12 @@ public class Controller implements Observer,ComponentListener,ActionListener, Wi
 	@Override
 	public void update(Observable o, Object arg) {
 
-		if (--threadsAlive == 0) {
+		if (--threadsAlive == 0 && byUserStopped == false) {
 			EventQueue.invokeLater(new Runnable() {
 				public void run() {
 					window.toggleStartStop();
+					window.unlockAddSort(true);
+					window.unlockManualIteration(true);
 				}
 			});
 			

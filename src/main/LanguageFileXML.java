@@ -86,9 +86,11 @@ public class LanguageFileXML {
 		try {
 			builder = factory.newDocumentBuilder();
 			document = builder.parse(in);
+			in.close();
 		} catch (ParserConfigurationException | SAXException | IOException e) {
 			e.printStackTrace();
 		}
+		
 		return true;
 
 	}

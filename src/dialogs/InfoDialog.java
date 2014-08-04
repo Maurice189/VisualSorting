@@ -212,6 +212,7 @@ public class InfoDialog extends OptionDialog {
 				.getResource(
 						"resources/".concat(infoPageRes.get(SORTALGORITHMS
 								.values()[index])));
+		
 		if (helpURL != null) {
 			try {
 				manual.setPage(helpURL);

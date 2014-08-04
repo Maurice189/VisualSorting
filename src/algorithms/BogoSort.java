@@ -19,10 +19,10 @@ public class BogoSort extends Sort{
 	
 	void bogo()
 	{
-		int shuffle=1;
-		for(;!isSorted();shuffle++){
+		
+		while(!isSorted() && !interrupt) // we need to check the interrupt flag here
 			shuffle();
-		}
+		
 			
 
 	}
@@ -51,8 +51,10 @@ public class BogoSort extends Sort{
 		for(int i=1;i<elements.length;i++){
 			
 			panelUI.setInfo("Bogosort",accesses,comparisons++);
-			if(elements[i]<elements[i-1])
+			checkRunCondition();
+			if(elements[i]<elements[i-1]){
 				return false;
+			}
 			
 		}
 		return true;
