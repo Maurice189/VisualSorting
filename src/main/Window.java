@@ -545,7 +545,7 @@ public class Window extends JFrame {
 		
 		LanguageFileXML configLanguage = new LanguageFileXML();
 		InternalConfig.loadConfigFile();
-		configLanguage.readXML("/resources/".concat(InternalConfig.getValue("language")));
+		configLanguage.readXML("/resources/".concat(InternalConfig.getLanguageSet()));
 		
 		// define resources
 		OptionDialog.setLanguageFileXML(configLanguage);

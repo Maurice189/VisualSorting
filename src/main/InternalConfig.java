@@ -128,7 +128,7 @@ public class InternalConfig {
 	 * @param key config setting
 	 * @param value value
 	 */
-	public static void setValue(String key, Object value) {
+	private static void setValue(String key, Object value) {
 		prop.setProperty(key, String.valueOf(value));
 	}
 
@@ -137,7 +137,7 @@ public class InternalConfig {
 	 * @param key 
 	 * @return the specific value, that was requested
 	 */
-	public static String getValue(String key) {
+	private static String getValue(String key) {
 
 		return prop.getProperty(key);
 

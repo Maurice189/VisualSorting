@@ -65,7 +65,7 @@ public class BitonicSort extends Sort {
 		if(flashing) svp.flashing();
 		
 		setChanged();
-		notifyObservers();
+		notifyObservers(this);
 
 	}
 

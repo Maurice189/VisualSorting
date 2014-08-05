@@ -58,7 +58,7 @@ public class SortVisualtionPanel extends JPanel implements ComponentListener {
 	private static final long serialVersionUID = 1L;
 	private static final int preferredGapSize = 3;
 	private static Color backgroundColor = Color.white;
-	private static int gapSize = 3, marginTop = 20;
+	private static int gapSize = 3, marginTop = 25;
 	private static int margin = 7;
 	private static final int offsetY = 30;
 	private static int counter = 0,releasedID;
@@ -83,7 +83,7 @@ public class SortVisualtionPanel extends JPanel implements ComponentListener {
 
 		buffer = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
 		gbuffer = (Graphics2D) buffer.getGraphics();
-		gbuffer.setFont(Window.getComponentFont(14f));
+		gbuffer.setFont(Window.getComponentFont(12f));
 		gbuffer.setBackground(SortVisualtionPanel.backgroundColor);
 	
 		leftBorder = BorderFactory.createTitledBorder("");
@@ -162,10 +162,18 @@ public class SortVisualtionPanel extends JPanel implements ComponentListener {
 	public void setInfo(String algoname,int accesses,int comparisons) {
 		
 		String info = 
-		algoname.concat(" - ").concat(String.valueOf(comparisons)).concat(
-		" comparisons - ").concat(String.valueOf(accesses)).concat(" array accesses");
+		algoname.concat(" - ( ").concat(String.valueOf(comparisons)).concat(
+		" comparisons | ").concat(String.valueOf(accesses)).concat(" array accesses )");
 		
 		leftBorder.setTitle(info);
+
+	}
+	
+	public void setDuration(int sec, int msec){
+		
+		String durInfo = " in ".concat(String.valueOf(sec).concat(":")).concat(String.valueOf(msec)).concat(" sec.");
+		leftBorder.setTitle(leftBorder.getTitle().concat(durInfo));
+		repaint();
 	}
 
 

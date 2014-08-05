@@ -87,7 +87,7 @@ public class Controller implements Observer, ActionListener, WindowListener {
 	private boolean byUserStopped = false;
 	private ExecutorService executor; 
 	private javax.swing.Timer appTimer;
-	
+	private int leftMs,leftSec;
 
 	/**
 	 * 
@@ -114,13 +114,13 @@ public class Controller implements Observer, ActionListener, WindowListener {
 	
 	private void createTimer(){
 		
-		appTimer = new javax.swing.Timer(100, new ActionListener() {
+		appTimer = new javax.swing.Timer(10, new ActionListener() {
 			 
-			  private int leftMs,leftSec;
+			  
 
 			  public void actionPerformed( ActionEvent e ) {
 				  
-				  leftMs+=100;
+				  leftMs+=10;
 				  if (leftMs == 1000) {
 						leftMs = 0;
 						leftSec++;
@@ -452,6 +452,13 @@ public class Controller implements Observer, ActionListener, WindowListener {
 
 			
 		}
+		
+		
+			
+		((Sort)arg).getSortVisualtionPanel().setDuration(leftSec, leftMs);
+			
+		
+		
 
 	}
 

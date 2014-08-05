@@ -19,18 +19,18 @@ import main.Statics.SORTALGORITHMS;
  * 
  * </br><h3>Abstract</h3></br>
  * 
- * As the Strategy Design Pattern declares, every single sort algorithmn is
+ * As the Strategy Design Pattern declares, every single sort algorithm is
  * implemented as a own class. This abstract class defines the interface and
- * implements Runnable in order to execute every single sort algorithmn
+ * implements Runnable in order to execute every single sort algorithm
  * in a own thread. Moreover every sort object has its reference to a own
  * canvas 
- * Even we need to know(for the GUI) when the sort proceedure has terminated.
+ * Even we need to know(for the GUI) when the sort procedure has terminated.
  * Thats the reason, why we need the Observable interface 
  * After a thread has terminated, it notifys the Controller 
  * 
  * 
  * 
- * @author maurice
+ * @author Maurice
  * @version BETA
  * @category Strategy
  * @see main.Controller
