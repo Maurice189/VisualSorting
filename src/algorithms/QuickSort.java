@@ -103,7 +103,7 @@ public class QuickSort extends Sort {
 		if(flashing) svp.flashing();
 		
 		setChanged();
-		notifyObservers();
+		notifyObservers(svp.getID());
 		
 		
 

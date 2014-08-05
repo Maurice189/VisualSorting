@@ -81,7 +81,6 @@ import main.Statics.SORTALGORITHMS;
 
 
 
-
 public class Window extends JFrame {
 
 	private static Font componentFont = new Font("Monospace", Font.BOLD, 13),

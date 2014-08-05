@@ -60,7 +60,7 @@ public class SortVisualtionPanel extends JPanel implements ComponentListener {
 	private static Color backgroundColor = Color.white;
 	private static int gapSize = 3, marginTop = 25;
 	private static int margin = 7;
-	private static final int offsetY = 30;
+	private static final int offsetY = 20;
 	private static int counter = 0,releasedID;
 	private static LanguageFileXML langXML;
 	
@@ -162,8 +162,8 @@ public class SortVisualtionPanel extends JPanel implements ComponentListener {
 	public void setInfo(String algoname,int accesses,int comparisons) {
 		
 		String info = 
-		algoname.concat(" - ( ").concat(String.valueOf(comparisons)).concat(
-		" comparisons | ").concat(String.valueOf(accesses)).concat(" array accesses )");
+		algoname+(" - ( ")+String.valueOf(comparisons)+(" ")+
+		langXML.getValue("cmp")+(" | ")+String.valueOf(accesses)+(" ")+langXML.getValue("access");
 		
 		leftBorder.setTitle(info);
 
@@ -469,7 +469,6 @@ public class SortVisualtionPanel extends JPanel implements ComponentListener {
 
 		}
 
-		// TODO: antianalaysing ausschalten
 		repaint();
 
 		rh = new RenderingHints(RenderingHints.KEY_TEXT_ANTIALIASING,
@@ -522,6 +521,9 @@ public class SortVisualtionPanel extends JPanel implements ComponentListener {
 		return SortVisualtionPanel.releasedID;
 	}
 	
+	public int getID(){
+		return ID;
+	}
 
 	public static void setLanguageFileXML(LanguageFileXML langXML){
 		SortVisualtionPanel.langXML = langXML;

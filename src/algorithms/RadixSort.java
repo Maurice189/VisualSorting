@@ -76,7 +76,7 @@ public class RadixSort extends Sort{
 	
 		if(flashing) svp.flashing();
 		setChanged();
-		notifyObservers();
+		notifyObservers(svp.getID());
 	}
 	
 	@Override

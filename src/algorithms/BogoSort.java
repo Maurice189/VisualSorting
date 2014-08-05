@@ -70,7 +70,7 @@ public class BogoSort extends Sort{
 		if (flashing)
 			svp.flashing();
 		setChanged();
-		notifyObservers();
+		notifyObservers(svp.getID());
 	}
 	@Override
 	public SORTALGORITHMS getAlgorithmName() {

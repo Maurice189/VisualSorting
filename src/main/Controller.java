@@ -114,6 +114,9 @@ public class Controller implements Observer, ActionListener, WindowListener {
 	
 	private void createTimer(){
 		
+		leftMs = 0;
+		leftSec = 0;
+		
 		appTimer = new javax.swing.Timer(10, new ActionListener() {
 			 
 			  
@@ -455,7 +458,7 @@ public class Controller implements Observer, ActionListener, WindowListener {
 		
 		
 			
-		((Sort)arg).getSortVisualtionPanel().setDuration(leftSec, leftMs);
+		sortList.get((int)arg).getSortVisualtionPanel().setDuration(leftSec, leftMs);
 			
 		
 		

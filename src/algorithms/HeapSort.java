@@ -134,7 +134,7 @@ public class HeapSort extends Sort {
 		if(flashing) svp.flashing();
 		
 		setChanged();
-		notifyObservers(this);
+		notifyObservers(svp.getID());
 	}
 	
 	@Override

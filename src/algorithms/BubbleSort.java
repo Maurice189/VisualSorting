@@ -79,7 +79,7 @@ public class BubbleSort extends Sort {
 		
 		if(flashing) svp.flashing();
 		setChanged();
-		notifyObservers(this);
+		notifyObservers(svp.getID());
 
 	}
 	@Override
