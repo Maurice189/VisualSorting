@@ -34,13 +34,11 @@ import main.Statics.SORTALGORITHMS;
 public class BubbleSort extends Sort {
 
 	public BubbleSort(SortVisualtionPanel svp) {
-		// TODO Auto-generated constructor stub
 		super(svp);
 
 	}
 
 	public BubbleSort() {
-		// TODO Auto-generated constructor stub
 		super();
 
 
@@ -62,14 +60,12 @@ public class BubbleSort extends Sort {
 					elements[i] = elements[i + 1];
 					elements[i + 1] = tmp;
 					svp.visualCmp(i, i + 1, true);
-					//svp.setInfo("Bubblesort",iterates++);
 					svp.setInfo("Bubblesort",accesses,comparisons++);
 					accesses+=3;
 					swapped = true;
 
 				} else {
 					svp.visualCmp(i, i + 1, false);
-					//svp.setInfo("Bubblesort",iterates++);
 					svp.setInfo("Bubblesort",accesses,comparisons++);
 					
 				}

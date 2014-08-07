@@ -50,7 +50,6 @@ public class BinaryTreeSort extends Sort {
 		
 			node.left = insert(node.left, e);
 			//svp.drawElements(node.element.index,e.index, true);
-			
 			//System.out.println("TAUSCHE: " + x + " mit " + node.element);
 			try {
 				Thread.sleep(Sort.delayMs,Sort.delayNs);

@@ -12,9 +12,6 @@ package algorithms;
  */
 
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-
 import main.SortVisualtionPanel;
 import main.Statics.SORTALGORITHMS;
 
@@ -23,13 +20,11 @@ public class RadixSort extends Sort{
 	
 	
 	public RadixSort(SortVisualtionPanel svp) {
-		// TODO Auto-generated constructor stub
 		super(svp);
 
 	}
 
 	public RadixSort() {
-		// TODO Auto-generated constructor stub
 		super();
 
 	}

@@ -108,7 +108,6 @@ public class HeapSort extends Sort {
 				a[child] = tmp;
 				
 				svp.visualCmp(child,root, true);
-				//svp.setInfo("Heapsort",iterates++);
 				svp.setInfo("Heapsort",accesses,comparisons++);
 				accesses+=3;
 				checkRunCondition();
@@ -119,7 +118,6 @@ public class HeapSort extends Sort {
 				
 			}else{
 				svp.visualCmp(child,root, false);
-				//svp.setInfo("Heapsort",iterates++);
 				svp.setInfo("Heapsort",accesses,comparisons++);
 				checkRunCondition();
 				return;

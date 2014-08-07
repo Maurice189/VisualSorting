@@ -70,7 +70,7 @@ public class SortVisualtionPanel extends JPanel implements ComponentListener {
 	private Graphics2D gbuffer;
 	private int width, height, refWidth, refHeight;
 	private int elements[], lstIndex1 = -1, lstIndex2 = -1;
-	private int lstInsert = -1;
+	private int lstInsert = -1,lstPivot = -1;
 	private int ID;
 
 	public SortVisualtionPanel(ActionListener listener, String selectedSort,
@@ -282,15 +282,32 @@ public class SortVisualtionPanel extends JPanel implements ComponentListener {
 	
 	public void visualPivot(int pivotIndex){
 		
-		int x = (pivotIndex * (refWidth + SortVisualtionPanel.gapSize))
+		
+		
+			int x = (pivotIndex * (refWidth + SortVisualtionPanel.gapSize))
 				+ SortVisualtionPanel.margin;
 
-		int y = (height - (refHeight * elements[pivotIndex])) - offsetY;
-		int h = refHeight * elements[pivotIndex];
+			int y = (height - (refHeight * elements[pivotIndex])) - offsetY;
+			int h = refHeight * elements[pivotIndex];
 		
-		gbuffer.setColor(Color.CYAN);
-		gbuffer.drawRect(x, y, refWidth, h);
-		gbuffer.fillRect(x, y, refWidth, h);
+			gbuffer.setColor(Color.CYAN);
+			gbuffer.drawRect(x, y, refWidth, h);
+			gbuffer.fillRect(x, y, refWidth, h);
+		
+			if(lstPivot != -1 && lstPivot != pivotIndex){
+				x = (lstPivot * (refWidth + SortVisualtionPanel.gapSize))
+					+ SortVisualtionPanel.margin;
+
+				y = (height - (refHeight * elements[lstPivot])) - offsetY;
+				h = refHeight * elements[lstPivot];
+		
+				gbuffer.setColor(Color.GRAY);
+				gbuffer.drawRect(x, y, refWidth, h);
+				gbuffer.fillRect(x, y, refWidth, h);
+			}
+			
+			
+			lstPivot = pivotIndex;
 		
 		
 		

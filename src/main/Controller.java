@@ -53,6 +53,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
+
 import algorithms.BinaryTreeSort;
 import algorithms.BitonicSort;
 import algorithms.BogoSort;
@@ -61,6 +62,7 @@ import algorithms.CombSort;
 import algorithms.GnomeSort;
 import algorithms.HeapSort;
 import algorithms.InsertionSort;
+import algorithms.IntroSort;
 import algorithms.MergeSort;
 import algorithms.QuickSort;
 import algorithms.RadixSort;
@@ -195,6 +197,9 @@ public class Controller implements Observer, ActionListener, WindowListener {
 			else if (selectedSort.equals(SORTALGORITHMS.Bogosort
 					.toString()))
 				sort = new BogoSort();
+			else if (selectedSort.equals(SORTALGORITHMS.Introsort
+					.toString()))
+				sort = new IntroSort();
 			else
 				sort = new HeapSort();
 
