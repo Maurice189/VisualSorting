@@ -89,10 +89,10 @@ public class Controller implements Observer, ActionListener, WindowListener {
 	private javax.swing.Timer appTimer;
 	private int leftMs,leftSec;
 
-	/**
+	/*
 	 * 
-	 * @param langXMLInterface interface for language
-	 * @param nofelements number of elements that are supposed to generate
+	 *  'langXMLInterface' interface for language
+	 *  'nofelements' number of elements that are supposed to generate
 	 * (this is determined by the value in the config.txt)
 	 * 
 	 * 
@@ -432,13 +432,14 @@ public class Controller implements Observer, ActionListener, WindowListener {
 	
 	
 
-	/**
+	/*
 	 *  This is part of the Observer Pattern
 	 *  this method will be called by an EDT foreign thread
 	 *  
-	 *  @Override
+	 *  
 	 */
 	
+	@Override
 	public void update(Observable o, Object arg) {
 
 		if (--threadsAlive == 0) {
@@ -469,12 +470,13 @@ public class Controller implements Observer, ActionListener, WindowListener {
 	public void windowOpened(WindowEvent e) {
 	}
 
-	/**
+	/*
 	 * If the window is closing the program values are set in the configuartion file
-	 * @see main.InternalConfig
-	 * @Override
+	 * 
+	 * 
 	 */
 	
+	@Override
 	public void windowClosing(WindowEvent e) {
 		
 		appTimer.stop();
@@ -498,10 +500,12 @@ public class Controller implements Observer, ActionListener, WindowListener {
 	public void windowDeiconified(WindowEvent e) {
 	}
 
-	/**
+	/*
 	 *  animation will be released after the user reactivate the window
-	 *  @Override
+	 * 
 	 */
+	
+	 @Override
 	public void windowActivated(WindowEvent e) {
 
 		if(InternalConfig.isAutoPauseEnabled()){
@@ -520,11 +524,12 @@ public class Controller implements Observer, ActionListener, WindowListener {
 		
 	}
 
-	/**
+	/*
 	 *  animation will be paused if the user deactivate the window
-	 *  @Override
+	 *  
 	 */
 	
+	 @Override
 	public void windowDeactivated(WindowEvent e) {
 		
 		if(InternalConfig.isAutoPauseEnabled()){

@@ -86,18 +86,12 @@ public class Window extends JFrame {
 	private static Font componentFont = new Font("Monospace", Font.BOLD, 13),
 						     infoFont = new Font("Monospace", Font.BOLD, 43);
 	
-	private static final long serialVersionUID = 1L;
-
-	// we store the visualization panels dynamically, so we can add and remove it much easier
-	private ArrayList<SortVisualtionPanel> vsPanel;
 	
-	// the filler is used for the vertical space between the visualization panels
-	private ArrayList<Component> filler;
 	private String title;
-	
 	private boolean stateStButton = true;
 	private LanguageFileXML langXML;
 	
+	// component references
 	private JButton next, newSort, nextStep, reset,delayBtn,listBtn;
 	private JPanel content;
 	private Controller controller;
@@ -109,17 +103,35 @@ public class Window extends JFrame {
 	private JMenu help, settings, languages, programmFunctions;
 	private JToolBar toolBar;
 	private JPanel bottomBar;
+	
+	// we store the visualization panels dynamically, so we can add and remove it much easier
+	private ArrayList<SortVisualtionPanel> vsPanel;
+	
+	// the filler is used for the vertical space between the visualization panels
+	private ArrayList<Component> filler;
 
 	public Window(Controller controller,LanguageFileXML langXML, String title, int width, int height) {
 
-		Font font = componentFont.deriveFont(13f);
-		JMenuBar menuBar;
-		ButtonGroup bg = new ButtonGroup();
+		
 		filler = new ArrayList<Component>();
 		this.title = title;
 		this.controller = controller;
 		this.langXML = langXML;
 	
+		initComponents(width,height);
+		
+
+
+	}
+	/*
+	 * initialize all frame components 
+	 * 
+	 */
+	private void initComponents( int width, int height){
+		
+		Font font = componentFont.deriveFont(13f);
+		JMenuBar menuBar;
+		ButtonGroup bg = new ButtonGroup();
 		
 		/*
 		 *  the respective title for the components will be loaded from the xml-language definitions files
@@ -145,7 +157,7 @@ public class Window extends JFrame {
 		programmFunctions = new JMenu(langXML.getValue("prgfunc"));
 		programmFunctions.setFont(font);
 		programmFunctions.add(switchIntPause);
-		
+			
 		nofLabel = new JLabel();
 		nofLabel.setFont(font);
 		
@@ -339,16 +351,16 @@ public class Window extends JFrame {
 		add(toolBar);
 		add(content);
 		add(bottomBar);
+		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setLocationRelativeTo(null);
 		setVisible(true);
-
 	}
-	
-	
 
 	
-	  // if the language was changed, component titles will be updated by this method
+	  /*
+	   *  if the language was changed, component titles will be updated by this method
+	   */
 	  public void updateLanguage(){
 	  
 		  info.setText(langXML.getValue("info"));
@@ -364,8 +376,10 @@ public class Window extends JFrame {
 	  	  (langXML.getValue("nof")));
 	  	
 	  }
-	
-	// start-stop functionality for the animation
+	  
+	/*
+	 * start-stop functionality for the animation
+	 */
 	public void toggleStartStop() {
 		
 		
@@ -442,6 +456,7 @@ public class Window extends JFrame {
 		vsPanel.remove(index);
 		filler.remove(index);
 
+		// remove all components and show launching message
 		if (vsPanel.size() == 0) {
 
 			content.removeAll();
@@ -455,19 +470,23 @@ public class Window extends JFrame {
 		}
 		
 		
-		
+		/*
+		 *  signal that parameters for 'SortVisualisationPanel' objects to 
+		 *  adjust their bar width
+		 */
 		for (int i = 0; i < vsPanel.size(); i++) {
 			if (i != index)
 				vsPanel.get(i).updatePanelSize();
 		}
 
+		// show results on frame
 		revalidate();
 		repaint();
 		
 	}
 	
 	
-	
+	// we use another component font than monospace
 	public static void setComponentFont(String source) {
 		
 		try {
@@ -487,6 +506,7 @@ public class Window extends JFrame {
 		return componentFont.deriveFont(size);
 	}
 	
+	// font for the launching message
 	public static void setInfoFont(String source, float size) {
 		try {
 
@@ -502,6 +522,7 @@ public class Window extends JFrame {
 		
 		
 	}
+	
 	
 	public void updateNumberOfElements(int nof){
 		
@@ -554,6 +575,7 @@ public class Window extends JFrame {
 		Window.setComponentFont("/resources/Fonts/OpenSans-Regular.ttf");
 		Window.setInfoFont("/resources/Fonts/Oxygen-Regular.ttf",30f);
 		
+		// hashmap for resolving sort into the respective infopage file
 		HashMap<SORTALGORITHMS,String> map = new HashMap<SORTALGORITHMS,String>();
 		map.put(SORTALGORITHMS.Bitonicsort, "infopage_bitonicsort.html");
 		map.put(SORTALGORITHMS.BST, "infopage_bstsort.html");
@@ -571,7 +593,7 @@ public class Window extends JFrame {
 		InfoDialog.initInfoPageResolver(map);
 		
 		
-		// init view and controller
+		// init. view and controller
 		Controller controller = new Controller(configLanguage);
 		Window window = new Window(controller,configLanguage,"Visual Sorting - ".concat(InternalConfig.getVersion()), 800, 550);
 		controller.setView(window);

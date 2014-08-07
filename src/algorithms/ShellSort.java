@@ -82,11 +82,12 @@ public class ShellSort extends Sort {
 			}
 		}
 
+		setChanged();
+		notifyObservers(svp.getID());
 
 		if (flashing)
 			svp.flashing();
-		setChanged();
-		notifyObservers(svp.getID());
+	
 
 	}
 

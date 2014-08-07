@@ -57,9 +57,11 @@ public class MergeSort extends Sort{
 	
 		sort(0,elements.length-1);
 		
-		if(flashing) svp.flashing();
 		setChanged();
 		notifyObservers(svp.getID());
+		
+		if(flashing) svp.flashing();
+		
 		
 		
 	}

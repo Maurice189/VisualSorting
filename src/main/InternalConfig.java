@@ -102,10 +102,10 @@ public class InternalConfig {
 
 	}
 	
-	
+	/**
+	 * set configuration parameters
+	 */
 	private static void setValues(){
-		
-		
 		
 		
 		languageSet = getValue("language");
@@ -171,26 +171,51 @@ public class InternalConfig {
 		
 	}
 	
-	
+	/**
+	 * Auto pause is the ability to pause the application when the frame is deactivated and resume
+	 * it when the frame is activated.
+	 * 
+	 *  For more:
+	 *  
+	 *  @see main.Controller.public void windowActivated(WindowEvent e) 
+	 *  @see main.Controller.public void windowDeactivated(WindowEvent e) 
+	 */
 	public static void toggleAutoPause(){
 		
 		InternalConfig.autoPauseOn = ! InternalConfig.autoPauseOn;
 		
 	}
-	
+	/**
+	 * 
+	 * @param version application version shown in some dialogs and the frame title
+	 */
 	public static void setVersion(String version){
 		InternalConfig.version = version;
 		
 	}
 	
+	/**
+	 * 
+	 * @return the defined application language
+	 */
 	public static String getLanguageSet(){
 		return InternalConfig.languageSet;
 	}
 	
+	/**
+	 * 
+	 * @return auto pause enabled flag
+	 * @see public static void toggleAutoPause()
+	 */
 	public static boolean isAutoPauseEnabled(){
 		return InternalConfig.autoPauseOn;
 	}
 	
+	/**
+	 * 
+	 * @return application version
+	 * @see public static void setVersion(String version)
+	 */
 	public static String getVersion(){
 		return InternalConfig.version;
 	}

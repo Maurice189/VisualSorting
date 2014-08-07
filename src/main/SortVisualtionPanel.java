@@ -163,7 +163,7 @@ public class SortVisualtionPanel extends JPanel implements ComponentListener {
 		
 		String info = 
 		algoname+(" - ( ")+String.valueOf(comparisons)+(" ")+
-		langXML.getValue("cmp")+(" | ")+String.valueOf(accesses)+(" ")+langXML.getValue("access");
+		langXML.getValue("cmp")+(" | ")+String.valueOf(accesses)+(" ")+langXML.getValue("access")+" )";
 		
 		leftBorder.setTitle(info);
 

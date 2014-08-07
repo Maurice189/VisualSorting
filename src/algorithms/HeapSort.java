@@ -131,15 +131,16 @@ public class HeapSort extends Sort {
 	public void run() {
 
 		heapSort();
-		if(flashing) svp.flashing();
-		
 		setChanged();
 		notifyObservers(svp.getID());
+		
+		if(flashing) svp.flashing();
+		
+		
 	}
 	
 	@Override
 	public SORTALGORITHMS getAlgorithmName() {
-		// TODO Auto-generated method stub
 		return SORTALGORITHMS.Heapsort;
 	}
 

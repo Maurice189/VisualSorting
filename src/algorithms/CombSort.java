@@ -90,9 +90,11 @@ public class CombSort extends Sort {
 			}
 		}
 		
-		if(flashing) svp.flashing();
 		setChanged();
 		notifyObservers(svp.getID());
+		
+		if(flashing) svp.flashing();
+		
 	}
 	
 	@Override

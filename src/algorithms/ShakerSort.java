@@ -123,9 +123,11 @@ public class ShakerSort extends Sort {
 
 		}
 
-		if(flashing) svp.flashing();
 		setChanged();
 		notifyObservers(svp.getID());
+		
+		if(flashing) svp.flashing();
+		
 	}
 	
 	@Override

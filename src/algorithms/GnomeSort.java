@@ -83,11 +83,13 @@ public class GnomeSort extends Sort {
 
 			checkRunCondition();
 		}
+		
+		setChanged();
+		notifyObservers(svp.getID());
 
 		if (flashing)
 			svp.flashing();
-		setChanged();
-		notifyObservers(svp.getID());
+		
 
 	}
 

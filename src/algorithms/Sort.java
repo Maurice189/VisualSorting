@@ -8,16 +8,15 @@ import java.util.concurrent.locks.ReentrantLock;
 import main.SortVisualtionPanel;
 import main.Statics.SORTALGORITHMS;
 
-/**
+/*
  * 
- * <h3>Used Design Patterns</h3></br>
- * <ul>
- * 		<li><b>Model</b>-View-Controller</br></li>
- * 		<li>Strategy Design Pattern</li>
- * 		<li>Observer Design Pattern</li>
- * </ul>
+ * Used Design Patterns
  * 
- * </br><h3>Abstract</h3></br>
+ * 		Model-View-Controller
+ * 		Strategy Design Pattern
+ * 		Observer Design Pattern
+ * 
+ * Abstract
  * 
  * As the Strategy Design Pattern declares, every single sort algorithm is
  * implemented as a own class. This abstract class defines the interface and
@@ -30,13 +29,8 @@ import main.Statics.SORTALGORITHMS;
  * 
  * 
  * 
- * @author Maurice
- * @version BETA
- * @category Strategy
- * @see main.Controller
- * @see java.util.Observable
- * @see main.SortVisualtionPanel
- * 
+ * author Maurice
+ * version BETA
  */
 
 public abstract class Sort extends Observable implements Runnable {
@@ -54,8 +48,7 @@ public abstract class Sort extends Observable implements Runnable {
 	protected Condition condition = lock.newCondition();
 
 
-	/** 
-	 * @param svp
+	/*
 	 * Each object hold its own SortVisualtionPanel and redirect every 
 	 * changes that are done on the sortlist
 	 */
@@ -72,12 +65,13 @@ public abstract class Sort extends Observable implements Runnable {
 		System.arraycopy(Sort.gElement, 0, elements, 0, Sort.gElement.length);
 
 		iterates = 0;
+		accesses = 0;
+		comparisons = 0;
 		svp.setElements(this.elements);
 	}
 
-	/**
+	/*
 	 * 
-	 * @param elements
 	 * Sorting list, that can accessed from every object, in order to create a copy
 	 */
 	public static void setElements(int elements[]) {
@@ -85,9 +79,8 @@ public abstract class Sort extends Observable implements Runnable {
 
 	}
 
-	/**
+	/*
 	 * a copy of the static sortlist is created 
-	 * @see setElements(int elements[])
 	 */
 	public Sort() {
 		// TODO Auto-generated constructor stub
@@ -97,7 +90,7 @@ public abstract class Sort extends Observable implements Runnable {
 
 	}
 	
-	/**
+	/*
 	 * The paused thread resume
 	 */
 	public void unlockSignal(){
@@ -109,7 +102,7 @@ public abstract class Sort extends Observable implements Runnable {
 		}
 	}
 
-	/**
+	/*
 	 * This method is called in the run method from every algorithm that is running
 	 * This is needed to provide the start/stop functionality that is based
 	 * on locks and condition. 
@@ -133,14 +126,10 @@ public abstract class Sort extends Observable implements Runnable {
 		}
 	}
 
-	/**
+	/*
 	 * 
-	 * @return is used for displaying the sorting list in 'EnterDialog'
+	 * is used for displaying the sorting list in 'EnterDialog'
 	 * and for saving the number of elements in the configuration file
-	 * 
-	 * @see dialogs.EnterDialog
-	 * @see main.Controller
-	 * @see main.InternalConfig
 	 */
 	public static int[] getElements() {
 		return Sort.gElement;
@@ -153,9 +142,8 @@ public abstract class Sort extends Observable implements Runnable {
 
 	}
 	
-	/**
-	 * @return the specific algorithm name (identifying is needed for the info dialog)
-	 * @see dialogs.InfoDialog
+	/*
+	 * the specific algorithm name (identifying is needed for the info dialog)
 	 */
 	public abstract SORTALGORITHMS getAlgorithmName();
 
@@ -168,26 +156,23 @@ public abstract class Sort extends Observable implements Runnable {
 
 	}
 	
-	/**
-	 * 
-	 * @param flashing decide wheather to animated the ending of a sorting proceedure
+	/*
+	 * flashing decides whether to animated the ending of a sorting proceedure
 	 */
 	public static void setFlashingAnimation(boolean flashing){
 		
 		Sort.flashing = flashing;
 	}
 	
-	/**
-	 * 
-0	 * @return is especially needed for the controller
+	/*
+	 * is especially needed for the controller
 	 */
 	public static boolean isStopped() {
 		return stop;
 	}
 
 	/**
-	 * 
-	 * @return is used to apply modifications on the 'SortVisualtionPanel' object
+	 * is used to apply modifications on the 'SortVisualtionPanel' object
 	 * for e.g enable the remove button
 	 */
 	public SortVisualtionPanel getSortVisualtionPanel() {
@@ -195,9 +180,8 @@ public abstract class Sort extends Observable implements Runnable {
 		return svp;
 	}
 
-	/**
-	 * 
-	 * @param delayNs  set the delay(nanoseconds) for all threads
+	/*
+	 * delayNs  set the delay(nanoseconds) for all threads
 	 */
 	public static void setDelayNs(int delayNs) {
 
@@ -206,9 +190,8 @@ public abstract class Sort extends Observable implements Runnable {
 	}
 
 
-	/**
-	 * 
-	 * @param delayNs  set the delay(milliseconds) for all threads
+	/*
+	 * delayNs  set the delay(milliseconds) for all threads
 	 */
 	public static void setDelayMs(long delayMs) {
 
@@ -216,17 +199,15 @@ public abstract class Sort extends Observable implements Runnable {
 
 	}
 
-	/**
-	 * 
-	 * @return The delay is saved in the configuartion file
+	/*
+	 *  The delay is saved in the configuration file
 	 */
 	public static long getDelayMs() {
 		return Sort.delayMs;
 	}
 
-	/**
-	 * 
-	 * @return The delay is saved in the configuartion file
+	/*
+	 *  The delay is saved in the configuration file
 	 */
 	public static long getDelayNs() {
 		return Sort.delayNs;

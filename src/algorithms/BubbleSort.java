@@ -49,8 +49,10 @@ public class BubbleSort extends Sort {
 	public void run() {
 
 		int tmp = 0;
+		boolean swapped;
 		
-		for (int j = elements.length; j > 1; j--) {
+		do{
+			swapped = false;
 			for (int i = 0; i < elements.length - 1; i++) {
 
 				
@@ -63,6 +65,7 @@ public class BubbleSort extends Sort {
 					//svp.setInfo("Bubblesort",iterates++);
 					svp.setInfo("Bubblesort",accesses,comparisons++);
 					accesses+=3;
+					swapped = true;
 
 				} else {
 					svp.visualCmp(i, i + 1, false);
@@ -72,14 +75,16 @@ public class BubbleSort extends Sort {
 				}
 				
 				checkRunCondition();
-			
 
 			}
-		}
+			
+		}while(swapped);
 		
-		if(flashing) svp.flashing();
 		setChanged();
 		notifyObservers(svp.getID());
+		
+		if(flashing) svp.flashing();
+	
 
 	}
 	@Override

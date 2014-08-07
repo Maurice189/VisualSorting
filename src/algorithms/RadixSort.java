@@ -12,6 +12,8 @@ package algorithms;
  */
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 
 import main.SortVisualtionPanel;
 import main.Statics.SORTALGORITHMS;
@@ -70,13 +72,21 @@ public class RadixSort extends Sort{
 
 
 	public void run() {
-		// TODO Auto-generated method stub
+		
+		int maxValue = 0;
+		for(int i = 0 ; i<elements.length; i++)
+			if(elements[i] > maxValue) maxValue = elements[i];
+		
+
+		int digit;
+		for (digit = 0; maxValue % Math.pow(10,digit) != maxValue; digit++);
+		radixSort(digit);
 	
-		radixSort(3);
-	
-		if(flashing) svp.flashing();
 		setChanged();
 		notifyObservers(svp.getID());
+		
+		if(flashing) svp.flashing();
+		
 	}
 	
 	@Override

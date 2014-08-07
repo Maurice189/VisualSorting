@@ -87,11 +87,13 @@ public class InsertionSort extends Sort {
 			checkRunCondition();
 			elements[j + 1] = value;
 		}
+		
+		setChanged();
+		notifyObservers(svp.getID());
 
 		if (flashing)
 			svp.flashing();
-		setChanged();
-		notifyObservers(svp.getID());
+	
 
 	}
 

@@ -100,10 +100,13 @@ public class QuickSort extends Sort {
 		// TODO Auto-generated method stub
 
 		qSort(elements, 0, elements.length - 1);
-		if(flashing) svp.flashing();
 		
 		setChanged();
 		notifyObservers(svp.getID());
+		
+		if(flashing) svp.flashing();
+		
+		
 		
 		
 
