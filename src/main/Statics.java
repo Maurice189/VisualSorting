@@ -34,8 +34,8 @@ public class Statics {
 	
 
 	public static enum SORTALGORITHMS {
-		Heapsort, Bubblesort, Quicksort, BST, Combsort,Gnomesort, Shakersort, Mergesort, Bitonicsort,
-		Radixsort, Shellsort, Insertionsort,Bogosort,Introsort;
+		Bitonicsort,Bogosort,BTS,Bubblesort,Combsort,Gnomesort,Heapsort,Insertionsort,Introsort,Mergesort,
+		Quicksort,Radixsort,Shakersort,Shellsort;
 		
 		public static int length(){
 			return SORTALGORITHMS.values().length;

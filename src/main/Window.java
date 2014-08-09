@@ -578,7 +578,7 @@ public class Window extends JFrame {
 		// hashmap for resolving sort into the respective infopage file
 		HashMap<SORTALGORITHMS,String> map = new HashMap<SORTALGORITHMS,String>();
 		map.put(SORTALGORITHMS.Bitonicsort, "infopage_bitonicsort.html");
-		map.put(SORTALGORITHMS.BST, "infopage_bstsort.html");
+		map.put(SORTALGORITHMS.BTS, "infopage_btssort.html");
 		map.put(SORTALGORITHMS.Bubblesort, "infopage_bubblesort.html");
 		map.put(SORTALGORITHMS.Combsort, "infopage_combsort.html");
 		map.put(SORTALGORITHMS.Gnomesort, "infopage_gnomesort.html");

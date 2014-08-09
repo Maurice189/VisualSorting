@@ -126,7 +126,7 @@ public class BinaryTreeSort extends Sort {
 	@Override
 	public SORTALGORITHMS getAlgorithmName() {
 		// TODO Auto-generated method stub
-		return SORTALGORITHMS.BST;
+		return SORTALGORITHMS.BTS;
 	}
 
 }

@@ -175,7 +175,7 @@ public class Controller implements Observer, ActionListener, WindowListener {
 				sort = new BubbleSort();
 			else if (selectedSort.equals(SORTALGORITHMS.Quicksort.toString()))
 				sort = new QuickSort();
-			else if (selectedSort.equals(SORTALGORITHMS.BST.toString()))
+			else if (selectedSort.equals(SORTALGORITHMS.BTS.toString()))
 				sort = new BinaryTreeSort();
 			else if (selectedSort.equals(SORTALGORITHMS.Combsort.toString()))
 				sort = new CombSort();

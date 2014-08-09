@@ -69,8 +69,7 @@ public class SortVisualtionPanel extends JPanel implements ComponentListener {
 	private BufferedImage buffer;
 	private Graphics2D gbuffer;
 	private int width, height, refWidth, refHeight;
-	private int elements[], lstIndex1 = -1, lstIndex2 = -1;
-	private int lstInsert = -1,lstPivot = -1;
+	private int elements[], lstIndex1 = -1, lstIndex2 = -1,lstInsert = -1,lstPivot = -1;
 	private int ID;
 
 	public SortVisualtionPanel(ActionListener listener, String selectedSort,
