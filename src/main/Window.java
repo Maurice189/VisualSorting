@@ -594,6 +594,7 @@ public class Window extends JFrame {
 		InfoDialog.initInfoPageResolver(map);
 		
 		
+		
 		// init. view and controller
 		Controller controller = new Controller(configLanguage);
 		Window window = new Window(controller,configLanguage,"Visual Sorting - ".concat(InternalConfig.getVersion()), 800, 550);

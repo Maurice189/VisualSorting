@@ -54,6 +54,8 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 
+import javax.swing.JOptionPane;
+
 import algorithms.BinaryTreeSort;
 import algorithms.BitonicSort;
 import algorithms.BogoSort;
@@ -140,6 +142,17 @@ public class Controller implements Observer, ActionListener, WindowListener {
 
 	public void showNumberOfElements(){
 		window.updateNumberOfElements(Sort.getElements().length);
+		for(Sort temp: sortList){
+			
+			if(temp.getAlgorithmName() == SORTALGORITHMS.Bitonicsort
+			&& Integer.bitCount(Sort.getElements().length) != 1){
+				
+				JOptionPane.showMessageDialog(window,
+				langXMLInterface.getValue("info0l0")+"\n"+langXMLInterface.getValue("info0l1"),
+				"Information",JOptionPane.INFORMATION_MESSAGE);		
+			}
+		}
+		
 	}
 
 	public void setView(Window window) {
@@ -185,8 +198,15 @@ public class Controller implements Observer, ActionListener, WindowListener {
 				sort = new ShakerSort();
 			else if (selectedSort.equals(SORTALGORITHMS.Mergesort.toString()))
 				sort = new MergeSort();
-			else if (selectedSort.equals(SORTALGORITHMS.Bitonicsort.toString()))
+			else if (selectedSort.equals(SORTALGORITHMS.Bitonicsort.toString())){
 				sort = new BitonicSort();
+				if(Integer.bitCount(Sort.getElements().length) != 1){
+					JOptionPane.showMessageDialog(window,
+					langXMLInterface.getValue("info0l0")+"\n"+langXMLInterface.getValue("info0l1"),
+					"Information",JOptionPane.INFORMATION_MESSAGE);		
+				}
+			}
+				
 			else if (selectedSort.equals(SORTALGORITHMS.Radixsort.toString()))
 				sort = new RadixSort();
 			else if (selectedSort.equals(SORTALGORITHMS.Shellsort.toString()))

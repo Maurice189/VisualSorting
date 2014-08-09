@@ -23,5 +23,6 @@
     <lang>Languages</lang>
     <exit>Exit</exit>
     <error0>Your enter couldn't be resolved as an integer\n Please enter integers, only !</error0>
-
+	<info0l0>Bitonicsort just works properly with a number of values,</info0l0>
+	<info0l1>that represents the power of 2. For e.g: 128,256,512,1024</info0l1>
 </app>
