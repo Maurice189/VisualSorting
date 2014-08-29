@@ -21,11 +21,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
  * 
- * <h3>Used Design Patterns</h3></br>
- * <ul>
- * 		<li>Model-<b>View</b>-Controller</br></li>
- * </ul>
- * </br><h3>Abstract</h3></br>
+ * Used Design Patterns:
+ * Model-View-Controller
+ * 
+ * Abstract:
  * This class represents, as the name implies, the view(GUI) in the MVC pattern.
  * 
  * @author Maurice Koch
@@ -394,9 +393,7 @@ public class Window extends JFrame {
 		}		
 		
 		final SortVisualisationPanel temp = new SortVisualisationPanel(this.getWidth(), this.getHeight());
-		PanelUI panelUI = new PanelUI(controller,temp,selectedSort);
-		
-		sort.setSortVisualisationPanel(temp,panelUI);
+		sort.setSortVisualisationPanel(temp,new PanelUI(controller,temp,selectedSort));
 		vsPanel.add(temp);
 		content.add(temp);
 		

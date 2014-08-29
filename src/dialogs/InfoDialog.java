@@ -106,7 +106,7 @@ public class InfoDialog extends OptionDialog {
 				
 				long t = System.currentTimeMillis();
 				initComponents();
-				System.out.println("NEEDED TIME : "+(System.currentTimeMillis()-t));
+				//System.out.println("NEEDED TIME : "+(System.currentTimeMillis()-t));
 				remove(loadGif);
 			
 				EventQueue.invokeLater(new Runnable() {
