@@ -90,9 +90,9 @@ public class AboutDialog extends OptionDialog{
 		hyperlinkGitHub.setFont(Window.getComponentFont(10f));
 		hyperlinkGNU.setFont(Window.getComponentFont(10f));
 		ImageIcon bg = null;
-		hyperlinkGitHub.setText("<html>Click here to visit on <a href=\"\">GitHub</a> (for comments/bug report/etc.)</html> ");
-		hyperlinkGNU.setText("<html>Click here to visit <a href=\"\">http://www.gnu.org/licenses/</a></html>");
-		cpr.setText(
+		hyperlinkGitHub.setText("Click here to visit on GitHub (for comments/bug report/etc.)");
+		hyperlinkGNU.setText("Click here to visit http://www.gnu.org/licenses/");
+		 cpr.setText(
 		 "\nThis program is free software: you can redistribute it and/or modify\n"+
 		 "it under the terms of the GNU General Public License as published by\n"+
 		 "the Free Software Foundation, either version 3 of the License, or\n"+

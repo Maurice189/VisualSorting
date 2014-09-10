@@ -240,7 +240,7 @@ public class InfoDialog extends OptionDialog {
 				Statics.class
 						.getResource("/resources/next_left_visualsort.png")));
 		nextLeft.setRolloverIcon(new ImageIcon(Statics.class
-				.getResource("/resources/next_left_visualsort.png")));
+				.getResource("/resources/next_left_visualsort_rollover.png")));
 		nextLeft.setRolloverEnabled(true);
 		nextLeft.addActionListener(this);
 		nextLeft.setBorder(BorderFactory.createEmptyBorder());
@@ -251,6 +251,9 @@ public class InfoDialog extends OptionDialog {
 		nextRight = new JButton(new ImageIcon(
 				Statics.class
 						.getResource("/resources/next_right_visualsort.png")));
+		nextRight.setRolloverIcon(new ImageIcon(Statics.class
+				.getResource("/resources/next_right_visualsort_rollover.png")));
+		nextRight.setRolloverEnabled(true);
 		nextRight.setBorder(BorderFactory.createEmptyBorder());
 		nextRight.setOpaque(false);
 		nextRight.setContentAreaFilled(false);

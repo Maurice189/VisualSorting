@@ -287,7 +287,7 @@ public class Controller implements Observer,ComponentListener,ActionListener, Wi
 					PanelUI.getReleasedID()).getAlgorithmName();
 
 			dialogs.add(new InfoDialog(selAlgorithm, selAlgorithm
-					.toString(), 500, 400));
+					.toString(), 600, 370));
 		}
 
 		else if (e.getActionCommand() == Statics.LANG_DE) {
@@ -377,6 +377,8 @@ public class Controller implements Observer,ComponentListener,ActionListener, Wi
 					langXMLInterface.getValue("info0l0")+"\n"+langXMLInterface.getValue("info0l1"),
 					"Information",JOptionPane.INFORMATION_MESSAGE);		
 				}
+				
+				temp.getSortVisualisationPanel().updateBarSize();
 			}
 			reset();
 		}
@@ -537,13 +539,9 @@ public class Controller implements Observer,ComponentListener,ActionListener, Wi
 	 
 	private void resize(){
 		 
-		 if(sortList.size() > 0){
-				SortVisualisationPanel.updateSize(
-											sortList.get(0).getSortVisualisationPanel().getSize().width, 
-											sortList.get(0).getSortVisualisationPanel().getSize().height);
-				
+		 if(sortList.size() > 0){				
 				for(Sort tmp:sortList)
-					tmp.getSortVisualisationPanel().updatePanelSize();
+					tmp.getSortVisualisationPanel().updateSize();
 				
 			}
 	 }

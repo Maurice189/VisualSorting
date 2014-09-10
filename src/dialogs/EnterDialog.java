@@ -37,6 +37,7 @@ import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
 import javax.swing.JSpinner;
+import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
 import javax.swing.border.TitledBorder;
 
@@ -68,10 +69,13 @@ public class EnterDialog extends OptionDialog {
 	private JSpinner values;
 	private JButton enterValue, ok, remove, crNmb;
 	private JRadioButton crRandom, setMan;
+	private SortVisualisationPanel svp;
 	private JPanel btnWrp1,btnWrp2; 
 	
 	private static EnterDialog instance;
 	private Controller controller;
+	
+	private static int width,height;
 
 	private EnterDialog(Controller controller,int width, int height) {
 		super("sortlist", width, height);
@@ -141,14 +145,14 @@ public class EnterDialog extends OptionDialog {
 			if (setMan.isSelected()) {
 				if (value.getText() != null) {
 
-					boolean error = false;
-
 					try {
 
 						temp = Integer.parseInt(value.getText());
+						listModel.add(0, temp);
+						svp.updateBarSize();
+						svp.updatePanelSize();
+						
 					} catch (NumberFormatException ex) {
-
-						error = true;
 						JOptionPane
 								.showMessageDialog(
 										null,
@@ -157,8 +161,6 @@ public class EnterDialog extends OptionDialog {
 										JOptionPane.ERROR_MESSAGE);
 					}
 
-					if (!error)
-						listModel.add(0, temp);
 
 					value.setText("");
 					value.requestFocus();
@@ -169,22 +171,28 @@ public class EnterDialog extends OptionDialog {
 
 			else {
 
-				temp = (int) (values.getValue());
+				int l = (int) (values.getValue());
 				listModel.removeAllElements();
-				for (int i = 0; i < temp; i++)
-					listModel.addElement(MathFunc.getRandomNumber(0, temp/3));
 				
+				int[] tmp = new int[l];
+				for (int i = 0; i < l; i++){
+					tmp[i] = MathFunc.getRandomNumber(0, l/3);
+				    listModel.addElement(tmp[i]);
+				}
+				
+				Sort.setElements(tmp);
+				svp.setElements(tmp);
+				svp.updateBarSize();
+				svp.updatePanelSize();
+				revalidate();
+				repaint();
 			}
 			
 			
 		}
 
 		else if (e.getActionCommand() == Statics.ELEMENTS_SET) {
-			int[] temp = new int[listModel.size()];
-			for (int i = 0; i < listModel.size(); i++)
-				temp[i] = listModel.get(i);
-			Sort.setElements(temp);
-			SortVisualisationPanel.updateBarSize();
+
 			controller.actionPerformed(e);
 			dispose();
 		}
@@ -222,8 +230,16 @@ public class EnterDialog extends OptionDialog {
 		values = new JSpinner();
 		values.setFont(Window.getComponentFont(15f));
 		setLayout(new GridBagLayout());
+		
+		JTabbedPane tp = new JTabbedPane();
+		
+
 
 		JScrollPane sp = new JScrollPane(elements);
+		svp = new SortVisualisationPanel(width,height);
+		svp.setElements(Sort.getElements());
+		svp.updateBarSize();
+		svp.updatePanelSize();
 		sp.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 
 		int tempElements[] = Sort.getElements();
@@ -231,6 +247,9 @@ public class EnterDialog extends OptionDialog {
 			listModel.addElement(new Integer(tempElements[i]));
 		}
 		values.setValue(listModel.getSize());
+		
+		tp.addTab("List",sp);
+		tp.addTab("Graphic",svp);
 		
 		GridBagConstraints tcnt = new GridBagConstraints();
 		tcnt.fill = GridBagConstraints.BOTH;
@@ -304,11 +323,15 @@ public class EnterDialog extends OptionDialog {
 		btnWrpc2.anchor = GridBagConstraints.SOUTH;
 		btnWrpc2.insets = new Insets(4, 4, 4, 4);
 
-		add(sp, tcnt);
+		// sp
+		
+		
+		add(tp, tcnt);
 		add(btnWrp1, btnWrpc1);
 		add(btnWrp2, btnWrpc2);
 		
-		setResizable(false);
+		
+		//setResizable(false);
 	
 	}
 
@@ -323,8 +346,11 @@ public class EnterDialog extends OptionDialog {
 	public static EnterDialog getInstance(Controller controller,int width,
 			int height) {
 
-		if (instance == null)
+		if (instance == null){
+			EnterDialog.width = 470;
+			EnterDialog.height = 120;
 			instance = new EnterDialog(controller,width, height);
+		}
 
 		instance.setVisible(true);
 		return instance;

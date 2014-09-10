@@ -22,6 +22,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 /**
  * 
  * Used Design Patterns:
+ * 
  * Model-View-Controller
  * 
  * Abstract:
@@ -66,6 +67,8 @@ import javax.swing.JPanel;
 import javax.swing.JRadioButtonMenuItem;
 import javax.swing.JSeparator;
 import javax.swing.JToolBar;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.border.Border;
 import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
@@ -530,6 +533,23 @@ public class Window extends JFrame {
 	}
 
 	public static void main(String[] args) {
+		
+		try {
+			UIManager.setLookAndFeel( UIManager.getSystemLookAndFeelClassName() );
+			
+		} catch (ClassNotFoundException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		} catch (InstantiationException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		} catch (IllegalAccessException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		} catch (UnsupportedLookAndFeelException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 		
 		
 		InternalConfig.setNewLangDefEntry(LANG.de,"/resources/lang_de.xml");
