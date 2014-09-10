@@ -149,6 +149,14 @@ public class EnterDialog extends OptionDialog {
 
 						temp = Integer.parseInt(value.getText());
 						listModel.add(0, temp);
+
+						int[] tmp = new int[listModel.getSize()];
+						for (int i = 0; i < listModel.getSize(); i++){
+							tmp[i] = listModel.get(i);
+						}
+						
+						Sort.setElements(tmp);
+						svp.setElements(tmp);
 						svp.updateBarSize();
 						svp.updatePanelSize();
 						

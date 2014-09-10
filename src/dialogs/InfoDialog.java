@@ -95,6 +95,7 @@ public class InfoDialog extends OptionDialog {
 
 		setTitle(title);
 		setSize(width, height);
+		setLocationRelativeTo(null);
 		setLayout(new BorderLayout());
 		add(loadGif);
 		setVisible(true);
@@ -300,7 +301,6 @@ public class InfoDialog extends OptionDialog {
 
 		add(BorderLayout.NORTH, btnPanel);
 		add(BorderLayout.CENTER, editorScrollPane);
-		
 
 	}
 

@@ -73,7 +73,6 @@ public abstract class OptionDialog extends JDialog implements ActionListener{
 	}
 	
 	public OptionDialog(){
-		
 		setLocationRelativeTo(null);
 		java.net.URL helpURL = OptionDialog.class.getClassLoader().getResource(
 				"resources/frameIcon2.png");
