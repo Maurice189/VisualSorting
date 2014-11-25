@@ -48,7 +48,8 @@ import java.awt.FontFormatException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
@@ -67,26 +68,23 @@ import javax.swing.JPanel;
 import javax.swing.JRadioButtonMenuItem;
 import javax.swing.JSeparator;
 import javax.swing.JToolBar;
-import javax.swing.UIManager;
-import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.border.Border;
 import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
-import javax.swing.plaf.FontUIResource;
-
 import algorithms.Sort;
-import dialogs.InfoDialog;
-import dialogs.OptionDialog;
 import main.InternalConfig.LANG;
 import main.Statics.SORTALGORITHMS;
 
 
-
-
+/**
+ * 
+ * @author maurice
+ *
+ */
 public class Window extends JFrame {
 
-	private static Font componentFont = new Font("Monospace", Font.BOLD, 13),
-						     infoFont = new Font("Monospace", Font.BOLD, 43);
+	private static Font componentFont = new Font("Monospace", Font.BOLD, 13);
+	private static Font infoFont = new Font("Monospace", Font.BOLD, 43);
 	
 	
 	private String title;
@@ -107,27 +105,38 @@ public class Window extends JFrame {
 	private JPanel bottomBar;
 	
 	// we store the visualization panels dynamically, so we can add and remove it much easier
-	private ArrayList<SortVisualisationPanel> vsPanel;
+	private List<SortVisualisationPanel> vsPanel;
 	
 	// the filler is used for the vertical space between the visualization panels
-	private ArrayList<Component> filler;
+	private List<Component> filler = new LinkedList<Component>();
 
+	/**
+	 * 
+	 * Initalizes the View with all needed
+	 * parameters.
+	 * 
+	 * @param controller as MVC pattern arranged
+	 * @param langXML language referrence object for component labels
+	 * @param title of the application window
+	 * @param width of the applications window
+	 * @param height of the applications window
+	 */
 	public Window(Controller controller,LanguageFileXML langXML, String title, int width, int height) {
 
-		
-		filler = new ArrayList<Component>();
 		this.title = title;
 		this.controller = controller;
 		this.langXML = langXML;
 	
 		initComponents(width,height);
-		
-
 
 	}
-	/*
-	 * initialize all frame components 
+	/**
+	 * Just a wrapper method for
+	 * creating the main application window.
 	 * 
+	 * 
+	 * @param width of the applications window
+	 * @param height of the applications window
 	 */
 	private void initComponents( int width, int height){
 		
@@ -179,22 +188,18 @@ public class Window extends JFrame {
 		bottomBar.add(Box.createHorizontalGlue());
 		bottomBar.add(nofLabel);
 
-		languages = new JMenu(
-				langXML.getValue("lang"));
-		settings = new JMenu(
-				langXML.getValue("settings"));
+		languages = new JMenu(langXML.getValue("lang"));
+		settings = new JMenu(langXML.getValue("settings"));
 		help = new JMenu(langXML.getValue("help"));
-		list = new JMenuItem(
-				langXML.getValue("sortlist"));
+		list = new JMenuItem(langXML.getValue("sortlist"));
 		list.addActionListener(controller);
 		list.setActionCommand(Statics.NEW_ELEMENTS);
 		
-		delay = new JMenuItem(
-				langXML.getValue("delay"));
+		delay = new JMenuItem(langXML.getValue("delay"));
 		delay.addActionListener(controller);
 		delay.setActionCommand(Statics.DELAY);
 
-		about = new JMenuItem(langXML.getValue("about").concat(" ").concat(title));
+		about = new JMenuItem(langXML.getValue("about")+" "+title);
 		
 		about.addActionListener(controller);
 		about.setActionCommand(Statics.ABOUT);
@@ -216,12 +221,15 @@ public class Window extends JFrame {
 		bg.add(fr);
 
 		LANG lang = InternalConfig.getLanguageSet();
-		if (lang == LANG.de)
+		if (lang == LANG.de){
 			de.setSelected(true);
-		else if (lang == LANG.en)
+		}
+		else if (lang == LANG.en){
 			en.setSelected(true);
-		else if (lang == LANG.fr)
+		}
+		else if (lang == LANG.fr){
 			fr.setSelected(true);
+		}
 
 		languages.add(en);
 		languages.add(de);
@@ -239,9 +247,9 @@ public class Window extends JFrame {
 		setJMenuBar(menuBar);
 
 		String names[] = new String[SORTALGORITHMS.length()];
-		for(int i = 0; i<SORTALGORITHMS.length(); i++) 
+		for(int i = 0; i<SORTALGORITHMS.length(); i++){
 			names[i] = SORTALGORITHMS.values()[i].toString();
-		
+		}
 		sortChooser = new JComboBox<String>(names);
 		sortChooser.setMaximumSize(new Dimension(230, 30));
 		
@@ -301,9 +309,8 @@ public class Window extends JFrame {
 		content.add(BorderLayout.CENTER, info);
 		
 		JSeparator separator = new JSeparator(JSeparator.VERTICAL);
-		Dimension size = new Dimension(
-		    separator.getPreferredSize().width,
-		    separator.getMaximumSize().height);
+		Dimension size = new Dimension(separator.getPreferredSize().width,
+					       separator.getMaximumSize().height);
 		separator.setMaximumSize(size);
 
 		toolBar.add(Box.createHorizontalStrut(3));
@@ -343,9 +350,9 @@ public class Window extends JFrame {
 		setVisible(true);
 	}
 
-	
-	  /*
-	   *  if the language was changed, component titles will be updated by this method
+	  /**
+	   * If the language was changed, 
+	   * component titles will be updated by this method.
 	   */
 	  public void updateLanguage(){
 	  
@@ -363,8 +370,9 @@ public class Window extends JFrame {
 	  	
 	  }
 	  
-	/*
-	 * start-stop functionality for the animation
+	/**
+	 * Start-stop functionality for the visualisation
+	 * progress.
 	 */
 	public void toggleStartStop() {
 		
@@ -383,8 +391,13 @@ public class Window extends JFrame {
 		stateStButton = !stateStButton;
 		
 	}
-
-	public void addNewSort(Sort sort, String selectedSort) {
+	/**
+	 * Routine for adding a new sort algorithm 
+	 * to the visualisation 
+	 * 
+	 * @param sort algorithm to be added
+	 */
+	public void addNewSort(Sort sort) {
 
 		
 		if (vsPanel.size() == 0) {
@@ -395,8 +408,8 @@ public class Window extends JFrame {
 			reset.setEnabled(true);
 		}		
 		
-		final SortVisualisationPanel temp = new SortVisualisationPanel(this.getWidth(), this.getHeight());
-		sort.setSortVisualisationPanel(temp,new PanelUI(controller,temp,selectedSort));
+		SortVisualisationPanel temp = new SortVisualisationPanel(this.getWidth(), this.getHeight());
+		sort.setSortVisualisationPanel(temp,new PanelUI(controller,temp,sort.getAlgorithmName().toString()));
 		vsPanel.add(temp);
 		content.add(temp);
 		
@@ -407,115 +420,27 @@ public class Window extends JFrame {
 
 
 	}
-	
-	public void appReleased(){
-		
-		this.setTitle(title);
-	}
-	
-	public void appStopped(){
-		this.setTitle(title.concat(" - Paused"));
-	}
-
-	public String getSelectedSort() {
-
-		return (String) sortChooser.getSelectedItem();
-	}
-
-	public void unlockManualIteration(boolean lock) {
-
-		nextStep.setEnabled(lock);
-		listBtn.setEnabled(lock);
-		
-	}
-	
-	public void unlockAddSort(boolean lock){
-		
-		newSort.setEnabled(lock);
-
-	}
-
-	public void removeSort(int index) {
-
-		content.remove(filler.get(index));
-		content.remove(vsPanel.get(index));
-		vsPanel.remove(index);
-		filler.remove(index);
-
-		// remove all components and show launching message
-		if (vsPanel.size() == 0) {
-
-			content.removeAll();
-			content.setLayout(new BorderLayout());
-			content.add(info);
-			content.repaint();
-			next.setEnabled(false);
-			reset.setEnabled(false);
-			nextStep.setEnabled(false);
-			newSort.setEnabled(true);
-		}
-		
-		
-		/*
-		 *  signal that parameters for 'SortVisualisationPanel' objects to 
-		 *  adjust their bar width
-		 */
-		for (int i = 0; i < vsPanel.size(); i++) {
-			if (i != index)
-				vsPanel.get(i).updatePanelSize();
-		}
-
-		// show results on frame
-		revalidate();
-		repaint();
-		
-	}
-	
-	
-	// we use another component font than monospace
-	public static void setComponentFont(String source) {
-		
-		try {
-
-			InputStream in = Window.class.getResourceAsStream(source);
-			componentFont = Font.createFont(Font.TRUETYPE_FONT,in);			
-
-		} catch (IOException e) {
-			e.printStackTrace();
-		} catch (FontFormatException e) {
-			e.printStackTrace();
-		}
-	
-	}
-	
-	public static Font getComponentFont(float size){
-		return componentFont.deriveFont(size);
-	}
-	
-	// font for the launching message
-	public static void setInfoFont(String source, float size) {
-		try {
-
-			InputStream in = Window.class.getResourceAsStream(source);
-			infoFont = Font.createFont(Font.TRUETYPE_FONT,in);
-			infoFont = infoFont.deriveFont(size);
-
-		} catch (IOException e) {
-			e.printStackTrace();
-		} catch (FontFormatException e) {
-			e.printStackTrace();
-		}
-		
-		
-	}
-	
-	
+	/**
+	 * This method updates the number of elements, by
+	 * setting the component label, that is located
+	 * on the bottom of the window.
+	 * 
+	 * @param nof number of elements to be sorted
+	 */
 	public void updateNumberOfElements(int nof){
 		
 		nofLabel.setText(String.valueOf(nof).concat(" ").concat(langXML.getValue("nof")));
 		
 	}
-	
+	/**
+	 * This method updates the timer, by
+	 * setting the component label, that is located
+	 * on the bottom of the window. This timer checking
+	 * how long the progress is taking place.
+	 * 
+	 * @param sec seconds of the timer
+	 * @param msec milliseconds of the timer
+	 */
 	public void setClockParam(int sec, int msec){
 		
 		String smsec,ssec;
@@ -531,94 +456,139 @@ public class Window extends JFrame {
 		clock.setText(ssec.concat("s : ").concat(smsec).concat("ms"));
 		
 	}
-
-	public static void main(String[] args) {
-		
-		try {
-			UIManager.setLookAndFeel( UIManager.getSystemLookAndFeelClassName() );
-			
-		} catch (ClassNotFoundException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		} catch (InstantiationException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		} catch (IllegalAccessException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		} catch (UnsupportedLookAndFeelException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-		
-		
-		InternalConfig.setNewLangDefEntry(LANG.de,"/resources/lang_de.xml");
-		InternalConfig.setNewLangDefEntry(LANG.en,"/resources/lang_en.xml");
-		InternalConfig.setNewLangDefEntry(LANG.fr,"/resources/lang_fr.xml");
-		
-		for(int i = 0; i<args.length;i++){
-			if(args[i].startsWith("-configdir:")){
-				InternalConfig.setConfigFileDirectory(args[i].subSequence("-configdir:".length(), args[i].length()).toString());
-			}
-			else if(args[i].startsWith("-lang:")){
-				InternalConfig.setLanguage(args[i].subSequence("-lang:".length(), args[i].length()).toString());
-			}
-		}
-
-		LanguageFileXML configLanguage = new LanguageFileXML();
-		InternalConfig.loadConfigFile();
-		configLanguage.readXML(InternalConfig.getLanguageSetPath());
-		
-		// define resources
-		OptionDialog.setLanguageFileXML(configLanguage);
-		PanelUI.setLanguageFileXML(configLanguage);
-		
-		// this font is used under the GPL from google fonts under 'OpenSans'
-		Window.setComponentFont("/resources/Fonts/OpenSans-Regular.ttf");
-		Window.setInfoFont("/resources/Fonts/Oxygen-Regular.ttf",30f);
-		
-		javax.swing.UIManager.put("OptionPane.messageFont", new FontUIResource(Window.getComponentFont(13f))); 
-		javax.swing.UIManager.put("Button.font",new FontUIResource(Window.getComponentFont(13f)));
-		javax.swing.UIManager.put("EditorPane.font",new FontUIResource(Window.getComponentFont(13f)));
-		javax.swing.UIManager.put("ComboBox.font", new FontUIResource(Window.getComponentFont(13f)));
-		javax.swing.UIManager.put("Label.font", new FontUIResource(Window.getComponentFont(12f)));
-		javax.swing.UIManager.put("MenuBar.font",new FontUIResource(Window.getComponentFont(13f)));
-		javax.swing.UIManager.put("MenuItem.font", new FontUIResource(Window.getComponentFont(13f)));
-		javax.swing.UIManager.put("RadioButton.font",new FontUIResource(Window.getComponentFont(13f)));
-		javax.swing.UIManager.put("CheckBox.font",new FontUIResource(Window.getComponentFont(13f)));
-		javax.swing.UIManager.put("RadioButtonMenuItem.font",new FontUIResource(Window.getComponentFont(13f)));
-		javax.swing.UIManager.put("CheckBoxMenuItem.font",new FontUIResource(Window.getComponentFont(13f)));
-		javax.swing.UIManager.put("TextField.font",new FontUIResource(Window.getComponentFont(13f)));
-		javax.swing.UIManager.put("TitledBorder.font",new FontUIResource(Window.getComponentFont(13f)));
-		javax.swing.UIManager.put("Menu.font",new FontUIResource(Window.getComponentFont(13f)));
-		javax.swing.UIManager.put("Spinner.font",new FontUIResource(Window.getComponentFont(13f)));
-		
-		
-		// hashmap for resolving sort into the respective infopage file
-		HashMap<SORTALGORITHMS,String> map = new HashMap<SORTALGORITHMS,String>();
-		map.put(SORTALGORITHMS.Bitonicsort, "infopage_bitonicsort.html");
-		map.put(SORTALGORITHMS.BTS, "infopage_btssort.html");
-		map.put(SORTALGORITHMS.Bubblesort, "infopage_bubblesort.html");
-		map.put(SORTALGORITHMS.Combsort, "infopage_combsort.html");
-		map.put(SORTALGORITHMS.Gnomesort, "infopage_gnomesort.html");
-		map.put(SORTALGORITHMS.Heapsort, "infopage_heapsort.html");
-		map.put(SORTALGORITHMS.Insertionsort, "infopage_insertionsort.html");
-		map.put(SORTALGORITHMS.Mergesort, "infopage_mergesort.html");
-		map.put(SORTALGORITHMS.Quicksort, "infopage_quicksort.html");
-		map.put(SORTALGORITHMS.Radixsort, "infopage_radixsort.html");
-		map.put(SORTALGORITHMS.Shakersort, "infopage_shakersort.html");
-		map.put(SORTALGORITHMS.Shellsort, "infopage_shellsort.html");
-		map.put(SORTALGORITHMS.Bogosort, "infopage_bogosort.html");
-		map.put(SORTALGORITHMS.Introsort, "infopage_introsort.html");
-		InfoDialog.initInfoPageResolver(map);
-		
-		Controller controller = new Controller(configLanguage);
-		Window window = new Window(controller,configLanguage,"Visual Sorting - ".concat(InternalConfig.getVersion()), 800, 550);
-		controller.setView(window);
 	
+	/**
+	 * Alters the main application window's
+	 * name, when realeasing the progress.
+	 */
+	public void appReleased(){
+		this.setTitle(title);
+	}
+	/**
+	 * Alters the main application window's
+	 * name, when pausing the progress.
+	 */
+	public void appStopped(){
+		this.setTitle(title.concat(" - Paused"));
+	}
+
+	/**
+	 * 
+	 * @return Returns the current selected sort,
+	 * from the combobox (top of the application).
+	 */
+	public String getSelectedSort() {
+		return (String) sortChooser.getSelectedItem();
+	}
+
+	/**
+	 * 
+	 * @param lock Unlock or lock the manual iteration button
+	 *  , that is responsible for executing a single 
+	 *  iteration on all current pausing sort algorithms.
+	 */
+	public void unlockManualIteration(boolean lock) {
+
+		nextStep.setEnabled(lock);
+		listBtn.setEnabled(lock);
+		
+	}
+	/**
+	 * 
+	 * @param lock Unlock or lock the button for 
+	 * adding new sort algorithms.
+	 */
+	public void unlockAddSort(boolean lock){
+		newSort.setEnabled(lock);
+
+	}
+
+	/**
+	 * 
+	 * @param index
+	 */
+	public void removeSort(int index) {
+
+		content.remove(filler.get(index));
+		content.remove(vsPanel.get(index));
+		vsPanel.remove(index);
+		filler.remove(index);
+
+		// remove all components and show launching message
+		if (vsPanel.isEmpty()) {
+
+			content.removeAll();
+			content.setLayout(new BorderLayout());
+			content.add(info);
+			content.repaint();
+			next.setEnabled(false);
+			reset.setEnabled(false);
+			nextStep.setEnabled(false);
+			newSort.setEnabled(true);
+		}
+		
+		/*
+		 *  signal that parameters for 'SortVisualisationPanel' objects to 
+		 *  adjust their bar width
+		 */
+		for (int i = 0; i < vsPanel.size(); i++) {
+			if (i != index){
+				vsPanel.get(i).updatePanelSize();
+			}
+		}
+
+		// show results on frame
+		revalidate();
+		repaint();
 		
 	}
 	
+	
+	/**
+	 * 
+	 * @param source
+	 */
+	public static void setComponentFont(String source) {
+		
+		try {
+
+			InputStream in = Window.class.getResourceAsStream(source);
+			componentFont = Font.createFont(Font.TRUETYPE_FONT,in);			
+
+		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (FontFormatException e) {
+			e.printStackTrace();
+		}
+	
+	}
+	/**
+	 * 
+	 * @param size
+	 * @return
+	 */
+	public static Font getComponentFont(float size){
+		return componentFont.deriveFont(size);
+	}
+	
+	/**
+	 * 
+	 * @param source
+	 * @param size
+	 */
+	public static void setInfoFont(String source, float size) {
+		try {
+
+			InputStream in = Window.class.getResourceAsStream(source);
+			infoFont = Font.createFont(Font.TRUETYPE_FONT,in);
+			infoFont = infoFont.deriveFont(size);
+
+		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (FontFormatException e) {
+			e.printStackTrace();
+		}
+	}
 	
 
 }

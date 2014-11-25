@@ -59,7 +59,6 @@ public class BitonicSort extends Sort {
 
 	public void run() {
 		// TODO Auto-generated method stub
-
 		
 		bitonicSort(0, elements.length, ASCENDING);
 		if(flashing) svp.flashing();

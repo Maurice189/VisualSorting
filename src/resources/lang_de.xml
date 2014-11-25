@@ -23,6 +23,6 @@
     <lang>Sprachen</lang>
     <exit>Beenden</exit>
     <error0>Ihre Eingabe konnte nicht als Zahl interpretiert werden.Bitte geben Sie nur Ganzzahlen ein!</error0>
-	<info0l0>Bitonicsort funktioniert nur mit einer Anzahl von Elementen,</info0l0>
-	<info0l1>die eine Potenz von zwei darstellt, korrekt. Z.B: 128,256,512,1024</info0l1>
+	<info0l0>Bitonicsort funktioniert nur mit 2^n Elementen.</info0l0>
+	<info0l1>Zum Beispiel : 128 , 256 , 512 etc.</info0l1>
 </app>

@@ -30,6 +30,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
  * 
  */
 
+import java.io.FileDescriptor;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
@@ -76,6 +77,15 @@ public class InternalConfig {
 	
 	public static void setConfigFileDirectory(String configPath){
 		PROPORTIES_NAME = configPath+"config.txt";
+	}
+	
+	
+	public static void searchAvailableLanguages(){
+	    
+	    /*
+	     * TODO: figure out which lang.xml files exist
+	     */
+	    
 	}
 	
 	public static void loadConfigFile() {

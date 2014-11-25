@@ -22,7 +22,6 @@ import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.RenderingHints;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 
@@ -36,13 +35,12 @@ import algorithms.Sort;
  * based on bars with different heights. Each bar is representing a different
  * value in the sorting list.
  * 
- * @author maurice
- * @version BETA
+ * @author maurice koch
+ * @version beta
  * @category graphics
  * 
  * 
  **/
-
 public class SortVisualisationPanel extends JPanel {
 
 	private static Color backgroundColor = Color.white;
@@ -233,60 +231,31 @@ public class SortVisualisationPanel extends JPanel {
 	}
 
 	public void flashing() {
+	    
+		// nur unteren bereich loeschen
+		gbuffer.clearRect(0, height - offsetY, width, height);
+		gbuffer.setColor(Color.GREEN);
+		double timeSlice = (double) 5000 / elements.length;
 
-		RenderingHints rh = new RenderingHints(
-				RenderingHints.KEY_TEXT_ANTIALIASING,
-				RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
-		gbuffer.setRenderingHints(rh);
-
-		this.setOpaque(false);
-
-		float b = 0f;
-		for (int bi = 0; bi < 20; bi++) {
-
-			if (bi > 9)
-				b -= 0.015f;
-			else
-				b += 0.015f;
-
-			gbuffer.setBackground(new Color(0f, 0f, 0f, b));
-			gbuffer.clearRect(4, 20, width - 8, height - 40);
-
-			gbuffer.setColor(Color.GRAY);
-			for (int i = 0; i < elements.length; i++) {
-
-				gbuffer.drawRect((i * (refWidth + gapSize)) + margin,
-						(height - (refHeight * elements[i])) - offsetY,
-						refWidth, refHeight * elements[i]);
-				gbuffer.fillRect((i * (refWidth + gapSize)) + margin,
-						(height - (refHeight * elements[i])) - offsetY,
-						refWidth, refHeight * elements[i]);
-
-			}
-
-			if (bi < 19) {
-				gbuffer.setColor(Color.WHITE);
-				gbuffer.setFont(Window.getComponentFont(26f));
-				gbuffer.drawString("Finished", (int) (width * 0.46),
-						height >> 1);
-			}
-			repaint();
+		for (int i = 0; i < elements.length; i++) {
+			gbuffer.fillRect((i * (refWidth + gapSize)) + margin,
+					(height - (refHeight * elements[i])) - offsetY, refWidth,
+					refHeight * elements[i]);
+			
 			try {
 				Thread.currentThread();
-				Thread.sleep(37);
+				int nanos = (int)(6500 - (i*timeSlice));
+				System.out.println("nanos: "+nanos+" = "+((int)(nanos / (double)1000)) + "ms | "+(nanos % 1000) + "ns" );
+				Thread.sleep((int)(nanos / (double)1000),nanos % 1000);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 				Thread.currentThread().interrupt();
 			}
+			repaint();
 
 		}
-
-		repaint();
-
-		rh = new RenderingHints(RenderingHints.KEY_TEXT_ANTIALIASING,
-				RenderingHints.VALUE_TEXT_ANTIALIAS_OFF);
-		gbuffer.setRenderingHints(rh);
-
+		
+		
 	}
 
 	public void updatePanelSize() {
