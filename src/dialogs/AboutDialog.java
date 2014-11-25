@@ -25,7 +25,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
  * 
  * @author Maurice Koch
  * @category Dialogs
- * @version BETA
+ * @version beta
  * 
  * 
  */
@@ -113,9 +113,9 @@ public class AboutDialog extends OptionDialog{
 	                   
 	                 try {
 						Desktop.getDesktop().browse(new URI("https://github.com/Maurice189/VisualSorting"));
-					} catch (IOException | URISyntaxException e1) {
-						e1.printStackTrace();
-					}
+					 } catch (IOException e2) {
+						 e2.printStackTrace();
+					 } catch ( URISyntaxException e1){}
 	                   
 	            }
 	    });
@@ -127,10 +127,10 @@ public class AboutDialog extends OptionDialog{
 	                   
 	                 try {
 						Desktop.getDesktop().browse(new URI("http://www.gnu.org/licenses/"));
-					} catch (IOException | URISyntaxException e1) {
-						e1.printStackTrace();
-					}
-	                   
+					} catch (IOException e2) {
+						e2.printStackTrace();
+					} catch ( URISyntaxException e1){}
+
 	            }
 	    });
 	    

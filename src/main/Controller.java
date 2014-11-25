@@ -19,27 +19,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 
-/**
- * 
- * <h3>Used Design Patterns</h3></br>
- * <ul>
- * 		<li>Model-View-<b>Controller</li>
- * 		<li>Observer Design Pattern</li>
- * </ul>
- * 
- * </br><h3>Abstract</h3></br>
- * 
- * This class respresents, as the name implies, the controller in the
- * MVC pattern. Moreover this class implements the observer pattern,
- * so the controller can be informed, if a visualsation thread ends
- * 
- * @author Maurice Koch
- * @version BETA
- * @category MVC
- * 
- */
-
-
 import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -83,6 +62,24 @@ import main.InternalConfig.LANG;
 import main.Statics.SORTALGORITHMS;
 
 
+/**
+ * 
+ * <h3>Used Design Patterns</h3></br>
+ * <ul>
+ * 	<li>Model-View-Controller</li>
+ * 	<li>Observer Design Pattern</li>
+ * </ul>
+ * <h3>Abstract</h3>
+ * 
+ * This class respresents, as the name implies, the controller in the
+ * MVC pattern. Moreover this class implements the observer pattern,
+ * so the controller can be informed, if a visualsation thread ends
+ * 
+ * @author Maurice Koch
+ * @version beta
+ * @category MVC
+ * 
+ */
 public class Controller implements Observer,ComponentListener,ActionListener, WindowListener {
 
 	private ArrayList<Sort> sortList; 
@@ -95,7 +92,10 @@ public class Controller implements Observer,ComponentListener,ActionListener, Wi
 	private javax.swing.Timer appTimer;
 	private int leftMs,leftSec,threadsAlive;
 
-
+	/**
+	 * 
+	 * @param langXMLInterface
+	 */
 	public Controller(LanguageFileXML langXMLInterface) {
 
 		this.langXMLInterface = langXMLInterface;
@@ -107,7 +107,9 @@ public class Controller implements Observer,ComponentListener,ActionListener, Wi
 		createTimer();
 	
 	}
-	
+	/**
+	 * 
+	 */
 	private void createTimer(){
 		
 		leftMs = 0;
@@ -130,6 +132,10 @@ public class Controller implements Observer,ComponentListener,ActionListener, Wi
 		if(window!=null) window.setClockParam(0,0);
 	}
 
+	/**
+	 * 
+	 * @param window
+	 */
 	public void setView(Window window) {
 
 		this.window = window;
@@ -137,7 +143,7 @@ public class Controller implements Observer,ComponentListener,ActionListener, Wi
 		window.addComponentListener(this);
 		window.updateNumberOfElements(Sort.getElements().length);
 	}
-
+	
 	public void actionPerformed(ActionEvent e) {
 
 		if (e.getActionCommand() == Statics.ADD_SORT) {
@@ -172,7 +178,6 @@ public class Controller implements Observer,ComponentListener,ActionListener, Wi
 			else if (selectedSort.equals(SORTALGORITHMS.Bitonicsort.toString())){
 				sort = new BitonicSort();
 				if(Integer.bitCount(Sort.getElements().length) != 1){
-		
 					JOptionPane.showMessageDialog(window,
 					langXMLInterface.getValue("info0l0")+"\n"+langXMLInterface.getValue("info0l1"),
 					"Information",JOptionPane.INFORMATION_MESSAGE);		
@@ -197,16 +202,14 @@ public class Controller implements Observer,ComponentListener,ActionListener, Wi
 
 			sort.addObserver(this);
 			sortList.add(sort);
-			window.addNewSort(sort, selectedSort);
+			window.addNewSort(sort);
 			resize();
 
 		}
 
 		else if (e.getActionCommand() == Statics.START) {
-
 			if (threadsAlive != 0) {
 				if (Sort.isStopped()) {
-
 					Sort.resume();
 					for (Sort temp : sortList) {
 						temp.unlockSignal();
@@ -227,13 +230,11 @@ public class Controller implements Observer,ComponentListener,ActionListener, Wi
 
 				}
 
-			}
+			} else {
 
-			else {
-
-				if (executor.isTerminated())
+				if (executor.isTerminated()){
 					executor = Executors.newCachedThreadPool();
-
+				}
 				Sort.resume();
 				for (Sort temp : sortList) {
 
@@ -241,19 +242,16 @@ public class Controller implements Observer,ComponentListener,ActionListener, Wi
 					temp.getPanelUI().enableRemoveButton(false);
 					executor.execute(temp);
 					threadsAlive++;
-
 				}
 
-				if (byUserStopped)
-					byUserStopped = false; // if app was reseted, start routine
-											// continues here
+				if (byUserStopped){
+					byUserStopped = false;
+				}
 				window.unlockManualIteration(false);
 				window.unlockAddSort(false);
 				
 				createTimer();
 				appTimer.start();
-				
-	
 			}
 
 			window.toggleStartStop();
@@ -331,7 +329,12 @@ public class Controller implements Observer,ComponentListener,ActionListener, Wi
 			}
 
 		}
-
+		/**
+		 * It is quite inconvenient to figure out which
+		 * panel was removed. It's even not a good idea, to create 
+		 * for each new panel a new handler. So all remove requests (fired events)
+		 * are redirected to this handler. 
+		 */
 		else if (e.getActionCommand() == Statics.REMOVE_SORT) {
 
 			if (sortList.size() > 0) {
@@ -382,11 +385,12 @@ public class Controller implements Observer,ComponentListener,ActionListener, Wi
 			}
 			reset();
 		}
-
 	}
 	
+	/**
+	 * 
+	 */
 	public void reset(){
-		
 		
 		if (Sort.isStopped()) {
 
@@ -399,15 +403,12 @@ public class Controller implements Observer,ComponentListener,ActionListener, Wi
 				temp.deleteObservers();
 				temp.unlockSignal();	
 				temp.getPanelUI().enableRemoveButton(true);
-				
-
-			}
+		 	}
 			
-
 			try {
 			  executor.shutdown();
 		        if (!executor.awaitTermination(1200, TimeUnit.MILLISECONDS)) { //optional *
-		        	System.out.println("Executor did not terminate in the specified time."); //optional *
+		            System.out.println("Executor did not terminate in the specified time."); //optional *
 		            List<Runnable> droppedTasks = executor.shutdownNow(); //optional **
 		            System.out.println("Executor was abruptly shut down. " + droppedTasks.size() + " tasks will not be executed."); //optional **
 		        }
@@ -431,15 +432,11 @@ public class Controller implements Observer,ComponentListener,ActionListener, Wi
 		}
 		
 		else {
-
 			for (Sort temp : sortList) {
 				temp.getPanelUI().enableRemoveButton(true);
 				temp.initElements();
 
 			}
-			
-			
-
 		}
 
 		
@@ -449,9 +446,21 @@ public class Controller implements Observer,ComponentListener,ActionListener, Wi
 		
 	}
 	
+	/*
+	 * Called when a algorithm terminates
+	 * (Oberserver) 
+	 */
 	@Override
 	public void update(Observable o, Object arg) {
 
+	    	/*
+	    	 * When all proccess has been terminated,
+	    	 * then the gui has to be updated (enable buttons etc.).
+	    	 * 
+	    	 * Hence we're using swing (no sync. , no concurrent operations), 
+	    	 * we need to invoke the gui update later,
+	    	 * instead of using the calling thread.
+	    	 */
 		if (--threadsAlive == 0 && byUserStopped == false) {
 			EventQueue.invokeLater(new Runnable() {
 				public void run() {
@@ -463,19 +472,15 @@ public class Controller implements Observer,ComponentListener,ActionListener, Wi
 			
 			appTimer.stop();
 			
-			for (Sort temp : sortList) 
+			for (Sort temp : sortList){
 				temp.getPanelUI().enableRemoveButton(true);
-
+			}
 			
 		}
 		
 		
 			
 		sortList.get((int)arg).getPanelUI().setDuration(leftSec, leftMs);
-			
-		
-		
-
 	}
 
 	@Override
@@ -487,8 +492,9 @@ public class Controller implements Observer,ComponentListener,ActionListener, Wi
 		
 		appTimer.stop();
 
-		for (OptionDialog temp : dialogs)
+		for (OptionDialog temp : dialogs){
 			temp.dispose();
+		}
 
 		InternalConfig.saveChanges();
 		
@@ -536,14 +542,16 @@ public class Controller implements Observer,ComponentListener,ActionListener, Wi
 			}
 		}
 	}
-	 
+	/**
+	 *  
+	 */
 	private void resize(){
 		 
-		 if(sortList.size() > 0){				
-				for(Sort tmp:sortList)
-					tmp.getSortVisualisationPanel().updateSize();
-				
+		 if(!sortList.isEmpty()){				
+			for(Sort tmp:sortList){
+			    tmp.getSortVisualisationPanel().updateSize();
 			}
+		 }
 	 }
 
 	@Override

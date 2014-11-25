@@ -48,10 +48,10 @@ import org.xml.sax.SAXException;
 public class LanguageFileXML {
 
 	private Document document;
+	public final static String languageRegex = "[a-z]*2_lang.xml";
 
 	public LanguageFileXML() {
 	}
-	
 	
 	/**
 	 * 
@@ -60,17 +60,6 @@ public class LanguageFileXML {
 	 */
 	public String getValue(String xmlTag){
 		return document.getElementsByTagName(xmlTag).item(0).getTextContent();
-		//return element.getChild(xmlTag).getValue();
-	}
-	
-	/**
-	 * 
-	 * @param xmlTag key
-	 * @param value value
-	 */
-	public void setValue(String xmlTag,String value){
-		
-		
 	}
 
 	/**
@@ -79,7 +68,7 @@ public class LanguageFileXML {
 	 */
 	public boolean readXML(String source) {
 		
-		InputStream in = Statics.class.getResourceAsStream(source);
+	    InputStream in = Statics.class.getResourceAsStream(source);
 	    DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 	    DocumentBuilder builder;
 	  

@@ -9,7 +9,7 @@ import main.PanelUI;
 import main.SortVisualisationPanel;
 import main.Statics.SORTALGORITHMS;
 
-/*
+/**
  * 
  * Used Design Patterns
  * 
@@ -30,8 +30,8 @@ import main.Statics.SORTALGORITHMS;
  * 
  * 
  * 
- * author Maurice
- * version BETA
+ * @author Maurice Koch
+ * @version beta
  */
 
 public abstract class Sort extends Observable implements Runnable {
