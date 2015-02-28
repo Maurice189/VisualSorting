@@ -78,5 +78,5 @@ If you find any bugs or have any wishes, please do not hesitate to contact me un
 
 ## License
 
-This program is licenced under the GNU GPLv3 licence. For more informations please visit : href="http://www.gnu.org/copyleft/gpl.html">http://www.gnu.org/copyleft/gpl.html</a>.
+This program is licenced under the GNU GPLv3 licence. For more informations please visit : <a href="http://www.gnu.org/copyleft/gpl.html">http://www.gnu.org/copyleft/gpl.html</a>.
 
