@@ -34,13 +34,15 @@ import javax.swing.border.TitledBorder;
 public class PanelUI{
 	
 	private static int counter = 0,releasedID;
+	private static LanguageFileXML langXML;
+	
 	private TitledBorder leftBorder;
 	private JButton remove;
 	private JPanel panel;
 	private int ID;
-	private static LanguageFileXML langXML;
 	
-	public PanelUI(ActionListener listener,JPanel panel ,String selectedSort){
+	
+	public PanelUI(ActionListener listener, JPanel panel, String selectedSort){
 		
 		
 		ID = PanelUI.counter++;
@@ -120,7 +122,6 @@ public class PanelUI{
 		leftBorder.setTitle(info);
 	}
 	
-	
 	public void setInfo(String algoname,int accesses,int comparisons) {
 		
 		String info = 
@@ -139,7 +140,7 @@ public class PanelUI{
 	}
 	
 	public void updateID(){
-		if(ID>PanelUI.releasedID) ID--;
+		if(ID > PanelUI.releasedID) ID--;
 	}
 	
 	public static void updateCounter(){

@@ -86,7 +86,7 @@ public class ShellSort extends Sort {
 		notifyObservers(panelUI.getID());
 
 		if (flashing)
-			svp.flashing();
+			svp.visualTermination();
 	
 
 	}

@@ -107,7 +107,8 @@ public class Window extends JFrame {
 	// we store the visualization panels dynamically, so we can add and remove it much easier
 	private List<SortVisualisationPanel> vsPanel;
 	
-	// the filler is used for the vertical space between the visualization panels
+	
+	// FIXME : BAD the filler is used for the vertical space between the visualization panels
 	private List<Component> filler = new LinkedList<Component>();
 
 	/**
@@ -354,7 +355,7 @@ public class Window extends JFrame {
 	   * If the language was changed, 
 	   * component titles will be updated by this method.
 	   */
-	  public void updateLanguage(){
+	public void updateLanguage(){
 	  
 		  info.setText(langXML.getValue("info"));
 		  switchIntPause.setText(langXML.getValue("autopause"));
@@ -391,6 +392,7 @@ public class Window extends JFrame {
 		stateStButton = !stateStButton;
 		
 	}
+	
 	/**
 	 * Routine for adding a new sort algorithm 
 	 * to the visualisation 
@@ -420,6 +422,7 @@ public class Window extends JFrame {
 
 
 	}
+	
 	/**
 	 * This method updates the number of elements, by
 	 * setting the component label, that is located
@@ -432,6 +435,7 @@ public class Window extends JFrame {
 		nofLabel.setText(String.valueOf(nof).concat(" ").concat(langXML.getValue("nof")));
 		
 	}
+	
 	/**
 	 * This method updates the timer, by
 	 * setting the component label, that is located
@@ -542,7 +546,6 @@ public class Window extends JFrame {
 		repaint();
 		
 	}
-	
 	
 	/**
 	 * 

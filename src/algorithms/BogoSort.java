@@ -73,7 +73,7 @@ public class BogoSort extends Sort{
 		notifyObservers(panelUI.getID());
 		
 		if (flashing)
-			svp.flashing();
+			svp.visualTermination();
 		
 	}
 	@Override

@@ -107,6 +107,78 @@ public class Controller implements Observer,ComponentListener,ActionListener, Wi
 		createTimer();
 	
 	}
+	
+	/**
+	 * 
+	 * @param window
+	 */
+	public void setView(Window window) {
+
+		this.window = window;
+		SortVisualisationPanel.setBackgroundColor(window.getBackground());
+		window.addComponentListener(this);
+		window.updateNumberOfElements(Sort.getElements().length);
+	}
+	
+	/**
+	 * 
+	 */
+	public void reset(){
+		
+		if (Sort.isStopped()) {
+
+			Sort.setInterruptFlag(true);
+			Sort.resume();
+			Sort.setFlashingAnimation(false);
+
+			for (Sort temp : sortList) {
+
+				temp.deleteObservers();
+				temp.unlockSignal();	
+				temp.getPanelUI().enableRemoveButton(true);
+		 	}
+			
+			try {
+			  executor.shutdown();
+		        if (!executor.awaitTermination(1200, TimeUnit.MILLISECONDS)) { //optional *
+		            System.out.println("Executor did not terminate in the specified time."); //optional *
+		            List<Runnable> droppedTasks = executor.shutdownNow(); //optional **
+		            System.out.println("Executor was abruptly shut down. " + droppedTasks.size() + " tasks will not be executed."); //optional **
+		        }
+			} catch (InterruptedException e1) {
+				e1.printStackTrace();
+			}
+			
+			if (!executor.isTerminated())
+				System.out.println("executor service isn't terminated !");
+
+			for (Sort temp : sortList) {
+
+				temp.initElements();
+				temp.addObserver(this);
+
+			}
+			Sort.setInterruptFlag(false);
+			Sort.setFlashingAnimation(true);
+			createTimer();
+			
+		}
+		
+		else {
+			for (Sort temp : sortList) {
+				temp.getPanelUI().enableRemoveButton(true);
+				temp.initElements();
+
+			}
+		}
+
+		
+		window.unlockAddSort(true);
+		threadsAlive = 0;
+		
+		
+	}
+	
 	/**
 	 * 
 	 */
@@ -121,8 +193,8 @@ public class Controller implements Observer,ComponentListener,ActionListener, Wi
 				  
 				  leftMs+=10;
 				  if (leftMs == 1000) {
-						leftMs = 0;
-						leftSec++;
+					leftMs = 0;
+					leftSec++;
 				  }
 				  
 				  window.setClockParam(leftSec, leftMs);
@@ -131,19 +203,22 @@ public class Controller implements Observer,ComponentListener,ActionListener, Wi
 		}); 
 		if(window!=null) window.setClockParam(0,0);
 	}
-
+	
+	/**
+	 *  
+	 */
+	private void resize(){
+		 
+		 if(!sortList.isEmpty()){				
+			for(Sort tmp:sortList){
+			    tmp.getSortVisualisationPanel().updateSize();
+			}
+		 }
+	 }
+	
 	/**
 	 * 
-	 * @param window
 	 */
-	public void setView(Window window) {
-
-		this.window = window;
-		SortVisualisationPanel.setBackgroundColor(window.getBackground());
-		window.addComponentListener(this);
-		window.updateNumberOfElements(Sort.getElements().length);
-	}
-	
 	public void actionPerformed(ActionEvent e) {
 
 		if (e.getActionCommand() == Statics.ADD_SORT) {
@@ -304,9 +379,10 @@ public class Controller implements Observer,ComponentListener,ActionListener, Wi
 			InternalConfig.setLanguage(LANG.en);
 			langXMLInterface.readXML(InternalConfig.getLanguageSetPath());
 			window.updateLanguage();
+			// update language on every open dialog
 			for (OptionDialog temp : dialogs)
-				temp.updateComponentsLabel(); // update language on every open
-												// dialog
+				temp.updateComponentsLabel();
+			
 
 		}
 
@@ -387,65 +463,6 @@ public class Controller implements Observer,ComponentListener,ActionListener, Wi
 		}
 	}
 	
-	/**
-	 * 
-	 */
-	public void reset(){
-		
-		if (Sort.isStopped()) {
-
-			Sort.setInterruptFlag(true);
-			Sort.resume();
-			Sort.setFlashingAnimation(false);
-
-			for (Sort temp : sortList) {
-
-				temp.deleteObservers();
-				temp.unlockSignal();	
-				temp.getPanelUI().enableRemoveButton(true);
-		 	}
-			
-			try {
-			  executor.shutdown();
-		        if (!executor.awaitTermination(1200, TimeUnit.MILLISECONDS)) { //optional *
-		            System.out.println("Executor did not terminate in the specified time."); //optional *
-		            List<Runnable> droppedTasks = executor.shutdownNow(); //optional **
-		            System.out.println("Executor was abruptly shut down. " + droppedTasks.size() + " tasks will not be executed."); //optional **
-		        }
-			} catch (InterruptedException e1) {
-				e1.printStackTrace();
-			}
-			
-			if (!executor.isTerminated())
-				System.out.println("executor service isn't terminated !");
-
-			for (Sort temp : sortList) {
-
-				temp.initElements();
-				temp.addObserver(this);
-
-			}
-			Sort.setInterruptFlag(false);
-			Sort.setFlashingAnimation(true);
-			createTimer();
-			
-		}
-		
-		else {
-			for (Sort temp : sortList) {
-				temp.getPanelUI().enableRemoveButton(true);
-				temp.initElements();
-
-			}
-		}
-
-		
-		window.unlockAddSort(true);
-		threadsAlive = 0;
-		
-		
-	}
-	
 	/*
 	 * Called when a algorithm terminates
 	 * (Oberserver) 
@@ -484,10 +501,6 @@ public class Controller implements Observer,ComponentListener,ActionListener, Wi
 	}
 
 	@Override
-	public void windowOpened(WindowEvent e) {
-	}
-
-	@Override
 	public void windowClosing(WindowEvent e) {
 		
 		appTimer.stop();
@@ -498,18 +511,6 @@ public class Controller implements Observer,ComponentListener,ActionListener, Wi
 
 		InternalConfig.saveChanges();
 		
-	}
-
-	@Override
-	public void windowClosed(WindowEvent e) {
-	}
-
-	@Override
-	public void windowIconified(WindowEvent e) {
-	}
-
-	@Override
-	public void windowDeiconified(WindowEvent e) {
 	}
 
 	 @Override
@@ -542,41 +543,32 @@ public class Controller implements Observer,ComponentListener,ActionListener, Wi
 			}
 		}
 	}
-	/**
-	 *  
-	 */
-	private void resize(){
-		 
-		 if(!sortList.isEmpty()){				
-			for(Sort tmp:sortList){
-			    tmp.getSortVisualisationPanel().updateSize();
-			}
-		 }
-	 }
+	 
+	@Override
+	public void windowOpened(WindowEvent e) {}
+	
+	@Override
+	public void windowClosed(WindowEvent e) {}
+
+	@Override
+	public void windowIconified(WindowEvent e) {}
+
+	@Override
+	public void windowDeiconified(WindowEvent e) {} 
 
 	@Override
 	public void componentResized(ComponentEvent e) {
 		resize();
-	
 	}
 
 	@Override
-	public void componentMoved(ComponentEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
+	public void componentMoved(ComponentEvent e) {}
 
 	@Override
-	public void componentShown(ComponentEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
+	public void componentShown(ComponentEvent e) {}
 
 	@Override
-	public void componentHidden(ComponentEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
+	public void componentHidden(ComponentEvent e) {}
 	
 
 	

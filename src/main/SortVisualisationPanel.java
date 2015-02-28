@@ -45,13 +45,15 @@ public class SortVisualisationPanel extends JPanel {
 
 	private static Color backgroundColor = Color.white;
 	private static final int preferredGapSize = 3, offsetY = 20;
-	private int width, height, refWidth, refHeight, margin = 7, gapSize = 3,
-			marginTop = 25;
-
+	
+	private int width, height;
+	private int refWidth, refHeight;
+	private int margin = 7, gapSize = 3, marginTop = 25;
+	private int lstIndex1 = -1, lstIndex2 = -1, lstInsert = -1, lstPivot = -1;
+	
 	private BufferedImage buffer;
 	private Graphics2D gbuffer;
-	private int elements[], lstIndex1 = -1, lstIndex2 = -1, lstInsert = -1,
-			lstPivot = -1;
+	private int elements[];
 
 	public SortVisualisationPanel(ActionListener listener, String selectedSort,
 			int width, int height) {
@@ -76,24 +78,14 @@ public class SortVisualisationPanel extends JPanel {
 
 	}
 
-	public void drawElements() {
+	@Override
+	protected void paintComponent(Graphics g) {
+		super.paintComponent(g);
 
-		gbuffer.clearRect(0, 0, buffer.getWidth(), buffer.getHeight());
-		gbuffer.setColor(Color.GRAY);
+		g.drawImage(buffer, 0, 0, width, height, this);
 
-		for (int i = 0; i < elements.length; i++) {
-			gbuffer.drawRect((i * (refWidth + gapSize)) + margin,
-					(height - (refHeight * elements[i])) - offsetY, refWidth,
-					refHeight * elements[i]);
-			gbuffer.fillRect((i * (refWidth + gapSize)) + margin,
-					(height - (refHeight * elements[i])) - offsetY, refWidth,
-					refHeight * elements[i]);
-
-		}
-
-		repaint();
 	}
-
+	
 	public void visualPivot(int pivotIndex) {
 
 		int x = (pivotIndex * (refWidth + gapSize)) + margin;
@@ -214,23 +206,7 @@ public class SortVisualisationPanel extends JPanel {
 
 	}
 
-	private void signalExchangedElements(int i1, int i2, int refWidth) {
-
-		int x1 = (int) (i1 * (refWidth + gapSize) + (refWidth * 0.5)) + margin;
-		int x2 = (int) (i2 * (refWidth + gapSize) + (refWidth * 0.5)) + margin;
-
-		gbuffer.setColor(Color.BLUE);
-		gbuffer.setStroke(new BasicStroke(1));
-		gbuffer.drawLine(x1, height - offsetY + 5, x1,
-				(int) (height - (offsetY * 0.70)));
-		gbuffer.drawLine(x2, height - offsetY + 5, x2,
-				(int) (height - (offsetY * 0.70)));
-		gbuffer.drawLine(x1, (int) (height - (offsetY * 0.70)), x2,
-				(int) (height - (offsetY * 0.70)));
-
-	}
-
-	public void flashing() {
+	public void visualTermination() {
 	    
 		// nur unteren bereich loeschen
 		gbuffer.clearRect(0, height - offsetY, width, height);
@@ -256,7 +232,7 @@ public class SortVisualisationPanel extends JPanel {
 		
 		
 	}
-
+	
 	public void updatePanelSize() {
 
 		buffer = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
@@ -266,22 +242,7 @@ public class SortVisualisationPanel extends JPanel {
 		drawElements();
 
 	}
-
-	public void setElements(int elements[]) {
-
-		this.elements = elements;
-		drawElements();
-
-	}
-
-	@Override
-	protected void paintComponent(Graphics g) {
-		super.paintComponent(g);
-
-		g.drawImage(buffer, 0, 0, width, height, this);
-
-	}
-
+	
 	public void updateBarSize() {
 
 		int elements[] = Sort.getElements();
@@ -326,6 +287,47 @@ public class SortVisualisationPanel extends JPanel {
 
 	}
 
+	public void setElements(int elements[]) {
+
+		this.elements = elements;
+		drawElements();
+
+	}
+	
+	private void drawElements() {
+
+		gbuffer.clearRect(0, 0, buffer.getWidth(), buffer.getHeight());
+		gbuffer.setColor(Color.GRAY);
+
+		for (int i = 0; i < elements.length; i++) {
+			gbuffer.drawRect((i * (refWidth + gapSize)) + margin,
+					(height - (refHeight * elements[i])) - offsetY, refWidth,
+					refHeight * elements[i]);
+			gbuffer.fillRect((i * (refWidth + gapSize)) + margin,
+					(height - (refHeight * elements[i])) - offsetY, refWidth,
+					refHeight * elements[i]);
+
+		}
+
+		repaint();
+	}
+	
+	private void signalExchangedElements(int i1, int i2, int refWidth) {
+
+		int x1 = (int) (i1 * (refWidth + gapSize) + (refWidth * 0.5)) + margin;
+		int x2 = (int) (i2 * (refWidth + gapSize) + (refWidth * 0.5)) + margin;
+
+		gbuffer.setColor(Color.BLUE);
+		gbuffer.setStroke(new BasicStroke(1));
+		gbuffer.drawLine(x1, height - offsetY + 5, x1,
+				(int) (height - (offsetY * 0.70)));
+		gbuffer.drawLine(x2, height - offsetY + 5, x2,
+				(int) (height - (offsetY * 0.70)));
+		gbuffer.drawLine(x1, (int) (height - (offsetY * 0.70)), x2,
+				(int) (height - (offsetY * 0.70)));
+
+	}
+	
 	public static void setBackgroundColor(Color color) {
 		backgroundColor = color;
 	}

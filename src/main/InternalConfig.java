@@ -30,7 +30,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
  * 
  */
 
-import java.io.FileDescriptor;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
@@ -46,7 +45,7 @@ public class InternalConfig {
 	public static enum LANG{
 		fr,en,de;
 		
-		public static LANG resolve(String langName){
+	public static LANG resolve(String langName){
 			
 			String tmpLang = langName.toLowerCase();
 			
@@ -71,15 +70,26 @@ public class InternalConfig {
 	private static boolean autoPauseOn;
 
 	
+	/**
+	 * 
+	 * @param lang
+	 * @param xmlName
+	 */
 	public static void setNewLangDefEntry(LANG lang,String xmlName){
 		langDef.put(lang, xmlName);
 	}
 	
+	/**
+	 * 
+	 * @param configPath
+	 */
 	public static void setConfigFileDirectory(String configPath){
 		PROPORTIES_NAME = configPath+"config.txt";
 	}
 	
-	
+	/**
+	 * 
+	 */
 	public static void searchAvailableLanguages(){
 	    
 	    /*
@@ -88,6 +98,9 @@ public class InternalConfig {
 	    
 	}
 	
+	/**
+	 * 
+	 */
 	public static void loadConfigFile() {
 
 		FileReader reader = null;
@@ -197,11 +210,20 @@ public class InternalConfig {
 
 	}
 	
+	/**
+	 * 
+	 * @param langName
+	 */
 	public static void setLanguage(String langName){
 		
 		InternalConfig.languageSet = LANG.resolve(langName);
 		
 	}
+	
+	/**
+	 * 
+	 * @param lang
+	 */
 	public static void setLanguage(LANG lang){
 		InternalConfig.languageSet = lang;
 		
@@ -238,6 +260,10 @@ public class InternalConfig {
 		return langDef.get(InternalConfig.languageSet);
 	}
 	
+	/**
+	 * 
+	 * @return
+	 */
 	public static LANG getLanguageSet(){
 		return InternalConfig.languageSet;
 	}

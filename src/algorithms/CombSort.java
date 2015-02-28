@@ -93,7 +93,7 @@ public class CombSort extends Sort {
 		setChanged();
 		notifyObservers(panelUI.getID());
 		
-		if(flashing) svp.flashing();
+		if(flashing) svp.visualTermination();
 		
 	}
 	

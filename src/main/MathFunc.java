@@ -18,15 +18,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 */
 public class MathFunc {
-
-	public MathFunc() {
-		// TODO Auto-generated constructor stub
-	}
 	
 	public static int getRandomNumber(int low, int high) {
 		return (int) (Math.random() * (high - low) + low);
 	}
-	
 	
 	public static int getMax(int values[]){
 		

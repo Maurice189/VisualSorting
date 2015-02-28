@@ -41,7 +41,6 @@ public abstract class Sort extends Observable implements Runnable {
 	protected static int delayNs = 0;
 	protected static boolean stop = true,flashing = true,interrupt;
 	
-
 	protected int elements[];
 	protected int iterates,accesses,comparisons;
 	protected SortVisualisationPanel svp;
@@ -55,12 +54,22 @@ public abstract class Sort extends Observable implements Runnable {
 	 * changes that are done on the sortlist
 	 */
 	public Sort(SortVisualisationPanel svp) {
-
 		this.svp = svp;
+	}
+	
+	/*
+	 * a copy of the static sortlist is created 
+	 */
+	public Sort() {
 
+	    this.elements = new int[Sort.gElement.length];
+	    System.arraycopy(Sort.gElement, 0, elements, 0, Sort.gElement.length);
 
 	}
-
+	
+	/**
+	 * 
+	 */
 	public void initElements() {
 
 		this.elements = new int[Sort.gElement.length];
@@ -72,26 +81,6 @@ public abstract class Sort extends Observable implements Runnable {
 		svp.setElements(this.elements);
 	}
 
-	/*
-	 * 
-	 * Sorting list, that can accessed from every object, in order to create a copy
-	 */
-	public static void setElements(int elements[]) {
-		Sort.gElement = elements;
-
-	}
-
-	/*
-	 * a copy of the static sortlist is created 
-	 */
-	public Sort() {
-		// TODO Auto-generated constructor stub
-
-		this.elements = new int[Sort.gElement.length];
-		System.arraycopy(Sort.gElement, 0, elements, 0, Sort.gElement.length);
-
-	}
-	
 	/*
 	 * The paused thread resume
 	 */
@@ -130,16 +119,35 @@ public abstract class Sort extends Observable implements Runnable {
 			Thread.currentThread().interrupt();
 		}
 	}
-
-	/*
+	
+	/**
 	 * 
-	 * is used for displaying the sorting list in 'EnterDialog'
-	 * and for saving the number of elements in the configuration file
 	 */
-	public static int[] getElements() {
-		return Sort.gElement;
-	}
+	public static void stop() {
+		stop = true;
 
+	}
+	
+	/**
+	 * 
+	 */
+	public static void resume() {
+		stop = false;
+
+	}
+	
+	/*
+	 * is especially needed for the controller
+	 */
+	public static boolean isStopped() {
+		return stop;
+	}
+	
+	/**
+	 * 
+	 * @param svp
+	 * @param panelUI
+	 */
 	public void setSortVisualisationPanel(SortVisualisationPanel svp,PanelUI panelUI) {
 
 		this.svp = svp;
@@ -148,44 +156,18 @@ public abstract class Sort extends Observable implements Runnable {
 
 	}
 	
+	/**
+	 * 
+	 * @return
+	 */
 	public PanelUI getPanelUI(){
 		return panelUI;
-	}
-	
-	
-	public static void setInterruptFlag(boolean interrupt){
-		Sort.interrupt = interrupt;
 	}
 	
 	/*
 	 * the specific algorithm name (identifying is needed for the info dialog)
 	 */
 	public abstract SORTALGORITHMS getAlgorithmName();
-
-	public static void stop() {
-		stop = true;
-
-	}
-	public static void resume() {
-		stop = false;
-
-	}
-	
-	/*
-	 * flashing decides whether to animated the ending of a sorting proceedure
-	 */
-	public static void setFlashingAnimation(boolean flashing){
-		
-		Sort.flashing = flashing;
-	}
-
-	
-	/*
-	 * is especially needed for the controller
-	 */
-	public static boolean isStopped() {
-		return stop;
-	}
 
 	/**
 	 * is used to apply modifications on the 'SortVisualisationPanel' object
@@ -195,7 +177,31 @@ public abstract class Sort extends Observable implements Runnable {
 
 		return svp;
 	}
+	
+	/**
+	 * 
+	 * @param interrupt
+	 */
+	public static void setInterruptFlag(boolean interrupt){
+		Sort.interrupt = interrupt;
+	}
 
+	/*
+	 * flashing decides whether to animated the ending of a sorting proceedure
+	 */
+	public static void setFlashingAnimation(boolean flashing){
+		
+		Sort.flashing = flashing;
+	}
+	
+	/*
+	 * Sorting list, that can accessed from every object, in order to create a copy
+	 */
+	public static void setElements(int elements[]) {
+		Sort.gElement = elements;
+
+	}
+	
 	/*
 	 * delayNs  set the delay(nanoseconds) for all threads
 	 */
@@ -205,7 +211,6 @@ public abstract class Sort extends Observable implements Runnable {
 
 	}
 
-
 	/*
 	 * delayNs  set the delay(milliseconds) for all threads
 	 */
@@ -213,6 +218,14 @@ public abstract class Sort extends Observable implements Runnable {
 
 		Sort.delayMs = delayMs;
 
+	}
+	
+	/*
+	 * is used for displaying the sorting list in 'EnterDialog'
+	 * and for saving the number of elements in the configuration file
+	 */
+	public static int[] getElements() {
+		return Sort.gElement;
 	}
 
 	/*
