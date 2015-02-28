@@ -10,7 +10,7 @@ easily launch the program by either double-clicking the downloaded .jar or by us
 `java -jar visualsorting.jar`.
 Currently there is just an installation script for linux, if you want to have additionally a shortcut icon and a menu entry.
 
-<br /><h3>Installation</h3>
+<br /><h3>Install</h3>
 The installation script will create 
 a program folder and a copy of the executable jar and other files. 
 A shortcut icon is also created to provide an easy access to start the application.<br /><br />
@@ -38,7 +38,7 @@ Afterwards unzip the the downloaded file.
   ... comming soon
 
 
-<br /><h3>Deinstallation</h3>
+<br /><h3>Uninstall</h3>
 In order to execute those commands you need to be root.<br />
 
 <b>For Linux:</b><br />
