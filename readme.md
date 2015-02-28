@@ -29,7 +29,6 @@ easily launch the program by either double-clicking the downloaded .jar or by us
 `java -jar visualsorting.jar`.
 Currently there is just an installation script for linux, if you want to have additionally a shortcut icon and a menu entry.
 
-<br /><h3>Install</h3>
 The installation script will create 
 a program folder and a copy of the executable jar and other files. 
 A shortcut icon is also created to provide an easy access to start the application.<br /><br />
@@ -57,7 +56,7 @@ Afterwards unzip the the downloaded file.
   ... comming soon
 
 
-<br /><h3>Uninstall</h3>
+## Uninstalling
 In order to execute those commands you need to be root.<br />
 
 <b>For Linux:</b><br />
@@ -79,5 +78,5 @@ If you find any bugs or have any wishes, please do not hesitate to contact me un
 
 ## License
 
-THIS PROGRAM IS LICENSED UNDER THE <b>GPL v3</b>. SEE THE <a href="https://github.com/Maurice189/VisualSorting/blob/master/LICENCE.txt">LICENCE</a> FOR MORE INFORMATIONS.
+This program is licenced under the GNU GPLv3 licence. For more informations please visit : href="http://www.gnu.org/copyleft/gpl.html">http://www.gnu.org/copyleft/gpl.html</a>.
 
