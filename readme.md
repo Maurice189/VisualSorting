@@ -1,8 +1,27 @@
-VisualSorting
-=============
+## VisualSorting
 
-THIS PROGRAM IS LICENSED UNDER THE <b>GPL v3</b>. SEE THE <a href="https://github.com/Maurice189/VisualSorting/blob/master/LICENCE.txt">LICENCE</a> FOR MORE INFORMATIONS.
+VisualSorting is an application that intend to show how different 
+sort algorithms work. Moreover you can easily identify which algorithms are more efficient
+by running them at the same time. 
 
+Following functionalities are supported by the application
+
+<ul>
+<li>visualisation of many different sort algorithms</li>
+<li>simultaneous visualisations</li>
+<li>step by step - visualisation</li>
+<li>adjustable animation speed (ms:ns)</li>
+<li>editable sort list</li>
+</ul>
+
+## Motivation
+
+VisualSorting has been being mainly developed for educational purposes.
+
+This project has been mainly influenced by the 'sound-of-sorting' from Timo Bingmann. 
+For further informations see : https://github.com/bingmann/sound-of-sorting from Timo Bingmann. 
+
+## Installation
 
 The program is written in java, so you can run it on every OS that has a JVM.
 It was only tested with java <b>1.7</b> , but it should work just fine on other versions, too. You can
@@ -52,25 +71,13 @@ In order to execute those commands you need to be root.<br />
 <br /><br /><b>For Mac:</b><br />
 ... comming soon
 
-<br /><h3>About VisualSorting</h3>
 
-<b>VisualSorting</b> has been being mainly developed for educational purposes.<br /> 
-Following functionalities are supported by the application
-
-<ul>
-<li>visualisation heapsort,bubblesort,quicksort,combsort,gnomesort,mergesort,shakersort (more will be added soon)</li>
-<li>simultaneous visualisations</li>
-<li>step by step - visualisation</li>
-<li>adjustable animation speed (ms:ns)</li>
-<li>editable sort list</li>
-</ul>
-
-
-The sceenshot below shows the animation process. This is a common approach of visualize sort algorithms. It has been mainly influenced by this project from Timo Bingmann. 
-For further informations see : https://github.com/bingmann/sound-of-sorting from Timo Bingmann. 
-
-<p><img src="https://raw.githubusercontent.com/Maurice189/VisualSorting/master/screenshot_VisualSorting.png" alt="screenshot"></img></p>
+## Contributors
 
 If you find any bugs or have any wishes, please do not hesitate to contact me under 
 <b>m.koch189(at)@gmail.com</b>. <br /> <br /> 
+
+## License
+
+THIS PROGRAM IS LICENSED UNDER THE <b>GPL v3</b>. SEE THE <a href="https://github.com/Maurice189/VisualSorting/blob/master/LICENCE.txt">LICENCE</a> FOR MORE INFORMATIONS.
 
