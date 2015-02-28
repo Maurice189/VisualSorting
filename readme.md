@@ -4,26 +4,26 @@ VisualSorting
 THIS PROGRAM IS LICENSED UNDER THE <b>GPL v3</b>. SEE THE <a href="https://github.com/Maurice189/VisualSorting/blob/master/LICENCE.txt">LICENCE</a> FOR MORE INFORMATIONS.
 
 
-The program is written in java,so you can run it on every OS that has a JVM.
-It was only tested on java <b>1.7</b> it hasn't been tested with other versions. Currently there is
-just an installation script for linux.A Windows installation script will be published as soon as possible.
+The program is written in java, so you can run it on every OS that has a JVM.
+It was only tested with java <b>1.7</b> , but it should work just fine on other versions, too. You can
+easily launch the program by either double-clicking the downloaded .jar or by using your shell and by executing 
+`java -jar visualsorting.jar`.
+Currently there is just an installation script for linux, if you want to have additionally a shortcut icon and a menu entry.
 
 <br /><h3>Installation</h3>
-For the installation a script is located in the repository folder. For every platform exist
-a sepeperate script. You could even compile the source code by yourself, but the application 
-needs special program paramters to work correctly. The installation script will create 
-a program folder and copy the executable jar and other files like images and a execute script into it. 
-As well as a shortcut icon is created to provide a easy way to start the application.<br /><br />
+The installation script will create 
+a program folder and a copy of the executable jar and other files. 
+A shortcut icon is also created to provide an easy access to start the application.<br /><br />
 
-First download the .zip file from the repository page or with the direct download link
-<a href ="https://github.com/Maurice189/VisualSorting/archive/master.zip">`https://github.com/Maurice189/VisualSorting/archive/master.zip`</a>. Afterwards unzip the the downloaded file.
+First download the .zip file from the repository page.
+Afterwards unzip the the downloaded file.
 <br /><br /><b>For Linux:</b><br />
 
   1. open the shell
   2. change directory into unzipped folder with `cd`<br />
   3. Execute install.sh script with `sudo ./install.sh`<br />
-  4. Now you can delete the unzipped folder if the script executed with no error<br />
-  5. The deskton icon is located in `/usr/share/applications/VisualSorting.desktop` and should be now accessable from your menu
+  4. Now you can delete the unzipped folder if the script has executed with no errors<br />
+  5. The deskton icon is located in `/usr/share/applications/VisualSorting.desktop` and should be now accessable from      your menu.
 
 <br /><br /><b>For Windows:</b><br />
 
@@ -35,9 +35,6 @@ First download the .zip file from the repository page or with the direct downloa
 
 
 <br /><br /><b>For Mac:</b><br />
-
-  1. open the shell
-  2. change directory into unzipped folder with `cd`<br />
   ... comming soon
 
 
@@ -69,11 +66,11 @@ Following functionalities are supported by the application
 </ul>
 
 
-The sceenshot below shows the animation process. This is a common approach of visualize sort algorithms. It has been mainly influenced this project https://github.com/bingmann/sound-of-sorting from Timo Bingmann. 
+The sceenshot below shows the animation process. This is a common approach of visualize sort algorithms. It has been mainly influenced by this project from Timo Bingmann. 
+For further informations see : https://github.com/bingmann/sound-of-sorting from Timo Bingmann. 
 
 <p><img src="https://raw.githubusercontent.com/Maurice189/VisualSorting/master/screenshot_VisualSorting.png" alt="screenshot"></img></p>
 
-Currently (June '14) there are a few bugs and I have to adapt some things. If you find any bugs or have any wishes, please do not hesitate to contact me under 
+If you find any bugs or have any wishes, please do not hesitate to contact me under 
 <b>m.koch189(at)@gmail.com</b>. <br /> <br /> 
-Thanks,<br />
-Maurice K.
+
