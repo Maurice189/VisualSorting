@@ -109,6 +109,7 @@ public class Window extends JFrame {
 	
 	
 	// FIXME : BAD the filler is used for the vertical space between the visualization panels
+	// the filler is used for the vertical space between the visualization panels
 	private List<Component> filler = new LinkedList<Component>();
 
 	/**
@@ -422,7 +423,6 @@ public class Window extends JFrame {
 
 
 	}
-	
 	/**
 	 * This method updates the number of elements, by
 	 * setting the component label, that is located
@@ -435,7 +435,7 @@ public class Window extends JFrame {
 		nofLabel.setText(String.valueOf(nof).concat(" ").concat(langXML.getValue("nof")));
 		
 	}
-	
+
 	/**
 	 * This method updates the timer, by
 	 * setting the component label, that is located
@@ -592,6 +592,8 @@ public class Window extends JFrame {
 			e.printStackTrace();
 		}
 	}
+	
+	
 	
 
 }

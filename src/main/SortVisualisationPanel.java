@@ -45,6 +45,7 @@ public class SortVisualisationPanel extends JPanel {
 
 	private static Color backgroundColor = Color.white;
 	private static final int preferredGapSize = 3, offsetY = 20;
+	private static final int visualTerminationTime = 50;   // ms
 	
 	private int width, height;
 	private int refWidth, refHeight;
@@ -206,22 +207,54 @@ public class SortVisualisationPanel extends JPanel {
 
 	}
 
-	public void visualTermination() {
+    public void visualTermination() {
+
+	// nur unteren bereich loeschen
+	gbuffer.clearRect(0, height - offsetY, width, height);
+	gbuffer.setColor(Color.GREEN);
+
+	int delayNs = ((visualTerminationTime * 1000) / elements.length);
+
+	for (int i = 0; i < elements.length; i++) {
+
+	    gbuffer.drawRect((i * (refWidth + gapSize)) + margin,
+		    (height - (refHeight * elements[i])) - offsetY, refWidth,
+		    refHeight * elements[i]);
+
+	    gbuffer.fillRect((i * (refWidth + gapSize)) + margin,
+		    (height - (refHeight * elements[i])) - offsetY, refWidth,
+		    refHeight * elements[i]);
+
+	    try {
+		Thread.sleep((delayNs / 1000), delayNs % 1000);
+	    } catch (InterruptedException e) {
+		e.printStackTrace();
+	    }
+
+	    repaint();
+
+	}
+
+    }
+
+	public void flashing() {
 	    
 		// nur unteren bereich loeschen
 		gbuffer.clearRect(0, height - offsetY, width, height);
 		gbuffer.setColor(Color.GREEN);
+		double timeSlice = (double) 5000 / elements.length;
 
 		for (int i = 0; i < elements.length; i++) {
-		    
-		    	gbuffer.drawRect((i * (refWidth + gapSize)) + margin,
-				(height - (refHeight * elements[i])) - offsetY, refWidth,
-				refHeight * elements[i]);
 			gbuffer.fillRect((i * (refWidth + gapSize)) + margin,
 					(height - (refHeight * elements[i])) - offsetY, refWidth,
 					refHeight * elements[i]);
+			
 			try {
 				Thread.sleep(0,500);
+				Thread.currentThread();
+				int nanos = (int)(6500 - (i*timeSlice));
+				System.out.println("nanos: "+nanos+" = "+((int)(nanos / (double)1000)) + "ms | "+(nanos % 1000) + "ns" );
+				Thread.sleep((int)(nanos / (double)1000),nanos % 1000);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 				Thread.currentThread().interrupt();

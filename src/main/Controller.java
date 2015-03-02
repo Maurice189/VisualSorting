@@ -64,12 +64,6 @@ import main.Statics.SORTALGORITHMS;
 
 /**
  * 
- * <h3>Used Design Patterns</h3></br>
- * <ul>
- * 	<li>Model-View-Controller</li>
- * 	<li>Observer Design Pattern</li>
- * </ul>
- * <h3>Abstract</h3>
  * 
  * This class respresents, as the name implies, the controller in the
  * MVC pattern. Moreover this class implements the observer pattern,
@@ -204,21 +198,8 @@ public class Controller implements Observer,ComponentListener,ActionListener, Wi
 		if(window!=null) window.setClockParam(0,0);
 	}
 	
-	/**
-	 *  
-	 */
-	private void resize(){
-		 
-		 if(!sortList.isEmpty()){				
-			for(Sort tmp:sortList){
-			    tmp.getSortVisualisationPanel().updateSize();
-			}
-		 }
-	 }
 	
-	/**
-	 * 
-	 */
+	
 	public void actionPerformed(ActionEvent e) {
 
 		if (e.getActionCommand() == Statics.ADD_SORT) {
@@ -430,8 +411,10 @@ public class Controller implements Observer,ComponentListener,ActionListener, Wi
 
 				window.removeSort(selPanel);
 				sortList.remove(selPanel);
+				
 				for (Sort temp : sortList)
 					temp.getPanelUI().updateID();
+				
 				PanelUI.updateCounter();
 				Sort.setFlashingAnimation(true);
 				resize();
@@ -462,6 +445,7 @@ public class Controller implements Observer,ComponentListener,ActionListener, Wi
 			reset();
 		}
 	}
+	
 	
 	/*
 	 * Called when a algorithm terminates
@@ -498,6 +482,10 @@ public class Controller implements Observer,ComponentListener,ActionListener, Wi
 		
 			
 		sortList.get((int)arg).getPanelUI().setDuration(leftSec, leftMs);
+	}
+
+	@Override
+	public void windowOpened(WindowEvent e) {
 	}
 
 	@Override
@@ -544,8 +532,6 @@ public class Controller implements Observer,ComponentListener,ActionListener, Wi
 		}
 	}
 	 
-	@Override
-	public void windowOpened(WindowEvent e) {}
 	
 	@Override
 	public void windowClosed(WindowEvent e) {}
@@ -555,6 +541,17 @@ public class Controller implements Observer,ComponentListener,ActionListener, Wi
 
 	@Override
 	public void windowDeiconified(WindowEvent e) {} 
+	/**
+	 *  
+	 */
+	private void resize(){
+		 
+		 if(!sortList.isEmpty()){				
+			for(Sort tmp:sortList){
+			    tmp.getSortVisualisationPanel().updateSize();
+			}
+		 }
+	 }
 
 	@Override
 	public void componentResized(ComponentEvent e) {

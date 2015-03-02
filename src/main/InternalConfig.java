@@ -98,9 +98,7 @@ public class InternalConfig {
 	    
 	}
 	
-	/**
-	 * 
-	 */
+	
 	public static void loadConfigFile() {
 
 		FileReader reader = null;
@@ -153,6 +151,11 @@ public class InternalConfig {
 	private static void setValues(){
 		
 		languageSet = LANG.resolve(getValue("language"));
+		
+		if (getValue("language").equals("none")) {
+		    languageSet = LANG.resolve(System.getProperty("user.language"));
+		}
+		
 		version = getValue("version");
 		int nofelements = Integer.parseInt(getValue("nofelements"));
 		autoPauseOn = Boolean.parseBoolean(getValue("auto_pause"));
