@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<app lang="fr" version="0.3 Beta">
+  
+     <reset>Réinitialiser</reset>
+     <settings>Paramétres</settings>
+     <iterations>itérations</iterations>
+     <sortlist>Liste de tri ensemble</sortlist>
+     <setManual>définir manuellement</setManual>
+     <setList>générer des nombres aléatoires</setList>
+     <selection>sélection</selection>
+     <cmp>comparaisons</cmp>
+     <access>accès sur le terrain</access>
+     <nof>éléments</nof>
+     <autopause>pause automatique</autopause>
+     <prgfunc>Les paramètres du programme</prgfunc>
+     <delay>Régler la temporisation</delay>
+     <help>Aider</help>
+     <about>Propos</about>
+     <info>Ajouter algorithmes de tri</info> 
+     <add>Ajouter</add>
+     <rnumber>Générer des nombres aléatoires</rnumber>
+     <exit>Quitter</exit>
+     <lang>Langues</lang>
+     <error0>Votre entrée n'a pas pu être interprétée comme un nombre. \ nVeuillez entrer que des nombres entiers a</error0>
+	 <info0l0>Bitonicsort ne fonctionne qu'avec un certain nombre d'éléments,</info0l0>
+	<info0l1>une puissance de deux est correcte. par exemple: 128,256,512,1024 FRENCH</info0l1>
+</app>

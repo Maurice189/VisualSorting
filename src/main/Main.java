@@ -33,9 +33,9 @@ public class Main {
 			    e.printStackTrace();
 			}
 		}
+
+		System.setProperty("apple.laf.useScreenMenuBar", "true");
 			
-		
-		
 		InternalConfig.setNewLangDefEntry(LANG.de,"/resources/lang_de.xml");
 		InternalConfig.setNewLangDefEntry(LANG.en,"/resources/lang_en.xml");
 		InternalConfig.setNewLangDefEntry(LANG.fr,"/resources/lang_fr.xml");

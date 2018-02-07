@@ -18,10 +18,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 */
 
-import java.awt.Dimension;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.Insets;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -50,6 +47,7 @@ public class PanelUI{
 		this.panel = panel;
 		leftBorder = BorderFactory.createTitledBorder("");
 		leftBorder.setTitleJustification(TitledBorder.ABOVE_TOP);
+		leftBorder.setTitleColor(Color.darkGray);
 		leftBorder.setTitleFont(Window.getComponentFont(12f));
 		setInfo(selectedSort,0,0);
 

@@ -46,8 +46,6 @@ public class BinaryTreeSort extends Sort {
 			return node = new Node(e);
 		}
 		if (e.value < node.element.value) {
-			
-		
 			node.left = insert(node.left, e);
 			//svp.drawElements(node.element.index,e.index, true);
 			//System.out.println("TAUSCHE: " + x + " mit " + node.element);

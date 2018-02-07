@@ -79,7 +79,7 @@ public class AboutDialog extends OptionDialog{
 		JTextArea cpr = new JTextArea();
 		JPanel hyperlinks = new JPanel(new GridLayout(2,0));
 		TitledBorder tb = BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.GRAY),
-		"Visual Sorting - Copyright 2014 by Maurice Koch");
+		"Visual Sorting - Copyright 2018, Maurice Koch");
 		tb.setTitleFont(Window.getComponentFont(10f));
 		
 		cpr.setFont(Window.getComponentFont(10f));
@@ -91,20 +91,26 @@ public class AboutDialog extends OptionDialog{
 		hyperlinkGNU.setFont(Window.getComponentFont(10f));
 		ImageIcon bg = null;
 		hyperlinkGitHub.setText("Click here to visit on GitHub (for comments/bug report/etc.)");
-		hyperlinkGNU.setText("Click here to visit http://www.gnu.org/licenses/");
+		hyperlinkGNU.setText("Click here to visit https://opensource.org/licenses/MIT");
 		 cpr.setText(
-		 "\nThis program is free software: you can redistribute it and/or modify\n"+
-		 "it under the terms of the GNU General Public License as published by\n"+
-		 "the Free Software Foundation, either version 3 of the License, or\n"+
-		 "(at your option) any later version.\n"+
+		 "\nPermission is hereby granted, free of charge, to any person obtaining a copy of\n" +
+                 "this software and associated documentation files (the \"Software\"), to\n" +
+                 "deal in the Software without restriction, including without limitation\n" +
+                 "the rights to use, copy, modify, merge, publish, distribute, sublicense,\n" +
+                 "and/or sell copies of the Software, and to permit persons to whom the\n" +
+                 "Software is furnished to do so, subject to the following conditions:\n\n"+
 
-		 "This program is distributed in the hope that it will be useful,\n"+
-		 "but WITHOUT ANY WARRANTY; without even the implied warranty of\n"+
-		 "MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the\n"+
-		 "GNU General Public License for more details.\n"+
+		 "The above copyright notice and this permission notice shall be included\n" +
+				 "in all copies or substantial portions of the Software.\n\n"+
 
-		 "You should have received a copy of the GNU General Public License\n"+
-		 "along with this program.  If not, see http://www.gnu.org/licenses/");
+		 "THE SOFTWARE IS PROVIDED \"AS IS\", WITHOUT WARRANTY OF ANY KIND,\n" +
+                 "EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE\n" +
+                 "WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE\n" +
+                 "AND NONINFRINGEMENT IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT\n" +
+                 "HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,\n" +
+                 "WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING\n" +
+                 "FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE\n" +
+                 "OR OTHER DEALINGS IN THE SOFTWARE.");
 		
 		hyperlinkGitHub.setCursor(new Cursor(Cursor.HAND_CURSOR));
 		hyperlinkGitHub.addMouseListener(new MouseAdapter() {
@@ -126,7 +132,7 @@ public class AboutDialog extends OptionDialog{
 	            public void mouseClicked(MouseEvent e) {
 	                   
 	                 try {
-						Desktop.getDesktop().browse(new URI("http://www.gnu.org/licenses/"));
+						Desktop.getDesktop().browse(new URI("https://opensource.org/licenses/MIT"));
 					} catch (IOException e2) {
 						e2.printStackTrace();
 					} catch ( URISyntaxException e1){}
@@ -138,7 +144,7 @@ public class AboutDialog extends OptionDialog{
 		setLayout(new BorderLayout());
 
 		java.net.URL helpURL = AboutDialog.class.getClassLoader().getResource(
-				"resources/VisualSorting_Logo_small_transparent.png");
+				"resources/logo.png");
 		if (helpURL != null) {
 			bg = new ImageIcon(helpURL);
 

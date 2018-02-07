@@ -39,35 +39,14 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
 
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.Dimension;
-import java.awt.Font;
-import java.awt.FontFormatException;
+import java.awt.*;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
-import javax.swing.BorderFactory;
-import javax.swing.Box;
-import javax.swing.BoxLayout;
-import javax.swing.ButtonGroup;
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JCheckBoxMenuItem;
-import javax.swing.JComboBox;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JMenu;
-import javax.swing.JMenuBar;
-import javax.swing.JMenuItem;
-import javax.swing.JPanel;
-import javax.swing.JRadioButtonMenuItem;
-import javax.swing.JSeparator;
-import javax.swing.JToolBar;
+import javax.swing.*;
 import javax.swing.border.Border;
 import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
@@ -103,7 +82,8 @@ public class Window extends JFrame {
 	private JMenu help, settings, languages, programmFunctions;
 	private JToolBar toolBar;
 	private JPanel bottomBar;
-	
+	private JSlider slider;
+
 	// we store the visualization panels dynamically, so we can add and remove it much easier
 	private List<SortVisualisationPanel> vsPanel;
 	
@@ -150,14 +130,14 @@ public class Window extends JFrame {
 		 *  The language depends on which language was last used. The default language is English.
 		 *  This routine can be seen on every initialized component
 		 */
-		
 		info = new JLabel(langXML.getValue("info"),
 				JLabel.CENTER);
 		info.setFont(infoFont);
 		info.setForeground(Color.GRAY);
 		
 		clock = new JLabel();
-		clock.setIcon(new ImageIcon(Statics.class.getResource("/resources/stop_watch_icon2.png")));
+		clock.setForeground(Color.black);
+		clock.setIcon(new ImageIcon(Statics.class.getResource("/resources/set-timer-button.png")));
 		
 		switchIntPause = new JCheckBoxMenuItem(langXML.getValue("autopause"));
 		switchIntPause.addActionListener(controller);
@@ -168,6 +148,7 @@ public class Window extends JFrame {
 		programmFunctions.add(switchIntPause);
 			
 		nofLabel = new JLabel();
+		nofLabel.setForeground(Color.black);
 		
 		setTitle(title);
 		setSize(width, height);
@@ -180,11 +161,12 @@ public class Window extends JFrame {
 		menuBar = new JMenuBar();
 		
 		Border border = BorderFactory.createEtchedBorder();
-		Border margin = new EmptyBorder(5,1,5,1);
+		Border margin = new EmptyBorder(5,1,10,1);
 		toolBar.setBorder(new CompoundBorder(border, margin));
 		
 		bottomBar = new JPanel();
 		bottomBar.setLayout(new BoxLayout(bottomBar,BoxLayout.X_AXIS));
+		bottomBar.setBackground(bottomBar.getBackground().darker());
 		bottomBar.setBorder(BorderFactory.createEtchedBorder());
 		bottomBar.add(clock);
 		bottomBar.add(Box.createHorizontalGlue());
@@ -196,7 +178,9 @@ public class Window extends JFrame {
 		list = new JMenuItem(langXML.getValue("sortlist"));
 		list.addActionListener(controller);
 		list.setActionCommand(Statics.NEW_ELEMENTS);
-		
+
+		slider = new JSlider(0, 300, 50);
+
 		delay = new JMenuItem(langXML.getValue("delay"));
 		delay.addActionListener(controller);
 		delay.setActionCommand(Statics.DELAY);
@@ -254,25 +238,40 @@ public class Window extends JFrame {
 		}
 		sortChooser = new JComboBox<String>(names);
 		sortChooser.setMaximumSize(new Dimension(230, 30));
-		
-		content = new JPanel();
+
+        content = new JPanel() {
+            @Override
+            protected void paintComponent(Graphics grphcs) {
+                super.paintComponent(grphcs);
+                Graphics2D g2d = (Graphics2D) grphcs;
+                g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
+                        RenderingHints.VALUE_ANTIALIAS_ON);
+                GradientPaint gp = new GradientPaint(0, 0,
+                        getBackground(), 0, getHeight(),
+                        getBackground().darker());
+                g2d.setPaint(gp);
+                g2d.fillRect(0, 0, getWidth(), getHeight());
+            }
+
+        };
+
 		content.setLayout(new BorderLayout());
 
-		next = new JButton(); 
+		next = new JButton();
 		next.addActionListener(controller);
 		next.setActionCommand(Statics.START);
 		next.setBorder(BorderFactory.createEmptyBorder());
 		next.setIcon(new ImageIcon(Statics.class.getResource("/resources/start_visualsort_1.png")));
 		next.setRolloverIcon(new ImageIcon(Statics.class.getResource("/resources/start_visualsort_rollover_1.png")));
 		
-		newSort = new JButton(); 
+		newSort = new JButton();
 		newSort.addActionListener(controller);
 		newSort.setActionCommand(Statics.ADD_SORT);
-		
+
 		newSort.setBorder(BorderFactory.createEmptyBorder());
 		newSort.setIcon(new ImageIcon(Statics.class.getResource("/resources/add_visualsort_1.png")));
 		newSort.setRolloverIcon(new ImageIcon(Statics.class.getResource("/resources/add_visualsort_rollover_1.png")));
-		
+
 		
 		delayBtn = new JButton();
 		delayBtn.addActionListener(controller);
@@ -281,7 +280,7 @@ public class Window extends JFrame {
 		delayBtn.setBorder(BorderFactory.createEmptyBorder());
 		delayBtn.setIcon(new ImageIcon(Statics.class.getResource("/resources/delay_visualsort_1.png")));
 		delayBtn.setRolloverIcon(new ImageIcon(Statics.class.getResource("/resources/delay_visualsort_rollover_1.png")));
-		
+
 		listBtn = new JButton();
 		listBtn.addActionListener(controller);
 		listBtn.setActionCommand(Statics.NEW_ELEMENTS);
@@ -291,19 +290,19 @@ public class Window extends JFrame {
 		listBtn.setRolloverIcon(new ImageIcon(Statics.class.getResource("/resources/elements_visualsort_rollover_1.png")));
 		
 		
-		nextStep = new JButton(); 
+		nextStep = new JButton();
 		nextStep.addActionListener(controller);
 		nextStep.setActionCommand(Statics.NEXT_ITERATION);
-		
+
 		nextStep.setBorder(BorderFactory.createEmptyBorder());
 		nextStep.setIcon(new ImageIcon(Statics.class.getResource("/resources/nextIter_visualsort_1.png")));
 		nextStep.setRolloverIcon(new ImageIcon(Statics.class.getResource("/resources/nextIter_visualsort_rollover_1.png")));
-		
+
 		
 		reset = new JButton(); //Statics.getNamebyXml(Statics.COMPONENT_TITLE.RESET)
 		reset.addActionListener(controller);
 		reset.setActionCommand(Statics.RESET);
-		
+
 		reset.setBorder(BorderFactory.createEmptyBorder());
 		reset.setIcon(new ImageIcon(Statics.class.getResource("/resources/reset_visualsort_1.png")));
 		reset.setRolloverIcon(new ImageIcon(Statics.class.getResource("/resources/reset_visualsort_rollover_1.png")));
@@ -409,7 +408,7 @@ public class Window extends JFrame {
 			content.add(Box.createVerticalStrut(20));
 			next.setEnabled(true);
 			reset.setEnabled(true);
-		}		
+		}
 		
 		SortVisualisationPanel temp = new SortVisualisationPanel(this.getWidth(), this.getHeight());
 		sort.setSortVisualisationPanel(temp,new PanelUI(controller,temp,sort.getAlgorithmName().toString()));

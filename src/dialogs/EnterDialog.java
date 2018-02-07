@@ -106,7 +106,7 @@ public class EnterDialog extends OptionDialog {
 				temp = (int) (values.getValue());
 				listModel.removeAllElements();
 				for (int i = 0; i < temp; i++)
-					listModel.addElement(MathFunc.getRandomNumber(0, temp));
+					listModel.addElement(MathFunc.getRandomNumber(1, temp));
 
 				
 			}
@@ -184,7 +184,7 @@ public class EnterDialog extends OptionDialog {
 				
 				int[] tmp = new int[l];
 				for (int i = 0; i < l; i++){
-					tmp[i] = MathFunc.getRandomNumber(0, l/3);
+					tmp[i] = MathFunc.getRandomNumber(1, l/3);
 				    listModel.addElement(tmp[i]);
 				}
 				

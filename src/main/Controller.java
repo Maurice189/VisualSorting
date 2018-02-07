@@ -126,7 +126,6 @@ public class Controller implements Observer,ComponentListener,ActionListener, Wi
 			Sort.setFlashingAnimation(false);
 
 			for (Sort temp : sortList) {
-
 				temp.deleteObservers();
 				temp.unlockSignal();	
 				temp.getPanelUI().enableRemoveButton(true);
@@ -332,7 +331,7 @@ public class Controller implements Observer,ComponentListener,ActionListener, Wi
 
 		else if (e.getActionCommand() == Statics.ABOUT) {
 
-			dialogs.add(AboutDialog.getInstance(370, 415));
+			dialogs.add(AboutDialog.getInstance(400, 500));
 		}
 
 		else if (e.getActionCommand() == Statics.INFO) {
