@@ -25,9 +25,8 @@ http://www.javabeginners.de/Algorithmen/Sortieralgorithmen/Mergesort.php
 
 
 /**
- * 
  * Implementation of the respective sort algorithm.
- * 
+ *
  * @author maurice
  * @version BETA
  * @category Sort
@@ -37,96 +36,76 @@ import main.SortVisualisationPanel;
 import main.Statics.SORTALGORITHMS;
 
 
-public class MergeSort extends Sort{
+public class MergeSort extends Sort {
 
-	public MergeSort(SortVisualisationPanel svp) {
-		// TODO Auto-generated constructor stub
-		super(svp);
+    public MergeSort(SortVisualisationPanel svp) {
+        super(svp);
 
-	}
+    }
 
-	public MergeSort() {
-		// TODO Auto-generated constructor stub
-		super();
+    public MergeSort() {
+        super();
+    }
 
-	}
+    public void run() {
+        sort(0, elements.length - 1);
+        setChanged();
+        notifyObservers(panelUI.getID());
 
-	public void run() {
-		// TODO Auto-generated method stub
-	   
-	
-		sort(0,elements.length-1);
-		
-		setChanged();
-		notifyObservers(panelUI.getID());
-		
-		if(flashing) svp.visualTermination();
-		
-		
-		
-	}
-	
+        if (flashing) svp.visualTermination();
+    }
 
-	    public void sort(int l, int r) {
-	        
-	        if (l < r) {
-	            int q = (l + r) / 2;
-	            
-	            sort(l, q);
-	            sort(q + 1, r);
-	            merge(l, q, r);
-	        }
-	        
-	    }
 
-	    private void merge(int l, int q, int r) {
-	        int[] arr = new int[elements.length];
-	        int i, j;
-	        for (i = l; i <= q; i++) {
-	            arr[i] = elements[i];
-	            panelUI.setInfo("Mergesort",accesses++,comparisons);
-	        }
-	        for (j = q + 1; j <= r; j++) {
-	            arr[r + q + 1 - j] = elements[j];
-	            panelUI.setInfo("Mergesort",accesses++,comparisons);
-	  
-	        }
-	        i = l;
-	        j = r;
-	        for (int k = l; k <= r; k++) {
-	        	
-	        	
-	            if (arr[i] <= arr[j]) {
-	            	svp.visualInsert(k, arr[i]);
-	                elements[k] = arr[i];
-	                //svp.setInfo("Mergesort",iterates++);
-	                panelUI.setInfo("Mergesort",accesses++,comparisons++);
-	                
-	                i++;
-	            } else {
-	            	
-	            	svp.visualInsert(k, arr[j]);
-	                elements[k] = arr[j];
-	                //svp.setInfo("Mergesort",iterates++);
-	                panelUI.setInfo("Mergesort",accesses++,comparisons++);
-	                
-	                j--;
-	            }
-	            
+    public void sort(int l, int r) {
+        if (l < r) {
+            int q = (l + r) / 2;
 
-	        	checkRunCondition();
+            sort(l, q);
+            sort(q + 1, r);
+            merge(l, q, r);
+        }
+    }
 
-	        }
-	    }
-	    
-	    
-	    @Override
-		public SORTALGORITHMS getAlgorithmName() {
-			// TODO Auto-generated method stub
-			return SORTALGORITHMS.Mergesort;
-		}
+    private void merge(int l, int q, int r) {
+        int[] arr = new int[elements.length];
+        int i, j;
+        for (i = l; i <= q; i++) {
+            arr[i] = elements[i];
+            panelUI.setInfo("Mergesort", accesses++, comparisons);
+        }
+        for (j = q + 1; j <= r; j++) {
+            arr[r + q + 1 - j] = elements[j];
+            panelUI.setInfo("Mergesort", accesses++, comparisons);
 
-	   
-	
+        }
+        i = l;
+        j = r;
+        for (int k = l; k <= r; k++) {
+            if (arr[i] <= arr[j]) {
+                svp.visualInsert(k, arr[i]);
+                elements[k] = arr[i];
+                //svp.setInfo("Mergesort",iterates++);
+                panelUI.setInfo("Mergesort", accesses++, comparisons++);
+
+                i++;
+            } else {
+
+                svp.visualInsert(k, arr[j]);
+                elements[k] = arr[j];
+                //svp.setInfo("Mergesort",iterates++);
+                panelUI.setInfo("Mergesort", accesses++, comparisons++);
+
+                j--;
+            }
+            checkRunCondition();
+        }
+    }
+
+
+    @Override
+    public SORTALGORITHMS getAlgorithmName() {
+        return SORTALGORITHMS.Mergesort;
+    }
+
 
 }

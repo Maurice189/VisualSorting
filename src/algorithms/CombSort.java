@@ -25,9 +25,8 @@ http://rosettacode.org/wiki/Sorting_algorithms/Comb_sort
 */
 
 /**
- * 
  * Implementation of the respective sort algorithm.
- * 
+ *
  * @author maurice
  * @version BETA
  * @category Sort
@@ -38,71 +37,62 @@ import main.Statics.SORTALGORITHMS;
 
 public class CombSort extends Sort {
 
-	public CombSort() {
-		// TODO Auto-generated constructor stub
-		super();
+    public CombSort() {
+        super();
 
-	}
+    }
 
-	public CombSort(SortVisualisationPanel svp) {
-		// TODO Auto-generated constructor stub
-		super(svp);
+    public CombSort(SortVisualisationPanel svp) {
+        super(svp);
+    }
 
-	}
+    public void run() {
+        System.out.println("GO");
 
-	public void run() {
-		
-		System.out.println("GO");
+        float shrink = 1.3f;
+        int swap;
+        int i, gap = elements.length;
+        boolean swapped = false;
 
-		float shrink = 1.3f;
-		int swap;
-		int i, gap = elements.length;
-		boolean swapped = false;
+        while ((gap > 1) || swapped) {
+            if (gap > 1) {
+                gap = (int) ((float) gap / shrink);
+            }
+            swapped = false;
+            for (i = 0; gap + i < elements.length; ++i) {
+                if (elements[i] - elements[i + gap] > 0) {
+                    swap = elements[i];
+                    elements[i] = elements[i + gap];
+                    elements[i + gap] = swap;
+                    swapped = true;
+                    svp.visualCmp(i, i + gap, true);
+                    //svp.setInfo("Combsort",iterates++);
+                    panelUI.setInfo("Combsort", accesses, comparisons++);
+                    accesses += 3;
 
-		while ((gap > 1) || swapped) {
-			if (gap > 1) {
-				gap = (int) ((float) gap / shrink);
-			}
-			swapped = false;
-			for (i = 0; gap + i < elements.length; ++i) {
-				if (elements[i] - elements[i + gap] > 0) {
-					swap = elements[i];
-					elements[i] = elements[i + gap];
-					elements[i + gap] = swap;
-					swapped = true;
-					svp.visualCmp(i, i + gap, true);
-					//svp.setInfo("Combsort",iterates++);
-					panelUI.setInfo("Combsort",accesses,comparisons++);
-					accesses+=3;
+                } else {
 
-				}
-				
-				else{
-					
-					svp.visualCmp(i, i + gap, false);
-					//svp.setInfo("Combsort",iterates++);
-					panelUI.setInfo("Combsort",accesses,comparisons++);
-				}
-				
-				
-				checkRunCondition();
-			
-			}
-		}
-		
-		setChanged();
-		notifyObservers(panelUI.getID());
-		
-		if(flashing) svp.visualTermination();
-		
-	}
-	
-	@Override
-	public SORTALGORITHMS getAlgorithmName() {
-		// TODO Auto-generated method stub
-		return SORTALGORITHMS.Combsort;
-	}
-	
-	
+                    svp.visualCmp(i, i + gap, false);
+                    //svp.setInfo("Combsort",iterates++);
+                    panelUI.setInfo("Combsort", accesses, comparisons++);
+                }
+
+                checkRunCondition();
+
+            }
+        }
+
+        setChanged();
+        notifyObservers(panelUI.getID());
+
+        if (flashing) svp.visualTermination();
+
+    }
+
+    @Override
+    public SORTALGORITHMS getAlgorithmName() {
+        return SORTALGORITHMS.Combsort;
+    }
+
 
 }

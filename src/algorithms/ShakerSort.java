@@ -26,9 +26,8 @@ http://www.javabeginners.de/Algorithmen/Sortieralgorithmen/Shakersort.php
 */
 
 /**
- * 
  * Implementation of the respective sort algorithm.
- * 
+ *
  * @author maurice
  * @version BETA
  * @category Sort
@@ -38,102 +37,92 @@ import main.SortVisualisationPanel;
 import main.Statics.SORTALGORITHMS;
 
 public class ShakerSort extends Sort {
+    private int k;
 
-	private int k;
+    public ShakerSort() {
+        super();
+    }
 
-	public ShakerSort() {
-		// TODO Auto-generated constructor stub
-		super();
+    public ShakerSort(SortVisualisationPanel svp) {
+        super(svp);
+    }
 
-	}
+    public int[] sort() {
 
-	public ShakerSort(SortVisualisationPanel svp) {
-		// TODO Auto-generated constructor stub
-		super(svp);
+        int i = 0, l = elements.length;
+        while (i < l) {
+            shaker1(i, l);
+            l--;
+            shaker2(i, l);
+            i++;
+        }
+        return elements;
+    }
 
-	}
+    private void shaker1(int i, int l) {
+        for (int j = i; j < l - 1; j++) {
+            if (elements[j] > elements[j + 1]) {
+                k = elements[j];
+                elements[j] = elements[j + 1];
+                elements[j + 1] = k;
+                svp.visualCmp(j, j + 1, true);
+                //svp.setInfo("Shakersort",iterates++);
+                panelUI.setInfo("Shakersort", accesses, comparisons++);
+                accesses += 3;
 
-	public int[] sort() {
+            } else {
+                svp.visualCmp(j, j + 1, false);
+                //svp.setInfo("Shakersort",iterates++);
+                panelUI.setInfo("Shakersort", accesses, comparisons++);
+            }
 
-		int i = 0, l = elements.length;
-		while (i < l) {
-			shaker1(i, l);
-			l--;
-			shaker2(i, l);
-			i++;
-		}
-		return elements;
-	}
+            checkRunCondition();
+        }
+    }
 
-	private void shaker1(int i, int l) {
-		for (int j = i; j < l - 1; j++) {
-			if (elements[j] > elements[j + 1]) {
-				k = elements[j];
-				elements[j] = elements[j + 1];
-				elements[j + 1] = k;
-				svp.visualCmp(j, j + 1, true);
-				//svp.setInfo("Shakersort",iterates++);
-				panelUI.setInfo("Shakersort",accesses,comparisons++);
-				accesses+=3;
+    private void shaker2(int i, int l) {
+        for (int j = l - 1; j >= i; j--) {
+            if (elements[j] > elements[j + 1]) {
+                k = elements[j];
+                elements[j] = elements[j + 1];
+                elements[j + 1] = k;
 
-			}
+                svp.visualCmp(j, j + 1, true);
+                //svp.setInfo("Shakersort",iterates++);
+                panelUI.setInfo("Shakersort", accesses, comparisons++);
+                accesses += 3;
 
-			else {
-				svp.visualCmp(j, j + 1, false);
-				//svp.setInfo("Shakersort",iterates++);
-				panelUI.setInfo("Shakersort",accesses,comparisons++);
-			}
+            } else {
+                svp.visualCmp(j, j + 1, false);
+                //svp.setInfo("Shakersort",iterates++);
+                panelUI.setInfo("Shakersort", accesses, comparisons++);
+            }
 
-			checkRunCondition();
-		}
-	}
+            checkRunCondition();
+        }
+    }
 
-	private void shaker2(int i, int l) {
-		for (int j = l - 1; j >= i; j--) {
-			if (elements[j] > elements[j + 1]) {
-				k = elements[j];
-				elements[j] = elements[j + 1];
-				elements[j + 1] = k;
+    public void run() {
+        int i = 0, l = elements.length;
 
-				svp.visualCmp(j, j + 1, true);
-				//svp.setInfo("Shakersort",iterates++);
-				panelUI.setInfo("Shakersort",accesses,comparisons++);
-				accesses+=3;
+        while (i < l) {
+            shaker1(i, l);
+            l--;
+            shaker2(i, l);
+            i++;
 
-			}
+        }
 
-			else {
-				svp.visualCmp(j, j + 1, false);
-				//svp.setInfo("Shakersort",iterates++);
-				panelUI.setInfo("Shakersort",accesses,comparisons++);
-			}
+        setChanged();
+        notifyObservers(panelUI.getID());
 
-			checkRunCondition();
-		}
-	}
+        if (flashing) svp.visualTermination();
 
-	public void run() {
-		int i = 0, l = elements.length;
+    }
 
-		while (i < l) {
-				shaker1(i, l);
-				l--;
-				shaker2(i, l);
-				i++;
-
-		}
-
-		setChanged();
-		notifyObservers(panelUI.getID());
-		
-		if(flashing) svp.visualTermination();
-		
-	}
-	
-	@Override
-	public SORTALGORITHMS getAlgorithmName() {
-		// TODO Auto-generated method stub
-		return SORTALGORITHMS.Shakersort;
-	}
+    @Override
+    public SORTALGORITHMS getAlgorithmName() {
+        return SORTALGORITHMS.Shakersort;
+    }
 
 }

@@ -20,9 +20,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
 /**
- * 
  * Implementation of the respective sort algorithm.
- * 
+ *
  * @author maurice
  * @version BETA
  * @category Sort
@@ -33,60 +32,57 @@ import main.Statics.SORTALGORITHMS;
 
 public class BubbleSort extends Sort {
 
-	public BubbleSort(SortVisualisationPanel svp) {
-		super(svp);
+    public BubbleSort(SortVisualisationPanel svp) {
+        super(svp);
 
-	}
+    }
 
-	public BubbleSort() {
-		super();
+    public BubbleSort() {
+        super();
 
 
-	}
+    }
 
-	public void run() {
+    public void run() {
 
-		int tmp = 0;
-		boolean swapped;
-		
-		do{
-			swapped = false;
-			for (int i = 0; i < elements.length - 1; i++) {
+        int tmp = 0;
+        boolean swapped;
 
-				
-				if (elements[i] > elements[i + 1]) {
+        do {
+            swapped = false;
+            for (int i = 0; i < elements.length - 1; i++) {
+                if (elements[i] > elements[i + 1]) {
 
-					tmp = elements[i];
-					elements[i] = elements[i + 1];
-					elements[i + 1] = tmp;
-					svp.visualCmp(i, i + 1, true);
-					panelUI.setInfo("Bubblesort",accesses,comparisons++);
-					accesses+=3;
-					swapped = true;
+                    tmp = elements[i];
+                    elements[i] = elements[i + 1];
+                    elements[i + 1] = tmp;
+                    svp.visualCmp(i, i + 1, true);
+                    panelUI.setInfo("Bubblesort", accesses, comparisons++);
+                    accesses += 3;
+                    swapped = true;
 
-				} else {
-					svp.visualCmp(i, i + 1, false);
-					panelUI.setInfo("Bubblesort",accesses,comparisons++);
-					
-				}
-				
-				checkRunCondition();
+                } else {
+                    svp.visualCmp(i, i + 1, false);
+                    panelUI.setInfo("Bubblesort", accesses, comparisons++);
+                }
 
-			}
-			
-		}while(swapped);
-		
-		setChanged();
-		notifyObservers(panelUI.getID());
-		
-		if(flashing) svp.visualTermination();
-	
+                checkRunCondition();
 
-	}
-	@Override
-	public SORTALGORITHMS getAlgorithmName() {
-		// TODO Auto-generated method stub
-		return SORTALGORITHMS.Bubblesort;
-	}
+            }
+
+        } while (swapped);
+
+        setChanged();
+        notifyObservers(panelUI.getID());
+
+        if (flashing) svp.visualTermination();
+
+
+    }
+
+    @Override
+    public SORTALGORITHMS getAlgorithmName() {
+        return SORTALGORITHMS.Bubblesort;
+    }
 
 }

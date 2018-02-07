@@ -25,9 +25,8 @@ http://rosettacode.org/wiki/Sorting_algorithms/Gnome_sort#Java
 */
 
 /**
- * 
  * Implementation of the respective sort algorithm.
- * 
+ *
  * @author maurice
  * @version BETA
  * @category Sort
@@ -38,65 +37,60 @@ import main.Statics.SORTALGORITHMS;
 
 public class GnomeSort extends Sort {
 
-	public GnomeSort(SortVisualisationPanel svp) {
-		// TODO Auto-generated constructor stub
-		super(svp);
+    public GnomeSort(SortVisualisationPanel svp) {
+        super(svp);
+    }
 
-	}
-
-	public GnomeSort() {
-		super();
-
-	}
+    public GnomeSort() {
+        super();
+    }
 
 
-	public void run() {
+    public void run() {
+        int i = 1;
+        int j = 2;
 
-		int i = 1;
-		int j = 2;
+        while (i < elements.length) {
+            if (elements[i - 1] <= elements[i]) {
 
-		while (i < elements.length) {
-			if (elements[i - 1] <= elements[i]) {
 
-				
-				svp.visualCmp(i, i - 1, false);
-				//svp.setInfo("Gnomesort", iterates++);
-				panelUI.setInfo("Gnomesort",accesses,comparisons++);
-				
-				i = j;
-				j++;
-				
-			} else {
+                svp.visualCmp(i, i - 1, false);
+                //svp.setInfo("Gnomesort", iterates++);
+                panelUI.setInfo("Gnomesort", accesses, comparisons++);
 
-				int tmp = elements[i - 1];
-				elements[i - 1] = elements[i];
-				elements[i] = tmp;
-				
-				svp.visualCmp(i, i - 1, true);
-				//svp.setInfo("Gnomesort", iterates++);
-				panelUI.setInfo("Gnomesort",accesses,comparisons++);
-				accesses+=3;
-				
-				i--;
-				i = (i == 0) ? j++ : i;
-			}
+                i = j;
+                j++;
 
-			checkRunCondition();
-		}
-		
-		setChanged();
-		notifyObservers(panelUI.getID());
+            } else {
 
-		if (flashing)
-			svp.visualTermination();
-		
+                int tmp = elements[i - 1];
+                elements[i - 1] = elements[i];
+                elements[i] = tmp;
 
-	}
+                svp.visualCmp(i, i - 1, true);
+                //svp.setInfo("Gnomesort", iterates++);
+                panelUI.setInfo("Gnomesort", accesses, comparisons++);
+                accesses += 3;
 
-	@Override
-	public SORTALGORITHMS getAlgorithmName() {
-		// TODO Auto-generated method stub
-		return SORTALGORITHMS.Gnomesort;
-	}
+                i--;
+                i = (i == 0) ? j++ : i;
+            }
+
+            checkRunCondition();
+        }
+
+        setChanged();
+        notifyObservers(panelUI.getID());
+
+        if (flashing)
+            svp.visualTermination();
+
+
+    }
+
+    @Override
+    public SORTALGORITHMS getAlgorithmName() {
+        return SORTALGORITHMS.Gnomesort;
+    }
 
 }

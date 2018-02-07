@@ -25,9 +25,8 @@ http://rosettacode.org/wiki/Sorting_algorithms/Insertion_sort#Java
 */
 
 /**
- * 
  * Implementation of the respective sort algorithm.
- * 
+ *
  * @author maurice
  * @version BETA
  * @category Sort
@@ -38,69 +37,65 @@ import main.Statics.SORTALGORITHMS;
 
 public class InsertionSort extends Sort {
 
-	public InsertionSort(SortVisualisationPanel svp) {
-		// TODO Auto-generated constructor stub
-		super(svp);
+    public InsertionSort(SortVisualisationPanel svp) {
+        super(svp);
 
-	}
+    }
 
-	public InsertionSort() {
-		// TODO Auto-generated constructor stub
-		super();
+    public InsertionSort() {
+        super();
+    }
 
-	}
+    public static void insertSort(int[] A) {
+        for (int i = 1; i < A.length; i++) {
+            int value = A[i];
+            int j = i - 1;
+            while (j >= 0 && A[j] > value) {
+                A[j + 1] = A[j];
+                j = j - 1;
+            }
+            A[j + 1] = value;
+        }
+    }
 
-	public static void insertSort(int[] A) {
-		for (int i = 1; i < A.length; i++) {
-			int value = A[i];
-			int j = i - 1;
-			while (j >= 0 && A[j] > value) {
-				A[j + 1] = A[j];
-				j = j - 1;
-			}
-			A[j + 1] = value;
-		}
-	}
+    public void run() {
 
-	public void run() {
+        for (int i = 1; i < elements.length; i++) {
+            int value = elements[i];
+            int j = i - 1;
+            while (j >= 0 && elements[j] > value) {
 
-		for (int i = 1; i < elements.length; i++) {
-			int value = elements[i];
-			int j = i - 1;
-			while (j >= 0 && elements[j] > value) {
+                svp.visualInsert(j + 1, elements[j]);
+                //svp.setInfo("Insertionsort", iterates++);
+                panelUI.setInfo("Insertionsort", accesses, comparisons++);
+                accesses += 2;
 
-				svp.visualInsert(j+1,elements[j]);
-				//svp.setInfo("Insertionsort", iterates++);
-				panelUI.setInfo("Insertionsort",accesses,comparisons++);
-				accesses+=2;
-				
-				checkRunCondition();
-				elements[j + 1] = elements[j];
-				j = j - 1;
-			}
+                checkRunCondition();
+                elements[j + 1] = elements[j];
+                j = j - 1;
+            }
 
-			svp.visualInsert(j + 1, value);
-			//svp.setInfo("Insertionsort", iterates++);
-			panelUI.setInfo("Insertionsort",accesses,comparisons++);
-			accesses+=2;
-			
-			checkRunCondition();
-			elements[j + 1] = value;
-		}
-		
-		setChanged();
-		notifyObservers(panelUI.getID());
+            svp.visualInsert(j + 1, value);
+            //svp.setInfo("Insertionsort", iterates++);
+            panelUI.setInfo("Insertionsort", accesses, comparisons++);
+            accesses += 2;
 
-		if (flashing)
-			svp.visualTermination();
-	
+            checkRunCondition();
+            elements[j + 1] = value;
+        }
 
-	}
+        setChanged();
+        notifyObservers(panelUI.getID());
 
-	@Override
-	public SORTALGORITHMS getAlgorithmName() {
-		// TODO Auto-generated method stub
-		return SORTALGORITHMS.Insertionsort;
-	}
+        if (flashing)
+            svp.visualTermination();
+
+
+    }
+
+    @Override
+    public SORTALGORITHMS getAlgorithmName() {
+        return SORTALGORITHMS.Insertionsort;
+    }
 
 }

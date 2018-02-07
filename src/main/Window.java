@@ -1,42 +1,22 @@
 package main;
 
 /*
-VisualSorting
-Copyright (C) 2014  Maurice Koch
-
-This program is free software: you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option) any later version.
-
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License
-along with this program.  If not, see <http://www.gnu.org/licenses/>.
-
-*/
-
-/**
- * 
- * Used Design Patterns:
- * 
- * Model-View-Controller
- * 
- * Abstract:
- * This class represents, as the name implies, the view(GUI) in the MVC pattern.
- * 
- * @author Maurice Koch
- * @category MVC
- * @version BETA
- * 
- * 
- * 
- * 
+ * This software is licensed under the MIT License.
+ * Copyright 2018, Maurice Koch
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated
+ * documentation files (the "Software"), to deal in the Software without restriction, including without limitation
+ * the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and
+ * to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED
+ * TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+ * IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+ * WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
+ * THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-
 
 
 import java.awt.*;
@@ -134,8 +114,9 @@ public class Window extends JFrame {
 				JLabel.CENTER);
 		info.setFont(infoFont);
 		info.setForeground(Color.GRAY);
-		
-		clock = new JLabel();
+
+        clock = new JLabel();
+        clock.setToolTipText("Execution time.");
 		clock.setForeground(Color.black);
 		clock.setIcon(new ImageIcon(Statics.class.getResource("/resources/set-timer-button.png")));
 		
@@ -148,6 +129,7 @@ public class Window extends JFrame {
 		programmFunctions.add(switchIntPause);
 			
 		nofLabel = new JLabel();
+		nofLabel.setToolTipText("Number of elements in list.");
 		nofLabel.setForeground(Color.black);
 		
 		setTitle(title);
@@ -258,6 +240,7 @@ public class Window extends JFrame {
 		content.setLayout(new BorderLayout());
 
 		next = new JButton();
+		next.setToolTipText("Start/Pause sorting process.");
 		next.addActionListener(controller);
 		next.setActionCommand(Statics.START);
 		next.setBorder(BorderFactory.createEmptyBorder());
@@ -265,6 +248,7 @@ public class Window extends JFrame {
 		next.setRolloverIcon(new ImageIcon(Statics.class.getResource("/resources/start_visualsort_rollover_1.png")));
 		
 		newSort = new JButton();
+		newSort.setToolTipText("Add selected sort algorithm.");
 		newSort.addActionListener(controller);
 		newSort.setActionCommand(Statics.ADD_SORT);
 
@@ -274,6 +258,7 @@ public class Window extends JFrame {
 
 		
 		delayBtn = new JButton();
+		delayBtn.setToolTipText("Adjust the sorting speed.");
 		delayBtn.addActionListener(controller);
 		delayBtn.setActionCommand(Statics.DELAY);
 		
@@ -282,6 +267,7 @@ public class Window extends JFrame {
 		delayBtn.setRolloverIcon(new ImageIcon(Statics.class.getResource("/resources/delay_visualsort_rollover_1.png")));
 
 		listBtn = new JButton();
+		listBtn.setToolTipText("Edit elements in list.");
 		listBtn.addActionListener(controller);
 		listBtn.setActionCommand(Statics.NEW_ELEMENTS);
 		
@@ -291,6 +277,7 @@ public class Window extends JFrame {
 		
 		
 		nextStep = new JButton();
+		nextStep.setToolTipText("Execute next instruction.");
 		nextStep.addActionListener(controller);
 		nextStep.setActionCommand(Statics.NEXT_ITERATION);
 
@@ -300,6 +287,7 @@ public class Window extends JFrame {
 
 		
 		reset = new JButton(); //Statics.getNamebyXml(Statics.COMPONENT_TITLE.RESET)
+        reset.setToolTipText("Reset to unsorted state.");
 		reset.addActionListener(controller);
 		reset.setActionCommand(Statics.RESET);
 
