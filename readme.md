@@ -11,7 +11,7 @@ to get an idea how sort algorithms behave in terms of their runtime,
 **visualizing them in parallel** is crucial. Therefore we introduce *Visual Sorting*.
 
 The (core) development of Visual Sorting is still in progress, so you may encounter misbehavior
-during execution. In that case I would highly appreciate a bug report.
+during execution. In that case I would highly appreciate a bug report. Thanks in advance !
 
 # Features
 
