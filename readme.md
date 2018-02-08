@@ -10,7 +10,7 @@ with his [sound-of-sorting](https://github.com/bingmann/sound-of-sorting). Thoug
 to get an idea how sort algorithms behave in terms of their runtime,
 **visualizing them in parallel** is crucial. Therefore we introduce *Visual Sorting*.
 
-The development of Visual Sorting is still in progress, so you may encounter misbehavements
+The (core) development of Visual Sorting is still in progress, so you may encounter misbehavior
 during execution. In that case I would highly appreciate a bug report.
 
 # Features
