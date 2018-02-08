@@ -1,6 +1,6 @@
-# VisualSorting
-
-<img src="logo-plain.svg" width="400">
+<p align="center">
+  <img width="400" height="400" src="logo-plain.svg">
+</p>
 
 # Description
 
