@@ -32,14 +32,12 @@ public abstract class Sort extends Observable implements Runnable {
     protected static int gElement[];
     protected static long delayMs = 5;
     protected static int delayNs = 0;
-    protected static boolean stop = true, flashing = true, interrupt;
+    protected volatile boolean stop = false, pause = false, flashing = true, executeNextStep = false;
 
     protected int elements[];
     protected int iterates, accesses, comparisons;
     protected SortVisualisationPanel svp;
     protected PanelUI panelUI;
-    protected Lock lock = new ReentrantLock();
-    protected Condition condition = lock.newCondition();
 
 
     /*
@@ -72,60 +70,39 @@ public abstract class Sort extends Observable implements Runnable {
     }
 
     /*
-     * The paused thread resume
-     */
-    public void unlockSignal() {
-        try {
-            lock.lock();
-            condition.signal();
-        } finally {
-            lock.unlock();
-        }
-    }
-
-    /*
      * This method is called in the run method from every algorithm that is running
      * This is needed to provide the start/stop functionality that is based
      * on locks and condition.
      *
      */
-    protected void checkRunCondition() {
-
-        try {
-            if (Sort.stop) {
-                lock.lock();
-                condition.await();
-                lock.unlock();
-            } else if (Sort.interrupt)
-                Thread.currentThread().interrupt();
-
-            else
-                Thread.sleep(Sort.delayMs, Sort.delayNs);
-
-        } catch (InterruptedException e) {
-            //System.out.println("INFO: INTERRUPTED WHILE SLEEPING"); //e.printStackTrace();
-            Thread.currentThread().interrupt();
+    protected void checkRunCondition() throws InterruptedException {
+        while (pause && !executeNextStep) {
+            Thread.sleep(100);
         }
+        executeNextStep = false;
+        Thread.sleep(delayMs, delayNs);
+    }
+
+    public void executeNextStep() {
+        this.executeNextStep = true;
+    }
+
+    public void pause() {
+        pause = true;
     }
 
     /**
      *
      */
-    public static void stop() {
-        stop = true;
-    }
+    public void resume() {
+        pause = false;
 
-    /**
-     *
-     */
-    public static void resume() {
-        stop = false;
     }
 
     /*
      * is especially needed for the controller
      */
-    public static boolean isStopped() {
+    public boolean isStopped() {
         return stop;
     }
 
@@ -134,11 +111,9 @@ public abstract class Sort extends Observable implements Runnable {
      * @param panelUI
      */
     public void setSortVisualisationPanel(SortVisualisationPanel svp, PanelUI panelUI) {
-
         this.svp = svp;
         this.panelUI = panelUI;
         svp.setElements(elements);
-
     }
 
     /**
@@ -159,21 +134,6 @@ public abstract class Sort extends Observable implements Runnable {
      */
     public SortVisualisationPanel getSortVisualisationPanel() {
         return svp;
-    }
-
-    /**
-     * @param interrupt
-     */
-    public static void setInterruptFlag(boolean interrupt) {
-        Sort.interrupt = interrupt;
-    }
-
-    /*
-     * flashing decides whether to animated the ending of a sorting proceedure
-     */
-    public static void setFlashingAnimation(boolean flashing) {
-
-        Sort.flashing = flashing;
     }
 
     /*

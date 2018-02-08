@@ -5,27 +5,22 @@ import main.Statics.SORTALGORITHMS;
 
 public class BogoSort extends Sort {
 
-
-    public BogoSort(SortVisualisationPanel svp) {
-        super(svp);
-    }
-
     public BogoSort() {
         super();
     }
 
-    void bogo() {
-        while (!isSorted() && !interrupt) // we need to check the interrupt flag here
+    void bogo() throws InterruptedException {
+        while (!isSorted()) // we need to check the interrupt flag here
             shuffle();
     }
 
-    void shuffle() {
+    void shuffle() throws InterruptedException {
         int i = elements.length - 1;
         while (i > 0)
             swap(i--, (int) (Math.random() * i));
     }
 
-    void swap(int i, int j) {
+    void swap(int i, int j) throws InterruptedException {
         int temp = elements[i];
         elements[i] = elements[j];
         elements[j] = temp;
@@ -38,7 +33,7 @@ public class BogoSort extends Sort {
         checkRunCondition();
     }
 
-    boolean isSorted() {
+    boolean isSorted() throws InterruptedException {
 
         for (int i = 1; i < elements.length; i++) {
             panelUI.setInfo("Bogosort", accesses, comparisons++);
@@ -54,7 +49,12 @@ public class BogoSort extends Sort {
 
     @Override
     public void run() {
-        bogo();
+
+        try {
+            bogo();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
 
         setChanged();
         notifyObservers(panelUI.getID());

@@ -325,7 +325,7 @@ public class Window extends JFrame {
 		nextStep.setEnabled(false);
 
 		java.net.URL helpURL = Window.class.getClassLoader().getResource(
-				"resources/frameIcon2.png");
+				"resources/icon.png");
 		if (helpURL != null) {
 			setIconImage(new ImageIcon(helpURL).getImage());
 		}

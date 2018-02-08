@@ -48,7 +48,12 @@ public class MergeSort extends Sort {
     }
 
     public void run() {
-        sort(0, elements.length - 1);
+        try {
+            sort(0, elements.length - 1);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
         setChanged();
         notifyObservers(panelUI.getID());
 
@@ -56,7 +61,7 @@ public class MergeSort extends Sort {
     }
 
 
-    public void sort(int l, int r) {
+    public void sort(int l, int r) throws InterruptedException {
         if (l < r) {
             int q = (l + r) / 2;
 
@@ -66,7 +71,7 @@ public class MergeSort extends Sort {
         }
     }
 
-    private void merge(int l, int q, int r) {
+    private void merge(int l, int q, int r) throws InterruptedException {
         int[] arr = new int[elements.length];
         int i, j;
         for (i = l; i <= q; i++) {

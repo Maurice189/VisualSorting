@@ -23,11 +23,11 @@ public class IntroSort extends Sort {
     /*
      * Public interface
      */
-    public void sort() {
+    public void sort() throws InterruptedException {
         introsort_loop(elements, 0, elements.length, 2 * floor_lg(elements.length));
     }
 
-    public void sort(int[] a, int begin, int end) {
+    public void sort(int[] a, int begin, int end) throws InterruptedException {
         if (begin < end) {
             introsort_loop(a, begin, end, 2 * floor_lg(end - begin));
         }
@@ -36,7 +36,7 @@ public class IntroSort extends Sort {
     /*
      * Quicksort algorithm modified for Introsort
      */
-    private void introsort_loop(int[] a, int lo, int hi, int depth_limit) {
+    private void introsort_loop(int[] a, int lo, int hi, int depth_limit) throws InterruptedException {
         while (hi - lo > size_threshold) {
             if (depth_limit == 0) {
                 heapsort(a, lo, hi);
@@ -53,7 +53,7 @@ public class IntroSort extends Sort {
         insertionsort(a, lo, hi);
     }
 
-    private int partition(int[] a, int lo, int hi, int x) {
+    private int partition(int[] a, int lo, int hi, int x) throws InterruptedException {
         int i = lo, j = hi;
         while (true) {
             while (a[i] < x) i++;
@@ -91,7 +91,7 @@ public class IntroSort extends Sort {
     /*
      * Heapsort algorithm
      */
-    private void heapsort(int[] a, int lo, int hi) {
+    private void heapsort(int[] a, int lo, int hi) throws InterruptedException {
         int n = hi - lo;
         for (int i = n / 2; i >= 1; i = i - 1) {
             downheap(a, i, n, lo);
@@ -102,9 +102,10 @@ public class IntroSort extends Sort {
         }
     }
 
-    private void downheap(int[] a, int i, int n, int lo) {
+    private void downheap(int[] a, int i, int n, int lo) throws InterruptedException {
         int d = a[lo + i - 1];
         int child;
+
         while (i <= n / 2) {
             child = 2 * i;
             if (child < n && a[lo + child - 1] < a[lo + child]) {
@@ -131,14 +132,15 @@ public class IntroSort extends Sort {
     /*
      * Insertion sort algorithm
      */
-    private void insertionsort(int[] a, int lo, int hi) {
+    private void insertionsort(int[] a, int lo, int hi) throws InterruptedException {
         int i, j;
         int t;
+
         for (i = lo; i < hi; i++) {
             j = i;
             t = a[i];
-            while (j != lo && t < a[j - 1]) {
 
+            while (j != lo && t < a[j - 1]) {
                 svp.visualInsert(j, a[j - 1]);
                 panelUI.setInfo("Introsort", accesses++, comparisons++);
                 checkRunCondition();
@@ -156,7 +158,7 @@ public class IntroSort extends Sort {
     /*
      * Common methods for all algorithms
      */
-    private void exchange(int[] a, int i, int j) {
+    private void exchange(int[] a, int i, int j) throws InterruptedException {
         int t = a[i];
         a[i] = a[j];
         a[j] = t;
@@ -174,8 +176,12 @@ public class IntroSort extends Sort {
 
     @Override
     public void run() {
+        try {
+            sort();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
 
-        sort();
         setChanged();
         notifyObservers(panelUI.getID());
 

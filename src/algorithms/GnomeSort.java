@@ -47,36 +47,40 @@ public class GnomeSort extends Sort {
 
 
     public void run() {
-        int i = 1;
-        int j = 2;
+        try {
+            int i = 1;
+            int j = 2;
 
-        while (i < elements.length) {
-            if (elements[i - 1] <= elements[i]) {
+            while (i < elements.length) {
+                if (elements[i - 1] <= elements[i]) {
 
 
-                svp.visualCmp(i, i - 1, false);
-                //svp.setInfo("Gnomesort", iterates++);
-                panelUI.setInfo("Gnomesort", accesses, comparisons++);
+                    svp.visualCmp(i, i - 1, false);
+                    //svp.setInfo("Gnomesort", iterates++);
+                    panelUI.setInfo("Gnomesort", accesses, comparisons++);
 
-                i = j;
-                j++;
+                    i = j;
+                    j++;
 
-            } else {
+                } else {
 
-                int tmp = elements[i - 1];
-                elements[i - 1] = elements[i];
-                elements[i] = tmp;
+                    int tmp = elements[i - 1];
+                    elements[i - 1] = elements[i];
+                    elements[i] = tmp;
 
-                svp.visualCmp(i, i - 1, true);
-                //svp.setInfo("Gnomesort", iterates++);
-                panelUI.setInfo("Gnomesort", accesses, comparisons++);
-                accesses += 3;
+                    svp.visualCmp(i, i - 1, true);
+                    //svp.setInfo("Gnomesort", iterates++);
+                    panelUI.setInfo("Gnomesort", accesses, comparisons++);
+                    accesses += 3;
 
-                i--;
-                i = (i == 0) ? j++ : i;
+                    i--;
+                    i = (i == 0) ? j++ : i;
+                }
+
+                checkRunCondition();
             }
-
-            checkRunCondition();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
 
         setChanged();

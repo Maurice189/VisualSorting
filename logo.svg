@@ -10,21 +10,36 @@
    xmlns:xlink="http://www.w3.org/1999/xlink"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   width="210mm"
-   height="297mm"
-   viewBox="0 0 210 297"
+   width="177.1351mm"
+   height="124.02777mm"
+   viewBox="0 0 177.1351 124.02777"
    version="1.1"
    id="svg8330"
    inkscape:version="0.92.2 (5c3e80d, 2017-08-06)"
-   sodipodi:docname="logo.svg">
+   sodipodi:docname="logo.svg"
+   inkscape:export-filename="/Users/kochme/Projekte/VisualSorting/logo.png"
+   inkscape:export-xdpi="6.2800002"
+   inkscape:export-ydpi="6.2800002">
   <defs
      id="defs8324">
+    <linearGradient
+       inkscape:collect="always"
+       id="linearGradient9125">
+      <stop
+         style="stop-color:#454545;stop-opacity:1"
+         offset="0"
+         id="stop9121" />
+      <stop
+         style="stop-color:#6d6d6d;stop-opacity:0"
+         offset="1"
+         id="stop9123" />
+    </linearGradient>
     <inkscape:perspective
        sodipodi:type="inkscape:persp3d"
-       inkscape:vp_x="0 : 148.5 : 1"
-       inkscape:vp_y="0 : 1000 : 0"
-       inkscape:vp_z="210 : 148.5 : 1"
-       inkscape:persp3d-origin="105 : 99 : 1"
+       inkscape:vp_x="0 : 148.49999 : 1"
+       inkscape:vp_y="0 : 999.99994 : 0"
+       inkscape:vp_z="210 : 148.49999 : 1"
+       inkscape:persp3d-origin="105 : 98.999994 : 1"
        id="perspective9074" />
     <linearGradient
        id="linearGradient9068"
@@ -143,8 +158,143 @@
        fx="-523.4198"
        fy="690.52905"
        r="75.414993"
-       gradientTransform="matrix(1.4033455,-2.4427911e-6,3.8304056e-7,0.21050196,210.59601,548.40962)"
+       gradientTransform="matrix(1.4033455,-2.4427911e-6,3.8304056e-7,0.21050196,210.59601,552.18939)"
        gradientUnits="userSpaceOnUse" />
+    <radialGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient9125"
+       id="radialGradient9129"
+       cx="-522.8681"
+       cy="715.14343"
+       fx="-522.8681"
+       fy="715.14343"
+       r="73.23185"
+       gradientTransform="matrix(1,0,0,0.00751039,0,712.17785)"
+       gradientUnits="userSpaceOnUse" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient5223"
+       id="linearGradient9146"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(1,0,0,0.75218454,-401.43248,-254.59524)"
+       x1="-175.164"
+       y1="-513.95831"
+       x2="-144.90018"
+       y2="-513.95831" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient5215"
+       id="linearGradient9148"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(1,0,0,0.75218454,-327.34908,-254.59521)"
+       x1="-212.20367"
+       y1="-536.44794"
+       x2="-181.94383"
+       y2="-536.44794" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient5223"
+       id="linearGradient9150"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(1,0,0,0.75218454,-290.38909,-254.59524)"
+       x1="-175.164"
+       y1="-513.95831"
+       x2="-144.90018"
+       y2="-513.95831" />
+    <radialGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient9068"
+       id="radialGradient9152"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(1.4033455,-2.4427911e-6,3.8304056e-7,0.21050196,210.59601,552.18939)"
+       cx="-523.4198"
+       cy="690.52905"
+       fx="-523.4198"
+       fy="690.52905"
+       r="75.414993" />
+    <radialGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient9125"
+       id="radialGradient9154"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(1,0,0,0.00751039,0,712.17785)"
+       cx="-522.8681"
+       cy="715.14343"
+       fx="-522.8681"
+       fy="715.14343"
+       r="73.23185" />
+    <radialGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient9068"
+       id="radialGradient9152-5"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(1.4033455,-2.4427911e-6,3.8304056e-7,0.21050196,212.74274,633.48006)"
+       cx="-523.4198"
+       cy="690.52905"
+       fx="-523.4198"
+       fy="690.52905"
+       r="75.414993" />
+    <radialGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient9068"
+       id="radialGradient9368"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(1.4033455,-2.4427911e-6,3.8304056e-7,0.21050196,210.59601,552.18939)"
+       cx="-523.4198"
+       cy="690.52905"
+       fx="-523.4198"
+       fy="690.52905"
+       r="75.414993" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient5207"
+       id="linearGradient9462"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(1,0,0,0.75218454,-362.10831,-336.37711)"
+       x1="-249.20833"
+       y1="-524.54169"
+       x2="-219.02251"
+       y2="-524.54169" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient5223"
+       id="linearGradient9464"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(1,0,0,0.75218454,-399.28575,-335.88591)"
+       x1="-175.164"
+       y1="-513.95831"
+       x2="-144.90018"
+       y2="-513.95831" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient5215"
+       id="linearGradient9466"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(1,0,0,0.75218454,-325.20235,-335.88588)"
+       x1="-212.20367"
+       y1="-536.44794"
+       x2="-181.94383"
+       y2="-536.44794" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient5223"
+       id="linearGradient9468"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(1,0,0,0.75218454,-288.24236,-335.88591)"
+       x1="-175.164"
+       y1="-513.95831"
+       x2="-144.90018"
+       y2="-513.95831" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient5207"
+       id="linearGradient9470"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(1,0,0,0.75218454,-251.11908,-335.88589)"
+       x1="-249.20833"
+       y1="-524.54169"
+       x2="-219.02251"
+       y2="-524.54169" />
   </defs>
   <sodipodi:namedview
      id="base"
@@ -153,22 +303,28 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="0.49497475"
-     inkscape:cx="414.28515"
-     inkscape:cy="531.34461"
+     inkscape:zoom="0.7"
+     inkscape:cx="311.73806"
+     inkscape:cy="218.75521"
      inkscape:document-units="mm"
      inkscape:current-layer="g5653-5-6-4-4"
      showgrid="false"
      inkscape:snap-global="true"
      inkscape:snap-text-baseline="false"
      inkscape:window-width="1280"
-     inkscape:window-height="695"
-     inkscape:window-x="0"
-     inkscape:window-y="22"
-     inkscape:window-maximized="0">
+     inkscape:window-height="688"
+     inkscape:window-x="415"
+     inkscape:window-y="275"
+     inkscape:window-maximized="0"
+     fit-margin-top="0"
+     fit-margin-left="0"
+     fit-margin-right="0"
+     fit-margin-bottom="0">
     <inkscape:grid
        type="xygrid"
-       id="grid8439" />
+       id="grid8439"
+       originx="-14.498806"
+       originy="-152.6508" />
   </sodipodi:namedview>
   <metadata
      id="metadata8327">
@@ -185,7 +341,8 @@
   <g
      inkscape:label="Layer 1"
      inkscape:groupmode="layer"
-     id="layer1">
+     id="layer1"
+     transform="translate(-14.498806,-20.321428)">
     <g
        id="g5653-5-6-4-4"
        inkscape:export-filename="/Users/kochme/Projekte/VisualSorting/src/resources/start_visualsort_1.png"
@@ -194,73 +351,180 @@
        style="stroke-width:3.50900006;stroke-miterlimit:4;stroke-dasharray:none"
        transform="translate(628.97409,-527.99121)">
       <rect
-         inkscape:export-ydpi="6.2800002"
-         inkscape:export-xdpi="6.2800002"
+         style="opacity:0.36500005;fill:#b3b3b3;fill-opacity:0.04945056;stroke:#6d6d6d;stroke-width:1.10000002;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:0.0164835"
+         id="rect9483"
+         width="192.76749"
+         height="118.30644"
+         x="-618.25507"
+         y="682.54578"
+         ry="0"
+         inkscape:export-xdpi="30.206076"
+         inkscape:export-ydpi="30.206076" />
+      <g
+         id="g9144"
+         transform="translate(-1.5119048,-65.011905)"
+         inkscape:export-xdpi="32.980476"
+         inkscape:export-ydpi="32.980476">
+        <rect
+           style="opacity:1;fill:url(#linearGradient7140);fill-opacity:1;stroke:none;stroke-width:3.04330564;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+           id="rect4262-4-5-9-8"
+           width="29.185852"
+           height="32.333698"
+           x="-612.96338"
+           y="-669.5401"
+           transform="scale(1,-1)"
+           ry="0"
+           inkscape:export-filename="/Users/kochme/Projekte/VisualSorting/src/resources/start_visualsort_1.png"
+           inkscape:export-xdpi="6.2800002"
+           inkscape:export-ydpi="6.2800002" />
+        <rect
+           style="fill:url(#linearGradient9146);fill-opacity:1;stroke:none;stroke-width:3.04330564;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+           id="rect4262-5-7-2-7-4"
+           width="29.185829"
+           height="55.724346"
+           x="-576.05743"
+           y="-669.04889"
+           transform="scale(1,-1)"
+           inkscape:export-filename="/Users/kochme/Projekte/VisualSorting/src/resources/start_visualsort_1.png"
+           inkscape:export-xdpi="6.2800002"
+           inkscape:export-ydpi="6.2800002" />
+        <rect
+           style="fill:url(#linearGradient9148);fill-opacity:1;stroke:none;stroke-width:3.04330564;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+           id="rect4262-5-2-1-2-5-0"
+           width="29.185822"
+           height="25.872"
+           x="-539.01575"
+           y="-669.04889"
+           transform="scale(1,-1)"
+           inkscape:export-filename="/Users/kochme/Projekte/VisualSorting/src/resources/start_visualsort_1.png"
+           inkscape:export-xdpi="6.2800002"
+           inkscape:export-ydpi="6.2800002" />
+        <rect
+           style="fill:url(#linearGradient9150);fill-opacity:1;stroke:none;stroke-width:3.04330564;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+           id="rect4262-5-7-2-7-4-9"
+           width="29.185822"
+           height="49.753857"
+           x="-465.0141"
+           y="-669.04889"
+           transform="scale(1,-1)"
+           inkscape:export-filename="/Users/kochme/Projekte/VisualSorting/src/resources/start_visualsort_1.png"
+           inkscape:export-xdpi="6.2800002"
+           inkscape:export-ydpi="6.2800002" />
+        <text
+           xml:space="preserve"
+           style="font-style:normal;font-weight:normal;font-size:24.94547462px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;opacity:1;fill:url(#radialGradient9152);fill-opacity:1;stroke:none;stroke-width:2.18834186;stroke-miterlimit:4;stroke-dasharray:none"
+           x="-600.36462"
+           y="704.04822"
+           id="text8467"><tspan
+             sodipodi:role="line"
+             id="tspan8465"
+             x="-600.36462"
+             y="704.04822"
+             style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:'Trebuchet MS';-inkscape-font-specification:'Trebuchet MS';fill:url(#radialGradient9152);fill-opacity:1;stroke-width:2.18834186">Visual Sorting</tspan></text>
+        <rect
+           style="opacity:1;fill:url(#linearGradient7140-6);fill-opacity:1;stroke:none;stroke-width:3.04330564;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+           id="rect4262-4-5-9-8-3"
+           width="29.185829"
+           height="39.803101"
+           x="-501.97409"
+           y="-669.04889"
+           transform="scale(1,-1)"
+           ry="0"
+           inkscape:export-filename="/Users/kochme/Projekte/VisualSorting/src/resources/start_visualsort_1.png"
+           inkscape:export-xdpi="6.2800002"
+           inkscape:export-ydpi="6.2800002" />
+        <text
+           id="text9113"
+           y="729.16998"
+           x="-566.34637"
+           style="font-style:normal;font-weight:normal;font-size:6.46971655px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#b3b3b3;fill-opacity:1;stroke:none;stroke-width:0.5675559"
+           xml:space="preserve"><tspan
+             id="tspan9115"
+             style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:'Trebuchet MS';-inkscape-font-specification:'Trebuchet MS';fill:#b3b3b3;stroke-width:0.5675559"
+             y="729.16998"
+             x="-566.34637"
+             sodipodi:role="line">Copyright 2018, Maurice Koch </tspan><tspan
+             id="tspan9131"
+             style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:'Trebuchet MS';-inkscape-font-specification:'Trebuchet MS';fill:#b3b3b3;stroke-width:0.5675559"
+             y="737.28912"
+             x="-566.34637"
+             sodipodi:role="line">Released under the MIT License.</tspan></text>
+        <path
+           inkscape:connector-curvature="0"
+           id="path9119"
+           d="m -596.09994,717.54886 h 146.4637"
+           style="opacity:0.36500005;fill:none;stroke:url(#radialGradient9154);stroke-width:1.10000002;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+      </g>
+      <rect
+         inkscape:export-ydpi="30.206076"
+         inkscape:export-xdpi="30.206076"
          inkscape:export-filename="/Users/kochme/Projekte/VisualSorting/src/resources/start_visualsort_1.png"
          ry="0"
          transform="scale(1,-1)"
-         y="-669.5401"
-         x="-612.96338"
+         y="-750.83075"
+         x="-610.81665"
          height="32.333698"
          width="29.185852"
-         id="rect4262-4-5-9-8"
-         style="opacity:1;fill:url(#linearGradient7140);fill-opacity:1;stroke:none;stroke-width:3.04330564;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+         id="rect4262-4-5-9-8-9"
+         style="opacity:1;fill:url(#linearGradient9462);fill-opacity:1;stroke:none;stroke-width:3.04330564;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
       <rect
-         inkscape:export-ydpi="6.2800002"
-         inkscape:export-xdpi="6.2800002"
+         inkscape:export-ydpi="30.206076"
+         inkscape:export-xdpi="30.206076"
          inkscape:export-filename="/Users/kochme/Projekte/VisualSorting/src/resources/start_visualsort_1.png"
          transform="scale(1,-1)"
-         y="-669.04889"
-         x="-576.05743"
+         y="-750.33954"
+         x="-573.91071"
          height="55.724346"
          width="29.185829"
-         id="rect4262-5-7-2-7-4"
-         style="fill:url(#linearGradient7142);fill-opacity:1;stroke:none;stroke-width:3.04330564;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+         id="rect4262-5-7-2-7-4-7"
+         style="fill:url(#linearGradient9464);fill-opacity:1;stroke:none;stroke-width:3.04330564;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
       <rect
-         inkscape:export-ydpi="6.2800002"
-         inkscape:export-xdpi="6.2800002"
+         inkscape:export-ydpi="30.206076"
+         inkscape:export-xdpi="30.206076"
          inkscape:export-filename="/Users/kochme/Projekte/VisualSorting/src/resources/start_visualsort_1.png"
          transform="scale(1,-1)"
-         y="-669.04889"
-         x="-539.01575"
+         y="-750.33954"
+         x="-536.86902"
          height="25.872"
          width="29.185822"
-         id="rect4262-5-2-1-2-5-0"
-         style="fill:url(#linearGradient7144);fill-opacity:1;stroke:none;stroke-width:3.04330564;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+         id="rect4262-5-2-1-2-5-0-5"
+         style="fill:url(#linearGradient9466);fill-opacity:1;stroke:none;stroke-width:3.04330564;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
       <rect
-         inkscape:export-ydpi="6.2800002"
-         inkscape:export-xdpi="6.2800002"
+         inkscape:export-ydpi="30.206076"
+         inkscape:export-xdpi="30.206076"
          inkscape:export-filename="/Users/kochme/Projekte/VisualSorting/src/resources/start_visualsort_1.png"
          transform="scale(1,-1)"
-         y="-669.04889"
-         x="-465.0141"
+         y="-750.33954"
+         x="-462.86737"
          height="49.753857"
          width="29.185822"
-         id="rect4262-5-7-2-7-4-9"
-         style="fill:url(#linearGradient7142-0);fill-opacity:1;stroke:none;stroke-width:3.04330564;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+         id="rect4262-5-7-2-7-4-9-3"
+         style="fill:url(#linearGradient9468);fill-opacity:1;stroke:none;stroke-width:3.04330564;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
       <text
-         id="text8467"
-         y="700.26843"
-         x="-600.36462"
-         style="font-style:normal;font-weight:normal;font-size:24.94547462px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;opacity:1;fill:url(#radialGradient9062);fill-opacity:1;stroke:none;stroke-width:2.18834186;stroke-miterlimit:4;stroke-dasharray:none"
-         xml:space="preserve"><tspan
-           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:'Trebuchet MS';-inkscape-font-specification:'Trebuchet MS';fill:url(#radialGradient9062);fill-opacity:1;stroke-width:2.18834186"
-           y="700.26843"
-           x="-600.36462"
-           id="tspan8465"
+         id="text8467-9"
+         y="785.33887"
+         x="-598.2179"
+         style="font-style:normal;font-weight:normal;font-size:24.94547462px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;opacity:1;fill:url(#radialGradient9152-5);fill-opacity:1;stroke:none;stroke-width:2.18834186;stroke-miterlimit:4;stroke-dasharray:none"
+         xml:space="preserve"
+         inkscape:export-xdpi="30.206076"
+         inkscape:export-ydpi="30.206076"><tspan
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:'Trebuchet MS';-inkscape-font-specification:'Trebuchet MS';fill:url(#radialGradient9152-5);fill-opacity:1;stroke-width:2.18834186"
+           y="785.33887"
+           x="-598.2179"
+           id="tspan8465-9"
            sodipodi:role="line">Visual Sorting</tspan></text>
       <rect
-         inkscape:export-ydpi="6.2800002"
-         inkscape:export-xdpi="6.2800002"
+         inkscape:export-ydpi="30.206076"
+         inkscape:export-xdpi="30.206076"
          inkscape:export-filename="/Users/kochme/Projekte/VisualSorting/src/resources/start_visualsort_1.png"
          ry="0"
          transform="scale(1,-1)"
-         y="-669.04889"
-         x="-501.97409"
+         y="-750.33954"
+         x="-499.82736"
          height="39.803101"
          width="29.185829"
-         id="rect4262-4-5-9-8-3"
-         style="opacity:1;fill:url(#linearGradient7140-6);fill-opacity:1;stroke:none;stroke-width:3.04330564;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+         id="rect4262-4-5-9-8-3-4"
+         style="opacity:1;fill:url(#linearGradient9470);fill-opacity:1;stroke:none;stroke-width:3.04330564;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
     </g>
   </g>
 </svg>

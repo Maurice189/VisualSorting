@@ -47,19 +47,7 @@ public class ShakerSort extends Sort {
         super(svp);
     }
 
-    public int[] sort() {
-
-        int i = 0, l = elements.length;
-        while (i < l) {
-            shaker1(i, l);
-            l--;
-            shaker2(i, l);
-            i++;
-        }
-        return elements;
-    }
-
-    private void shaker1(int i, int l) {
+    private void shaker1(int i, int l) throws InterruptedException {
         for (int j = i; j < l - 1; j++) {
             if (elements[j] > elements[j + 1]) {
                 k = elements[j];
@@ -80,7 +68,7 @@ public class ShakerSort extends Sort {
         }
     }
 
-    private void shaker2(int i, int l) {
+    private void shaker2(int i, int l) throws InterruptedException {
         for (int j = l - 1; j >= i; j--) {
             if (elements[j] > elements[j + 1]) {
                 k = elements[j];
@@ -103,15 +91,21 @@ public class ShakerSort extends Sort {
     }
 
     public void run() {
-        int i = 0, l = elements.length;
 
-        while (i < l) {
-            shaker1(i, l);
-            l--;
-            shaker2(i, l);
-            i++;
+        try {
+            int i = 0, l = elements.length;
 
+            while (i < l) {
+                shaker1(i, l);
+                l--;
+                shaker2(i, l);
+                i++;
+
+            }
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
+
 
         setChanged();
         notifyObservers(panelUI.getID());

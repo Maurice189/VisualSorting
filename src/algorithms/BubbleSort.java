@@ -44,39 +44,42 @@ public class BubbleSort extends Sort {
     }
 
     public void run() {
+        try {
+            int tmp = 0;
+            boolean swapped;
 
-        int tmp = 0;
-        boolean swapped;
+            do {
+                swapped = false;
+                for (int i = 0; i < elements.length - 1; i++) {
+                    if (elements[i] > elements[i + 1]) {
 
-        do {
-            swapped = false;
-            for (int i = 0; i < elements.length - 1; i++) {
-                if (elements[i] > elements[i + 1]) {
+                        tmp = elements[i];
+                        elements[i] = elements[i + 1];
+                        elements[i + 1] = tmp;
+                        svp.visualCmp(i, i + 1, true);
+                        panelUI.setInfo("Bubblesort", accesses, comparisons++);
+                        accesses += 3;
+                        swapped = true;
 
-                    tmp = elements[i];
-                    elements[i] = elements[i + 1];
-                    elements[i + 1] = tmp;
-                    svp.visualCmp(i, i + 1, true);
-                    panelUI.setInfo("Bubblesort", accesses, comparisons++);
-                    accesses += 3;
-                    swapped = true;
+                    } else {
+                        svp.visualCmp(i, i + 1, false);
+                        panelUI.setInfo("Bubblesort", accesses, comparisons++);
+                    }
 
-                } else {
-                    svp.visualCmp(i, i + 1, false);
-                    panelUI.setInfo("Bubblesort", accesses, comparisons++);
+                    checkRunCondition();
                 }
 
-                checkRunCondition();
+            } while (swapped);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
 
-            }
 
-        } while (swapped);
 
         setChanged();
         notifyObservers(panelUI.getID());
 
         if (flashing) svp.visualTermination();
-
 
     }
 

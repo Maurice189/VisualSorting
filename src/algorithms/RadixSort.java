@@ -27,7 +27,7 @@ public class RadixSort extends Sort {
     }
 
 
-    public void radixSort(int maxDigits) {
+    public void radixSort(int maxDigits) throws InterruptedException {
         int exp = 1;//10^0;
         for (int i = 0; i < maxDigits; i++) {
             ArrayList<Integer> bucketList[] = new ArrayList[10];
@@ -59,14 +59,19 @@ public class RadixSort extends Sort {
 
 
     public void run() {
-        int maxValue = 0;
-        for (int i = 0; i < elements.length; i++)
-            if (elements[i] > maxValue) maxValue = elements[i];
 
+        try {
+            int maxValue = 0;
+            for (int i = 0; i < elements.length; i++)
+                if (elements[i] > maxValue) maxValue = elements[i];
 
-        int digit;
-        for (digit = 0; maxValue % Math.pow(10, digit) != maxValue; digit++) ;
-        radixSort(digit);
+            int digit;
+            for (digit = 0; maxValue % Math.pow(10, digit) != maxValue; digit++) ;
+            radixSort(digit);
+
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
 
         setChanged();
         notifyObservers(panelUI.getID());

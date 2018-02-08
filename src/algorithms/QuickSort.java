@@ -26,7 +26,7 @@ public class QuickSort extends Sort {
         super();
     }
 
-    private void qSort(int x[], int links, int rechts) {
+    private void qSort(int x[], int links, int rechts) throws InterruptedException {
         if (links < rechts) {
             int i = partition(elements, links, rechts);
             qSort(x, links, i - 1);
@@ -35,7 +35,7 @@ public class QuickSort extends Sort {
 
     }
 
-    private int partition(int x[], int links, int rechts) {
+    private int partition(int x[], int links, int rechts) throws InterruptedException {
         int pivot, i, j, help;
 
         pivot = x[rechts];
@@ -81,7 +81,12 @@ public class QuickSort extends Sort {
     }
 
     public void run() {
-        qSort(elements, 0, elements.length - 1);
+
+        try {
+            qSort(elements, 0, elements.length - 1);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
 
         setChanged();
         notifyObservers(panelUI.getID());

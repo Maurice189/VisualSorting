@@ -46,42 +46,34 @@ public class InsertionSort extends Sort {
         super();
     }
 
-    public static void insertSort(int[] A) {
-        for (int i = 1; i < A.length; i++) {
-            int value = A[i];
-            int j = i - 1;
-            while (j >= 0 && A[j] > value) {
-                A[j + 1] = A[j];
-                j = j - 1;
-            }
-            A[j + 1] = value;
-        }
-    }
-
     public void run() {
 
-        for (int i = 1; i < elements.length; i++) {
-            int value = elements[i];
-            int j = i - 1;
-            while (j >= 0 && elements[j] > value) {
+        try {
+            for (int i = 1; i < elements.length; i++) {
+                int value = elements[i];
+                int j = i - 1;
+                while (j >= 0 && elements[j] > value) {
 
-                svp.visualInsert(j + 1, elements[j]);
+                    svp.visualInsert(j + 1, elements[j]);
+                    //svp.setInfo("Insertionsort", iterates++);
+                    panelUI.setInfo("Insertionsort", accesses, comparisons++);
+                    accesses += 2;
+
+                    checkRunCondition();
+                    elements[j + 1] = elements[j];
+                    j = j - 1;
+                }
+
+                svp.visualInsert(j + 1, value);
                 //svp.setInfo("Insertionsort", iterates++);
                 panelUI.setInfo("Insertionsort", accesses, comparisons++);
                 accesses += 2;
 
                 checkRunCondition();
-                elements[j + 1] = elements[j];
-                j = j - 1;
+                elements[j + 1] = value;
             }
-
-            svp.visualInsert(j + 1, value);
-            //svp.setInfo("Insertionsort", iterates++);
-            panelUI.setInfo("Insertionsort", accesses, comparisons++);
-            accesses += 2;
-
-            checkRunCondition();
-            elements[j + 1] = value;
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
 
         setChanged();

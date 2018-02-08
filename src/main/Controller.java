@@ -58,24 +58,16 @@ import dialogs.OptionDialog;
 import main.InternalConfig.LANG;
 import main.Statics.SORTALGORITHMS;
 
-
-/**
- * This class respresents, as the name implies, the controller in the
- * MVC pattern. Moreover this class implements the observer pattern,
- * so the controller can be informed, if a visualsation thread ends
- *
- * @author Maurice Koch
- * @version beta
- * @category MVC
- */
 public class Controller implements Observer, ComponentListener, ActionListener, WindowListener {
 
+    private enum State {RUNNING, PAUSED, RESET}
+
+    private State state = State.RESET;
     private ArrayList<Sort> sortList;
     private LinkedList<OptionDialog> dialogs;
 
     private Window window;
     private LanguageFileXML langXMLInterface;
-    private boolean byUserStopped = false;
     private ExecutorService executor;
     private javax.swing.Timer appTimer;
     private int leftMs, leftSec, threadsAlive;
@@ -99,7 +91,6 @@ public class Controller implements Observer, ComponentListener, ActionListener, 
      * @param window
      */
     public void setView(Window window) {
-
         this.window = window;
         SortVisualisationPanel.setBackgroundColor(window.getBackground());
         window.addComponentListener(this);
@@ -110,90 +101,57 @@ public class Controller implements Observer, ComponentListener, ActionListener, 
      *
      */
     public void reset() {
-
-        if (Sort.isStopped()) {
-
-            Sort.setInterruptFlag(true);
-            Sort.resume();
-            Sort.setFlashingAnimation(false);
-
-            for (Sort temp : sortList) {
-                temp.deleteObservers();
-                temp.unlockSignal();
-                temp.getPanelUI().enableRemoveButton(true);
-            }
-
-            try {
-                executor.shutdown();
-                if (!executor.awaitTermination(1200, TimeUnit.MILLISECONDS)) { //optional *
-                    System.out.println("Executor did not terminate in the specified time."); //optional *
-                    List<Runnable> droppedTasks = executor.shutdownNow(); //optional **
-                    System.out.println("Executor was abruptly shut down. " + droppedTasks.size() + " tasks will not be executed."); //optional **
-                }
-            } catch (InterruptedException e1) {
-                e1.printStackTrace();
-            }
-
-            if (!executor.isTerminated())
-                System.out.println("executor service isn't terminated !");
-
-            for (Sort temp : sortList) {
-                temp.initElements();
-                temp.addObserver(this);
-            }
-            Sort.setInterruptFlag(false);
-            Sort.setFlashingAnimation(true);
-            createTimer();
-
-        } else {
-            for (Sort temp : sortList) {
-                temp.getPanelUI().enableRemoveButton(true);
-                temp.initElements();
-
-            }
+        for (Sort temp : sortList) {
+            temp.deleteObservers();
+            temp.getPanelUI().enableRemoveButton(true);
+            temp.resume();
         }
 
+        try {
+            executor.shutdownNow();
+            executor.awaitTermination(500, TimeUnit.MILLISECONDS);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        if (!executor.isTerminated())
+            System.out.println("executor service isn't terminated !");
+
+        for (Sort temp : sortList) {
+            temp.initElements();
+            temp.addObserver(this);
+        }
+
+        createTimer();
 
         window.unlockAddSort(true);
         threadsAlive = 0;
-
-
+        state = State.RESET;
     }
 
     /**
      *
      */
     private void createTimer() {
-
         leftMs = 0;
         leftSec = 0;
 
-        appTimer = new javax.swing.Timer(10, new ActionListener() {
-
-            public void actionPerformed(ActionEvent e) {
-
-                leftMs += 10;
-                if (leftMs == 1000) {
-                    leftMs = 0;
-                    leftSec++;
-                }
-
-                window.setClockParam(leftSec, leftMs);
+        appTimer = new javax.swing.Timer(10, e -> {
+            leftMs += 10;
+            if (leftMs == 1000) {
+                leftMs = 0;
+                leftSec++;
             }
-
+            window.setClockParam(leftSec, leftMs);
         });
         if (window != null) window.setClockParam(0, 0);
     }
 
-
     public void actionPerformed(ActionEvent e) {
-
         if (e.getActionCommand() == Statics.ADD_SORT) {
-
             Sort sort;
             String selectedSort;
 
-            Sort.resume();
             for (Sort temp : sortList) {
                 temp.initElements();
                 threadsAlive = 0;
@@ -237,65 +195,41 @@ public class Controller implements Observer, ComponentListener, ActionListener, 
             resize();
 
         } else if (e.getActionCommand() == Statics.START) {
-            if (threadsAlive != 0) {
-                if (Sort.isStopped()) {
-                    Sort.resume();
-                    for (Sort temp : sortList) {
-                        temp.unlockSignal();
-                    }
-
-                    byUserStopped = false;
-                    window.unlockManualIteration(false);
-                    appTimer.start();
-
-
-                } else {
-                    Sort.stop();
-
-                    window.unlockManualIteration(true);
-                    byUserStopped = true;
-                    appTimer.stop();
-
-
-                }
-
-            } else {
-
+            if (state == State.RUNNING) {
+                sortList.forEach(Sort::pause);
+                window.unlockManualIteration(true);
+                appTimer.stop();
+                state = State.PAUSED;
+            } else if (state == State.PAUSED) {
+                sortList.forEach(Sort::resume);
+                state = State.RUNNING;
+                appTimer.start();
+            } else if (state == State.RESET) {
                 if (executor.isTerminated()) {
                     executor = Executors.newCachedThreadPool();
                 }
-                Sort.resume();
                 for (Sort temp : sortList) {
-
                     temp.initElements();
                     temp.getPanelUI().enableRemoveButton(false);
                     executor.execute(temp);
                     threadsAlive++;
                 }
 
-                if (byUserStopped) {
-                    byUserStopped = false;
-                }
                 window.unlockManualIteration(false);
                 window.unlockAddSort(false);
 
                 createTimer();
                 appTimer.start();
+                state = State.RUNNING;
             }
-
             window.toggleStartStop();
-
         } else if (e.getActionCommand() == Statics.RESET) {
-
             reset();
         } else if (e.getActionCommand() == Statics.AUTO_PAUSE) {
-
             InternalConfig.toggleAutoPause();
         } else if (e.getActionCommand() == Statics.NEW_ELEMENTS) {
-
             dialogs.add(EnterDialog.getInstance(this, 500, 300));
         } else if (e.getActionCommand() == Statics.ABOUT) {
-
             dialogs.add(AboutDialog.getInstance(400, 500));
         } else if (e.getActionCommand() == Statics.INFO) {
 
@@ -336,11 +270,7 @@ public class Controller implements Observer, ComponentListener, ActionListener, 
 
         // just execute one more step
         else if (e.getActionCommand() == Statics.NEXT_ITERATION) {
-
-            for (Sort temp : sortList) {
-                temp.unlockSignal();
-            }
-
+            sortList.forEach(Sort::executeNextStep);
         }
         /**
          * It is quite inconvenient to figure out which
@@ -349,34 +279,19 @@ public class Controller implements Observer, ComponentListener, ActionListener, 
          * are redirected to this handler.
          */
         else if (e.getActionCommand() == Statics.REMOVE_SORT) {
-
             if (sortList.size() > 0) {
 
                 int selPanel = PanelUI.getReleasedID();
-
-                if (threadsAlive != 0) {
-                    Sort.setFlashingAnimation(false);
-                    sortList.get(selPanel).unlockSignal();
-                    sortList.get(selPanel).deleteObservers();
-                    Future<?> f = executor.submit(sortList.get(selPanel));
-                    f.cancel(true);
-                    threadsAlive--;
-
-
-                }
-
                 window.removeSort(selPanel);
                 sortList.remove(selPanel);
 
-                for (Sort temp : sortList)
+                for (Sort temp : sortList) {
                     temp.getPanelUI().updateID();
-
+                }
                 PanelUI.updateCounter();
-                Sort.setFlashingAnimation(true);
                 resize();
             }
         } else if (e.getActionCommand() == Statics.DELAY) {
-
             dialogs.add(DelayDialog.getInstance(320, 150));
         } else if (e.getActionCommand() == Statics.ELEMENTS_SET) {
 
@@ -404,7 +319,7 @@ public class Controller implements Observer, ComponentListener, ActionListener, 
          * we need to invoke the gui update later,
          * instead of using the calling thread.
          */
-        if (--threadsAlive == 0 && byUserStopped == false) {
+        if (--threadsAlive == 0) {
             EventQueue.invokeLater(new Runnable() {
                 public void run() {
                     window.toggleStartStop();
@@ -412,13 +327,13 @@ public class Controller implements Observer, ComponentListener, ActionListener, 
                     window.unlockManualIteration(true);
                 }
             });
-
             appTimer.stop();
 
             for (Sort temp : sortList) {
                 temp.getPanelUI().enableRemoveButton(true);
             }
 
+            state = State.RESET;
         }
 
 
@@ -431,42 +346,34 @@ public class Controller implements Observer, ComponentListener, ActionListener, 
 
     @Override
     public void windowClosing(WindowEvent e) {
-
         appTimer.stop();
 
         for (OptionDialog temp : dialogs) {
             temp.dispose();
         }
-
         InternalConfig.saveChanges();
-
     }
 
     @Override
     public void windowActivated(WindowEvent e) {
 
         if (InternalConfig.isAutoPauseEnabled()) {
-            if (threadsAlive != 0 && byUserStopped == false) {
-                Sort.resume();
+            if (threadsAlive != 0) {
                 appTimer.start();
                 for (Sort temp : sortList) {
-                    temp.unlockSignal();
+                    temp.resume();
                 }
-
             }
-
             window.appReleased();
-
         }
-
     }
 
     @Override
     public void windowDeactivated(WindowEvent e) {
 
         if (InternalConfig.isAutoPauseEnabled()) {
-            Sort.stop();
-            if (threadsAlive != 0 && byUserStopped == false) {
+            sortList.forEach(sort -> sort.pause());
+            if (threadsAlive != 0) {
                 window.appStopped();
                 appTimer.stop();
             }
@@ -490,7 +397,6 @@ public class Controller implements Observer, ComponentListener, ActionListener, 
      *
      */
     private void resize() {
-
         if (!sortList.isEmpty()) {
             for (Sort tmp : sortList) {
                 tmp.getSortVisualisationPanel().updateSize();
@@ -514,6 +420,4 @@ public class Controller implements Observer, ComponentListener, ActionListener, 
     @Override
     public void componentHidden(ComponentEvent e) {
     }
-
-
 }
