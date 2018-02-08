@@ -12,6 +12,9 @@ to get an idea how sort algorithms behave in terms of their runtime,
 
 # Features
 
+
+![visual-sorting-teaser](visual-sorting-teaser)
+
 * Visualize multiple sort algorithms **in parallel**.
 * Over **ten most common sort algorithms**, including Quicksort, Mergesort and Bubblesort.
 * Start/Pause feature and (manual) **single step execution**.
