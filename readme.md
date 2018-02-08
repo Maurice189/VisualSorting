@@ -4,11 +4,14 @@
 
 # Description
 
-VisualSorting is an application that intend to visualize how different 
+Visual Sorting is an application that intend to visualize how different 
 sort algorithms work. This idea has already been applied for instance by Timo Bingmann
 with his [sound-of-sorting](https://github.com/bingmann/sound-of-sorting). Though
 to get an idea how sort algorithms behave in terms of their runtime,
 **visualizing them in parallel** is crucial. Therefore we introduce *Visual Sorting*.
+
+The development of Visual Sorting is still in progress, so you may encounter misbehavements
+during execution. In that case I would highly appreciate a bug report.
 
 # Features
 
@@ -20,6 +23,14 @@ to get an idea how sort algorithms behave in terms of their runtime,
 * Start/Pause feature and (manual) **single step execution**.
 * Adjustment of the **running speed**.
 * Free choosable **number of elements** to be sorted.
+
+# Installing
+
+## Prerequirements
+
+Make sure you have installed **Java 8.xx** installed on your machine.
+
+*Comming soon*
 
 # License
 
