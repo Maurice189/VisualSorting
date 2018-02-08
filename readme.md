@@ -1,5 +1,5 @@
 <p align="center">
-  <img width="400" height="400" src="logo-plain.svg">
+  <img width="400" src="logo-plain.svg">
 </p>
 
 # Description
@@ -11,6 +11,9 @@ to get an idea how sort algorithms behave in terms of their runtime,
 **visualizing them in parallel** is crucial. Therefore we introduce *Visual Sorting*.
 
 # Features
+
+
+![visual-sorting-teaser](visual-sorting-teaser)
 
 * Visualize multiple sort algorithms **in parallel**.
 * Over **ten most common sort algorithms**, including Quicksort, Mergesort and Bubblesort.
