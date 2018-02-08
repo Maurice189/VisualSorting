@@ -295,6 +295,38 @@
        y1="-524.54169"
        x2="-219.02251"
        y2="-524.54169" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient12310"
+       id="linearGradient12639"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="translate(-813.86745,649.07103)"
+       x1="37.013065"
+       y1="117.75627"
+       x2="37.200066"
+       y2="88.15976" />
+    <linearGradient
+       inkscape:collect="always"
+       id="linearGradient12310">
+      <stop
+         style="stop-color:#2b0000;stop-opacity:1"
+         offset="0"
+         id="stop12306" />
+      <stop
+         style="stop-color:#ff50ff;stop-opacity:1"
+         offset="1"
+         id="stop12308" />
+    </linearGradient>
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient12310"
+       id="linearGradient14277"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="translate(133.93383,-11.413286)"
+       x1="37.013065"
+       y1="117.75627"
+       x2="37.200066"
+       y2="88.15976" />
   </defs>
   <sodipodi:namedview
      id="base"
@@ -305,16 +337,16 @@
      inkscape:pageshadow="2"
      inkscape:zoom="0.7"
      inkscape:cx="311.73806"
-     inkscape:cy="218.75521"
+     inkscape:cy="104.4695"
      inkscape:document-units="mm"
-     inkscape:current-layer="g5653-5-6-4-4"
+     inkscape:current-layer="g9144"
      showgrid="false"
      inkscape:snap-global="true"
      inkscape:snap-text-baseline="false"
-     inkscape:window-width="1280"
-     inkscape:window-height="688"
-     inkscape:window-x="415"
-     inkscape:window-y="275"
+     inkscape:window-width="1920"
+     inkscape:window-height="1036"
+     inkscape:window-x="0"
+     inkscape:window-y="22"
      inkscape:window-maximized="0"
      fit-margin-top="0"
      fit-margin-left="0"
@@ -454,6 +486,19 @@
            id="path9119"
            d="m -596.09994,717.54886 h 146.4637"
            style="opacity:0.36500005;fill:none;stroke:url(#radialGradient9154);stroke-width:1.10000002;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+        <text
+           id="text8467-9-3"
+           y="761.77155"
+           x="-791.05634"
+           style="font-style:normal;font-weight:normal;font-size:24.94547462px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;opacity:1;fill:url(#linearGradient12639);fill-opacity:1;stroke:none;stroke-width:2.18834233;stroke-miterlimit:4;stroke-dasharray:none"
+           xml:space="preserve"
+           inkscape:export-xdpi="30.206076"
+           inkscape:export-ydpi="30.206076"><tspan
+             style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:'Trebuchet MS';-inkscape-font-specification:'Trebuchet MS';fill:url(#linearGradient12639);fill-opacity:1;stroke-width:2.18834233"
+             y="761.77155"
+             x="-791.05634"
+             id="tspan8465-9-9"
+             sodipodi:role="line">Visual Sorting</tspan></text>
       </g>
       <rect
          inkscape:export-ydpi="30.206076"
