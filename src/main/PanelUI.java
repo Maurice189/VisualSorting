@@ -36,19 +36,19 @@ public class PanelUI{
 	private JButton remove;
 	private JPanel panel;
 	private int ID;
+	private String name;
 	
 	
-	public PanelUI(ActionListener listener, JPanel panel, String selectedSort){
-		
-		
+	public PanelUI(ActionListener listener, JPanel panel, String name) {
 		ID = PanelUI.counter++;
 		
 		this.panel = panel;
+		this.name = name;
 		leftBorder = BorderFactory.createTitledBorder("");
 		leftBorder.setTitleJustification(TitledBorder.ABOVE_TOP);
 		leftBorder.setTitleColor(Color.darkGray);
 		leftBorder.setTitleFont(Window.getComponentFont(12f));
-		setInfo(selectedSort,0,0);
+		setInfo(0,0);
 
 		
 		panel.setBorder(leftBorder);
@@ -119,11 +119,11 @@ public class PanelUI{
 		leftBorder.setTitle(info);
 	}
 	
-	public void setInfo(String algoname,int accesses,int comparisons) {
+	public void setInfo(int accesses,int comparisons) {
 		
-		String info = 
-		algoname+(" - ( ")+String.valueOf(comparisons)+(" ")+
-		langXML.getValue("cmp")+(" | ")+String.valueOf(accesses)+(" ")+langXML.getValue("access")+" )";
+		String info = "<html> <b>" +
+		name+("</b> - ( ")+String.valueOf(comparisons)+(" ")+
+		langXML.getValue("cmp")+(" | ")+String.valueOf(accesses)+(" ")+langXML.getValue("access")+" ) </html>";
 		
 		leftBorder.setTitle(info);
 

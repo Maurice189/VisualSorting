@@ -27,7 +27,7 @@ public class BogoSort extends Sort {
 
         svp.visualCmp(i, j, true);
         //svp.setInfo("Bogosort", iterates++);
-        panelUI.setInfo("Bogosort", accesses, comparisons);
+        panelUI.setInfo(accesses, comparisons);
         accesses += 3;
 
         checkRunCondition();
@@ -36,7 +36,7 @@ public class BogoSort extends Sort {
     boolean isSorted() throws InterruptedException {
 
         for (int i = 1; i < elements.length; i++) {
-            panelUI.setInfo("Bogosort", accesses, comparisons++);
+            panelUI.setInfo(accesses, comparisons++);
             checkRunCondition();
             if (elements[i] < elements[i - 1]) {
                 return false;

@@ -55,13 +55,13 @@ public class ShakerSort extends Sort {
                 elements[j + 1] = k;
                 svp.visualCmp(j, j + 1, true);
                 //svp.setInfo("Shakersort",iterates++);
-                panelUI.setInfo("Shakersort", accesses, comparisons++);
+                panelUI.setInfo(accesses, comparisons++);
                 accesses += 3;
 
             } else {
                 svp.visualCmp(j, j + 1, false);
                 //svp.setInfo("Shakersort",iterates++);
-                panelUI.setInfo("Shakersort", accesses, comparisons++);
+                panelUI.setInfo(accesses, comparisons++);
             }
 
             checkRunCondition();
@@ -77,13 +77,13 @@ public class ShakerSort extends Sort {
 
                 svp.visualCmp(j, j + 1, true);
                 //svp.setInfo("Shakersort",iterates++);
-                panelUI.setInfo("Shakersort", accesses, comparisons++);
+                panelUI.setInfo(accesses, comparisons++);
                 accesses += 3;
 
             } else {
                 svp.visualCmp(j, j + 1, false);
                 //svp.setInfo("Shakersort",iterates++);
-                panelUI.setInfo("Shakersort", accesses, comparisons++);
+                panelUI.setInfo(accesses, comparisons++);
             }
 
             checkRunCondition();

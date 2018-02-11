@@ -64,7 +64,7 @@ public class HeapSort extends Sort {
 
             svp.visualCmp(0, end, true);
             //svp.setInfo("Heapsort",iterates++);
-            panelUI.setInfo("Heapsort", accesses, comparisons);
+            panelUI.setInfo(accesses, comparisons);
             accesses += 3;
             checkRunCondition();
 
@@ -96,25 +96,29 @@ public class HeapSort extends Sort {
 
         while ((root * 2 + 1) <= end) {      //While the root has at least one child
             int child = root * 2 + 1;           //root*2+1 points to the left child
+
             //if the child has a sibling and the child's value is less than its sibling's...
-            if (child + 1 <= end && a[child] < a[child + 1])
+            if (child + 1 <= end && a[child] < a[child + 1]) {
+                svp.visualCmp(child, child+1, false);
+                panelUI.setInfo(accesses, comparisons++);
+                checkRunCondition();
                 child = child + 1;           //... then point to the right child instead
+            }
+
             if (a[root] < a[child]) {     //out of max-heap order
                 int tmp = a[root];
                 a[root] = a[child];
                 a[child] = tmp;
 
                 svp.visualCmp(child, root, true);
-                panelUI.setInfo("Heapsort", accesses, comparisons++);
+                panelUI.setInfo(accesses, comparisons++);
                 accesses += 3;
                 checkRunCondition();
 
                 root = child;                //repeat to continue sifting down the child now
-
-
             } else {
                 svp.visualCmp(child, root, false);
-                panelUI.setInfo("Heapsort", accesses, comparisons++);
+                panelUI.setInfo(accesses, comparisons++);
                 checkRunCondition();
                 return;
             }

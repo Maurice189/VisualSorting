@@ -22,8 +22,8 @@ public class Statics {
 	
 
 	public static enum SORTALGORITHMS {
-		Bogosort,Bubblesort,Combsort,Gnomesort,Heapsort,Insertionsort,Introsort,Mergesort,
-		Quicksort,Radixsort,Shakersort,Shellsort;
+		Bogosort,Bubblesort,Combsort,Heapsort,Insertionsort,Introsort,Mergesort,
+		Quicksort_FIXED, Quicksort_RANDOM, Quicksort_MO3, DualPivotQuicksort, Selectionsort,Shakersort,Shellsort;
 		
 		public static int length(){
 			return SORTALGORITHMS.values().length;

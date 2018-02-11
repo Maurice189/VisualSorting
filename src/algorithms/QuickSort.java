@@ -14,67 +14,104 @@ package algorithms;
 import main.SortVisualisationPanel;
 import main.Statics.SORTALGORITHMS;
 
+import java.util.function.Function;
+
 public class QuickSort extends Sort {
 
+    public static enum PivotStrategy {FIXED, RANDOM, MO3}
+
     private int pivotIndex;
+    private PivotStrategy pivotStrategy;
 
     public QuickSort(SortVisualisationPanel svp) {
         super(svp);
     }
 
-    public QuickSort() {
+    public QuickSort(PivotStrategy pivotStrategy) {
         super();
+        this.pivotStrategy = pivotStrategy;
     }
 
-    private void qSort(int x[], int links, int rechts) throws InterruptedException {
-        if (links < rechts) {
-            int i = partition(elements, links, rechts);
-            qSort(x, links, i - 1);
-            qSort(x, i + 1, rechts);
+    private void sort(int x[], int left, int right) throws InterruptedException {
+        if (left < right) {
+            int i = partition(elements, left, right);
+            sort(x, left, i - 1);
+            sort(x, i + 1, right);
+        }
+    }
+
+
+    private int getPivotByRandom(int left, int right) {
+        return left + (int)(Math.random() * (right - left));
+    }
+    private int getPivotByMedianOfThree(int x[], int left, int right) {
+        int center = (left + right) / 2;
+
+        int lv = x[left];
+        int rv = x[right];
+        int cv = x[center];
+
+        if (lv <= rv && rv <= cv) {
+            return right;
+        }
+        if (rv <= lv && lv <= cv) {
+            return left;
+        }
+        return center;
+    }
+
+    private int partition(int x[], int left, int right) throws InterruptedException {
+        int pivot, i, j, tmp;
+
+        if (pivotStrategy == PivotStrategy.FIXED) {
+            pivotIndex = right;
+        } else if (pivotStrategy == PivotStrategy.RANDOM) {
+            pivotIndex = getPivotByRandom(left, right);
+        } else  if (pivotStrategy == PivotStrategy.MO3) {
+            pivotIndex = getPivotByMedianOfThree(x, left, right);
         }
 
-    }
+        tmp = x[pivotIndex];
+        x[pivotIndex] = x[right];
+        x[right] = tmp;
 
-    private int partition(int x[], int links, int rechts) throws InterruptedException {
-        int pivot, i, j, help;
+        svp.visualCmp(pivotIndex, right, true);
+        accesses += 3;
 
-        pivot = x[rechts];
-        pivotIndex = rechts;
+        pivot = x[right];
 
-        i = links;
-        j = rechts - 1;
+        i = left;
+        j = right - 1;
+
         while (i <= j) {
+            panelUI.setInfo(accesses, comparisons++);
+            checkRunCondition();
 
             if (x[i] > pivot) {
-                help = x[i];
+                tmp = x[i];
                 x[i] = x[j];
-                x[j] = help;
+                x[j] = tmp;
 
                 svp.visualCmp(i, j, true);
-                svp.visualPivot(pivotIndex);
-                panelUI.setInfo("Quicksort", accesses, comparisons++);
+                svp.visualPivot(right);
+                panelUI.setInfo(accesses, comparisons++);
                 accesses += 3;
                 j--;
             } else {
-                svp.visualCmp(i, rechts, false);
-                svp.visualPivot(pivotIndex);
-                panelUI.setInfo("Quicksort", accesses, comparisons++);
-
                 i++;
             }
 
             checkRunCondition();
         }
 
-        help = x[i];
-        x[i] = x[rechts];
-        x[rechts] = help;
+        tmp = x[i];
+        x[i] = x[right];
+        x[right] = tmp;
 
-        svp.visualCmp(i, rechts, true);
-        svp.visualPivot(pivotIndex);
-        panelUI.setInfo("Quicksort", accesses, comparisons++);
+        svp.visualCmp(i, right, true);
+        svp.visualPivot(right);
+        panelUI.setInfo(accesses, comparisons++);
         accesses += 3;
-
         checkRunCondition();
 
         return i;
@@ -83,7 +120,7 @@ public class QuickSort extends Sort {
     public void run() {
 
         try {
-            qSort(elements, 0, elements.length - 1);
+            sort(elements, 0, elements.length - 1);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -96,7 +133,13 @@ public class QuickSort extends Sort {
 
     @Override
     public SORTALGORITHMS getAlgorithmName() {
-        return SORTALGORITHMS.Quicksort;
+        if(pivotStrategy == PivotStrategy.FIXED) {
+            return SORTALGORITHMS.Quicksort_FIXED;
+        }
+        if(pivotStrategy == PivotStrategy.RANDOM) {
+            return SORTALGORITHMS.Quicksort_RANDOM;
+        }
+        return SORTALGORITHMS.Quicksort_MO3;
     }
 
 }

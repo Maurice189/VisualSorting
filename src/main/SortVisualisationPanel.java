@@ -45,12 +45,12 @@ import com.sun.tools.javac.util.ArrayUtils;
 public class SortVisualisationPanel extends JPanel {
 
     private static Color backgroundColor = Color.GREEN;
-    private static final int preferredGapSize = 3, offsetY = 20;
+    private static final int preferredGapSize = 1, offsetY = 20;
     private static final int visualTerminationTime = 800;   // ms
 
     private int width, height;
     private int refWidth, refHeight;
-    private int margin = 7, gapSize = 3, marginTop = 25;
+    private int margin = 7, gapSize = 0, marginTop = 25;
     private int lstIndex1 = -1, lstIndex2 = -1, lstInsert = -1, lstPivot = -1;
 
     private BufferedImage buffer;
@@ -99,7 +99,7 @@ public class SortVisualisationPanel extends JPanel {
         int h = refHeight * elements[pivotIndex];
 
         gbuffer.setColor(Color.CYAN);
-        gbuffer.fillRoundRect(x, y, refWidth, h, 7, 7);
+        gbuffer.fillRect(x, y, refWidth, h);
 
         if (lstPivot != -1 && lstPivot != pivotIndex) {
             x = (lstPivot * (refWidth + gapSize)) + margin;
@@ -109,7 +109,7 @@ public class SortVisualisationPanel extends JPanel {
 
             float b = ((float) elements[lstPivot]) / maxElement;
             gbuffer.setColor(getBarColor(b));
-            gbuffer.fillRoundRect(x, y, refWidth, h, 7, 7);
+            gbuffer.fillRect(x, y, refWidth, h);
         }
 
         lstPivot = pivotIndex;
@@ -121,9 +121,9 @@ public class SortVisualisationPanel extends JPanel {
         if (lstInsert >= 0) {
             float b = ((float) elements[lstInsert]) / maxElement;
             gbuffer.setColor(getBarColor(b));
-            gbuffer.fillRoundRect((lstInsert * (refWidth + gapSize)) + margin,
+            gbuffer.fillRect((lstInsert * (refWidth + gapSize)) + margin,
                     (height - (refHeight * elements[lstInsert])) - offsetY,
-                    refWidth, refHeight * elements[lstInsert], 7, 7);
+                    refWidth, refHeight * elements[lstInsert]);
 
         }
 
@@ -134,9 +134,9 @@ public class SortVisualisationPanel extends JPanel {
                 (refHeight * elements[c]) + 5);
 
         gbuffer.setColor(Color.GREEN);
-        gbuffer.fillRoundRect((c * (refWidth + gapSize)) + margin,
+        gbuffer.fillRect((c * (refWidth + gapSize)) + margin,
                 (height - (refHeight * value)) - offsetY, refWidth, refHeight
-                        * value, 7, 7);
+                        * value);
 
         lstInsert = c;
 
@@ -145,25 +145,19 @@ public class SortVisualisationPanel extends JPanel {
     }
 
     public Color getBarColor(float relativePosition) {
-        if (relativePosition <= 0.25) {
+        if (relativePosition <=  0.33) {
             float hsb[] = new float[3];
-            Color.RGBtoHSB(255, 163, 0, hsb);
+            Color.RGBtoHSB(207,26,203, hsb);
             return Color.getHSBColor(hsb[0], hsb[1], hsb[2]);
         }
-        if (relativePosition <= 0.5) {
+        if (relativePosition <= 0.66) {
             float hsb[] = new float[3];
-            Color.RGBtoHSB(207, 0, 96, hsb);
+            Color.RGBtoHSB(86,0,234, hsb);
             return Color.getHSBColor(hsb[0], hsb[1], hsb[2]);
         }
-        if (relativePosition <= 0.75) {
-            float hsb[] = new float[3];
-            Color.RGBtoHSB(255, 0, 255, hsb);
-            return Color.getHSBColor(hsb[0], hsb[1], hsb[2]);
-        }
-
 
         float hsb[] = new float[3];
-        Color.RGBtoHSB(19, 168, 254, hsb);
+        Color.RGBtoHSB(43,144,245, hsb);
         return Color.getHSBColor(hsb[0], hsb[1], hsb[2]);
     }
 
@@ -188,12 +182,12 @@ public class SortVisualisationPanel extends JPanel {
             float b = ((float) elements[lstIndex1]) / maxElement;
             gbuffer.setColor(getBarColor(b));
 
-            gbuffer.fillRoundRect(x1, y1, refWidth, h1, 7, 7);
+            gbuffer.fillRect(x1, y1, refWidth, h1);
 
             b = ((float) elements[lstIndex2]) / maxElement;
             gbuffer.setColor(getBarColor(b));
 
-            gbuffer.fillRoundRect(x2, y2, refWidth, h2, 7, 7);
+            gbuffer.fillRect(x2, y2, refWidth, h2);
 
         }
 
@@ -215,8 +209,8 @@ public class SortVisualisationPanel extends JPanel {
         }
 
         gbuffer.setColor(Color.RED);
-        gbuffer.fillRoundRect(x1, y1, refWidth, h1, 7, 7);
-        gbuffer.fillRoundRect(x2, y2, refWidth, h2, 7, 7);
+        gbuffer.fillRect(x1, y1, refWidth, h1);
+        gbuffer.fillRect(x2, y2, refWidth, h2);
 
         lstIndex1 = c1;
         lstIndex2 = c2;
@@ -235,9 +229,9 @@ public class SortVisualisationPanel extends JPanel {
 
         for (int i = 0; i < elements.length; i++) {
 
-            gbuffer.fillRoundRect((i * (refWidth + gapSize)) + margin,
+            gbuffer.fillRect((i * (refWidth + gapSize)) + margin,
                     (height - (refHeight * elements[i])) - offsetY, refWidth,
-                    refHeight * elements[i], 7, 7);
+                    refHeight * elements[i]);
 
             try {
                 Thread.sleep((long) (delayNs / 1000.), ((int) delayNs) % 1000);
@@ -284,7 +278,7 @@ public class SortVisualisationPanel extends JPanel {
                     gapSize = 1;
                 refWidth = 1;
             } else
-                gapSize = 3;
+                gapSize = 1;
 
             margin = (width - (elements.length * (refWidth + gapSize))) / 2;
 
@@ -324,9 +318,11 @@ public class SortVisualisationPanel extends JPanel {
 
 
         for (int i = 0; i < elements.length; i++) {
-            gbuffer.fillRoundRect((i * (refWidth + gapSize)) + margin,
+            float b = ((float) elements[i]) / maxElement;
+            gbuffer.setColor(getBarColor(b));
+            gbuffer.fillRect((i * (refWidth + gapSize)) + margin,
                     (height - (refHeight * elements[i])) - offsetY, refWidth,
-                    refHeight * elements[i], 7, 7);
+                    refHeight * elements[i]);
 
         }
 

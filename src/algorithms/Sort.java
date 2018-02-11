@@ -34,6 +34,7 @@ public abstract class Sort extends Observable implements Runnable {
     protected static int delayNs = 0;
     protected volatile boolean stop = false, pause = false, flashing = true, executeNextStep = false;
 
+    protected String name;
     protected int elements[];
     protected int iterates, accesses, comparisons;
     protected SortVisualisationPanel svp;
@@ -75,20 +76,30 @@ public abstract class Sort extends Observable implements Runnable {
      * on locks and condition.
      *
      */
-    protected void checkRunCondition() throws InterruptedException {
-        while (pause && !executeNextStep) {
-            Thread.sleep(100);
+    protected void checkRunCondition() {
+        try {
+            while (pause && !executeNextStep) {
+                Thread.sleep(100);
+            }
+            executeNextStep = false;
+            Thread.sleep(delayMs, delayNs);
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
         }
-        executeNextStep = false;
-        Thread.sleep(delayMs, delayNs);
     }
 
     public void executeNextStep() {
         this.executeNextStep = true;
     }
 
+    public void setName(String name) {this.name = name;}
+
     public void pause() {
         pause = true;
+    }
+
+    public void setTerminationAnimationEnabled(boolean terminationAnimationEnabled) {
+        this.flashing = terminationAnimationEnabled;
     }
 
     /**

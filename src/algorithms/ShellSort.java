@@ -23,59 +23,35 @@ public class ShellSort extends Sort {
         super();
     }
 
-    public static void shell(int[] a) {
-        int increment = a.length / 2;
+    public void run() {
+        int increment = elements.length / 2;
         while (increment > 0) {
-            for (int i = increment; i < a.length; i++) {
+            for (int i = increment; i < elements.length; i++) {
                 int j = i;
-                int temp = a[i];
-                while (j >= increment && a[j - increment] > temp) {
-                    a[j] = a[j - increment];
+                int temp = elements[i];
+                while (j >= increment && elements[j - increment] > temp) {
+                    svp.visualInsert(j, elements[j - increment]);
+                    //svp.setInfo("Shellsort",iterates++);
+                    panelUI.setInfo(accesses, comparisons++);
+                    accesses += 2;
+
+                    checkRunCondition();
+                    elements[j] = elements[j - increment];
                     j = j - increment;
                 }
-                a[j] = temp;
+
+                svp.visualInsert(j, temp);
+                panelUI.setInfo(accesses++, comparisons++);
+
+                checkRunCondition();
+
+                elements[j] = temp;
             }
             if (increment == 2) {
                 increment = 1;
             } else {
                 increment *= (5.0 / 11);
             }
-        }
-    }
-
-    public void run() {
-        try {
-            int increment = elements.length / 2;
-            while (increment > 0) {
-                for (int i = increment; i < elements.length; i++) {
-                    int j = i;
-                    int temp = elements[i];
-                    while (j >= increment && elements[j - increment] > temp) {
-                        svp.visualInsert(j, elements[j - increment]);
-                        //svp.setInfo("Shellsort",iterates++);
-                        panelUI.setInfo("Shellsort", accesses, comparisons++);
-                        accesses += 2;
-
-                        checkRunCondition();
-                        elements[j] = elements[j - increment];
-                        j = j - increment;
-                    }
-
-                    svp.visualInsert(j, temp);
-                    panelUI.setInfo("Shellsort", accesses++, comparisons++);
-
-                    checkRunCondition();
-
-                    elements[j] = temp;
-                }
-                if (increment == 2) {
-                    increment = 1;
-                } else {
-                    increment *= (5.0 / 11);
-                }
-            }
-        } catch (InterruptedException e) {
-            e.printStackTrace();
         }
 
         setChanged();

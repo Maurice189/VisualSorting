@@ -48,41 +48,37 @@ public class CombSort extends Sort {
 
     public void run() {
 
-        try {
-            float shrink = 1.3f;
-            int swap;
-            int i, gap = elements.length;
-            boolean swapped = false;
+        float shrink = 1.3f;
+        int tmp;
+        int i;
+        int gap = elements.length;
+        boolean swapped = false;
 
-            while ((gap > 1) || swapped) {
-                if (gap > 1) {
-                    gap = (int) ((float) gap / shrink);
-                }
-                swapped = false;
-                for (i = 0; gap + i < elements.length; ++i) {
-                    if (elements[i] - elements[i + gap] > 0) {
-                        swap = elements[i];
-                        elements[i] = elements[i + gap];
-                        elements[i + gap] = swap;
-                        swapped = true;
-                        svp.visualCmp(i, i + gap, true);
-                        //svp.setInfo("Combsort",iterates++);
-                        panelUI.setInfo("Combsort", accesses, comparisons++);
-                        accesses += 3;
-
-                    } else {
-
-                        svp.visualCmp(i, i + gap, false);
-                        //svp.setInfo("Combsort",iterates++);
-                        panelUI.setInfo("Combsort", accesses, comparisons++);
-                    }
-
-                    checkRunCondition();
-
-                }
+        while (gap > 1 || swapped) {
+            if (gap > 1) {
+                gap = (int) ((float) gap / shrink);
             }
-        } catch (InterruptedException e) {
-            e.printStackTrace();
+            swapped = false;
+            for (i = 0; gap + i < elements.length; ++i) {
+                if (elements[i] > elements[i + gap]) {
+                    tmp = elements[i];
+                    elements[i] = elements[i + gap];
+                    elements[i + gap] = tmp;
+                    swapped = true;
+                    svp.visualCmp(i, i + gap, true);
+                    //svp.setInfo("Combsort",iterates++);
+                    panelUI.setInfo(accesses, comparisons++);
+                    accesses += 3;
+
+                } else {
+                    svp.visualCmp(i, i + gap, false);
+                    //svp.setInfo("Combsort",iterates++);
+                    panelUI.setInfo(accesses, comparisons++);
+                }
+
+                checkRunCondition();
+
+            }
         }
 
         setChanged();

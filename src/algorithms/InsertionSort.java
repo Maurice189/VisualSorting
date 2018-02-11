@@ -48,32 +48,28 @@ public class InsertionSort extends Sort {
 
     public void run() {
 
-        try {
-            for (int i = 1; i < elements.length; i++) {
-                int value = elements[i];
-                int j = i - 1;
-                while (j >= 0 && elements[j] > value) {
+        for (int i = 1; i < elements.length; i++) {
+            int value = elements[i];
+            int j = i - 1;
+            while (j >= 0 && elements[j] > value) {
 
-                    svp.visualInsert(j + 1, elements[j]);
-                    //svp.setInfo("Insertionsort", iterates++);
-                    panelUI.setInfo("Insertionsort", accesses, comparisons++);
-                    accesses += 2;
-
-                    checkRunCondition();
-                    elements[j + 1] = elements[j];
-                    j = j - 1;
-                }
-
-                svp.visualInsert(j + 1, value);
+                svp.visualInsert(j + 1, elements[j]);
                 //svp.setInfo("Insertionsort", iterates++);
-                panelUI.setInfo("Insertionsort", accesses, comparisons++);
+                panelUI.setInfo(accesses, comparisons++);
                 accesses += 2;
 
                 checkRunCondition();
-                elements[j + 1] = value;
+                elements[j + 1] = elements[j];
+                j = j - 1;
             }
-        } catch (InterruptedException e) {
-            e.printStackTrace();
+
+            svp.visualInsert(j + 1, value);
+            //svp.setInfo("Insertionsort", iterates++);
+            panelUI.setInfo(accesses, comparisons++);
+            accesses += 2;
+
+            checkRunCondition();
+            elements[j + 1] = value;
         }
 
         setChanged();

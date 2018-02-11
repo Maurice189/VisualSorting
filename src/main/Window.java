@@ -20,16 +20,19 @@ package main;
 
 
 import java.awt.*;
+import java.awt.event.*;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.LinkedList;
+import java.util.*;
 import java.util.List;
 
 import javax.swing.*;
 import javax.swing.border.Border;
 import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
+import javax.swing.event.PopupMenuEvent;
+import javax.swing.event.PopupMenuListener;
+
 import algorithms.Sort;
 import main.InternalConfig.LANG;
 import main.Statics.SORTALGORITHMS;
@@ -44,7 +47,8 @@ public class Window extends JFrame {
 
 	private static Font componentFont = new Font("Monospace", Font.BOLD, 13);
 	private static Font infoFont = new Font("Monospace", Font.BOLD, 43);
-	
+
+	private JLabel algorithmInfo;
 	
 	private String title;
 	private boolean stateStButton = true;
@@ -55,17 +59,20 @@ public class Window extends JFrame {
 	private JPanel content;
 	private Controller controller;
 	private JLabel info,clock,nofLabel;
-	private JComboBox<String> sortChooser;
+	private GroupComboBox sortChooser;
 	private JMenuItem about, list, delay;
 	private JRadioButtonMenuItem de, en, fr;
 	private JCheckBoxMenuItem switchIntPause;
 	private JMenu help, settings, languages, programmFunctions;
 	private JToolBar toolBar;
 	private JPanel bottomBar;
-	private JSlider slider;
+	private JSlider speed;
 
 	// we store the visualization panels dynamically, so we can add and remove it much easier
 	private List<SortVisualisationPanel> vsPanel;
+
+	private HashMap<String, Statics.SORTALGORITHMS> titleToAlg;
+    private HashMap<Statics.SORTALGORITHMS, String> algToTitle;
 	
 	
 	// FIXME : BAD the filler is used for the vertical space between the visualization panels
@@ -161,8 +168,6 @@ public class Window extends JFrame {
 		list.addActionListener(controller);
 		list.setActionCommand(Statics.NEW_ELEMENTS);
 
-		slider = new JSlider(0, 300, 50);
-
 		delay = new JMenuItem(langXML.getValue("delay"));
 		delay.addActionListener(controller);
 		delay.setActionCommand(Statics.DELAY);
@@ -218,8 +223,109 @@ public class Window extends JFrame {
 		for(int i = 0; i<SORTALGORITHMS.length(); i++){
 			names[i] = SORTALGORITHMS.values()[i].toString();
 		}
-		sortChooser = new JComboBox<String>(names);
-		sortChooser.setMaximumSize(new Dimension(230, 30));
+
+        titleToAlg = new HashMap<>();
+		titleToAlg.put("Bogosort", SORTALGORITHMS.Bogosort);
+        titleToAlg.put("Bubblesort", SORTALGORITHMS.Bubblesort);
+        titleToAlg.put("Combsort", SORTALGORITHMS.Combsort);
+        titleToAlg.put("Mergesort", SORTALGORITHMS.Mergesort);
+        titleToAlg.put("Insertionsort", SORTALGORITHMS.Insertionsort);
+        titleToAlg.put("Introsort", SORTALGORITHMS.Introsort);
+        titleToAlg.put("Shakersort", SORTALGORITHMS.Shakersort);
+        titleToAlg.put("Selectionsort", SORTALGORITHMS.Selectionsort);
+        titleToAlg.put("Shellsort", SORTALGORITHMS.Shellsort);
+        titleToAlg.put("Standard Heapsort", SORTALGORITHMS.Heapsort);
+        titleToAlg.put("Bottom-up Heapsort", SORTALGORITHMS.Heapsort); // TODO Add Bottom Up Heapsort
+        titleToAlg.put("Quicksort (Random Pivot)", SORTALGORITHMS.Quicksort_RANDOM);
+        titleToAlg.put("Quicksort (MO3 Pivot)", SORTALGORITHMS.Quicksort_MO3);
+        titleToAlg.put("Quicksort (Fixed Pivot)", SORTALGORITHMS.Quicksort_FIXED);
+        //titleToAlg.put("Dual Pivot Quicksort", SORTALGORITHMS.Quicksort_RANDOM); // TODO Add Dual Pivot Method
+
+        algToTitle = new HashMap<>();
+        algToTitle.put(SORTALGORITHMS.Bogosort, "Bogosort");
+        algToTitle.put(SORTALGORITHMS.Bubblesort, "Bubblesort");
+        algToTitle.put(SORTALGORITHMS.Combsort, "Combsort");
+        algToTitle.put(SORTALGORITHMS.Mergesort, "Mergesort");
+        algToTitle.put(SORTALGORITHMS.Insertionsort, "Insertionsort");
+        algToTitle.put(SORTALGORITHMS.Introsort, "Introsort");
+        algToTitle.put(SORTALGORITHMS.Shakersort, "Shakersort");
+        algToTitle.put(SORTALGORITHMS.Selectionsort, "Selectionsort");
+        algToTitle.put(SORTALGORITHMS.Shellsort, "Shellsort");
+        algToTitle.put(SORTALGORITHMS.Heapsort, "Standard Heapsort");
+        algToTitle.put(SORTALGORITHMS.Heapsort, "Bottom-up Heapsort"); // TODO Add Bottom Up Heapsort
+        algToTitle.put(SORTALGORITHMS.Quicksort_RANDOM, "Quicksort (Random Pivot)");
+        algToTitle.put(SORTALGORITHMS.Quicksort_MO3, "Quicksort (MO3 Pivot)");
+        algToTitle.put(SORTALGORITHMS.Quicksort_FIXED, "Quicksort (Fixed Pivot)");
+        //algToTitle.put(SORTALGORITHMS.Quicksort_RANDOM, "Dual Pivot Quicksort"); // TODO Add Dual Pivot Method
+
+        algorithmInfo = new JLabel();
+        algorithmInfo.setForeground(Color.GRAY);
+
+        sortChooser = new GroupComboBox();
+
+        sortChooser.addItemListener(itemEvent -> {
+            String item = sortChooser.getSelectedItem().toString();
+
+            if(item.equals("Bogosort")) {
+                algorithmInfo.setText("<html><b>Bogosort</b> - Generate random permutations until it finds on that sorted.</html>");
+            } else if (item.equals("Bubblesort")) {
+                algorithmInfo.setText("<html><b>Bubblesort</b> - Compare elements pairwise and perform swaps if necessary.</html>\"");
+            } else if (item.equals("Combsort")) {
+                algorithmInfo.setText("<html><b>Combsort</b> - Improvement of Bubblesort with dynamic gap sizes.</html>\"");
+            } else if (item.equals("Mergesort")) {
+                algorithmInfo.setText("<html><b>Mergesort</b> - Divide unsorted lists and repeatedly merge sorted sub-lists.</html>\"");
+            } else if (item.equals("Insertionsort")) {
+                algorithmInfo.setText("<html><b>Insertionsort</b> - In each iterations finds correct insert position of element</html>\"");
+            } else if (item.equals("Introsort")) {
+                algorithmInfo.setText("<html><b>Introsort</b> - Hybrid sorting algorithm uses both Quicksort and Heapsort.</html>\"");
+            } else if (item.equals("Shakersort")) {
+                algorithmInfo.setText("<html><b>Shakersort</b> - Bidirectional Bubblesort, also known as cocktail sort.</html>\"");
+            } else if (item.equals("Selectionsort")) {
+                algorithmInfo.setText("<html><b>Selectionsort</b> - </html>\"");
+            } else if (item.equals("Shellsort")) {
+                algorithmInfo.setText("<html><b>Shellsort</b> - Very similar to Combosort ??</html>\"");
+            }  else if (item.equals("Standard Heapsort")) {
+                algorithmInfo.setText("<html><b>Heapsort</b> - Builds a heap and repeatedly extracts the current maximum.</html>\"");
+            } else if (item.equals("Bottom-up Heapsort")) {
+                algorithmInfo.setText("<html><b>Heapsort</b>  - Improved sift-down operation on heap data structure.</html>\"");
+            } else if (item.equals("Quicksort (Fixed Pivot)")) {
+                algorithmInfo.setText("<html><b>Quicksort</b> - Partitioning of lists by choosing a fixed pivot element.</html>\"");
+            } else if (item.equals("Quicksort (Random Pivot)")) {
+                algorithmInfo.setText("<html><b>Quicksort</b> - Partitioning of lists by choosing a random pivot element.</html>\"");
+            } else if (item.equals("Quicksort (MO3 Pivot)")) {
+                algorithmInfo.setText("<html><b>Quicksort</b> - Partitioning of lists by choosing a pivot element based on median of three.</html>\"");
+            } else if (item.equals("Dual Pivot Quicksort")) {
+                algorithmInfo.setText("<html><b>Quicksort</b> - Variant of quick sort with two pivot elements.</html>\"");
+            } else {
+                algorithmInfo.setText("-");
+            }
+
+            int prefWidth = algorithmInfo.getPreferredSize().width;
+            algorithmInfo.setMaximumSize(new Dimension(prefWidth, 70));
+
+        });
+
+        sortChooser.addItem("Bogosort");
+        sortChooser.addItem("Bubblesort");
+        sortChooser.addItem("Combsort");
+        sortChooser.addItem("Mergesort");
+        sortChooser.addItem("Insertionsort");
+        sortChooser.addItem("Introsort");
+        sortChooser.addItem("Selectionsort");
+        sortChooser.addItem("Shakersort");
+        sortChooser.addItem("Shellsort");
+        sortChooser.addDelimiter("Heapsort");
+        sortChooser.addItem("Standard Heapsort");
+        sortChooser.addItem("Bottom-up Heapsort");
+        sortChooser.addDelimiter("Quicksort");
+        sortChooser.addItem("Quicksort (Fixed Pivot)");
+        sortChooser.addItem("Quicksort (Random Pivot)");
+        sortChooser.addItem("Quicksort (MO3 Pivot)");
+        //sortChooser.addItem("Dual Pivot Quicksort");
+
+
+
+		sortChooser.setMaximumSize(new Dimension(300, 100));
 
         content = new JPanel() {
             @Override
@@ -256,7 +362,12 @@ public class Window extends JFrame {
 		newSort.setIcon(new ImageIcon(Statics.class.getResource("/resources/add_visualsort_1.png")));
 		newSort.setRolloverIcon(new ImageIcon(Statics.class.getResource("/resources/add_visualsort_rollover_1.png")));
 
-		
+        speed = new JSlider(0, 300, 50);
+
+        Hashtable labelTable = new Hashtable();
+        labelTable.put(new Integer( 0 ), new JLabel("Slow"));
+        labelTable.put(new Integer( 300 ), new JLabel("Fast"));
+
 		delayBtn = new JButton();
 		delayBtn.setToolTipText("Adjust the sorting speed.");
 		delayBtn.addActionListener(controller);
@@ -302,19 +413,30 @@ public class Window extends JFrame {
 					       separator.getMaximumSize().height);
 		separator.setMaximumSize(size);
 
+
+		algorithmInfo.setToolTipText("Short description of currently selected sort algorithm.");
+        algorithmInfo.setIcon(new ImageIcon(Statics.class.getResource("/resources/info-label.png")));
+        algorithmInfo.setIconTextGap(10);
+        //algorithmInfo.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createLoweredBevelBorder(), new EmptyBorder(10, 10, 10, 10)));
+
+
 		toolBar.add(Box.createHorizontalStrut(3));
 		toolBar.add(next);
-		toolBar.add(Box.createHorizontalStrut(5));
+		toolBar.add(Box.createHorizontalStrut(15));
 		toolBar.add(reset);
-		toolBar.add(Box.createHorizontalStrut(10));
+		toolBar.add(Box.createHorizontalStrut(15));
 		toolBar.add(separator);
-		toolBar.add(Box.createHorizontalStrut(10));
-		toolBar.add(nextStep);
-		toolBar.add(Box.createHorizontalStrut(10));
-		toolBar.add(delayBtn);
-		toolBar.add(Box.createHorizontalStrut(10));
+		toolBar.add(Box.createHorizontalStrut(15));
+        toolBar.add(nextStep);
+		toolBar.add(Box.createHorizontalStrut(15));
+        toolBar.add(delayBtn);
+		toolBar.add(Box.createHorizontalStrut(15));
 		toolBar.add(listBtn);
+        toolBar.add(Box.createHorizontalStrut(15));
 		toolBar.add(Box.createHorizontalGlue());
+        toolBar.add(algorithmInfo);
+        toolBar.add(Box.createHorizontalGlue());
+        toolBar.add(Box.createHorizontalStrut(15));
 		toolBar.add(newSort);
 		toolBar.add(Box.createHorizontalStrut(5));
 		toolBar.add(sortChooser);
@@ -324,11 +446,37 @@ public class Window extends JFrame {
 		next.setEnabled(false);
 		nextStep.setEnabled(false);
 
-		java.net.URL helpURL = Window.class.getClassLoader().getResource(
-				"resources/icon.png");
-		if (helpURL != null) {
-			setIconImage(new ImageIcon(helpURL).getImage());
+		java.net.URL icon32x32URL = Window.class.getClassLoader().getResource(
+				"resources/icons/icon32x32.png");
+        java.net.URL icon64x64URL = Window.class.getClassLoader().getResource(
+                "resources/icons/icon64x64.png");
+        java.net.URL icon128x128URL = Window.class.getClassLoader().getResource(
+                "resources/icons/icon128x128.png");
+        java.net.URL icon256x256URL = Window.class.getClassLoader().getResource(
+                "resources/icons/icon256x256.png");
+        java.net.URL icon512x512URL = Window.class.getClassLoader().getResource(
+                "resources/icons/icon512x512.png");
+
+        List<Image> icons = new ArrayList<Image>();
+
+		if (icon32x32URL != null) {
+			icons.add(new ImageIcon(icon32x32URL).getImage());
 		}
+        if (icon64x64URL != null) {
+            icons.add(new ImageIcon(icon64x64URL).getImage());
+        }
+        if (icon128x128URL != null) {
+            icons.add(new ImageIcon(icon128x128URL).getImage());
+        }
+        if (icon256x256URL != null) {
+            icons.add(new ImageIcon(icon256x256URL).getImage());
+        }
+        if (icon512x512URL != null) {
+            icons.add(new ImageIcon(icon512x512URL).getImage());
+        }
+
+        setIconImages(icons);
+
 		setLayout(new BoxLayout(this.getContentPane(),BoxLayout.Y_AXIS));
 		add(toolBar);
 		add(content);
@@ -364,8 +512,6 @@ public class Window extends JFrame {
 	 * progress.
 	 */
 	public void toggleStartStop() {
-		
-		
 		if(stateStButton){
 			next.setIcon(new ImageIcon(Statics.class.getResource("/resources/pause_visualsort_1.png")));
 			next.setRolloverIcon(new ImageIcon(Statics.class.getResource("/resources/pause_visualsort_rollover_1.png")));
@@ -378,7 +524,6 @@ public class Window extends JFrame {
 		}
 		
 		stateStButton = !stateStButton;
-		
 	}
 	
 	/**
@@ -399,7 +544,7 @@ public class Window extends JFrame {
 		}
 		
 		SortVisualisationPanel temp = new SortVisualisationPanel(this.getWidth(), this.getHeight());
-		sort.setSortVisualisationPanel(temp,new PanelUI(controller,temp,sort.getAlgorithmName().toString()));
+		sort.setSortVisualisationPanel(temp,new PanelUI(controller,temp, algToTitle.get(sort.getAlgorithmName())));
 		vsPanel.add(temp);
 		content.add(temp);
 		
@@ -468,9 +613,13 @@ public class Window extends JFrame {
 	 * @return Returns the current selected sort,
 	 * from the combobox (top of the application).
 	 */
-	public String getSelectedSort() {
-		return (String) sortChooser.getSelectedItem();
+	public SORTALGORITHMS getSelectedSort() {
+		return titleToAlg.get((String) sortChooser.getSelectedItem());
 	}
+
+    public String getSelectedSortByName() {
+        return (String) sortChooser.getSelectedItem();
+    }
 
 	/**
 	 * 

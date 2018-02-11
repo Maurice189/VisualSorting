@@ -94,18 +94,16 @@ public class Main {
 		javax.swing.UIManager.put("TitledBorder.font",new FontUIResource(Window.getComponentFont(13f)));
 		javax.swing.UIManager.put("Menu.font",new FontUIResource(Window.getComponentFont(13f)));
 		javax.swing.UIManager.put("Spinner.font",new FontUIResource(Window.getComponentFont(13f)));
+		javax.swing.UIManager.put("Slider.font",new FontUIResource(Window.getComponentFont(13f)));
 		
 		
 		// hashmap for resolving sort into the respective infopage file
 		HashMap<SORTALGORITHMS,String> map = new HashMap<SORTALGORITHMS,String>();
 		map.put(SORTALGORITHMS.Bubblesort, "infopage_bubblesort.html");
 		map.put(SORTALGORITHMS.Combsort, "infopage_combsort.html");
-		map.put(SORTALGORITHMS.Gnomesort, "infopage_gnomesort.html");
 		map.put(SORTALGORITHMS.Heapsort, "infopage_heapsort.html");
 		map.put(SORTALGORITHMS.Insertionsort, "infopage_insertionsort.html");
 		map.put(SORTALGORITHMS.Mergesort, "infopage_mergesort.html");
-		map.put(SORTALGORITHMS.Quicksort, "infopage_quicksort.html");
-		map.put(SORTALGORITHMS.Radixsort, "infopage_radixsort.html");
 		map.put(SORTALGORITHMS.Shakersort, "infopage_shakersort.html");
 		map.put(SORTALGORITHMS.Shellsort, "infopage_shellsort.html");
 		map.put(SORTALGORITHMS.Bogosort, "infopage_bogosort.html");
@@ -113,7 +111,7 @@ public class Main {
 		InfoDialog.initInfoPageResolver(map);
 		
 		Controller controller = new Controller(configLanguage);
-		Window window = new Window(controller,configLanguage,"Visual Sorting - ".concat(InternalConfig.getVersion()), 800, 550);
+		Window window = new Window(controller,configLanguage,"Visual Sorting - ".concat(InternalConfig.getVersion()), 1200, 800);
 		controller.setView(window);
 	
 		

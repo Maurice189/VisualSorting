@@ -14,6 +14,9 @@ import main.Statics.SORTALGORITHMS;
 
 public class IntroSort extends Sort {
 
+
+
+
     /*
      * Class Variables
      */
@@ -56,9 +59,15 @@ public class IntroSort extends Sort {
     private int partition(int[] a, int lo, int hi, int x) throws InterruptedException {
         int i = lo, j = hi;
         while (true) {
-            while (a[i] < x) i++;
+            while (a[i] < x) {
+                svp.visualCmp(i, pivotIndex, false);
+                i++;
+            }
             j = j - 1;
-            while (x < a[j]) j = j - 1;
+            while (x < a[j]) {
+                svp.visualCmp(j, pivotIndex, false);
+                j = j - 1;
+            }
             if (!(i < j))
                 return i;
             exchange(a, i, j);
@@ -115,7 +124,7 @@ public class IntroSort extends Sort {
 
 
             svp.visualInsert(lo + i - 1, a[lo + child - 1]);
-            panelUI.setInfo("Introsort", accesses++, comparisons++);
+            panelUI.setInfo(accesses++, comparisons++);
             checkRunCondition();
 
             a[lo + i - 1] = a[lo + child - 1];
@@ -124,7 +133,7 @@ public class IntroSort extends Sort {
         }
 
         svp.visualInsert(lo + i - 1, d);
-        panelUI.setInfo("Introsort", accesses++, comparisons++);
+        panelUI.setInfo(accesses++, comparisons++);
         checkRunCondition();
         a[lo + i - 1] = d;
     }
@@ -142,14 +151,14 @@ public class IntroSort extends Sort {
 
             while (j != lo && t < a[j - 1]) {
                 svp.visualInsert(j, a[j - 1]);
-                panelUI.setInfo("Introsort", accesses++, comparisons++);
+                panelUI.setInfo(accesses++, comparisons++);
                 checkRunCondition();
                 a[j] = a[j - 1];
                 j--;
             }
 
             svp.visualInsert(j, t);
-            panelUI.setInfo("Introsort", accesses++, comparisons);
+            panelUI.setInfo(accesses++, comparisons);
             checkRunCondition();
             a[j] = t;
         }
@@ -164,7 +173,7 @@ public class IntroSort extends Sort {
         a[j] = t;
 
         svp.visualCmp(i, j, true);
-        panelUI.setInfo("Introsort", accesses, comparisons++);
+        panelUI.setInfo(accesses, comparisons++);
         accesses += 3;
         checkRunCondition();
 
