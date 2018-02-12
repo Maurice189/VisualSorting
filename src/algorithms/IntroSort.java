@@ -10,7 +10,7 @@ package algorithms;
  * @category Sort
  */
 
-import main.Statics.SORTALGORITHMS;
+import main.Statics.SortAlgorithm;
 
 public class IntroSort extends Sort {
 
@@ -167,7 +167,7 @@ public class IntroSort extends Sort {
     /*
      * Common methods for all algorithms
      */
-    private void exchange(int[] a, int i, int j) throws InterruptedException {
+    private void mexchange(int[] a, int i, int j) throws InterruptedException {
         int t = a[i];
         a[i] = a[j];
         a[j] = t;
@@ -200,8 +200,8 @@ public class IntroSort extends Sort {
     }
 
     @Override
-    public SORTALGORITHMS getAlgorithmName() {
-        return SORTALGORITHMS.Introsort;
+    public SortAlgorithm getAlgorithmName() {
+        return SortAlgorithm.Introsort;
     }
 
 

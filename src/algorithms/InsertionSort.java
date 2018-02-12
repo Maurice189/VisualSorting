@@ -33,18 +33,9 @@ http://rosettacode.org/wiki/Sorting_algorithms/Insertion_sort#Java
  */
 
 import main.SortVisualisationPanel;
-import main.Statics.SORTALGORITHMS;
+import main.Statics.SortAlgorithm;
 
 public class InsertionSort extends Sort {
-
-    public InsertionSort(SortVisualisationPanel svp) {
-        super(svp);
-
-    }
-
-    public InsertionSort() {
-        super();
-    }
 
     public void run() {
 
@@ -52,24 +43,11 @@ public class InsertionSort extends Sort {
             int value = elements[i];
             int j = i - 1;
             while (j >= 0 && elements[j] > value) {
-
-                svp.visualInsert(j + 1, elements[j]);
-                //svp.setInfo("Insertionsort", iterates++);
-                panelUI.setInfo(accesses, comparisons++);
-                accesses += 2;
-
                 checkRunCondition();
-                elements[j + 1] = elements[j];
+                insertByIndex(j + 1, j);
                 j = j - 1;
             }
-
-            svp.visualInsert(j + 1, value);
-            //svp.setInfo("Insertionsort", iterates++);
-            panelUI.setInfo(accesses, comparisons++);
-            accesses += 2;
-
-            checkRunCondition();
-            elements[j + 1] = value;
+            insertByValue(j + 1, value);
         }
 
         setChanged();
@@ -82,8 +60,8 @@ public class InsertionSort extends Sort {
     }
 
     @Override
-    public SORTALGORITHMS getAlgorithmName() {
-        return SORTALGORITHMS.Insertionsort;
+    public SortAlgorithm getAlgorithmName() {
+        return SortAlgorithm.Insertionsort;
     }
 
 }

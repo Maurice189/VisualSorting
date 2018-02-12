@@ -40,7 +40,7 @@ import dialogs.EnterDialog;
 import dialogs.InfoDialog;
 import dialogs.OptionDialog;
 import main.InternalConfig.LANG;
-import main.Statics.SORTALGORITHMS;
+import main.Statics.SortAlgorithm;
 
 import javax.swing.*;
 
@@ -139,7 +139,7 @@ public class Controller implements Observer, ComponentListener, ActionListener, 
     public void actionPerformed(ActionEvent e) {
         if (e.getActionCommand() == Statics.ADD_SORT) {
             Sort sort;
-            SORTALGORITHMS selectedSort;
+            SortAlgorithm selectedSort;
 
             for (Sort temp : sortList) {
                 temp.initElements();
@@ -148,31 +148,31 @@ public class Controller implements Observer, ComponentListener, ActionListener, 
 
             selectedSort = window.getSelectedSort();
 
-            if (selectedSort.equals(SORTALGORITHMS.Heapsort))
+            if (selectedSort.equals(SortAlgorithm.Heapsort))
                 sort = new HeapSort();
-            else if (selectedSort.equals(SORTALGORITHMS.Bubblesort))
+            else if (selectedSort.equals(SortAlgorithm.Bubblesort))
                 sort = new BubbleSort();
-            else if (selectedSort.equals(SORTALGORITHMS.Quicksort_FIXED))
+            else if (selectedSort.equals(SortAlgorithm.Quicksort_FIXED))
                 sort = new QuickSort(QuickSort.PivotStrategy.FIXED);
-            else if (selectedSort.equals(SORTALGORITHMS.Quicksort_RANDOM))
+            else if (selectedSort.equals(SortAlgorithm.Quicksort_RANDOM))
                 sort = new QuickSort(QuickSort.PivotStrategy.RANDOM);
-            else if (selectedSort.equals(SORTALGORITHMS.Quicksort_MO3))
+            else if (selectedSort.equals(SortAlgorithm.Quicksort_MO3))
                 sort = new QuickSort(QuickSort.PivotStrategy.MO3);
-            else if (selectedSort.equals(SORTALGORITHMS.Combsort))
+            else if (selectedSort.equals(SortAlgorithm.Combsort))
                 sort = new CombSort();
-            else if (selectedSort.equals(SORTALGORITHMS.Selectionsort))
+            else if (selectedSort.equals(SortAlgorithm.Selectionsort))
                 sort = new SelectionSort();
-            else if (selectedSort.equals(SORTALGORITHMS.Shakersort))
+            else if (selectedSort.equals(SortAlgorithm.Shakersort))
                 sort = new ShakerSort();
-            else if (selectedSort.equals(SORTALGORITHMS.Mergesort))
+            else if (selectedSort.equals(SortAlgorithm.Mergesort))
                 sort = new MergeSort();
-            else if (selectedSort.equals(SORTALGORITHMS.Shellsort))
+            else if (selectedSort.equals(SortAlgorithm.Shellsort))
                 sort = new ShellSort();
-            else if (selectedSort.equals(SORTALGORITHMS.Insertionsort))
+            else if (selectedSort.equals(SortAlgorithm.Insertionsort))
                 sort = new InsertionSort();
-            else if (selectedSort.equals(SORTALGORITHMS.Bogosort))
+            else if (selectedSort.equals(SortAlgorithm.Bogosort))
                 sort = new BogoSort();
-            else if (selectedSort.equals(SORTALGORITHMS.Introsort))
+            else if (selectedSort.equals(SortAlgorithm.Introsort))
                 sort = new IntroSort();
             else
                 sort = new HeapSort();
@@ -224,7 +224,7 @@ public class Controller implements Observer, ComponentListener, ActionListener, 
             dialogs.add(AboutDialog.getInstance(400, 500));
         } else if (e.getActionCommand() == Statics.INFO) {
 
-            SORTALGORITHMS selAlgorithm = sortList.get(
+            SortAlgorithm selAlgorithm = sortList.get(
                     PanelUI.getReleasedID()).getAlgorithmName();
 
             dialogs.add(new InfoDialog(selAlgorithm, selAlgorithm

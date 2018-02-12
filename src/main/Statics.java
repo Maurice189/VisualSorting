@@ -21,12 +21,12 @@ package main;
 public class Statics {
 	
 
-	public static enum SORTALGORITHMS {
+	public static enum SortAlgorithm {
 		Bogosort,Bubblesort,Combsort,Heapsort,Insertionsort,Introsort,Mergesort,
 		Quicksort_FIXED, Quicksort_RANDOM, Quicksort_MO3, DualPivotQuicksort, Selectionsort,Shakersort,Shellsort;
 		
 		public static int length(){
-			return SORTALGORITHMS.values().length;
+			return SortAlgorithm.values().length;
 		}
 	};
 

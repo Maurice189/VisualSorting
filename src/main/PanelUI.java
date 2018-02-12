@@ -71,7 +71,7 @@ public class PanelUI{
 		gbc.weighty = 1;
 		gbc.insets = new Insets(-7, 0, 0, 2);
 		gbc.anchor = GridBagConstraints.FIRST_LINE_END;
-		remove = new JButton();
+		remove = new VSButton("/resources/icons/remove.png");
 		remove.addActionListener(new ActionListener(){
 
 			@Override
@@ -82,12 +82,9 @@ public class PanelUI{
 			
 		});
 		remove.setActionCommand(Statics.REMOVE_SORT);
-		remove.setIcon(new ImageIcon(Statics.class.getResource("/resources/delete_visualsort_1.png")));
-		remove.setRolloverIcon(new ImageIcon(Statics.class.getResource("/resources/delete_visualsort_rollover_1.png")));
-		remove.setBorder(BorderFactory.createEmptyBorder());
 		remove.setPreferredSize(new Dimension(16,16));
 		
-		JButton info = new JButton();
+		JButton info = new VSButton("/resources/icons/info_rect.png");
 		info.addActionListener(new ActionListener(){
 
 			@Override
@@ -98,9 +95,6 @@ public class PanelUI{
 			
 		});
 		info.setActionCommand(Statics.INFO);
-		info.setIcon(new ImageIcon(Statics.class.getResource("/resources/info_visualsort_1.png")));
-		info.setRolloverIcon(new ImageIcon(Statics.class.getResource("/resources/info_visualsort_rollover_1.png")));
-		info.setBorder(BorderFactory.createEmptyBorder());
 		info.setPreferredSize(new Dimension(16,16));
 		GridBagConstraints gbc2 = (GridBagConstraints) gbc.clone();
 		gbc2.gridx = 0;

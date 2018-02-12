@@ -34,76 +34,35 @@ http://www.javabeginners.de/Algorithmen/Sortieralgorithmen/Shakersort.php
  */
 
 import main.SortVisualisationPanel;
-import main.Statics.SORTALGORITHMS;
+import main.Statics.SortAlgorithm;
 
 public class ShakerSort extends Sort {
-    private int k;
-
-    public ShakerSort() {
-        super();
-    }
-
-    public ShakerSort(SortVisualisationPanel svp) {
-        super(svp);
-    }
-
-    private void shaker1(int i, int l) throws InterruptedException {
+    private void shaker1(int i, int l) {
         for (int j = i; j < l - 1; j++) {
-            if (elements[j] > elements[j + 1]) {
-                k = elements[j];
-                elements[j] = elements[j + 1];
-                elements[j + 1] = k;
-                svp.visualCmp(j, j + 1, true);
-                //svp.setInfo("Shakersort",iterates++);
-                panelUI.setInfo(accesses, comparisons++);
-                accesses += 3;
-
-            } else {
-                svp.visualCmp(j, j + 1, false);
-                //svp.setInfo("Shakersort",iterates++);
-                panelUI.setInfo(accesses, comparisons++);
+            if (compare(j, j + 1) == 1) {
+                exchange(j, j + 1);
             }
-
-            checkRunCondition();
         }
     }
 
-    private void shaker2(int i, int l) throws InterruptedException {
+    private void shaker2(int i, int l) {
         for (int j = l - 1; j >= i; j--) {
-            if (elements[j] > elements[j + 1]) {
-                k = elements[j];
-                elements[j] = elements[j + 1];
-                elements[j + 1] = k;
-
-                svp.visualCmp(j, j + 1, true);
-                //svp.setInfo("Shakersort",iterates++);
-                panelUI.setInfo(accesses, comparisons++);
-                accesses += 3;
-
-            } else {
-                svp.visualCmp(j, j + 1, false);
-                //svp.setInfo("Shakersort",iterates++);
-                panelUI.setInfo(accesses, comparisons++);
+            if (compare(j, j + 1) == 1) {
+                exchange(j, j + 1);
             }
-
-            checkRunCondition();
         }
     }
 
     public void run() {
 
-        try {
-            int i = 0, l = elements.length;
+        int i = 0, l = elements.length;
 
-            while (i < l) {
-                shaker1(i, l);
-                l--;
-                shaker2(i, l);
-                i++;
+        while (i < l) {
+            shaker1(i, l);
+            l--;
+            shaker2(i, l);
+            i++;
 
-            }
-        } catch (InterruptedException e) {
-            e.printStackTrace();
         }
 
 
@@ -115,8 +74,8 @@ public class ShakerSort extends Sort {
     }
 
     @Override
-    public SORTALGORITHMS getAlgorithmName() {
-        return SORTALGORITHMS.Shakersort;
+    public SortAlgorithm getAlgorithmName() {
+        return SortAlgorithm.Shakersort;
     }
 
 }

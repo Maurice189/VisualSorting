@@ -116,6 +116,10 @@ public class SortVisualisationPanel extends JPanel {
 
     }
 
+    public void visualExchange(int c1, int c2) {
+        visualCmp(c1, c2, true);
+    }
+
     public void visualInsert(int c, int value) {
 
         if (lstInsert >= 0) {
@@ -150,6 +154,7 @@ public class SortVisualisationPanel extends JPanel {
             Color.RGBtoHSB(207,26,203, hsb);
             return Color.getHSBColor(hsb[0], hsb[1], hsb[2]);
         }
+
         if (relativePosition <= 0.66) {
             float hsb[] = new float[3];
             Color.RGBtoHSB(86,0,234, hsb);
@@ -272,13 +277,10 @@ public class SortVisualisationPanel extends JPanel {
             if (refWidth <= 0) {
 
                 double newBorder = ((elements.length - width) / ((double) (-1) * elements.length));
-                if (newBorder > 0)
-                    gapSize = (int) newBorder;
-                else
-                    gapSize = 1;
+                gapSize = (int) newBorder;
                 refWidth = 1;
             } else
-                gapSize = 1;
+                gapSize = preferredGapSize;
 
             margin = (width - (elements.length * (refWidth + gapSize))) / 2;
 

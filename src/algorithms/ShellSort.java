@@ -11,13 +11,9 @@ package algorithms;
  */
 
 import main.SortVisualisationPanel;
-import main.Statics.SORTALGORITHMS;
+import main.Statics.SortAlgorithm;
 
 public class ShellSort extends Sort {
-
-    public ShellSort(SortVisualisationPanel svp) {
-        super(svp);
-    }
 
     public ShellSort() {
         super();
@@ -30,22 +26,11 @@ public class ShellSort extends Sort {
                 int j = i;
                 int temp = elements[i];
                 while (j >= increment && elements[j - increment] > temp) {
-                    svp.visualInsert(j, elements[j - increment]);
-                    //svp.setInfo("Shellsort",iterates++);
-                    panelUI.setInfo(accesses, comparisons++);
-                    accesses += 2;
-
                     checkRunCondition();
-                    elements[j] = elements[j - increment];
+                    insertByIndex(j, j - increment);
                     j = j - increment;
                 }
-
-                svp.visualInsert(j, temp);
-                panelUI.setInfo(accesses++, comparisons++);
-
-                checkRunCondition();
-
-                elements[j] = temp;
+                insertByValue(j, temp);
             }
             if (increment == 2) {
                 increment = 1;
@@ -60,11 +45,10 @@ public class ShellSort extends Sort {
         if (flashing)
             svp.visualTermination();
 
-
     }
 
     @Override
-    public SORTALGORITHMS getAlgorithmName() {
-        return SORTALGORITHMS.Shellsort;
+    public SortAlgorithm getAlgorithmName() {
+        return SortAlgorithm.Shellsort;
     }
 }

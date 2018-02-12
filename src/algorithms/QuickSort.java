@@ -12,27 +12,23 @@ package algorithms;
  */
 
 import main.SortVisualisationPanel;
-import main.Statics.SORTALGORITHMS;
+import main.Statics.SortAlgorithm;
 
 import java.util.function.Function;
 
 public class QuickSort extends Sort {
 
-    public static enum PivotStrategy {FIXED, RANDOM, MO3}
+    public enum PivotStrategy {FIXED, RANDOM, MO3}
 
     private int pivotIndex;
     private PivotStrategy pivotStrategy;
-
-    public QuickSort(SortVisualisationPanel svp) {
-        super(svp);
-    }
 
     public QuickSort(PivotStrategy pivotStrategy) {
         super();
         this.pivotStrategy = pivotStrategy;
     }
 
-    private void sort(int x[], int left, int right) throws InterruptedException {
+    private void sort(int x[], int left, int right) {
         if (left < right) {
             int i = partition(elements, left, right);
             sort(x, left, i - 1);
@@ -46,22 +42,24 @@ public class QuickSort extends Sort {
     }
     private int getPivotByMedianOfThree(int x[], int left, int right) {
         int center = (left + right) / 2;
+        int cmpLR = compare(left, right);
+        int cmpRC = compare(right, center);
 
-        int lv = x[left];
-        int rv = x[right];
-        int cv = x[center];
-
-        if (lv <= rv && rv <= cv) {
+        if (cmpLR == -1 && cmpRC == -1) {
             return right;
         }
-        if (rv <= lv && lv <= cv) {
+
+        int cmpLC = compare(left, center);
+
+        if (cmpLR == 1 && cmpLC == -1) {
             return left;
         }
+
         return center;
     }
 
-    private int partition(int x[], int left, int right) throws InterruptedException {
-        int pivot, i, j, tmp;
+    private int partition(int x[], int left, int right) {
+        int i, j;
 
         if (pivotStrategy == PivotStrategy.FIXED) {
             pivotIndex = right;
@@ -71,59 +69,27 @@ public class QuickSort extends Sort {
             pivotIndex = getPivotByMedianOfThree(x, left, right);
         }
 
-        tmp = x[pivotIndex];
-        x[pivotIndex] = x[right];
-        x[right] = tmp;
-
-        svp.visualCmp(pivotIndex, right, true);
-        accesses += 3;
-
-        pivot = x[right];
+        exchange(pivotIndex, right);
 
         i = left;
         j = right - 1;
 
         while (i <= j) {
-            panelUI.setInfo(accesses, comparisons++);
-            checkRunCondition();
-
-            if (x[i] > pivot) {
-                tmp = x[i];
-                x[i] = x[j];
-                x[j] = tmp;
-
-                svp.visualCmp(i, j, true);
-                svp.visualPivot(right);
-                panelUI.setInfo(accesses, comparisons++);
-                accesses += 3;
+            if (compare(i, right) == 1) {
+                exchange(i, j);
                 j--;
             } else {
                 i++;
             }
-
-            checkRunCondition();
         }
 
-        tmp = x[i];
-        x[i] = x[right];
-        x[right] = tmp;
-
-        svp.visualCmp(i, right, true);
-        svp.visualPivot(right);
-        panelUI.setInfo(accesses, comparisons++);
-        accesses += 3;
-        checkRunCondition();
-
+        exchange(i, right);
         return i;
     }
 
     public void run() {
 
-        try {
-            sort(elements, 0, elements.length - 1);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+        sort(elements, 0, elements.length - 1);
 
         setChanged();
         notifyObservers(panelUI.getID());
@@ -132,14 +98,14 @@ public class QuickSort extends Sort {
     }
 
     @Override
-    public SORTALGORITHMS getAlgorithmName() {
+    public SortAlgorithm getAlgorithmName() {
         if(pivotStrategy == PivotStrategy.FIXED) {
-            return SORTALGORITHMS.Quicksort_FIXED;
+            return SortAlgorithm.Quicksort_FIXED;
         }
         if(pivotStrategy == PivotStrategy.RANDOM) {
-            return SORTALGORITHMS.Quicksort_RANDOM;
+            return SortAlgorithm.Quicksort_RANDOM;
         }
-        return SORTALGORITHMS.Quicksort_MO3;
+        return SortAlgorithm.Quicksort_MO3;
     }
 
 }

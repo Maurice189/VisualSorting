@@ -81,7 +81,7 @@ public class InternalConfig {
 	public static void searchAvailableLanguages(){
 	    
 	    /*
-	     * TODO: figure out which lang.xml files exist
+	     * TODO: figure out which languages.xml files exist
 	     */
 	    
 	}

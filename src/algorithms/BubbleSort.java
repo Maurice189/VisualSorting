@@ -28,48 +28,23 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
 import main.SortVisualisationPanel;
-import main.Statics.SORTALGORITHMS;
+import main.Statics.SortAlgorithm;
 
 public class BubbleSort extends Sort {
 
-    public BubbleSort(SortVisualisationPanel svp) {
-        super(svp);
-
-    }
-
-    public BubbleSort() {
-        super();
-
-
-    }
-
     public void run() {
-        int tmp = 0;
         boolean swapped;
 
         do {
             swapped = false;
             for (int i = 0; i < elements.length - 1; i++) {
-                if (elements[i] > elements[i + 1]) {
-
-                    tmp = elements[i];
-                    elements[i] = elements[i + 1];
-                    elements[i + 1] = tmp;
-                    svp.visualCmp(i, i + 1, true);
-                    panelUI.setInfo(accesses, comparisons++);
-                    accesses += 3;
+                if (compare(i, i + 1) == 1) {
+                    exchange(i, i + 1);
                     swapped = true;
-
-                } else {
-                    svp.visualCmp(i, i + 1, false);
-                    panelUI.setInfo(accesses, comparisons++);
                 }
-
                 checkRunCondition();
             }
-
         } while (swapped);
-
 
         setChanged();
         notifyObservers(panelUI.getID());
@@ -79,8 +54,8 @@ public class BubbleSort extends Sort {
     }
 
     @Override
-    public SORTALGORITHMS getAlgorithmName() {
-        return SORTALGORITHMS.Bubblesort;
+    public SortAlgorithm getAlgorithmName() {
+        return SortAlgorithm.Bubblesort;
     }
 
 }

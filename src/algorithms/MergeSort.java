@@ -33,25 +33,13 @@ http://www.javabeginners.de/Algorithmen/Sortieralgorithmen/Mergesort.php
  */
 
 import main.SortVisualisationPanel;
-import main.Statics.SORTALGORITHMS;
+import main.Statics.SortAlgorithm;
 
 
 public class MergeSort extends Sort {
 
-    public MergeSort(SortVisualisationPanel svp) {
-        super(svp);
-
-    }
-    public MergeSort() {
-        super();
-    }
-
     public void run() {
-        try {
-            sort(0, elements.length - 1);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+        sort(0, elements.length - 1);
 
         setChanged();
         notifyObservers(panelUI.getID());
@@ -60,8 +48,9 @@ public class MergeSort extends Sort {
     }
 
 
-    public void sort(int l, int r) throws InterruptedException {
+    public void sort(int l, int r) {
         if (l < r) {
+            manualInstructionIncrement();
             int q = (l + r) / 2;
 
             sort(l, q);
@@ -70,43 +59,39 @@ public class MergeSort extends Sort {
         }
     }
 
-    private void merge(int l, int q, int r) throws InterruptedException {
+    private void merge(int l, int q, int r) {
         int[] arr = new int[elements.length];
         int i, j;
+
         for (i = l; i <= q; i++) {
             arr[i] = elements[i];
             panelUI.setInfo(accesses++, comparisons);
         }
+
         for (j = q + 1; j <= r; j++) {
             arr[r + q + 1 - j] = elements[j];
             panelUI.setInfo(accesses++, comparisons);
         }
+
         i = l;
         j = r;
-        for (int k = l; k <= r; k++) {
-            if (arr[i] <= arr[j]) {
-                svp.visualInsert(k, arr[i]);
-                elements[k] = arr[i];
-                //svp.setInfo("Mergesort",iterates++);
-                panelUI.setInfo(accesses++, comparisons++);
 
+        for (int k = l; k <= r; k++) {
+            if (compare(arr, i, j) != 1) {
+                insertByValue(k, arr[i]);
                 i++;
             } else {
-                svp.visualInsert(k, arr[j]);
-                elements[k] = arr[j];
-                //svp.setInfo("Mergesort",iterates++);
-                panelUI.setInfo(accesses++, comparisons++);
-
+                insertByValue(k, arr[j]);
                 j--;
             }
-            checkRunCondition();
+            panelUI.setInfo(accesses++, comparisons);
         }
     }
 
 
     @Override
-    public SORTALGORITHMS getAlgorithmName() {
-        return SORTALGORITHMS.Mergesort;
+    public SortAlgorithm getAlgorithmName() {
+        return SortAlgorithm.Mergesort;
     }
 
 

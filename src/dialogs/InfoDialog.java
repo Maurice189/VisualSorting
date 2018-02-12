@@ -18,47 +18,35 @@ package dialogs;
  * THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.EventQueue;
-import java.awt.Font;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.io.IOException;
-import java.util.HashMap;
+import java.util.*;
+import java.util.List;
 
-import javax.swing.BorderFactory;
-import javax.swing.Box;
-import javax.swing.BoxLayout;
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JEditorPane;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
+import javax.swing.*;
+import javax.swing.event.ListDataListener;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 
 import main.Statics;
 import main.Window;
-import main.Statics.SORTALGORITHMS;
+import main.Statics.SortAlgorithm;
 
 public class InfoDialog extends OptionDialog {
 
-	private final static int SIZE = 3, CENTER_PLUS = 1;
-	private final static Font NFONT_SIZE = Window.getComponentFont(14f),
-			SFONT_SIZE = Window.getComponentFont(10f);
 
-	private static HashMap<SORTALGORITHMS, String> infoPageRes;
+	private static HashMap<SortAlgorithm, String> infoPageRes;
+    private static HashMap<SortAlgorithm, String> toTitle;
 
-	private JEditorPane manual;
-	private JPanel btnPanel;
-	private JLabel selAlg[];
-	private JButton nextRight, nextLeft;
-	private int currentIndex = 0, activeIndex;
+    private JEditorPane manual;
 	private JScrollPane editorScrollPane;
+	private JList<String> algorithmList;
+	private SortAlgorithm algorithm;
 
 	/**
 	 * 
-	 * @param sortAlgorithms
+	 * @param SortAlgorithm
 	 *            a enumertion list of all existing sort algoritms, is used for
 	 *            displaying
 	 * @param title
@@ -68,16 +56,16 @@ public class InfoDialog extends OptionDialog {
 	 * @param height
 	 *            {@inheritDoc}
 	 */
-	public InfoDialog(SORTALGORITHMS sortAlgorithms, String title, int width,
+	public InfoDialog(SortAlgorithm SortAlgorithm, String title, int width,
 			int height) {
 
 		super();
 		
 
 		final JLabel loadGif = new JLabel(new ImageIcon(
-				Statics.class.getResource("/resources/loading.gif")),
+				Statics.class.getResource("/resources/icons/loading.gif")),
 				JLabel.CENTER);
-		this.activeIndex = sortAlgorithms.ordinal();
+		this.algorithm = SortAlgorithm;
 
 		setTitle(title);
 		setSize(width, height);
@@ -86,124 +74,32 @@ public class InfoDialog extends OptionDialog {
 		add(loadGif);
 		setVisible(true);
 
-		new Thread(new Runnable() {
+		new Thread(() -> {
+            initComponents();
+            remove(loadGif);
 
-			@Override
-			public void run() {
-				
-				long t = System.currentTimeMillis();
-				initComponents();
-				//System.out.println("NEEDED TIME : "+(System.currentTimeMillis()-t));
-				remove(loadGif);
-			
-				EventQueue.invokeLater(new Runnable() {
-					public void run() {
-						setVisible(true);
-					}
-				});
+            EventQueue.invokeLater(() -> setVisible(true));
 
-			}
-
-		}).start();
-
-	}
-
-	@Override
-	public void actionPerformed(ActionEvent e) {
-
-		if (e.getSource() == nextRight) {
-
-			btnPanel.removeAll();
-			btnPanel.add(nextLeft);
-			btnPanel.add(Box.createHorizontalGlue());
-
-			if (activeIndex < currentIndex + CENTER_PLUS)
-				activeIndex++;
-
-			else if (currentIndex + SIZE < SORTALGORITHMS.length()) {
-				currentIndex++;
-				activeIndex = currentIndex + CENTER_PLUS;
-			} else if (activeIndex < SORTALGORITHMS.length() - 1)
-				activeIndex++;
-
-			for (int i = currentIndex; i < currentIndex + SIZE; i++) {
-
-				if (i != activeIndex) {
-					selAlg[i].setEnabled(false);
-					selAlg[i].setFont(SFONT_SIZE);
-				} else {
-					selAlg[i].setEnabled(true);
-					selAlg[i].setFont(NFONT_SIZE);
-				}
-				btnPanel.add(selAlg[i]);
-				btnPanel.add(Box.createHorizontalGlue());
-
-			}
-
-			setPage(activeIndex);
-
-			btnPanel.add(nextRight);
-			revalidate();
-			repaint();
-
-		}
-
-		else if (e.getSource() == nextLeft) {
-
-			if (activeIndex > currentIndex + CENTER_PLUS)
-				activeIndex--;
-			else if (currentIndex > 0) {
-				currentIndex--;
-				activeIndex = currentIndex + CENTER_PLUS;
-			} else if (activeIndex > 0)
-				activeIndex--;
-
-			btnPanel.removeAll();
-			btnPanel.add(nextLeft);
-			btnPanel.add(Box.createHorizontalGlue());
-			for (int i = currentIndex; i < currentIndex + SIZE; i++) {
-
-				if (i != activeIndex) {
-					selAlg[i].setEnabled(false);
-					selAlg[i].setFont(SFONT_SIZE);
-				} else {
-					selAlg[i].setEnabled(true);
-					selAlg[i].setFont(NFONT_SIZE);
-				}
-				btnPanel.add(selAlg[i]);
-				btnPanel.add(Box.createHorizontalGlue());
-
-			}
-			setPage(activeIndex);
-
-			btnPanel.add(nextRight);
-			revalidate();
-			repaint();
-		}
+        }).start();
 
 	}
 
 	/**
-	 * The value of the index in SORTALGORITHMS enumertion resolved into the
+	 * The value of the index in SortAlgorithm enumertion resolved into the
 	 * respective html-file path.
-	 * 
-	 * @see initInfoPageResolver(HashMap<SORTALGORITHMS,String> infoPageRes)
-	 * 
-	 * @param index
-	 *            the page of the index in the enumertionlist of SORTALGORITHMS
+	 **
+	 *            the page of the index in the enumertionlist of SortAlgorithm
 	 *            is shown
 	 */
-	private void setPage(int index) {
+	private void setPage(SortAlgorithm algorithm) {
 
 		java.net.URL helpURL = InfoDialog.class.getClassLoader()
-				.getResource(
-						"resources/".concat(infoPageRes.get(SORTALGORITHMS
-								.values()[index])));
+				.getResource("resources/pages/".concat(infoPageRes.get(algorithm)));
 		
 		if (helpURL != null) {
 			try {
 				manual.setPage(helpURL);
-				setTitle(SORTALGORITHMS.values()[index].toString());
+				setTitle(toTitle.get(algorithm));
 			} catch (IOException e) {
 				System.err.println("Attempted to read a bad URL: " + helpURL);
 			}
@@ -216,76 +112,37 @@ public class InfoDialog extends OptionDialog {
 
 		setLayout(new BorderLayout());
 
-		final int length = SORTALGORITHMS.length();
-
-		btnPanel = new JPanel();
-		btnPanel.setLayout(new BoxLayout(btnPanel, BoxLayout.X_AXIS));
-		btnPanel.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY));
-
-		selAlg = new JLabel[length];
-		nextLeft = new JButton(new ImageIcon(
-				Statics.class
-						.getResource("/resources/next_left_visualsort.png")));
-		nextLeft.setRolloverIcon(new ImageIcon(Statics.class
-				.getResource("/resources/next_left_visualsort_rollover.png")));
-		nextLeft.setRolloverEnabled(true);
-		nextLeft.addActionListener(this);
-		nextLeft.setBorder(BorderFactory.createEmptyBorder());
-		nextLeft.setOpaque(false);
-		nextLeft.setContentAreaFilled(false);
-		nextLeft.setBorderPainted(false);
-
-		nextRight = new JButton(new ImageIcon(
-				Statics.class
-						.getResource("/resources/next_right_visualsort.png")));
-		nextRight.setRolloverIcon(new ImageIcon(Statics.class
-				.getResource("/resources/next_right_visualsort_rollover.png")));
-		nextRight.setRolloverEnabled(true);
-		nextRight.setBorder(BorderFactory.createEmptyBorder());
-		nextRight.setOpaque(false);
-		nextRight.setContentAreaFilled(false);
-		nextRight.setBorderPainted(false);
-		nextRight.addActionListener(this);
-
-		btnPanel.add(nextLeft);
-		btnPanel.add(Box.createHorizontalGlue());
-		currentIndex = activeIndex - CENTER_PLUS;
-		if (currentIndex < 0)
-			currentIndex = 0;
-		else if (currentIndex + SIZE > SORTALGORITHMS.length())
-			currentIndex = SORTALGORITHMS.length() - SIZE;
-
-		for (int i = 0; i < length; i++) {
-			selAlg[i] = new JLabel(SORTALGORITHMS.values()[i].toString());
-			if (i != activeIndex) {
-				selAlg[i].setEnabled(false);
-				selAlg[i].setFont(SFONT_SIZE);
-			} else
-				selAlg[i].setFont(NFONT_SIZE);
-
-			if (i >= currentIndex && i < currentIndex + SIZE) {
-				btnPanel.add(selAlg[i]);
-				btnPanel.add(Box.createHorizontalGlue());
-			}
-
-		}
-		
-
-		btnPanel.add(nextRight);
-
 		manual = new JEditorPane();
+        manual.setFont(new Font("OpenSans-Regular", 0, 12));
 		manual.setEditable(false);
 		manual.putClientProperty(JEditorPane.HONOR_DISPLAY_PROPERTIES, true);
-		setPage(activeIndex);
 
 		editorScrollPane = new JScrollPane(manual);
-		editorScrollPane
-				.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
-		editorScrollPane.setPreferredSize(new Dimension(250, 145));
-		editorScrollPane.setMinimumSize(new Dimension(10, 10));
-		editorScrollPane.setBorder(BorderFactory.createLoweredBevelBorder());
+        editorScrollPane.setBorder(BorderFactory.createEtchedBorder());
+        editorScrollPane.setComponentOrientation(ComponentOrientation.RIGHT_TO_LEFT);
 
-		add(BorderLayout.NORTH, btnPanel);
+        algorithmList = new JList<>();
+        List<SortAlgorithm> ids = new ArrayList<>(infoPageRes.keySet());
+
+        algorithmList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        algorithmList.setModel(new AbstractListModel() {
+            @Override
+            public int getSize() {
+                return ids.size();
+            }
+
+            @Override
+            public Object getElementAt(int index) {
+                return toTitle.get(ids.get(index));
+            }
+        });
+        algorithmList.addListSelectionListener(e -> {
+            System.out.println(algorithmList.getSelectedIndex());
+            setPage(ids.get(algorithmList.getSelectedIndex()));
+        });
+        algorithmList.setSelectedIndex(ids.indexOf(algorithm));
+
+        add(BorderLayout.WEST, algorithmList);
 		add(BorderLayout.CENTER, editorScrollPane);
 
 	}
@@ -300,9 +157,17 @@ public class InfoDialog extends OptionDialog {
 	 *            html-file path
 	 */
 	public static void initInfoPageResolver(
-			HashMap<SORTALGORITHMS, String> infoPageRes) {
+			HashMap<SortAlgorithm, String> infoPageRes) {
 		InfoDialog.infoPageRes = infoPageRes;
 
 	}
 
+    public static void initTitleResolver (
+            HashMap<SortAlgorithm, String> toTitle) {
+        InfoDialog.toTitle = toTitle;
+
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {}
 }

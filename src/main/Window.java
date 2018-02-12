@@ -20,7 +20,6 @@ package main;
 
 
 import java.awt.*;
-import java.awt.event.*;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.*;
@@ -30,12 +29,12 @@ import javax.swing.*;
 import javax.swing.border.Border;
 import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
-import javax.swing.event.PopupMenuEvent;
-import javax.swing.event.PopupMenuListener;
 
 import algorithms.Sort;
+import com.bulenkov.iconloader.IconLoader;
+import dialogs.InfoDialog;
 import main.InternalConfig.LANG;
-import main.Statics.SORTALGORITHMS;
+import main.Statics.SortAlgorithm;
 
 
 /**
@@ -55,7 +54,8 @@ public class Window extends JFrame {
 	private LanguageFileXML langXML;
 	
 	// component references
-	private JButton next, newSort, nextStep, reset,delayBtn,listBtn;
+	private JButton newSort, nextStep, reset,delayBtn,listBtn;
+	private PlayPauseToggle next;
 	private JPanel content;
 	private Controller controller;
 	private JLabel info,clock,nofLabel;
@@ -71,8 +71,8 @@ public class Window extends JFrame {
 	// we store the visualization panels dynamically, so we can add and remove it much easier
 	private List<SortVisualisationPanel> vsPanel;
 
-	private HashMap<String, Statics.SORTALGORITHMS> titleToAlg;
-    private HashMap<Statics.SORTALGORITHMS, String> algToTitle;
+	private HashMap<String, Statics.SortAlgorithm> titleToAlg;
+    private HashMap<Statics.SortAlgorithm, String> algToTitle;
 	
 	
 	// FIXME : BAD the filler is used for the vertical space between the visualization panels
@@ -125,7 +125,7 @@ public class Window extends JFrame {
         clock = new JLabel();
         clock.setToolTipText("Execution time.");
 		clock.setForeground(Color.black);
-		clock.setIcon(new ImageIcon(Statics.class.getResource("/resources/set-timer-button.png")));
+		clock.setIcon(IconLoader.getIcon("/resources/icons/timer.png"));
 		
 		switchIntPause = new JCheckBoxMenuItem(langXML.getValue("autopause"));
 		switchIntPause.addActionListener(controller);
@@ -219,44 +219,46 @@ public class Window extends JFrame {
 		menuBar.add(help);
 		setJMenuBar(menuBar);
 
-		String names[] = new String[SORTALGORITHMS.length()];
-		for(int i = 0; i<SORTALGORITHMS.length(); i++){
-			names[i] = SORTALGORITHMS.values()[i].toString();
+		String names[] = new String[SortAlgorithm.length()];
+		for(int i = 0; i<SortAlgorithm.length(); i++){
+			names[i] = SortAlgorithm.values()[i].toString();
 		}
 
         titleToAlg = new HashMap<>();
-		titleToAlg.put("Bogosort", SORTALGORITHMS.Bogosort);
-        titleToAlg.put("Bubblesort", SORTALGORITHMS.Bubblesort);
-        titleToAlg.put("Combsort", SORTALGORITHMS.Combsort);
-        titleToAlg.put("Mergesort", SORTALGORITHMS.Mergesort);
-        titleToAlg.put("Insertionsort", SORTALGORITHMS.Insertionsort);
-        titleToAlg.put("Introsort", SORTALGORITHMS.Introsort);
-        titleToAlg.put("Shakersort", SORTALGORITHMS.Shakersort);
-        titleToAlg.put("Selectionsort", SORTALGORITHMS.Selectionsort);
-        titleToAlg.put("Shellsort", SORTALGORITHMS.Shellsort);
-        titleToAlg.put("Standard Heapsort", SORTALGORITHMS.Heapsort);
-        titleToAlg.put("Bottom-up Heapsort", SORTALGORITHMS.Heapsort); // TODO Add Bottom Up Heapsort
-        titleToAlg.put("Quicksort (Random Pivot)", SORTALGORITHMS.Quicksort_RANDOM);
-        titleToAlg.put("Quicksort (MO3 Pivot)", SORTALGORITHMS.Quicksort_MO3);
-        titleToAlg.put("Quicksort (Fixed Pivot)", SORTALGORITHMS.Quicksort_FIXED);
-        //titleToAlg.put("Dual Pivot Quicksort", SORTALGORITHMS.Quicksort_RANDOM); // TODO Add Dual Pivot Method
+		titleToAlg.put("Bogosort", SortAlgorithm.Bogosort);
+        titleToAlg.put("Bubblesort", SortAlgorithm.Bubblesort);
+        titleToAlg.put("Combsort", SortAlgorithm.Combsort);
+        titleToAlg.put("Mergesort", SortAlgorithm.Mergesort);
+        titleToAlg.put("Insertionsort", SortAlgorithm.Insertionsort);
+        titleToAlg.put("Introsort", SortAlgorithm.Introsort);
+        titleToAlg.put("Shakersort", SortAlgorithm.Shakersort);
+        titleToAlg.put("Selectionsort", SortAlgorithm.Selectionsort);
+        titleToAlg.put("Shellsort", SortAlgorithm.Shellsort);
+        titleToAlg.put("Standard Heapsort", SortAlgorithm.Heapsort);
+        titleToAlg.put("Bottom-up Heapsort", SortAlgorithm.Heapsort); // TODO Add Bottom Up Heapsort
+        titleToAlg.put("Quicksort (Random Pivot)", SortAlgorithm.Quicksort_RANDOM);
+        titleToAlg.put("Quicksort (MO3 Pivot)", SortAlgorithm.Quicksort_MO3);
+        titleToAlg.put("Quicksort (Fixed Pivot)", SortAlgorithm.Quicksort_FIXED);
+        //titleToAlg.put("Dual Pivot Quicksort", SortAlgorithm.Quicksort_RANDOM); // TODO Add Dual Pivot Method
 
         algToTitle = new HashMap<>();
-        algToTitle.put(SORTALGORITHMS.Bogosort, "Bogosort");
-        algToTitle.put(SORTALGORITHMS.Bubblesort, "Bubblesort");
-        algToTitle.put(SORTALGORITHMS.Combsort, "Combsort");
-        algToTitle.put(SORTALGORITHMS.Mergesort, "Mergesort");
-        algToTitle.put(SORTALGORITHMS.Insertionsort, "Insertionsort");
-        algToTitle.put(SORTALGORITHMS.Introsort, "Introsort");
-        algToTitle.put(SORTALGORITHMS.Shakersort, "Shakersort");
-        algToTitle.put(SORTALGORITHMS.Selectionsort, "Selectionsort");
-        algToTitle.put(SORTALGORITHMS.Shellsort, "Shellsort");
-        algToTitle.put(SORTALGORITHMS.Heapsort, "Standard Heapsort");
-        algToTitle.put(SORTALGORITHMS.Heapsort, "Bottom-up Heapsort"); // TODO Add Bottom Up Heapsort
-        algToTitle.put(SORTALGORITHMS.Quicksort_RANDOM, "Quicksort (Random Pivot)");
-        algToTitle.put(SORTALGORITHMS.Quicksort_MO3, "Quicksort (MO3 Pivot)");
-        algToTitle.put(SORTALGORITHMS.Quicksort_FIXED, "Quicksort (Fixed Pivot)");
-        //algToTitle.put(SORTALGORITHMS.Quicksort_RANDOM, "Dual Pivot Quicksort"); // TODO Add Dual Pivot Method
+        algToTitle.put(SortAlgorithm.Bogosort, "Bogosort");
+        algToTitle.put(SortAlgorithm.Bubblesort, "Bubblesort");
+        algToTitle.put(SortAlgorithm.Combsort, "Combsort");
+        algToTitle.put(SortAlgorithm.Mergesort, "Mergesort");
+        algToTitle.put(SortAlgorithm.Insertionsort, "Insertionsort");
+        algToTitle.put(SortAlgorithm.Introsort, "Introsort");
+        algToTitle.put(SortAlgorithm.Shakersort, "Shakersort");
+        algToTitle.put(SortAlgorithm.Selectionsort, "Selectionsort");
+        algToTitle.put(SortAlgorithm.Shellsort, "Shellsort");
+        algToTitle.put(SortAlgorithm.Heapsort, "Standard Heapsort");
+        algToTitle.put(SortAlgorithm.Heapsort, "Bottom-up Heapsort"); // TODO Add Bottom Up Heapsort
+        algToTitle.put(SortAlgorithm.Quicksort_RANDOM, "Quicksort (Random Pivot)");
+        algToTitle.put(SortAlgorithm.Quicksort_MO3, "Quicksort (MO3 Pivot)");
+        algToTitle.put(SortAlgorithm.Quicksort_FIXED, "Quicksort (Fixed Pivot)");
+        //algToTitle.put(SortAlgorithm.Quicksort_RANDOM, "Dual Pivot Quicksort"); // TODO Add Dual Pivot Method
+
+        InfoDialog.initTitleResolver(algToTitle);
 
         algorithmInfo = new JLabel();
         algorithmInfo.setForeground(Color.GRAY);
@@ -345,22 +347,19 @@ public class Window extends JFrame {
 
 		content.setLayout(new BorderLayout());
 
-		next = new JButton();
+		next = new PlayPauseToggle();
+		next.setPlayIcon("/resources/icons/start.png");
+        next.setPauseIcon("/resources/icons/pause.png");
+        next.setState(PlayPauseToggle.State.PLAY);
 		next.setToolTipText("Start/Pause sorting process.");
 		next.addActionListener(controller);
 		next.setActionCommand(Statics.START);
-		next.setBorder(BorderFactory.createEmptyBorder());
-		next.setIcon(new ImageIcon(Statics.class.getResource("/resources/start_visualsort_1.png")));
-		next.setRolloverIcon(new ImageIcon(Statics.class.getResource("/resources/start_visualsort_rollover_1.png")));
+
 		
-		newSort = new JButton();
+		newSort = new VSButton("/resources/icons/add.png");
 		newSort.setToolTipText("Add selected sort algorithm.");
 		newSort.addActionListener(controller);
 		newSort.setActionCommand(Statics.ADD_SORT);
-
-		newSort.setBorder(BorderFactory.createEmptyBorder());
-		newSort.setIcon(new ImageIcon(Statics.class.getResource("/resources/add_visualsort_1.png")));
-		newSort.setRolloverIcon(new ImageIcon(Statics.class.getResource("/resources/add_visualsort_rollover_1.png")));
 
         speed = new JSlider(0, 300, 50);
 
@@ -368,43 +367,26 @@ public class Window extends JFrame {
         labelTable.put(new Integer( 0 ), new JLabel("Slow"));
         labelTable.put(new Integer( 300 ), new JLabel("Fast"));
 
-		delayBtn = new JButton();
+		delayBtn = new VSButton("/resources/icons/speed.png");
 		delayBtn.setToolTipText("Adjust the sorting speed.");
 		delayBtn.addActionListener(controller);
 		delayBtn.setActionCommand(Statics.DELAY);
-		
-		delayBtn.setBorder(BorderFactory.createEmptyBorder());
-		delayBtn.setIcon(new ImageIcon(Statics.class.getResource("/resources/delay_visualsort_1.png")));
-		delayBtn.setRolloverIcon(new ImageIcon(Statics.class.getResource("/resources/delay_visualsort_rollover_1.png")));
 
-		listBtn = new JButton();
+		listBtn = new VSButton("/resources/icons/elements.png");
 		listBtn.setToolTipText("Edit elements in list.");
 		listBtn.addActionListener(controller);
 		listBtn.setActionCommand(Statics.NEW_ELEMENTS);
+
 		
-		listBtn.setBorder(BorderFactory.createEmptyBorder());
-		listBtn.setIcon(new ImageIcon(Statics.class.getResource("/resources/elements_visualsort_1.png")));
-		listBtn.setRolloverIcon(new ImageIcon(Statics.class.getResource("/resources/elements_visualsort_rollover_1.png")));
-		
-		
-		nextStep = new JButton();
+		nextStep = new VSButton("/resources/icons/next_instruction.png");
 		nextStep.setToolTipText("Execute next instruction.");
 		nextStep.addActionListener(controller);
 		nextStep.setActionCommand(Statics.NEXT_ITERATION);
-
-		nextStep.setBorder(BorderFactory.createEmptyBorder());
-		nextStep.setIcon(new ImageIcon(Statics.class.getResource("/resources/nextIter_visualsort_1.png")));
-		nextStep.setRolloverIcon(new ImageIcon(Statics.class.getResource("/resources/nextIter_visualsort_rollover_1.png")));
-
 		
-		reset = new JButton(); //Statics.getNamebyXml(Statics.COMPONENT_TITLE.RESET)
+		reset = new VSButton("/resources/icons/reset.png"); //Statics.getNamebyXml(Statics.COMPONENT_TITLE.RESET)
         reset.setToolTipText("Reset to unsorted state.");
 		reset.addActionListener(controller);
 		reset.setActionCommand(Statics.RESET);
-
-		reset.setBorder(BorderFactory.createEmptyBorder());
-		reset.setIcon(new ImageIcon(Statics.class.getResource("/resources/reset_visualsort_1.png")));
-		reset.setRolloverIcon(new ImageIcon(Statics.class.getResource("/resources/reset_visualsort_rollover_1.png")));
 
 		content.add(BorderLayout.CENTER, info);
 		
@@ -415,7 +397,7 @@ public class Window extends JFrame {
 
 
 		algorithmInfo.setToolTipText("Short description of currently selected sort algorithm.");
-        algorithmInfo.setIcon(new ImageIcon(Statics.class.getResource("/resources/info-label.png")));
+        algorithmInfo.setIcon(new ImageIcon(Statics.class.getResource("/resources/icons/info_round.png")));
         algorithmInfo.setIconTextGap(10);
         //algorithmInfo.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createLoweredBevelBorder(), new EmptyBorder(10, 10, 10, 10)));
 
@@ -446,33 +428,38 @@ public class Window extends JFrame {
 		next.setEnabled(false);
 		nextStep.setEnabled(false);
 
-		java.net.URL icon32x32URL = Window.class.getClassLoader().getResource(
-				"resources/icons/icon32x32.png");
-        java.net.URL icon64x64URL = Window.class.getClassLoader().getResource(
-                "resources/icons/icon64x64.png");
-        java.net.URL icon128x128URL = Window.class.getClassLoader().getResource(
-                "resources/icons/icon128x128.png");
-        java.net.URL icon256x256URL = Window.class.getClassLoader().getResource(
-                "resources/icons/icon256x256.png");
-        java.net.URL icon512x512URL = Window.class.getClassLoader().getResource(
-                "resources/icons/icon512x512.png");
+        java.net.URL icon = Window.class.getClassLoader().getResource(
+                "resources/icons/icon.png");
+		java.net.URL icon2x = Window.class.getClassLoader().getResource(
+				"resources/icons/icon@2x.png");
+        java.net.URL icon3x = Window.class.getClassLoader().getResource(
+                "resources/icons/icon@3x.png");
+        java.net.URL icon4x = Window.class.getClassLoader().getResource(
+                "resources/icons/icon@4x.png");
+        java.net.URL icon5x = Window.class.getClassLoader().getResource(
+                "resources/icons/icon@5x.png");
+        java.net.URL icon6x = Window.class.getClassLoader().getResource(
+                "resources/icons/icon@6x.png");
 
         List<Image> icons = new ArrayList<Image>();
 
-		if (icon32x32URL != null) {
-			icons.add(new ImageIcon(icon32x32URL).getImage());
+        if (icon != null) {
+            icons.add(new ImageIcon(icon).getImage());
+        }
+		if (icon2x != null) {
+			icons.add(new ImageIcon(icon2x).getImage());
 		}
-        if (icon64x64URL != null) {
-            icons.add(new ImageIcon(icon64x64URL).getImage());
+        if (icon3x != null) {
+            icons.add(new ImageIcon(icon3x).getImage());
         }
-        if (icon128x128URL != null) {
-            icons.add(new ImageIcon(icon128x128URL).getImage());
+        if (icon4x != null) {
+            icons.add(new ImageIcon(icon4x).getImage());
         }
-        if (icon256x256URL != null) {
-            icons.add(new ImageIcon(icon256x256URL).getImage());
+        if (icon5x != null) {
+            icons.add(new ImageIcon(icon5x).getImage());
         }
-        if (icon512x512URL != null) {
-            icons.add(new ImageIcon(icon512x512URL).getImage());
+        if (icon6x != null) {
+            icons.add(new ImageIcon(icon6x).getImage());
         }
 
         setIconImages(icons);
@@ -512,18 +499,12 @@ public class Window extends JFrame {
 	 * progress.
 	 */
 	public void toggleStartStop() {
-		if(stateStButton){
-			next.setIcon(new ImageIcon(Statics.class.getResource("/resources/pause_visualsort_1.png")));
-			next.setRolloverIcon(new ImageIcon(Statics.class.getResource("/resources/pause_visualsort_rollover_1.png")));
+	    next.toggle();
+		if(next.getState() == PlayPauseToggle.State.PAUSE){
 			reset.setEnabled(false);
-		}
-		else{
-			next.setIcon(new ImageIcon(Statics.class.getResource("/resources/start_visualsort_1.png")));
-			next.setRolloverIcon(new ImageIcon(Statics.class.getResource("/resources/start_visualsort_rollover_1.png")));
+		} else {
 			reset.setEnabled(true);
 		}
-		
-		stateStButton = !stateStButton;
 	}
 	
 	/**
@@ -613,7 +594,7 @@ public class Window extends JFrame {
 	 * @return Returns the current selected sort,
 	 * from the combobox (top of the application).
 	 */
-	public SORTALGORITHMS getSelectedSort() {
+	public SortAlgorithm getSelectedSort() {
 		return titleToAlg.get((String) sortChooser.getSelectedItem());
 	}
 

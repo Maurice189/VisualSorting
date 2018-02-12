@@ -7,7 +7,7 @@ import java.util.concurrent.locks.ReentrantLock;
 
 import main.PanelUI;
 import main.SortVisualisationPanel;
-import main.Statics.SORTALGORITHMS;
+import main.Statics.SortAlgorithm;
 
 /*
  * This software is licensed under the MIT License.
@@ -32,6 +32,7 @@ public abstract class Sort extends Observable implements Runnable {
     protected static int gElement[];
     protected static long delayMs = 5;
     protected static int delayNs = 0;
+    protected static int INSTRUCTION_UNIT = 5;
     protected volatile boolean stop = false, pause = false, flashing = true, executeNextStep = false;
 
     protected String name;
@@ -39,6 +40,7 @@ public abstract class Sort extends Observable implements Runnable {
     protected int iterates, accesses, comparisons;
     protected SortVisualisationPanel svp;
     protected PanelUI panelUI;
+    private int instructionCount = 0;
 
 
     /*
@@ -102,6 +104,84 @@ public abstract class Sort extends Observable implements Runnable {
         this.flashing = terminationAnimationEnabled;
     }
 
+    public void exchange(int x[], int i, int j) {
+        int tmp = x[i];
+        x[i] = x[j];
+        x[j] = tmp;
+
+        checkRunCondition();
+        accesses += 3;
+        panelUI.setInfo(accesses, comparisons);
+        svp.visualExchange(i, j);
+    }
+
+    public void exchange(int i, int j) {
+        exchange(elements, i, j);
+    }
+
+    public void insertByIndex(int x[], int i, int j) {
+        svp.visualInsert(i, x[j]);
+        panelUI.setInfo(accesses, comparisons++);
+        accesses += 2;
+        checkRunCondition();
+        x[i] = x[j];
+    }
+
+    public void insertByIndex(int i, int j) {
+        insertByIndex(elements, i, j);
+    }
+
+    public void insertByValue(int x[], int i, int value) {
+        svp.visualInsert(i, value);
+        panelUI.setInfo(accesses, comparisons++);
+        accesses ++;
+        checkRunCondition();
+        x[i] = value;
+    }
+
+    public void insertByValue(int i, int value) {
+        insertByValue(elements, i, value);
+    }
+
+
+
+    public void manualInstruction(int count) {
+        instructionCount += count;
+        if (instructionCount > INSTRUCTION_UNIT) {
+            while(instructionCount >= INSTRUCTION_UNIT) {
+                checkRunCondition();
+                instructionCount -= INSTRUCTION_UNIT;
+            }
+        }
+    }
+
+    public void manualInstructionIncrement() {
+        manualInstruction(1);
+    }
+
+    public int compare(int x[], int i, int j) {
+        int result = 0;
+
+        if (x[i] > x[j])
+            result = 1;
+        if (x[j] > x[i])
+            result = -1;
+
+        checkRunCondition();
+        accesses += 2;
+        comparisons++;
+        panelUI.setInfo(accesses, comparisons);
+        svp.visualCmp(i, j, false);
+
+        return result;
+    }
+
+    public int compare(int i, int j){
+        return compare(elements, i, j);
+    }
+
+
+
     /**
      *
      */
@@ -137,7 +217,7 @@ public abstract class Sort extends Observable implements Runnable {
     /*
      * the specific algorithm name (identifying is needed for the info dialog)
      */
-    public abstract SORTALGORITHMS getAlgorithmName();
+    public abstract SortAlgorithm getAlgorithmName();
 
     /**
      * is used to apply modifications on the 'SortVisualisationPanel' object

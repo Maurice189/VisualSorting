@@ -25,7 +25,7 @@ import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.plaf.FontUIResource;
 
 import main.InternalConfig.LANG;
-import main.Statics.SORTALGORITHMS;
+import main.Statics.SortAlgorithm;
 import dialogs.InfoDialog;
 import dialogs.OptionDialog;
 
@@ -54,16 +54,16 @@ public class Main {
 
 		System.setProperty("apple.laf.useScreenMenuBar", "true");
 			
-		InternalConfig.setNewLangDefEntry(LANG.de,"/resources/lang_de.xml");
-		InternalConfig.setNewLangDefEntry(LANG.en,"/resources/lang_en.xml");
-		InternalConfig.setNewLangDefEntry(LANG.fr,"/resources/lang_fr.xml");
+		InternalConfig.setNewLangDefEntry(LANG.de, "/resources/languages/lang_de.xml");
+		InternalConfig.setNewLangDefEntry(LANG.en, "/resources/languages/lang_en.xml");
+		InternalConfig.setNewLangDefEntry(LANG.fr, "/resources/languages/lang_fr.xml");
 		
 		for(int i = 0; i<args.length;i++){
 			if(args[i].startsWith("-configdir:")){
 				InternalConfig.setConfigFileDirectory(args[i].subSequence("-configdir:".length(), args[i].length()).toString());
 			}
-			else if(args[i].startsWith("-lang:")){
-				InternalConfig.setLanguage(args[i].subSequence("-lang:".length(), args[i].length()).toString());
+			else if(args[i].startsWith("-languages:")){
+				InternalConfig.setLanguage(args[i].subSequence("-languages:".length(), args[i].length()).toString());
 			}
 		}
 
@@ -95,20 +95,25 @@ public class Main {
 		javax.swing.UIManager.put("Menu.font",new FontUIResource(Window.getComponentFont(13f)));
 		javax.swing.UIManager.put("Spinner.font",new FontUIResource(Window.getComponentFont(13f)));
 		javax.swing.UIManager.put("Slider.font",new FontUIResource(Window.getComponentFont(13f)));
-		
-		
-		// hashmap for resolving sort into the respective infopage file
-		HashMap<SORTALGORITHMS,String> map = new HashMap<SORTALGORITHMS,String>();
-		map.put(SORTALGORITHMS.Bubblesort, "infopage_bubblesort.html");
-		map.put(SORTALGORITHMS.Combsort, "infopage_combsort.html");
-		map.put(SORTALGORITHMS.Heapsort, "infopage_heapsort.html");
-		map.put(SORTALGORITHMS.Insertionsort, "infopage_insertionsort.html");
-		map.put(SORTALGORITHMS.Mergesort, "infopage_mergesort.html");
-		map.put(SORTALGORITHMS.Shakersort, "infopage_shakersort.html");
-		map.put(SORTALGORITHMS.Shellsort, "infopage_shellsort.html");
-		map.put(SORTALGORITHMS.Bogosort, "infopage_bogosort.html");
-		map.put(SORTALGORITHMS.Introsort, "infopage_introsort.html");
-		InfoDialog.initInfoPageResolver(map);
+
+
+        // hashmap for resolving sort into the respective infopage file
+		HashMap<SortAlgorithm,String> map = new HashMap<SortAlgorithm,String>();
+		map.put(SortAlgorithm.Bubblesort, "infopage_bubblesort.html");
+		map.put(SortAlgorithm.Combsort, "infopage_combsort.html");
+		map.put(SortAlgorithm.Heapsort, "infopage_heapsort.html");
+		map.put(SortAlgorithm.Insertionsort, "infopage_insertionsort.html");
+		map.put(SortAlgorithm.Mergesort, "infopage_mergesort.html");
+		map.put(SortAlgorithm.Shakersort, "infopage_shakersort.html");
+		map.put(SortAlgorithm.Shellsort, "infopage_shellsort.html");
+		map.put(SortAlgorithm.Bogosort, "infopage_bogosort.html");
+		map.put(SortAlgorithm.Introsort, "infopage_introsort.html");
+        map.put(SortAlgorithm.Selectionsort, "infopage_introsort.html");
+        map.put(SortAlgorithm.Quicksort_FIXED, "infopage_quicksort_fixed.html");
+        map.put(SortAlgorithm.Quicksort_RANDOM, "infopage_quicksort_random.html");
+        map.put(SortAlgorithm.Quicksort_MO3, "infopage_quicksort_mo3.html");
+
+        InfoDialog.initInfoPageResolver(map);
 		
 		Controller controller = new Controller(configLanguage);
 		Window window = new Window(controller,configLanguage,"Visual Sorting - ".concat(InternalConfig.getVersion()), 1200, 800);

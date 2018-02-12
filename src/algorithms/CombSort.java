@@ -33,23 +33,12 @@ http://rosettacode.org/wiki/Sorting_algorithms/Comb_sort
  */
 
 import main.SortVisualisationPanel;
-import main.Statics.SORTALGORITHMS;
+import main.Statics.SortAlgorithm;
 
 public class CombSort extends Sort {
 
-    public CombSort() {
-        super();
-
-    }
-
-    public CombSort(SortVisualisationPanel svp) {
-        super(svp);
-    }
-
     public void run() {
-
         float shrink = 1.3f;
-        int tmp;
         int i;
         int gap = elements.length;
         boolean swapped = false;
@@ -60,24 +49,10 @@ public class CombSort extends Sort {
             }
             swapped = false;
             for (i = 0; gap + i < elements.length; ++i) {
-                if (elements[i] > elements[i + gap]) {
-                    tmp = elements[i];
-                    elements[i] = elements[i + gap];
-                    elements[i + gap] = tmp;
+                if (compare(i, i + gap) == 1) {
+                    exchange(i, i + gap);
                     swapped = true;
-                    svp.visualCmp(i, i + gap, true);
-                    //svp.setInfo("Combsort",iterates++);
-                    panelUI.setInfo(accesses, comparisons++);
-                    accesses += 3;
-
-                } else {
-                    svp.visualCmp(i, i + gap, false);
-                    //svp.setInfo("Combsort",iterates++);
-                    panelUI.setInfo(accesses, comparisons++);
                 }
-
-                checkRunCondition();
-
             }
         }
 
@@ -89,8 +64,8 @@ public class CombSort extends Sort {
     }
 
     @Override
-    public SORTALGORITHMS getAlgorithmName() {
-        return SORTALGORITHMS.Combsort;
+    public SortAlgorithm getAlgorithmName() {
+        return SortAlgorithm.Combsort;
     }
 
 
