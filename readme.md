@@ -1,5 +1,5 @@
 <p align="center">
-  <img width="400" src="logo.svg">
+  <img width="350" src="logo.svg">
 </p>
 
 # Description
@@ -23,13 +23,16 @@ during execution. In that case I would highly appreciate a bug report. Thanks in
 * Adjustment of the **running speed**.
 * Arbitrary **number of elements** to be sorted.
 
-# Installing
+# Installing & Running
 
 ## Prerequisites
 
-Make sure you have installed **Java 8.xx** installed on your machine.
+Make sure you have installed **Java 8.xx** installed on your machine. Then you have two options.
 
-*Coming soon*
+1. Go to `VisualSorting/out/artifacts/VisualSorting_jar/` and double-click on `VisualSorting.jar`
+or if thats not working, open a terminal in the same folder and type `java -jar VisualSorting.jar`.
+2. The easiest way of compiling and building the application yourself is by importing
+it into IntelliJ IDEA (project files already exist).
 
 # License
 
@@ -44,6 +47,12 @@ The above copyright notice and this permission notice shall be included in all c
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 # Credits
+
+## Third-party libraries
+
+* [IconLoader](https://github.com/bulenkov/iconloader), licensed under [Apache License 2.0](https://www.apache.org/licenses/LICENSE-2.0) - Copyright 2000-2014 JetBrains s.r.o.
+
+## Icons
 
 Most of the program icons used in this program are based
 on Google's Material Design / Monochrome icons, downloaded from www.flaticon.com.
