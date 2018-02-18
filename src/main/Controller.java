@@ -39,10 +39,7 @@ import dialogs.DelayDialog;
 import dialogs.EnterDialog;
 import dialogs.InfoDialog;
 import dialogs.OptionDialog;
-import main.InternalConfig.LANG;
 import main.Statics.SortAlgorithm;
-
-import javax.swing.*;
 
 public class Controller implements Observer, ComponentListener, ActionListener, WindowListener {
 
@@ -55,20 +52,14 @@ public class Controller implements Observer, ComponentListener, ActionListener, 
     private LinkedList<OptionDialog> dialogs;
 
     private Window window;
-    private LanguageFileXML langXMLInterface;
     private ExecutorService executor;
     private javax.swing.Timer appTimer;
     private int leftMs, leftSec, threadsAlive;
 
-    /**
-     * @param langXMLInterface
-     */
-    public Controller(LanguageFileXML langXMLInterface) {
+    public Controller() {
 
-        this.langXMLInterface = langXMLInterface;
-
-        sortList = new ArrayList<Sort>();
-        dialogs = new LinkedList<OptionDialog>();
+        sortList = new ArrayList<>();
+        dialogs = new LinkedList<>();
 
         executor = Executors.newCachedThreadPool();
         createTimer();
@@ -97,7 +88,7 @@ public class Controller implements Observer, ComponentListener, ActionListener, 
 
         try {
             executor.shutdownNow();
-            executor.awaitTermination(2000, TimeUnit.MILLISECONDS);
+            executor.awaitTermination(10000, TimeUnit.MILLISECONDS);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -221,7 +212,7 @@ public class Controller implements Observer, ComponentListener, ActionListener, 
         } else if (e.getActionCommand() == Statics.NEW_ELEMENTS) {
             dialogs.add(EnterDialog.getInstance(this, 500, 300));
         } else if (e.getActionCommand() == Statics.ABOUT) {
-            dialogs.add(AboutDialog.getInstance(400, 500));
+            dialogs.add(AboutDialog.getInstance(400, 470));
         } else if (e.getActionCommand() == Statics.INFO) {
 
             SortAlgorithm selAlgorithm = sortList.get(
@@ -229,36 +220,7 @@ public class Controller implements Observer, ComponentListener, ActionListener, 
 
             dialogs.add(new InfoDialog(selAlgorithm, selAlgorithm
                     .toString(), 600, 370));
-        } else if (e.getActionCommand() == Statics.LANG_DE) {
-
-            InternalConfig.setLanguage(LANG.de);
-            langXMLInterface.readXML(InternalConfig.getLanguageSetPath());
-            window.updateLanguage();
-            for (OptionDialog temp : dialogs)
-                temp.updateComponentsLabel(); // update language on every open
-            // dialog
-
-        } else if (e.getActionCommand() == Statics.LANG_EN) {
-
-            InternalConfig.setLanguage(LANG.en);
-            langXMLInterface.readXML(InternalConfig.getLanguageSetPath());
-            window.updateLanguage();
-            // update language on every open dialog
-            for (OptionDialog temp : dialogs)
-                temp.updateComponentsLabel();
-
-
-        } else if (e.getActionCommand() == Statics.LANG_FR) {
-
-            InternalConfig.setLanguage(LANG.fr);
-            langXMLInterface.readXML(InternalConfig.getLanguageSetPath());
-            window.updateLanguage();
-            for (OptionDialog temp : dialogs)
-                temp.updateComponentsLabel(); // update language on every open
-            // dialog
-
         }
-
         // just execute one more step
         else if (e.getActionCommand() == Statics.NEXT_ITERATION) {
             sortList.forEach(Sort::executeNextStep);
@@ -346,13 +308,14 @@ public class Controller implements Observer, ComponentListener, ActionListener, 
     @Override
     public void windowActivated(WindowEvent e) {
 
-        if (InternalConfig.isAutoPauseEnabled() && !pausedByUser) {
+        if (InternalConfig.isAutoPauseEnabled() && !pausedByUser && state == State.PAUSED) {
             if (threadsAlive != 0) {
                 appTimer.start();
                 for (Sort temp : sortList) {
                     temp.resume();
                 }
             }
+            state = State.RUNNING;
             window.appReleased();
         }
     }
@@ -360,12 +323,13 @@ public class Controller implements Observer, ComponentListener, ActionListener, 
     @Override
     public void windowDeactivated(WindowEvent e) {
 
-        if (InternalConfig.isAutoPauseEnabled()) {
+        if (InternalConfig.isAutoPauseEnabled() && state == State.RUNNING) {
             sortList.forEach(sort -> sort.pause());
             if (threadsAlive != 0) {
                 window.appStopped();
                 appTimer.stop();
             }
+            state = State.PAUSED;
         }
     }
 

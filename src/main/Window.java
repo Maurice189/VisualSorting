@@ -33,7 +33,6 @@ import javax.swing.border.EmptyBorder;
 import algorithms.Sort;
 import com.bulenkov.iconloader.IconLoader;
 import dialogs.InfoDialog;
-import main.InternalConfig.LANG;
 import main.Statics.SortAlgorithm;
 
 
@@ -51,8 +50,7 @@ public class Window extends JFrame {
 	
 	private String title;
 	private boolean stateStButton = true;
-	private LanguageFileXML langXML;
-	
+
 	// component references
 	private JButton newSort, nextStep, reset,delayBtn,listBtn;
 	private PlayPauseToggle next;
@@ -61,9 +59,8 @@ public class Window extends JFrame {
 	private JLabel info,clock,nofLabel;
 	private GroupComboBox sortChooser;
 	private JMenuItem about, list, delay;
-	private JRadioButtonMenuItem de, en, fr;
 	private JCheckBoxMenuItem switchIntPause;
-	private JMenu help, settings, languages, programmFunctions;
+	private JMenu help, settings, programmFunctions;
 	private JToolBar toolBar;
 	private JPanel bottomBar;
 	private JSlider speed;
@@ -85,17 +82,15 @@ public class Window extends JFrame {
 	 * parameters.
 	 * 
 	 * @param controller as MVC pattern arranged
-	 * @param langXML language referrence object for component labels
 	 * @param title of the application window
 	 * @param width of the applications window
 	 * @param height of the applications window
 	 */
-	public Window(Controller controller,LanguageFileXML langXML, String title, int width, int height) {
+	public Window(Controller controller, String title, int width, int height) {
 
 		this.title = title;
 		this.controller = controller;
-		this.langXML = langXML;
-	
+
 		initComponents(width,height);
 
 	}
@@ -117,7 +112,7 @@ public class Window extends JFrame {
 		 *  The language depends on which language was last used. The default language is English.
 		 *  This routine can be seen on every initialized component
 		 */
-		info = new JLabel(langXML.getValue("info"),
+		info = new JLabel("Add some sort algorithm",
 				JLabel.CENTER);
 		info.setFont(infoFont);
 		info.setForeground(Color.GRAY);
@@ -127,12 +122,12 @@ public class Window extends JFrame {
 		clock.setForeground(Color.black);
 		clock.setIcon(IconLoader.getIcon("/resources/icons/timer.png"));
 		
-		switchIntPause = new JCheckBoxMenuItem(langXML.getValue("autopause"));
+		switchIntPause = new JCheckBoxMenuItem("Automatic pause enabled");
 		switchIntPause.addActionListener(controller);
 		switchIntPause.setActionCommand(Statics.AUTO_PAUSE);
 		switchIntPause.setState(InternalConfig.isAutoPauseEnabled());
 		
-		programmFunctions = new JMenu(langXML.getValue("prgfunc"));
+		programmFunctions = new JMenu("Options");
 		programmFunctions.add(switchIntPause);
 			
 		nofLabel = new JLabel();
@@ -141,7 +136,7 @@ public class Window extends JFrame {
 		
 		setTitle(title);
 		setSize(width, height);
-		vsPanel = new ArrayList<SortVisualisationPanel>();
+		vsPanel = new ArrayList<>();
 		addWindowListener(controller);
 
 		toolBar = new JToolBar();
@@ -161,56 +156,23 @@ public class Window extends JFrame {
 		bottomBar.add(Box.createHorizontalGlue());
 		bottomBar.add(nofLabel);
 
-		languages = new JMenu(langXML.getValue("lang"));
-		settings = new JMenu(langXML.getValue("settings"));
-		help = new JMenu(langXML.getValue("help"));
-		list = new JMenuItem(langXML.getValue("sortlist"));
+		settings = new JMenu("Settings");
+		help = new JMenu("Help");
+		list = new JMenuItem("List of elements");
 		list.addActionListener(controller);
 		list.setActionCommand(Statics.NEW_ELEMENTS);
 
-		delay = new JMenuItem(langXML.getValue("delay"));
+		delay = new JMenuItem("Speed");
 		delay.addActionListener(controller);
 		delay.setActionCommand(Statics.DELAY);
 
-		about = new JMenuItem(langXML.getValue("about")+" "+title);
+		about = new JMenuItem("About " + title);
 		
 		about.addActionListener(controller);
 		about.setActionCommand(Statics.ABOUT);
 
-		de = new JRadioButtonMenuItem("German");
-		de.addActionListener(controller);
-		de.setActionCommand(Statics.LANG_DE);
-
-		en = new JRadioButtonMenuItem("English");
-		en.addActionListener(controller);
-		en.setActionCommand(Statics.LANG_EN);
-
-		fr = new JRadioButtonMenuItem("France");
-		fr.addActionListener(controller);
-		fr.setActionCommand(Statics.LANG_FR);
-
-		bg.add(de);
-		bg.add(en);
-		bg.add(fr);
-
-		LANG lang = InternalConfig.getLanguageSet();
-		if (lang == LANG.de){
-			de.setSelected(true);
-		}
-		else if (lang == LANG.en){
-			en.setSelected(true);
-		}
-		else if (lang == LANG.fr){
-			fr.setSelected(true);
-		}
-
-		languages.add(en);
-		languages.add(de);
-		languages.add(fr);
-
 		help.add(about);
 		settings.add(programmFunctions);
-		settings.add(languages);
 		settings.add(list);
 		settings.add(delay);
 		
@@ -225,37 +187,35 @@ public class Window extends JFrame {
 		}
 
         titleToAlg = new HashMap<>();
-		titleToAlg.put("Bogosort", SortAlgorithm.Bogosort);
-        titleToAlg.put("Bubblesort", SortAlgorithm.Bubblesort);
-        titleToAlg.put("Combsort", SortAlgorithm.Combsort);
-        titleToAlg.put("Mergesort", SortAlgorithm.Mergesort);
-        titleToAlg.put("Insertionsort", SortAlgorithm.Insertionsort);
-        titleToAlg.put("Introsort", SortAlgorithm.Introsort);
-        titleToAlg.put("Shakersort", SortAlgorithm.Shakersort);
-        titleToAlg.put("Selectionsort", SortAlgorithm.Selectionsort);
-        titleToAlg.put("Shellsort", SortAlgorithm.Shellsort);
-        titleToAlg.put("Standard Heapsort", SortAlgorithm.Heapsort);
-        titleToAlg.put("Bottom-up Heapsort", SortAlgorithm.Heapsort); // TODO Add Bottom Up Heapsort
-        titleToAlg.put("Quicksort (Random Pivot)", SortAlgorithm.Quicksort_RANDOM);
-        titleToAlg.put("Quicksort (MO3 Pivot)", SortAlgorithm.Quicksort_MO3);
-        titleToAlg.put("Quicksort (Fixed Pivot)", SortAlgorithm.Quicksort_FIXED);
+		titleToAlg.put("Bogo sort", SortAlgorithm.Bogosort);
+        titleToAlg.put("Bubble sort", SortAlgorithm.Bubblesort);
+        titleToAlg.put("Comb sort", SortAlgorithm.Combsort);
+        titleToAlg.put("Merge sort", SortAlgorithm.Mergesort);
+        titleToAlg.put("Insertion sort", SortAlgorithm.Insertionsort);
+        titleToAlg.put("Intro sort", SortAlgorithm.Introsort);
+        titleToAlg.put("Shaker sort", SortAlgorithm.Shakersort);
+        titleToAlg.put("Selection sort", SortAlgorithm.Selectionsort);
+        titleToAlg.put("Shell sort", SortAlgorithm.Shellsort);
+        titleToAlg.put("Heap sort", SortAlgorithm.Heapsort);
+        titleToAlg.put("Quick sort (Random Pivot)", SortAlgorithm.Quicksort_RANDOM);
+        titleToAlg.put("Quick sort (MO3 Pivot)", SortAlgorithm.Quicksort_MO3);
+        titleToAlg.put("Quick sort (Fixed Pivot)", SortAlgorithm.Quicksort_FIXED);
         //titleToAlg.put("Dual Pivot Quicksort", SortAlgorithm.Quicksort_RANDOM); // TODO Add Dual Pivot Method
 
         algToTitle = new HashMap<>();
-        algToTitle.put(SortAlgorithm.Bogosort, "Bogosort");
-        algToTitle.put(SortAlgorithm.Bubblesort, "Bubblesort");
-        algToTitle.put(SortAlgorithm.Combsort, "Combsort");
-        algToTitle.put(SortAlgorithm.Mergesort, "Mergesort");
-        algToTitle.put(SortAlgorithm.Insertionsort, "Insertionsort");
-        algToTitle.put(SortAlgorithm.Introsort, "Introsort");
-        algToTitle.put(SortAlgorithm.Shakersort, "Shakersort");
-        algToTitle.put(SortAlgorithm.Selectionsort, "Selectionsort");
-        algToTitle.put(SortAlgorithm.Shellsort, "Shellsort");
-        algToTitle.put(SortAlgorithm.Heapsort, "Standard Heapsort");
-        algToTitle.put(SortAlgorithm.Heapsort, "Bottom-up Heapsort"); // TODO Add Bottom Up Heapsort
-        algToTitle.put(SortAlgorithm.Quicksort_RANDOM, "Quicksort (Random Pivot)");
-        algToTitle.put(SortAlgorithm.Quicksort_MO3, "Quicksort (MO3 Pivot)");
-        algToTitle.put(SortAlgorithm.Quicksort_FIXED, "Quicksort (Fixed Pivot)");
+        algToTitle.put(SortAlgorithm.Bogosort, "Bogo sort");
+        algToTitle.put(SortAlgorithm.Bubblesort, "Bubble sort");
+        algToTitle.put(SortAlgorithm.Combsort, "Comb sort");
+        algToTitle.put(SortAlgorithm.Mergesort, "Merge sort");
+        algToTitle.put(SortAlgorithm.Insertionsort, "Insertion sort");
+        algToTitle.put(SortAlgorithm.Introsort, "Intro sort");
+        algToTitle.put(SortAlgorithm.Shakersort, "Shaker sort");
+        algToTitle.put(SortAlgorithm.Selectionsort, "Selection sort");
+        algToTitle.put(SortAlgorithm.Shellsort, "Shell sort");
+        algToTitle.put(SortAlgorithm.Heapsort, "Heap sort");
+        algToTitle.put(SortAlgorithm.Quicksort_RANDOM, "Quick sort (Random Pivot)");
+        algToTitle.put(SortAlgorithm.Quicksort_MO3, "Quick sort (MO3 Pivot)");
+        algToTitle.put(SortAlgorithm.Quicksort_FIXED, "Quick sort (Fixed Pivot)");
         //algToTitle.put(SortAlgorithm.Quicksort_RANDOM, "Dual Pivot Quicksort"); // TODO Add Dual Pivot Method
 
         InfoDialog.initTitleResolver(algToTitle);
@@ -268,36 +228,34 @@ public class Window extends JFrame {
         sortChooser.addItemListener(itemEvent -> {
             String item = sortChooser.getSelectedItem().toString();
 
-            if(item.equals("Bogosort")) {
-                algorithmInfo.setText("<html><b>Bogosort</b> - Generate random permutations until it finds on that sorted.</html>");
-            } else if (item.equals("Bubblesort")) {
-                algorithmInfo.setText("<html><b>Bubblesort</b> - Compare elements pairwise and perform swaps if necessary.</html>\"");
-            } else if (item.equals("Combsort")) {
-                algorithmInfo.setText("<html><b>Combsort</b> - Improvement of Bubblesort with dynamic gap sizes.</html>\"");
-            } else if (item.equals("Mergesort")) {
-                algorithmInfo.setText("<html><b>Mergesort</b> - Divide unsorted lists and repeatedly merge sorted sub-lists.</html>\"");
-            } else if (item.equals("Insertionsort")) {
-                algorithmInfo.setText("<html><b>Insertionsort</b> - In each iterations finds correct insert position of element</html>\"");
-            } else if (item.equals("Introsort")) {
-                algorithmInfo.setText("<html><b>Introsort</b> - Hybrid sorting algorithm uses both Quicksort and Heapsort.</html>\"");
-            } else if (item.equals("Shakersort")) {
-                algorithmInfo.setText("<html><b>Shakersort</b> - Bidirectional Bubblesort, also known as cocktail sort.</html>\"");
-            } else if (item.equals("Selectionsort")) {
-                algorithmInfo.setText("<html><b>Selectionsort</b> - </html>\"");
-            } else if (item.equals("Shellsort")) {
-                algorithmInfo.setText("<html><b>Shellsort</b> - Very similar to Combosort ??</html>\"");
-            }  else if (item.equals("Standard Heapsort")) {
-                algorithmInfo.setText("<html><b>Heapsort</b> - Builds a heap and repeatedly extracts the current maximum.</html>\"");
-            } else if (item.equals("Bottom-up Heapsort")) {
-                algorithmInfo.setText("<html><b>Heapsort</b>  - Improved sift-down operation on heap data structure.</html>\"");
-            } else if (item.equals("Quicksort (Fixed Pivot)")) {
-                algorithmInfo.setText("<html><b>Quicksort</b> - Partitioning of lists by choosing a fixed pivot element.</html>\"");
-            } else if (item.equals("Quicksort (Random Pivot)")) {
-                algorithmInfo.setText("<html><b>Quicksort</b> - Partitioning of lists by choosing a random pivot element.</html>\"");
-            } else if (item.equals("Quicksort (MO3 Pivot)")) {
-                algorithmInfo.setText("<html><b>Quicksort</b> - Partitioning of lists by choosing a pivot element based on median of three.</html>\"");
-            } else if (item.equals("Dual Pivot Quicksort")) {
-                algorithmInfo.setText("<html><b>Quicksort</b> - Variant of quick sort with two pivot elements.</html>\"");
+            if(item.equals("Bogo sort")) {
+                algorithmInfo.setText("<html><b>Bogo sort</b> - Generate random permutations until it finds on that sorted.</html>");
+            } else if (item.equals("Bubble sort")) {
+                algorithmInfo.setText("<html><b>Bubble sort</b> - Compare elements pairwise and perform swaps if necessary.</html>\"");
+            } else if (item.equals("Comb sort")) {
+                algorithmInfo.setText("<html><b>Comb sort</b> - Improvement of bubble sort with dynamic gap sizes.</html>\"");
+            } else if (item.equals("Merge sort")) {
+                algorithmInfo.setText("<html><b>Merge sort</b> - Divide unsorted lists and repeatedly merge sorted sub-lists.</html>\"");
+            } else if (item.equals("Insertion sort")) {
+                algorithmInfo.setText("<html><b>Insertion sort</b> - In each iterations finds correct insert position of element</html>\"");
+            } else if (item.equals("Intro sort")) {
+                algorithmInfo.setText("<html><b>Intro sort</b> - Hybrid sorting algorithm uses both quick sort and Heapsort.</html>\"");
+            } else if (item.equals("Shaker sort")) {
+                algorithmInfo.setText("<html><b>Shaker sort</b> - Bidirectional bubble sort, also known as cocktail sort.</html>\"");
+            } else if (item.equals("Selection sort")) {
+                algorithmInfo.setText("<html><b>Selection sort</b> - Repeatedly finds the minimum element and append to sorted list.</html>\"");
+            } else if (item.equals("Shell sort")) {
+                algorithmInfo.setText("<html><b>Shell sort</b> - Generalization of insertion or bubble sort.</html>\"");
+            }  else if (item.equals("Heap sort")) {
+                algorithmInfo.setText("<html><b>Heap sort</b> - Builds a heap and repeatedly extracts the current maximum.</html>\"");
+            } else if (item.equals("Quick sort (Fixed Pivot)")) {
+                algorithmInfo.setText("<html><b>Quick sort</b> - Partitioning of lists by choosing a fixed pivot element.</html>\"");
+            } else if (item.equals("Quick sort (Random Pivot)")) {
+                algorithmInfo.setText("<html><b>Quick sort</b> - Partitioning of lists by choosing a random pivot element.</html>\"");
+            } else if (item.equals("Quick sort (MO3 Pivot)")) {
+                algorithmInfo.setText("<html><b>Quick sort</b> - Partitioning of lists by choosing a pivot element based on median of three.</html>\"");
+            } else if (item.equals("Dual Pivot Quick sort")) {
+                algorithmInfo.setText("<html><b>Quick sort</b> - Variant of quick sort with two pivot elements.</html>\"");
             } else {
                 algorithmInfo.setText("-");
             }
@@ -307,24 +265,20 @@ public class Window extends JFrame {
 
         });
 
-        sortChooser.addItem("Bogosort");
-        sortChooser.addItem("Bubblesort");
-        sortChooser.addItem("Combsort");
-        sortChooser.addItem("Mergesort");
-        sortChooser.addItem("Insertionsort");
-        sortChooser.addItem("Introsort");
-        sortChooser.addItem("Selectionsort");
-        sortChooser.addItem("Shakersort");
-        sortChooser.addItem("Shellsort");
-        sortChooser.addDelimiter("Heapsort");
-        sortChooser.addItem("Standard Heapsort");
-        sortChooser.addItem("Bottom-up Heapsort");
-        sortChooser.addDelimiter("Quicksort");
-        sortChooser.addItem("Quicksort (Fixed Pivot)");
-        sortChooser.addItem("Quicksort (Random Pivot)");
-        sortChooser.addItem("Quicksort (MO3 Pivot)");
-        //sortChooser.addItem("Dual Pivot Quicksort");
-
+        //sortChooser.addItem("Bogo sort");
+        sortChooser.addItem("Bubble sort");
+        sortChooser.addItem("Comb sort");
+        sortChooser.addItem("Merge sort");
+        sortChooser.addItem("Insertion sort");
+        sortChooser.addItem("Intro sort");
+        sortChooser.addItem("Selection sort");
+        sortChooser.addItem("Shaker sort");
+        sortChooser.addItem("Shell sort");
+        sortChooser.addItem("Heap sort");
+        sortChooser.addDelimiter("Quick sort");
+        sortChooser.addItem("Quick sort (Fixed Pivot)");
+        sortChooser.addItem("Quick sort (Random Pivot)");
+        sortChooser.addItem("Quick sort (MO3 Pivot)");
 
 
 		sortChooser.setMaximumSize(new Dimension(300, 100));
@@ -474,26 +428,7 @@ public class Window extends JFrame {
 		setVisible(true);
 	}
 
-	  /**
-	   * If the language was changed, 
-	   * component titles will be updated by this method.
-	   */
-	public void updateLanguage(){
-	  
-		  info.setText(langXML.getValue("info"));
-		  switchIntPause.setText(langXML.getValue("autopause"));
-		  programmFunctions.setText(langXML.getValue("prgfunc"));
-		  about.setText(langXML.getValue("about"));
-		  list.setText(langXML.getValue("sortlist"));
-		  delay.setText(langXML.getValue("delay"));
-		  help.setText(langXML.getValue("help"));
-		  settings.setText(langXML.getValue("settings"));
-	  	  languages.setText(langXML.getValue("lang"));
-	  	  nofLabel.setText(String.valueOf(Sort.getElements().length).concat(" ").concat
-	  	  (langXML.getValue("nof")));
-	  	
-	  }
-	  
+
 	/**
 	 * Start-stop functionality for the visualisation
 	 * progress.
@@ -545,7 +480,7 @@ public class Window extends JFrame {
 	 */
 	public void updateNumberOfElements(int nof){
 		
-		nofLabel.setText(String.valueOf(nof).concat(" ").concat(langXML.getValue("nof")));
+		nofLabel.setText(String.valueOf(nof).concat(" ").concat("number of elements"));
 		
 	}
 

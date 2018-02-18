@@ -1,21 +1,17 @@
 <!DOCTYPE HTML>  
  
- <html> 
-
-    <head>
-    </head>
+ <html>
     <body>
-    <h2>About Heapsort</h2></br>
+    <h2>Complexity</h2>
     
-    <table border="0" align="left">
+    <table border="0">
   	<tr>
  		<th align="left">Worst case </br>performance</th>
  		<td><p>O(<i>n</i> log <i>n</i> )</p></td>
     </tr>
     <tr>
-   		<th align="left">Best case </br>performace</th>
-   		<td><p>O(<i>n</i> log <i>n</i> ) (simple partition) </br> 
-   		or O(<i>n</i>) (three-way partition and equal keys)</p></td>
+   		<th align="left">Best case </br>performance</th>
+   		<td><p>O(<i>n</i> log <i>n</i> )</p></td>
   	</tr>
   	<tr>
     	<th align="left">Average case </br>performance</th>
@@ -27,16 +23,25 @@
   	</tr>
   	
 	</table>
-	
-	
-	</br></br></br></br></br></br></br></br></br></br></br></br></br></br>
+
 	<h2>Abstract</h2>
 	<p>The heapsort algorithm can be divided into two parts.
-	In the first step, a heap is built out of the data. The heap is often placed in an array with the layout of a complete binary tree. 
-	The complete binary tree maps the binary tree structure into the array indices; each array index represents a node; the index of the node's parent, left child branch, or right child branch are simple expressions. 
-	For a zero-based array, the root node is stored at index 0; if i is the index of the current node, then
-	</p></br></br>
-	<p>Informations from <a href="http://en.wikipedia.org/wiki/Quicksort"><i>Wikipedia</i></a></p>
-    
+        In the first step, a <b>heap is built out of the data</b>. The heap is often placed in an array with the layout of a complete binary tree.
+        Afterwards in every iteration the <b>minimum element within the heap is removed</b> (<i>extract min</i>) and added
+        to the already sorted part. Since this operation only takes O(log <i>n</i>) it can be seen as an improvement of
+        selection sort. Although heap sort is an <b>in-place algorithm
+        it is not stable</b> in its original implementation. Compared to other fast algorithms like quick sort,
+        heap sort has the <b>favorable O(<i>n</i> log <i>n</i>) worst case complexity</b>. Though in concrete implementations
+        <b>heap sort is slower than quick sort</b>, due to its high constant complexity factors that are "hidden" within
+        the O-notation.
+    </p>
+
+    <h2>Related</h2>
+
+    <ul>
+        <li><a href="infopage_bubblesort.html">Selection sort</a> </li>
+    </ul>
+	<p>Information from <a href="http://en.wikipedia.org/wiki/Quicksort"><i>Wikipedia</i></a></p>
+
     </body>
  </html> 

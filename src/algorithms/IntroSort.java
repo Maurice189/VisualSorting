@@ -13,10 +13,6 @@ package algorithms;
 import main.Statics.SortAlgorithm;
 
 public class IntroSort extends Sort {
-
-
-
-
     /*
      * Class Variables
      */

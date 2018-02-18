@@ -44,10 +44,4 @@ public class Statics {
 	public static final String INFO = "action_info";
 	public static final String AUTO_PAUSE = "action_auto";
 
-	public static final String LANG_DE = "action_de", LANG_EN = "action_en", LANG_FR = "action_fr";
-	public static final String DIALOG_EXIT = "action_exitDialog";
-
-
-	
-
 }

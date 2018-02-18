@@ -32,31 +32,33 @@ http://rosettacode.org/wiki/Sorting_algorithms/Insertion_sort#Java
  * @category Sort
  */
 
-import main.SortVisualisationPanel;
 import main.Statics.SortAlgorithm;
 
 public class InsertionSort extends Sort {
 
     public void run() {
 
-        for (int i = 1; i < elements.length; i++) {
-            int value = elements[i];
-            int j = i - 1;
-            while (j >= 0 && elements[j] > value) {
-                checkRunCondition();
-                insertByIndex(j + 1, j);
-                j = j - 1;
+        try {
+            for (int i = 1; i < elements.length; i++) {
+                int value = elements[i];
+                int j = i - 1;
+                while (j >= 0 && elements[j] > value) {
+                    checkRunCondition();
+                    insertByIndex(j + 1, j);
+                    j = j - 1;
+                }
+                insertByValue(j + 1, value);
             }
-            insertByValue(j + 1, value);
+
+            setChanged();
+            notifyObservers(panelUI.getID());
+
+            if (flashing)
+                svp.visualTermination();
+
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
-
-        setChanged();
-        notifyObservers(panelUI.getID());
-
-        if (flashing)
-            svp.visualTermination();
-
-
     }
 
     @Override

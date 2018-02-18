@@ -12,6 +12,7 @@ public class VSButton extends JButton {
         this.setIcon(IconLoader.getIcon(iconResourcePath));
         this.setRolloverEnabled(true);
         this.setRolloverIcon(new RolloverIcon(icon));
+        this.setDisabledIcon(new DisabledIcon(icon));
         this.setBorder(BorderFactory.createEmptyBorder());
     }
 }

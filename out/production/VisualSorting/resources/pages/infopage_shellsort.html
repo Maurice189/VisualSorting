@@ -1,19 +1,16 @@
 <!DOCTYPE HTML>  
  
- <html> 
-
-    <head>
-    </head>
+ <html>
     <body>
-    <h2>About Shellsort</h2></br>
-    
-    <table border="0" align="left">
+    <h2>Complexity</h2>
+
+    <table border="0">
   	<tr>
  		<th align="left">Worst case </br>performance</th>
- 		<td><p>O(<i>n</i>^2)</p></td>
+        <td><p>O(<i>n</i><sup>2</sup>)</p></td>
     </tr>
     <tr>
-   		<th align="left">Best case </br>performace</th>
+   		<th align="left">Best case </br>performance</th>
    		<td><p>O(<i>n</i> log <i>n</i> )</p></td>
   	</tr>
   	<tr>
@@ -26,17 +23,23 @@
   	</tr>
   	
 	</table>
-	
-	
-	</br></br></br></br></br></br></br></br></br></br></br></br></br></br>
+
 	<h2>Abstract</h2>
-	<p>Shellsort, also known as Shell sort or Shell's method, is an in-place comparison sort. 
-	It can be seen as either a generalization of sorting by exchange (bubble sort) or sorting by insertion (insertion sort).
-	The method starts by sorting elements far apart from each other and progressively reducing the gap between them. 
-	Starting with far apart elements can move some out-of-place elements into position faster than a simple nearest neighbor exchange. 
-	Donald Shell published the first version of this sort in 1959
-	</p></br></br>
-	<p>Informations from <a href="http://en.wikipedia.org/wiki/Quicksort"><i>Wikipedia</i></a></p>
-    
+
+    <p>Shell sort is an <b>in-place but not stable</b> comparison sort.
+        It can be seen as either a <b>generalization of bubble sort or insertion sort</b>.
+	The method starts by sorting elements far apart from each other and progressively reducing the gap between them.
+	Starting with far apart elements can move some out-of-place elements into position faster than a simple nearest neighbor exchange.
+        Shell sort is like bubble sort an <b>adaptive sorting algorithm</b>, which means it terminates faster when the list is
+        nearly sorted. In real world applications shell sort performs slower than quick sort, because it has
+        higher cache miss ratios. However due to its little code size it can be <b>considered in embedded system applications</b>.
+	</p>
+    <h2>Related</h2>
+
+    <ul>
+        <li><a href="infopage_insertionsort.html">Insertion sort</a> </li>
+        <li><a href="infopage_bubblesort.html">Bubble sort</a> </li>
+    </ul></br>
+	<p>Information from <a href="http://en.wikipedia.org/wiki/Shellsort"><i>Wikipedia</i></a></p>
     </body>
  </html> 

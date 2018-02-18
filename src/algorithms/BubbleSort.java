@@ -33,23 +33,26 @@ import main.Statics.SortAlgorithm;
 public class BubbleSort extends Sort {
 
     public void run() {
-        boolean swapped;
-
-        do {
-            swapped = false;
-            for (int i = 0; i < elements.length - 1; i++) {
-                if (compare(i, i + 1) == 1) {
-                    exchange(i, i + 1);
-                    swapped = true;
+        try {
+            boolean swapped;
+            do {
+                swapped = false;
+                for (int i = 0; i < elements.length - 1; i++) {
+                    if (compare(i, i + 1) == 1) {
+                        exchange(i, i + 1);
+                        swapped = true;
+                    }
+                    checkRunCondition();
                 }
-                checkRunCondition();
-            }
-        } while (swapped);
+            } while (swapped);
 
-        setChanged();
-        notifyObservers(panelUI.getID());
+            setChanged();
+            notifyObservers(panelUI.getID());
 
-        if (flashing) svp.visualTermination();
+            if (flashing) svp.visualTermination();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
 
     }
 

@@ -78,23 +78,21 @@ public abstract class Sort extends Observable implements Runnable {
      * on locks and condition.
      *
      */
-    protected void checkRunCondition() {
-        try {
-            while (pause && !executeNextStep) {
-                Thread.sleep(100);
-            }
-            executeNextStep = false;
-            Thread.sleep(delayMs, delayNs);
-        } catch (InterruptedException e) {
-            Thread.currentThread().interrupt();
+    protected void checkRunCondition() throws InterruptedException {
+        while (pause && !executeNextStep) {
+            Thread.sleep(100);
         }
+        executeNextStep = false;
+        Thread.sleep(delayMs, delayNs);
     }
 
     public void executeNextStep() {
         this.executeNextStep = true;
     }
 
-    public void setName(String name) {this.name = name;}
+    public void setName(String name) {
+        this.name = name;
+    }
 
     public void pause() {
         pause = true;
@@ -104,7 +102,7 @@ public abstract class Sort extends Observable implements Runnable {
         this.flashing = terminationAnimationEnabled;
     }
 
-    public void exchange(int x[], int i, int j) {
+    public void exchange(int x[], int i, int j) throws InterruptedException {
         int tmp = x[i];
         x[i] = x[j];
         x[j] = tmp;
@@ -115,11 +113,11 @@ public abstract class Sort extends Observable implements Runnable {
         svp.visualExchange(i, j);
     }
 
-    public void exchange(int i, int j) {
+    public void exchange(int i, int j) throws InterruptedException {
         exchange(elements, i, j);
     }
 
-    public void insertByIndex(int x[], int i, int j) {
+    public void insertByIndex(int x[], int i, int j) throws InterruptedException {
         svp.visualInsert(i, x[j]);
         panelUI.setInfo(accesses, comparisons++);
         accesses += 2;
@@ -127,39 +125,38 @@ public abstract class Sort extends Observable implements Runnable {
         x[i] = x[j];
     }
 
-    public void insertByIndex(int i, int j) {
+    public void insertByIndex(int i, int j) throws InterruptedException {
         insertByIndex(elements, i, j);
     }
 
-    public void insertByValue(int x[], int i, int value) {
+    public void insertByValue(int x[], int i, int value) throws InterruptedException {
         svp.visualInsert(i, value);
         panelUI.setInfo(accesses, comparisons++);
-        accesses ++;
+        accesses++;
         checkRunCondition();
         x[i] = value;
     }
 
-    public void insertByValue(int i, int value) {
+    public void insertByValue(int i, int value) throws InterruptedException {
         insertByValue(elements, i, value);
     }
 
 
-
-    public void manualInstruction(int count) {
+    public void manualInstruction(int count) throws InterruptedException {
         instructionCount += count;
         if (instructionCount > INSTRUCTION_UNIT) {
-            while(instructionCount >= INSTRUCTION_UNIT) {
+            while (instructionCount >= INSTRUCTION_UNIT) {
                 checkRunCondition();
                 instructionCount -= INSTRUCTION_UNIT;
             }
         }
     }
 
-    public void manualInstructionIncrement() {
+    public void manualInstructionIncrement() throws InterruptedException {
         manualInstruction(1);
     }
 
-    public int compare(int x[], int i, int j) {
+    public int compare(int x[], int i, int j) throws InterruptedException {
         int result = 0;
 
         if (x[i] > x[j])
@@ -176,10 +173,9 @@ public abstract class Sort extends Observable implements Runnable {
         return result;
     }
 
-    public int compare(int i, int j){
+    public int compare(int i, int j) throws InterruptedException {
         return compare(elements, i, j);
     }
-
 
 
     /**

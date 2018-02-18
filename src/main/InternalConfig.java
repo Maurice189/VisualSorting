@@ -28,45 +28,14 @@ import java.util.Properties;
 import algorithms.Sort;
 
 public class InternalConfig {
-	
-	
-	public static enum LANG{
-		fr,en,de;
-		
-	public static LANG resolve(String langName){
-			
-			String tmpLang = langName.toLowerCase();
-			
-			if(tmpLang.equals("de"))
-				return LANG.de;
-			
-			else if(tmpLang.equals("en"))
-				return LANG.en;
-			
-			else if(tmpLang.equals("fr"))
-				return LANG.fr;
-			
-			return null;
-		}
-	};
-	private static HashMap<LANG,String> langDef = new HashMap<LANG,String>();
-	private static LANG languageSet = LANG.de;
+
 	private static String PROPORTIES_NAME = System.getProperty("user.home")+"/config.txt";
 	private static Properties prop;
 	
 	private static String version; // prg version, language set
 	private static boolean autoPauseOn;
 
-	
-	/**
-	 * 
-	 * @param lang
-	 * @param xmlName
-	 */
-	public static void setNewLangDefEntry(LANG lang,String xmlName){
-		langDef.put(lang, xmlName);
-	}
-	
+
 	/**
 	 * 
 	 * @param configPath
@@ -102,10 +71,8 @@ public class InternalConfig {
 			
 			
 			try {
-				languageSet = LANG.en;
 				writer = new FileWriter(PROPORTIES_NAME);
 				prConfig.setProperty("version", "0.5 Beta");
-				prConfig.setProperty("language",languageSet.name());
 				prConfig.setProperty("delayms", "100");
 				prConfig.setProperty("delayns", "10");
 				prConfig.setProperty("nofelements", "128");
@@ -137,13 +104,7 @@ public class InternalConfig {
 	 * set configuration parameters
 	 */
 	private static void setValues(){
-		
-		languageSet = LANG.resolve(getValue("language"));
-		
-		if (getValue("language").equals("none")) {
-		    languageSet = LANG.resolve(System.getProperty("user.language"));
-		}
-		
+
 		version = getValue("version");
 		int nofelements = Integer.parseInt(getValue("nofelements"));
 		autoPauseOn = Boolean.parseBoolean(getValue("auto_pause"));
@@ -182,11 +143,9 @@ public class InternalConfig {
 	 * the changes are saved in the proporties
 	 */
 	public static void saveChanges() {
-		
-		
+
 		setValue("delayms", Sort.getDelayMs());
 		setValue("delayns", Sort.getDelayNs());
-		setValue("language", languageSet.name());
 		setValue("nofelements", Sort.getElements().length);
 		setValue("auto_pause", String.valueOf(autoPauseOn));
 		
@@ -200,35 +159,8 @@ public class InternalConfig {
 		}
 
 	}
-	
-	/**
-	 * 
-	 * @param langName
-	 */
-	public static void setLanguage(String langName){
-		
-		InternalConfig.languageSet = LANG.resolve(langName);
-		
-	}
-	
-	/**
-	 * 
-	 * @param lang
-	 */
-	public static void setLanguage(LANG lang){
-		InternalConfig.languageSet = lang;
-		
-	}
-	
-	/**
-	 * Auto pause is the ability to pause the application when the frame is deactivated and resume
-	 * it when the frame is activated.
-	 * 
-	 *  For more:
-	 *  
-	 *  @see main.Controller.public void windowActivated(WindowEvent e) 
-	 *  @see main.Controller.public void windowDeactivated(WindowEvent e) 
-	 */
+
+
 	public static void toggleAutoPause(){
 		
 		InternalConfig.autoPauseOn = ! InternalConfig.autoPauseOn;
@@ -242,23 +174,7 @@ public class InternalConfig {
 		InternalConfig.version = version;
 		
 	}
-	
-	/**
-	 * 
-	 * @return the defined application language
-	 */
-	public static String getLanguageSetPath(){
-		return langDef.get(InternalConfig.languageSet);
-	}
-	
-	/**
-	 * 
-	 * @return
-	 */
-	public static LANG getLanguageSet(){
-		return InternalConfig.languageSet;
-	}
-	
+
 	/**
 	 * 
 	 * @return auto pause enabled flag

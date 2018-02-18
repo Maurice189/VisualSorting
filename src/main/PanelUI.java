@@ -30,8 +30,7 @@ import javax.swing.border.TitledBorder;
 public class PanelUI{
 	
 	private static int counter = 0,releasedID;
-	private static LanguageFileXML langXML;
-	
+
 	private TitledBorder leftBorder;
 	private JButton remove;
 	private JPanel panel;
@@ -54,11 +53,7 @@ public class PanelUI{
 		panel.setBorder(leftBorder);
 		manageButtons(listener);
 	}
-	
-	public static void setLanguageFileXML(LanguageFileXML langXML){
-		PanelUI.langXML = langXML;
-	}
-	
+
 	private void manageButtons(final ActionListener listener){
 		
 		GridBagConstraints gbc = new GridBagConstraints();
@@ -116,8 +111,8 @@ public class PanelUI{
 	public void setInfo(int accesses,int comparisons) {
 		
 		String info = "<html> <b>" +
-		name+("</b> - ( ")+String.valueOf(comparisons)+(" ")+
-		langXML.getValue("cmp")+(" | ")+String.valueOf(accesses)+(" ")+langXML.getValue("access")+" ) </html>";
+		name+("</b> - ( ")+String.valueOf(comparisons)
+		+(" comparisons | ")+String.valueOf(accesses)+(" accesses")+" ) </html>";
 		
 		leftBorder.setTitle(info);
 

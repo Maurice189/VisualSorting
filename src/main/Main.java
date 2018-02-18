@@ -24,10 +24,8 @@ import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.plaf.FontUIResource;
 
-import main.InternalConfig.LANG;
 import main.Statics.SortAlgorithm;
 import dialogs.InfoDialog;
-import dialogs.OptionDialog;
 
 public class Main {
 
@@ -54,27 +52,15 @@ public class Main {
 
 		System.setProperty("apple.laf.useScreenMenuBar", "true");
 			
-		InternalConfig.setNewLangDefEntry(LANG.de, "/resources/languages/lang_de.xml");
-		InternalConfig.setNewLangDefEntry(LANG.en, "/resources/languages/lang_en.xml");
-		InternalConfig.setNewLangDefEntry(LANG.fr, "/resources/languages/lang_fr.xml");
-		
+
 		for(int i = 0; i<args.length;i++){
 			if(args[i].startsWith("-configdir:")){
 				InternalConfig.setConfigFileDirectory(args[i].subSequence("-configdir:".length(), args[i].length()).toString());
 			}
-			else if(args[i].startsWith("-languages:")){
-				InternalConfig.setLanguage(args[i].subSequence("-languages:".length(), args[i].length()).toString());
-			}
 		}
 
-		LanguageFileXML configLanguage = new LanguageFileXML();
 		InternalConfig.loadConfigFile();
-		configLanguage.readXML(InternalConfig.getLanguageSetPath());
-		
-		// define resources
-		OptionDialog.setLanguageFileXML(configLanguage);
-		PanelUI.setLanguageFileXML(configLanguage);
-		
+
 		// this font is used under the GPL from google fonts under 'OpenSans'
 		Window.setComponentFont("/resources/Fonts/OpenSans-Regular.ttf");
 		Window.setInfoFont("/resources/Fonts/Oxygen-Regular.ttf",30f);
@@ -109,14 +95,14 @@ public class Main {
 		map.put(SortAlgorithm.Bogosort, "infopage_bogosort.html");
 		map.put(SortAlgorithm.Introsort, "infopage_introsort.html");
         map.put(SortAlgorithm.Selectionsort, "infopage_introsort.html");
-        map.put(SortAlgorithm.Quicksort_FIXED, "infopage_quicksort_fixed.html");
-        map.put(SortAlgorithm.Quicksort_RANDOM, "infopage_quicksort_random.html");
-        map.put(SortAlgorithm.Quicksort_MO3, "infopage_quicksort_mo3.html");
+        map.put(SortAlgorithm.Quicksort_FIXED, "infopage_quicksort.html");
+        map.put(SortAlgorithm.Quicksort_RANDOM, "infopage_quicksort.html");
+        map.put(SortAlgorithm.Quicksort_MO3, "infopage_quicksort.html");
 
         InfoDialog.initInfoPageResolver(map);
 		
-		Controller controller = new Controller(configLanguage);
-		Window window = new Window(controller,configLanguage,"Visual Sorting - ".concat(InternalConfig.getVersion()), 1200, 800);
+		Controller controller = new Controller();
+		Window window = new Window(controller,"Visual Sorting - ".concat(InternalConfig.getVersion()), 1200, 800);
 		controller.setView(window);
 	
 		

@@ -39,7 +39,7 @@ import main.Statics.SortAlgorithm;
 
 public class HeapSort extends Sort {
 
-    public void heapSort() {
+    public void heapSort() throws InterruptedException {
         int count = elements.length;
 
         //first place a in max-heap order
@@ -61,7 +61,7 @@ public class HeapSort extends Sort {
         }
     }
 
-    public void heapify(int[] a, int count) {
+    public void heapify(int[] a, int count) throws InterruptedException {
         //start is assigned the index in a of the last parent node
         int start = (count - 2) / 2; //binary heap
         manualInstructionIncrement();
@@ -77,7 +77,7 @@ public class HeapSort extends Sort {
         //after sifting down the root all nodes/elements are in heap order
     }
 
-    public void siftDown(int[] a, int start, int end) {
+    public void siftDown(int[] a, int start, int end) throws InterruptedException {
         //end represents the limit of how far down the heap to sift
         int root = start;
         manualInstructionIncrement();
@@ -102,12 +102,15 @@ public class HeapSort extends Sort {
     }
 
     public void run() {
-        heapSort();
+        try {
+            heapSort();
+            setChanged();
+            notifyObservers(panelUI.getID());
 
-        setChanged();
-        notifyObservers(panelUI.getID());
-
-        if (flashing) svp.visualTermination();
+            if (flashing) svp.visualTermination();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override

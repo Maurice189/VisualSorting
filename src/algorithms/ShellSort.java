@@ -20,31 +20,36 @@ public class ShellSort extends Sort {
     }
 
     public void run() {
-        int increment = elements.length / 2;
-        while (increment > 0) {
-            for (int i = increment; i < elements.length; i++) {
-                int j = i;
-                int temp = elements[i];
-                while (j >= increment && elements[j - increment] > temp) {
-                    checkRunCondition();
-                    insertByIndex(j, j - increment);
-                    j = j - increment;
+
+        try {
+            int increment = elements.length / 2;
+            while (increment > 0) {
+                for (int i = increment; i < elements.length; i++) {
+                    int j = i;
+                    int temp = elements[i];
+                    while (j >= increment && elements[j - increment] > temp) {
+                        checkRunCondition();
+                        insertByIndex(j, j - increment);
+                        j = j - increment;
+                    }
+                    insertByValue(j, temp);
                 }
-                insertByValue(j, temp);
+                if (increment == 2) {
+                    increment = 1;
+                } else {
+                    increment *= (5.0 / 11);
+                }
             }
-            if (increment == 2) {
-                increment = 1;
-            } else {
-                increment *= (5.0 / 11);
-            }
+
+            setChanged();
+            notifyObservers(panelUI.getID());
+
+            if (flashing)
+                svp.visualTermination();
+
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
-
-        setChanged();
-        notifyObservers(panelUI.getID());
-
-        if (flashing)
-            svp.visualTermination();
-
     }
 
     @Override

@@ -1,6 +1,5 @@
 #Fri Jun 27 02:49:54 CEST 2014
-version=0.5 Beta
+version=0.8
 delayms=100
 delayns=10
 nofelements=100
-language=none

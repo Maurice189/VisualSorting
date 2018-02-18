@@ -1,5 +1,5 @@
 <p align="center">
-  <img width="400" src="logo-plain.svg">
+  <img width="400" src="logo.svg">
 </p>
 
 # Description
@@ -15,22 +15,21 @@ during execution. In that case I would highly appreciate a bug report. Thanks in
 
 # Features
 
-
 ![visual-sorting-teaser.gif](visual-sorting-teaser.gif)
 
 * Visualize multiple sort algorithms **in parallel**.
-* Over **ten most common sort algorithms**, including Quicksort, Mergesort and Bubblesort.
+* Over **ten most common sort algorithms**, including Quick sort, Merge sort and Bubble sort.
 * Start/Pause feature and (manual) **single step execution**.
 * Adjustment of the **running speed**.
-* Free choosable **number of elements** to be sorted.
+* Arbitrary **number of elements** to be sorted.
 
 # Installing
 
-## Prerequirements
+## Prerequisites
 
 Make sure you have installed **Java 8.xx** installed on your machine.
 
-*Comming soon*
+*Coming soon*
 
 # License
 

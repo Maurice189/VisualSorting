@@ -9,22 +9,22 @@ public class BogoSort extends Sort {
         super();
     }
 
-    void bogo() {
+    void bogo() throws InterruptedException {
         while (!isSorted()) // we need to check the interrupt flag here
             shuffle();
     }
 
-    void shuffle() {
+    void shuffle() throws InterruptedException {
         int i = elements.length - 1;
         while (i > 0)
             swap(i--, (int) (Math.random() * i));
     }
 
-    void swap(int i, int j) {
+    void swap(int i, int j) throws InterruptedException {
         exchange(i, j);
     }
 
-    boolean isSorted() {
+    boolean isSorted() throws InterruptedException {
 
         for (int i = 1; i < elements.length; i++) {
             if (compare(i, i - 1) == -1) {
@@ -38,14 +38,18 @@ public class BogoSort extends Sort {
     @Override
     public void run() {
 
-        bogo();
+        try {
+            bogo();
+            setChanged();
 
-        setChanged();
-        notifyObservers(panelUI.getID());
+            notifyObservers(panelUI.getID());
 
-        if (flashing)
-            svp.visualTermination();
+            if (flashing)
+                svp.visualTermination();
 
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override

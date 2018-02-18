@@ -39,16 +39,20 @@ import main.Statics.SortAlgorithm;
 public class MergeSort extends Sort {
 
     public void run() {
-        sort(0, elements.length - 1);
+        try {
+            sort(0, elements.length - 1);
 
-        setChanged();
-        notifyObservers(panelUI.getID());
+            setChanged();
+            notifyObservers(panelUI.getID());
 
-        if (flashing) svp.visualTermination();
+            if (flashing) svp.visualTermination();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
 
-    public void sort(int l, int r) {
+    public void sort(int l, int r) throws InterruptedException {
         if (l < r) {
             manualInstructionIncrement();
             int q = (l + r) / 2;
@@ -59,7 +63,7 @@ public class MergeSort extends Sort {
         }
     }
 
-    private void merge(int l, int q, int r) {
+    private void merge(int l, int q, int r) throws InterruptedException {
         int[] arr = new int[elements.length];
         int i, j;
 

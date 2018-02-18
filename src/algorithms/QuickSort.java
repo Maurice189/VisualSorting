@@ -28,7 +28,7 @@ public class QuickSort extends Sort {
         this.pivotStrategy = pivotStrategy;
     }
 
-    private void sort(int x[], int left, int right) {
+    private void sort(int x[], int left, int right) throws InterruptedException {
         if (left < right) {
             int i = partition(elements, left, right);
             sort(x, left, i - 1);
@@ -40,7 +40,7 @@ public class QuickSort extends Sort {
     private int getPivotByRandom(int left, int right) {
         return left + (int)(Math.random() * (right - left));
     }
-    private int getPivotByMedianOfThree(int x[], int left, int right) {
+    private int getPivotByMedianOfThree(int x[], int left, int right) throws InterruptedException {
         int center = (left + right) / 2;
         int cmpLR = compare(left, right);
         int cmpRC = compare(right, center);
@@ -58,7 +58,7 @@ public class QuickSort extends Sort {
         return center;
     }
 
-    private int partition(int x[], int left, int right) {
+    private int partition(int x[], int left, int right) throws InterruptedException {
         int i, j;
 
         if (pivotStrategy == PivotStrategy.FIXED) {
@@ -89,12 +89,15 @@ public class QuickSort extends Sort {
 
     public void run() {
 
-        sort(elements, 0, elements.length - 1);
+        try {
+            sort(elements, 0, elements.length - 1);
+            setChanged();
+            notifyObservers(panelUI.getID());
 
-        setChanged();
-        notifyObservers(panelUI.getID());
-
-        if (flashing) svp.visualTermination();
+            if (flashing) svp.visualTermination();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override

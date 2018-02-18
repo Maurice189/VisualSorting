@@ -38,29 +38,32 @@ import main.Statics.SortAlgorithm;
 public class CombSort extends Sort {
 
     public void run() {
-        float shrink = 1.3f;
-        int i;
-        int gap = elements.length;
-        boolean swapped = false;
+        try {
+            float shrink = 1.3f;
+            int i;
+            int gap = elements.length;
+            boolean swapped = false;
 
-        while (gap > 1 || swapped) {
-            if (gap > 1) {
-                gap = (int) ((float) gap / shrink);
-            }
-            swapped = false;
-            for (i = 0; gap + i < elements.length; ++i) {
-                if (compare(i, i + gap) == 1) {
-                    exchange(i, i + gap);
-                    swapped = true;
+            while (gap > 1 || swapped) {
+                if (gap > 1) {
+                    gap = (int) ((float) gap / shrink);
+                }
+                swapped = false;
+                for (i = 0; gap + i < elements.length; ++i) {
+                    if (compare(i, i + gap) == 1) {
+                        exchange(i, i + gap);
+                        swapped = true;
+                    }
                 }
             }
+
+            setChanged();
+            notifyObservers(panelUI.getID());
+
+            if (flashing) svp.visualTermination();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
-
-        setChanged();
-        notifyObservers(panelUI.getID());
-
-        if (flashing) svp.visualTermination();
-
     }
 
     @Override

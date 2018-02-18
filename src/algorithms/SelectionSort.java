@@ -11,20 +11,25 @@ public class SelectionSort extends Sort {
 
     @Override
     public void run() {
-        for (int i = 0; i < elements.length - 1; i++) {
-            int indexMin = i;
-            for (int j = i + 1; j < elements.length; j++) {
-                if (compare(j, indexMin) == -1) {
-                    indexMin = j;
+        try {
+            for (int i = 0; i < elements.length - 1; i++) {
+                int indexMin = i;
+                for (int j = i + 1; j < elements.length; j++) {
+                    if (compare(j, indexMin) == -1) {
+                        indexMin = j;
+                    }
                 }
+                exchange(i, indexMin);
             }
-            exchange(i, indexMin);
+
+            setChanged();
+            notifyObservers(panelUI.getID());
+
+            if (flashing)
+                svp.visualTermination();
+
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
-
-        setChanged();
-        notifyObservers(panelUI.getID());
-
-        if (flashing)
-            svp.visualTermination();
     }
 }
