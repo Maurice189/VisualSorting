@@ -1,38 +1,27 @@
 package algorithms;
 
-// copied from http://rosettacode.org/wiki/Sorting_algorithms/Shell_sort#Java
-
-/**
- * Implementation of the respective sort algorithm.
- *
- * @author maurice
- * @version BETA
- * @category Sort
- */
-
-import main.SortVisualisationPanel;
-import main.Statics.SortAlgorithm;
+import main.OperationExecutor;
+import main.Consts.SortAlgorithm;
 
 public class ShellSort extends Sort {
 
-    public ShellSort() {
-        super();
+    public ShellSort(OperationExecutor operationExecutor) {
+        super(operationExecutor);
     }
 
     public void run() {
 
         try {
-            int increment = elements.length / 2;
+            int increment = operationExecutor.getNumberOfElements() / 2;
             while (increment > 0) {
-                for (int i = increment; i < elements.length; i++) {
+                for (int i = increment; i < operationExecutor.getNumberOfElements(); i++) {
                     int j = i;
-                    int temp = elements[i];
-                    while (j >= increment && elements[j - increment] > temp) {
-                        checkRunCondition();
-                        insertByIndex(j, j - increment);
+                    int temp = operationExecutor.getElementAtIndex(i);
+                    while (j >= increment && operationExecutor.compareByValue(j - increment, temp) == 1) {
+                        operationExecutor.insertByIndex(j, j - increment);
                         j = j - increment;
                     }
-                    insertByValue(j, temp);
+                    operationExecutor.insertByValue(j, temp);
                 }
                 if (increment == 2) {
                     increment = 1;
@@ -41,12 +30,7 @@ public class ShellSort extends Sort {
                 }
             }
 
-            setChanged();
-            notifyObservers(panelUI.getID());
-
-            if (flashing)
-                svp.visualTermination();
-
+            operationExecutor.terminate();
         } catch (InterruptedException e) {
             e.printStackTrace();
         }

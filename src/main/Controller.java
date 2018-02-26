@@ -26,269 +26,184 @@ import java.awt.event.ComponentListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.Observable;
-import java.util.Observer;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.TimeUnit;
+import java.util.concurrent.*;
 
 import algorithms.*;
 import dialogs.AboutDialog;
 import dialogs.DelayDialog;
 import dialogs.EnterDialog;
-import dialogs.InfoDialog;
-import dialogs.OptionDialog;
-import main.Statics.SortAlgorithm;
+import main.Consts.SortAlgorithm;
 
-public class Controller implements Observer, ComponentListener, ActionListener, WindowListener {
+
+public class Controller implements ComponentListener, ActionListener, WindowListener {
 
     private boolean pausedByUser = false;
 
     private enum State {RUNNING, PAUSED, RESET}
 
     private State state = State.RESET;
-    private ArrayList<Sort> sortList;
-    private LinkedList<OptionDialog> dialogs;
+    private ArrayList<OperationExecutor> operationExecutors;
 
     private Window window;
+    private BlockingQueue<Runnable> tasks;
     private ExecutorService executor;
-    private javax.swing.Timer appTimer;
-    private int leftMs, leftSec, threadsAlive;
+    private volatile int threadsAlive;
+    private Timer timer;
 
     public Controller() {
-
-        sortList = new ArrayList<>();
-        dialogs = new LinkedList<>();
-
+        tasks = new LinkedBlockingQueue<>();
+        operationExecutors = new ArrayList<>();
         executor = Executors.newCachedThreadPool();
-        createTimer();
-
+        timer = new Timer();
     }
-    /**
-     * @param window
-     */
+
     public void setView(Window window) {
         this.window = window;
         SortVisualisationPanel.setBackgroundColor(window.getBackground());
         window.addComponentListener(this);
-        window.updateNumberOfElements(Sort.getElements().length);
+        window.updateNumberOfElements(InternalConfig.getElements().length);
     }
 
-    /**
-     *
-     */
     public void reset() {
-        for (Sort temp : sortList) {
-            temp.deleteObservers();
-            temp.setTerminationAnimationEnabled(false);
-            temp.getPanelUI().enableRemoveButton(true);
-            temp.resume();
-        }
+        operationExecutors.forEach(OperationExecutor::reset);
 
         try {
             executor.shutdownNow();
             executor.awaitTermination(10000, TimeUnit.MILLISECONDS);
+
+            if (!executor.isTerminated()) {
+                System.err.println("Attempt to interrupt active threads failed (after 2000 ms timeout). Try again, please.");
+            }
+
+            timer.reset();
+            operationExecutors.forEach(OperationExecutor::initElements);
+            operationExecutors.forEach(v -> v.getSortVisualizationPanel().enableRemoveButton(true));
+
+            window.unlockAddSort(true);
+            threadsAlive = 0;
+            pausedByUser = false;
+            state = State.RESET;
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-
-        if (!executor.isTerminated()) {
-            System.err.println("Attempt to interrupt active threads failed (after 2000 ms timeout). Try again, please.");
-        }
-
-        for (Sort temp : sortList) {
-            temp.initElements();
-            temp.addObserver(this);
-        }
-
-        createTimer();
-
-        window.unlockAddSort(true);
-        threadsAlive = 0;
-        state = State.RESET;
-    }
-
-    /**
-     *
-     */
-    private void createTimer() {
-        leftMs = 0;
-        leftSec = 0;
-
-        appTimer = new javax.swing.Timer(10, e -> {
-            leftMs += 10;
-            if (leftMs == 1000) {
-                leftMs = 0;
-                leftSec++;
-            }
-            window.setClockParam(leftSec, leftMs);
-        });
-        if (window != null) window.setClockParam(0, 0);
     }
 
     public void actionPerformed(ActionEvent e) {
-        if (e.getActionCommand() == Statics.ADD_SORT) {
+        if (e.getActionCommand() == Consts.ADD_SORT) {
             Sort sort;
             SortAlgorithm selectedSort;
 
-            for (Sort temp : sortList) {
-                temp.initElements();
-                threadsAlive = 0;
-            }
-
+            operationExecutors.forEach(OperationExecutor::initElements);
+            threadsAlive = 0;
             selectedSort = window.getSelectedSort();
 
-            if (selectedSort.equals(SortAlgorithm.Heapsort))
-                sort = new HeapSort();
-            else if (selectedSort.equals(SortAlgorithm.Bubblesort))
-                sort = new BubbleSort();
-            else if (selectedSort.equals(SortAlgorithm.Quicksort_FIXED))
-                sort = new QuickSort(QuickSort.PivotStrategy.FIXED);
-            else if (selectedSort.equals(SortAlgorithm.Quicksort_RANDOM))
-                sort = new QuickSort(QuickSort.PivotStrategy.RANDOM);
-            else if (selectedSort.equals(SortAlgorithm.Quicksort_MO3))
-                sort = new QuickSort(QuickSort.PivotStrategy.MO3);
-            else if (selectedSort.equals(SortAlgorithm.Combsort))
-                sort = new CombSort();
-            else if (selectedSort.equals(SortAlgorithm.Selectionsort))
-                sort = new SelectionSort();
-            else if (selectedSort.equals(SortAlgorithm.Shakersort))
-                sort = new ShakerSort();
-            else if (selectedSort.equals(SortAlgorithm.Mergesort))
-                sort = new MergeSort();
-            else if (selectedSort.equals(SortAlgorithm.Shellsort))
-                sort = new ShellSort();
-            else if (selectedSort.equals(SortAlgorithm.Insertionsort))
-                sort = new InsertionSort();
-            else if (selectedSort.equals(SortAlgorithm.Bogosort))
-                sort = new BogoSort();
-            else if (selectedSort.equals(SortAlgorithm.Introsort))
-                sort = new IntroSort();
-            else
-                sort = new HeapSort();
+            SortVisualisationPanel temp = new SortVisualisationPanel(selectedSort, window.getWidth(), window.getHeight(),
+                    e1 -> {
+                        if (operationExecutors.size() > 0) {
+                            window.removeSortVisualizationPanel(((SortVisualisationPanel) e1.getSource()));
+                            resize();
+                        }
+                    });
 
-            sort.addObserver(this);
-            sortList.add(sort);
-            window.addNewSort(sort);
+            OperationExecutor operationExecutor = new OperationExecutor(this, temp);
+            operationExecutor.initElements(InternalConfig.getElements());
+            operationExecutor.setDelay(InternalConfig.getExecutionSpeedDelayMs(), InternalConfig.getExecutionSpeedDelayNs());
+
+            if (selectedSort.equals(SortAlgorithm.Heapsort))
+                sort = new HeapSort(operationExecutor);
+            else if (selectedSort.equals(SortAlgorithm.Bubblesort))
+                sort = new BubbleSort(operationExecutor);
+            else if (selectedSort.equals(SortAlgorithm.Quicksort_FIXED))
+                sort = new QuickSort(QuickSort.PivotStrategy.FIXED, operationExecutor);
+            else if (selectedSort.equals(SortAlgorithm.Quicksort_RANDOM))
+                sort = new QuickSort(QuickSort.PivotStrategy.RANDOM, operationExecutor);
+            else if (selectedSort.equals(SortAlgorithm.Quicksort_MO3))
+                sort = new QuickSort(QuickSort.PivotStrategy.MO3, operationExecutor);
+            else if (selectedSort.equals(SortAlgorithm.Combsort))
+                sort = new CombSort(operationExecutor);
+            else if (selectedSort.equals(SortAlgorithm.Selectionsort))
+                sort = new SelectionSort(operationExecutor);
+            else if (selectedSort.equals(SortAlgorithm.Shakersort))
+                sort = new ShakerSort(operationExecutor);
+            else if (selectedSort.equals(SortAlgorithm.Mergesort))
+                sort = new MergeSort(operationExecutor);
+            else if (selectedSort.equals(SortAlgorithm.Shellsort))
+                sort = new ShellSort(operationExecutor);
+            else if (selectedSort.equals(SortAlgorithm.Insertionsort))
+                sort = new InsertionSort(operationExecutor);
+            else if (selectedSort.equals(SortAlgorithm.Bogosort))
+                sort = new BogoSort(operationExecutor);
+            else if (selectedSort.equals(SortAlgorithm.Introsort))
+                sort = new IntroSort(operationExecutor);
+            else
+                sort = new HeapSort(operationExecutor);
+
+            operationExecutors.add(operationExecutor);
+            tasks.add(sort);
+            window.addSortVisualizationPanel(temp);
             resize();
 
-        } else if (e.getActionCommand() == Statics.START) {
+        } else if (e.getActionCommand() == Consts.START) {
             if (state == State.RUNNING) {
-                sortList.forEach(Sort::pause);
+                operationExecutors.forEach(OperationExecutor::pause);
                 window.unlockManualIteration(true);
-                appTimer.stop();
+                timer.stop();
                 pausedByUser = true;
                 state = State.PAUSED;
             } else if (state == State.PAUSED) {
-                sortList.forEach(Sort::resume);
+                window.unlockManualIteration(false);
+                operationExecutors.forEach(OperationExecutor::resume);
                 state = State.RUNNING;
-                appTimer.start();
+                timer.start();
                 pausedByUser = false;
             } else if (state == State.RESET) {
                 if (executor.isTerminated()) {
                     executor = Executors.newCachedThreadPool();
                 }
-                for (Sort temp : sortList) {
-                    temp.initElements();
-                    temp.setTerminationAnimationEnabled(true);
-                    temp.getPanelUI().enableRemoveButton(false);
-                    executor.execute(temp);
-                    threadsAlive++;
-                }
+                operationExecutors.forEach(OperationExecutor::initElements);
+                tasks.forEach(executor::execute);
 
+                threadsAlive = tasks.size();
+
+                operationExecutors.forEach(v -> v.getSortVisualizationPanel().enableRemoveButton(false));
                 window.unlockManualIteration(false);
                 window.unlockAddSort(false);
 
-                createTimer();
-                appTimer.start();
+                timer.reset();
+                timer.start();
                 state = State.RUNNING;
             }
             window.toggleStartStop();
-        } else if (e.getActionCommand() == Statics.RESET) {
+        } else if (e.getActionCommand() == Consts.RESET) {
             reset();
-        } else if (e.getActionCommand() == Statics.AUTO_PAUSE) {
+        } else if (e.getActionCommand() == Consts.AUTO_PAUSE) {
             InternalConfig.toggleAutoPause();
-        } else if (e.getActionCommand() == Statics.NEW_ELEMENTS) {
-            dialogs.add(EnterDialog.getInstance(this, 500, 300));
-        } else if (e.getActionCommand() == Statics.ABOUT) {
-            dialogs.add(AboutDialog.getInstance(400, 470));
-        } else if (e.getActionCommand() == Statics.INFO) {
-
-            SortAlgorithm selAlgorithm = sortList.get(
-                    PanelUI.getReleasedID()).getAlgorithmName();
-
-            dialogs.add(new InfoDialog(selAlgorithm, selAlgorithm
-                    .toString(), 600, 370));
-        }
-        // just execute one more step
-        else if (e.getActionCommand() == Statics.NEXT_ITERATION) {
-            sortList.forEach(Sort::executeNextStep);
-        }
-        /**
-         * It is quite inconvenient to figure out which
-         * panel was removed. It's even not a good idea, to create
-         * for each new panel a new handler. So all remove requests (fired events)
-         * are redirected to this handler.
-         */
-        else if (e.getActionCommand() == Statics.REMOVE_SORT) {
-            if (sortList.size() > 0) {
-
-                int selPanel = PanelUI.getReleasedID();
-                window.removeSort(selPanel);
-                sortList.remove(selPanel);
-
-                for (Sort temp : sortList) {
-                    temp.getPanelUI().updateID();
-                }
-                PanelUI.updateCounter();
-                resize();
-            }
-        } else if (e.getActionCommand() == Statics.DELAY) {
-            dialogs.add(DelayDialog.getInstance(320, 150));
-        } else if (e.getActionCommand() == Statics.ELEMENTS_SET) {
-
-            window.updateNumberOfElements(Sort.getElements().length);
-            for (Sort temp : sortList) {
-                temp.getSortVisualisationPanel().updateBarSize();
-            }
-            reset();
+        } else if (e.getActionCommand() == Consts.NEW_ELEMENTS) {
+            EnterDialog.getInstance(this, 500, 300);
+        } else if (e.getActionCommand() == Consts.ABOUT) {
+            AboutDialog.getInstance(400, 470);
+        } else if (e.getActionCommand() == Consts.NEXT_ITERATION) {
+            operationExecutors.forEach(OperationExecutor::executeNextStep);
+        } else if (e.getActionCommand() == Consts.DELAY) {
+            DelayDialog.getInstance(this, 320, 150);
         }
     }
 
 
-    /*
-     * Called when a algorithm terminates
-     * (Oberserver)
-     */
-    @Override
-    public void update(Observable o, Object arg) {
+    public void terminationSignal(OperationExecutor operationExecutor) {
 
-        /*
-         * When all proccess has been terminated,
-         * then the gui has to be updated (enable buttons etc.).
-         *
-         * Hence we're using swing (no sync. , no concurrent operations),
-         * we need to invoke the gui update later,
-         * instead of using the calling thread.
-         */
         if (--threadsAlive == 0) {
             EventQueue.invokeLater(() -> {
                 window.toggleStartStop();
                 window.unlockAddSort(true);
                 window.unlockManualIteration(true);
             });
-            appTimer.stop();
-
-            for (Sort temp : sortList) {
-                temp.getPanelUI().enableRemoveButton(true);
-            }
-
+            timer.stop();
+            operationExecutors.forEach(v -> v.getSortVisualizationPanel().enableRemoveButton(true));
             state = State.RESET;
         }
-
-
-        sortList.get((int) arg).getPanelUI().setDuration(leftSec, leftMs);
+        operationExecutor.getSortVisualizationPanel().setDuration(timer.getLeftSec(), timer.getLeftMs());
+        System.out.println("Termination signal : " + threadsAlive);
     }
 
     @Override
@@ -297,11 +212,7 @@ public class Controller implements Observer, ComponentListener, ActionListener, 
 
     @Override
     public void windowClosing(WindowEvent e) {
-        appTimer.stop();
-
-        for (OptionDialog temp : dialogs) {
-            temp.dispose();
-        }
+        timer.stop();
         InternalConfig.saveChanges();
     }
 
@@ -310,10 +221,8 @@ public class Controller implements Observer, ComponentListener, ActionListener, 
 
         if (InternalConfig.isAutoPauseEnabled() && !pausedByUser && state == State.PAUSED) {
             if (threadsAlive != 0) {
-                appTimer.start();
-                for (Sort temp : sortList) {
-                    temp.resume();
-                }
+                timer.start();
+                operationExecutors.forEach(OperationExecutor::resume);
             }
             state = State.RUNNING;
             window.appReleased();
@@ -324,13 +233,25 @@ public class Controller implements Observer, ComponentListener, ActionListener, 
     public void windowDeactivated(WindowEvent e) {
 
         if (InternalConfig.isAutoPauseEnabled() && state == State.RUNNING) {
-            sortList.forEach(sort -> sort.pause());
             if (threadsAlive != 0) {
+                operationExecutors.forEach(OperationExecutor::pause);
                 window.appStopped();
-                appTimer.stop();
+                timer.stop();
+                state = State.PAUSED;
             }
-            state = State.PAUSED;
         }
+    }
+
+    public void executionSpeedChanged(int delayMs, int delayNs) {
+        InternalConfig.setExecutionSpeedParameters(delayMs, delayNs);
+        operationExecutors.forEach(v -> v.setDelay(delayMs, delayNs));
+    }
+
+    public void elementsChanged(int[] elements) {
+        InternalConfig.setElements(elements);
+        window.updateNumberOfElements(elements.length);
+        operationExecutors.forEach(v -> v.initElements(elements));
+        reset();
     }
 
 
@@ -346,15 +267,8 @@ public class Controller implements Observer, ComponentListener, ActionListener, 
     public void windowDeiconified(WindowEvent e) {
     }
 
-    /**
-     *
-     */
     private void resize() {
-        if (!sortList.isEmpty()) {
-            for (Sort tmp : sortList) {
-                tmp.getSortVisualisationPanel().updateSize();
-            }
-        }
+        window.updateSize();
     }
 
     @Override
@@ -372,5 +286,48 @@ public class Controller implements Observer, ComponentListener, ActionListener, 
 
     @Override
     public void componentHidden(ComponentEvent e) {
+    }
+
+
+    private class Timer {
+
+        private int leftMs, leftSec;
+        private javax.swing.Timer appTimer;
+
+        public Timer() {
+            leftMs = 0;
+            leftSec = 0;
+
+            appTimer = new javax.swing.Timer(10, e -> {
+                leftMs += 10;
+                if (leftMs == 1000) {
+                    leftMs = 0;
+                    leftSec++;
+                }
+                window.setClockParam(leftSec, leftMs);
+            });
+            if (window != null) window.setClockParam(0, 0);
+        }
+
+        public int getLeftMs() {
+            return leftMs;
+        }
+
+        public int getLeftSec() {
+            return leftSec;
+        }
+
+        public void reset() {
+            leftMs = 0;
+            leftSec = 0;
+        }
+
+        public void start() {
+            appTimer.start();
+        }
+
+        public void stop() {
+            appTimer.stop();
+        }
     }
 }

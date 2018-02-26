@@ -23,6 +23,7 @@ public class PlayPauseToggle extends JButton {
         playIcon = IconLoader.getIcon(iconResourcePath);
         playRolloverIcon = new RolloverIcon(playIcon);
     }
+
     public void setPauseIcon(String iconResourcePath) {
         pauseIcon = IconLoader.getIcon(iconResourcePath);
         pauseRolloverIcon = new RolloverIcon(pauseIcon);
@@ -31,7 +32,7 @@ public class PlayPauseToggle extends JButton {
     public void setState(State newState) {
         this.state = newState;
 
-        if(state == State.PLAY) {
+        if (state == State.PLAY) {
             this.setIcon(playIcon);
             this.setRolloverIcon(playRolloverIcon);
         } else {
@@ -41,7 +42,7 @@ public class PlayPauseToggle extends JButton {
     }
 
     public void toggle() {
-        if(state == State.PLAY) {
+        if (state == State.PLAY) {
             this.setIcon(pauseIcon);
             this.setRolloverIcon(pauseRolloverIcon);
             state = State.PAUSE;

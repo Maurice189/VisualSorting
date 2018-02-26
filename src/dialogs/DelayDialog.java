@@ -20,6 +20,7 @@ package dialogs;
 
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
@@ -33,151 +34,138 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import algorithms.Sort;
+import main.Controller;
+import main.InternalConfig;
 import main.Window;
 
 
-public final class DelayDialog extends OptionDialog{
-	
-	private static DelayDialog instance;
-	private JLabel delay;
-	private JSlider slider;
-	private JRadioButton ms,ns;
-	private boolean active = true;
-	
-	private DelayDialog(int width, int height) {
-		super("delay", width, height);
-		
-	}
-	
-	/**
-	 * {@inheritDoc} overriden method
-	 * @Override
-	 */
-	protected void initComponents() {
-		
-		delay = new JLabel();
-		slider = new JSlider(0, 300, 50);
-		ms = new JRadioButton("ms");
-		ms.addActionListener(this);
-	    ns = new JRadioButton("ns");
-	    ns.addActionListener(this);
-	
-		 
-		JPanel panel2 = new JPanel(new FlowLayout(FlowLayout.CENTER));
-		JPanel panel3 = new JPanel();
-		panel3.setLayout(new BoxLayout(panel3, BoxLayout.X_AXIS));
+public final class DelayDialog extends OptionDialog implements ActionListener {
 
-		panel2.add(ms);
-		panel2.add(ns);
+    private static DelayDialog instance;
+    private final Controller controller;
+    private JLabel delay;
+    private JSlider slider;
+    private JRadioButton ms, ns;
+    private boolean active = true;
 
-		slider.setValue((int) Sort.getDelayMs());
-		delay.setText((String.valueOf((int) Sort.getDelayMs())).concat(" ms : ")
-				.concat(String.valueOf((int) Sort.getDelayNs())).concat(" ns"));
-		ms.setSelected(true);
+    private int delayMs = 0, delayNs = 0;
 
-		panel3.add(Box.createHorizontalGlue());
-		panel3.add(delay);
-		panel3.add(Box.createHorizontalGlue());
-		panel3.setBorder(BorderFactory.createEtchedBorder(EtchedBorder.LOWERED));
+    private DelayDialog(Controller controller, int width, int height) {
+        super( "delay", width, height, false);
+        this.controller = controller;
+    }
 
-		setLayout(new BoxLayout(getContentPane(),
-				BoxLayout.Y_AXIS));
-	
-		
-		slider.setPaintTicks(true);
-		slider.setMajorTickSpacing(10);
-		slider.addChangeListener(new ChangeListener() {
+    /**
+     * {@inheritDoc} overriden method
+     *
+     * @Override
+     */
+    protected void initComponents() {
 
-			public void stateChanged(ChangeEvent e) {
-
-				if (active) {
-					if (ms.isSelected()) {
-
-						delay.setText((String
-								.valueOf(slider.getValue())
-								.concat(" ms : ")
-								.concat(String.valueOf((int) Sort.getDelayNs()))
-								.concat(" ns")));
-						Sort.setDelayMs(slider.getValue());
-
-					} else {
-
-						delay.setText(String
-								.valueOf((int) Sort.getDelayMs())
-								.concat(" ms : ")
-								.concat(String.valueOf(slider.getValue())
-										.concat(" ns")));
-						Sort.setDelayNs(slider.getValue());
-					}
-				}
-
-			}
-
-		});
-	
-
-		add(panel3);
-		add(Box.createVerticalStrut(4));
-		add(panel2);
-		add(Box.createVerticalStrut(8));
-		add(slider);
-		add(Box.createVerticalStrut(25));
-		
-		setResizable(false);
-		
-	}
-	
-	
-	
-	@Override
-	public void actionPerformed(ActionEvent e) {
-		// TODO Auto-generated method stub
-		
-		if(e.getSource() == ns){
-			
-			active = false;
-			ms.setSelected(false);
-			slider.setMajorTickSpacing(10);
-			slider.setMaximum(999);
-			slider.setMinimum(0);
-			slider.setValue((int) Sort.getDelayNs());
-			active = true;
-
-			
-		}
-		
-		else if(e.getSource() == ms){
-
-			active = false;
-			ns.setSelected(false);
-			slider.setMajorTickSpacing(5);
-			slider.setMaximum(300);
-			slider.setMinimum(0);
-			slider.setValue((int) Sort.getDelayMs());
-			active = true;
-			
-		
-		}
-		
-		
-	}
-
-	/**
-	 * 
-	 * @param width width of the frame
-	 * @param height height of the frame
-	 * @return an instance of EnterDialog, if the wasn't requested before,
-	 * it will be created. For more info see 'Singleton' (Design Pattern) 
-	 * @category Singelton (Design Pattern)
-	 */
-	public static DelayDialog getInstance(int width, int height){
-		
-		if(instance == null) instance = new DelayDialog(width,height);
-		
-		instance.setVisible(true);
-		return instance;
-	}
+        delay = new JLabel();
+        slider = new JSlider(0, 300, 50);
+        ms = new JRadioButton("ms");
+        ms.addActionListener(this);
+        ns = new JRadioButton("ns");
+        ns.addActionListener(this);
 
 
-	
+        JPanel panel2 = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        JPanel panel3 = new JPanel();
+        panel3.setLayout(new BoxLayout(panel3, BoxLayout.X_AXIS));
+
+        panel2.add(ms);
+        panel2.add(ns);
+
+        slider.setValue(InternalConfig.getExecutionSpeedDelayMs());
+        delay.setText((String.valueOf(InternalConfig.getExecutionSpeedDelayMs())).concat(" ms : ")
+                .concat(String.valueOf(InternalConfig.getExecutionSpeedDelayNs())).concat(" ns"));
+        ms.setSelected(true);
+
+        panel3.add(Box.createHorizontalGlue());
+        panel3.add(delay);
+        panel3.add(Box.createHorizontalGlue());
+        panel3.setBorder(BorderFactory.createEtchedBorder(EtchedBorder.LOWERED));
+
+        setLayout(new BoxLayout(getContentPane(),
+                BoxLayout.Y_AXIS));
+
+        slider.setPaintTicks(true);
+        slider.setMajorTickSpacing(10);
+        slider.addChangeListener(e -> {
+
+            if (active) {
+                if (ms.isSelected()) {
+                    delayMs = slider.getValue();
+                } else {
+                    delayNs = slider.getValue();
+                }
+                delay.setText((String
+                        .valueOf(delayMs)
+                        .concat(" ms : ")
+                        .concat(String.valueOf(delayNs))
+                        .concat(" ns")));
+                controller.executionSpeedChanged(delayMs, delayNs);
+            }
+
+        });
+
+
+        add(panel3);
+        add(Box.createVerticalStrut(4));
+        add(panel2);
+        add(Box.createVerticalStrut(8));
+        add(slider);
+        add(Box.createVerticalStrut(25));
+
+        setResizable(false);
+
+    }
+
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        // TODO Auto-generated method stub
+
+        if (e.getSource() == ns) {
+
+            active = false;
+            ms.setSelected(false);
+            slider.setMajorTickSpacing(10);
+            slider.setMaximum(999);
+            slider.setMinimum(0);
+            slider.setValue(delayNs);
+            active = true;
+
+
+        } else if (e.getSource() == ms) {
+
+            active = false;
+            ns.setSelected(false);
+            slider.setMajorTickSpacing(5);
+            slider.setMaximum(300);
+            slider.setMinimum(0);
+            slider.setValue(delayMs);
+            active = true;
+
+
+        }
+
+
+    }
+
+    /**
+     * @param width  width of the frame
+     * @param height height of the frame
+     * @return an instance of EnterDialog, if the wasn't requested before,
+     * it will be created. For more info see 'Singleton' (Design Pattern)
+     * @category Singelton (Design Pattern)
+     */
+    public static DelayDialog getInstance(Controller controller, int width, int height) {
+
+        if (instance == null) instance = new DelayDialog(controller, width, height);
+
+        instance.setVisible(true);
+        return instance;
+    }
 }

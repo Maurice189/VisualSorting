@@ -2,89 +2,96 @@ package algorithms;
 
 // copied from http://www.cs.waikato.ac.nz/~bernhard/317/source/IntroSort.java
 
-/**
- * Implementation of the respective sort algorithm.
- *
- * @author maurice
- * @version BETA
- * @category Sort
- */
+import main.OperationExecutor;
+import main.Consts.SortAlgorithm;
 
-import main.Statics.SortAlgorithm;
+
+//TODO : ADD VISUAL PIVOT
 
 public class IntroSort extends Sort {
+    public IntroSort(OperationExecutor operationExecutor) {
+        super(operationExecutor);
+    }
+
+    @Override
+    public SortAlgorithm getAlgorithmName() {
+        return null;
+    }
+
+    @Override
+    public void run() {
+
+    }
     /*
-     * Class Variables
-     */
+
     private int size_threshold = 16;
     private int pivotIndex;
 
-    /*
-     * Public interface
-     */
-    public void sort() throws InterruptedException {
-        introsort_loop(elements, 0, elements.length, 2 * floor_lg(elements.length));
+
+    public IntroSort(OperationExecutor operationExecutor) {
+        super(operationExecutor);
     }
 
-    public void sort(int[] a, int begin, int end) throws InterruptedException {
+    public void sort() throws InterruptedException {
+        introsort_loop(0, elements.length, 2 * floor_lg(elements.length));
+    }
+
+    public void sort(int begin, int end) throws InterruptedException {
         if (begin < end) {
-            introsort_loop(a, begin, end, 2 * floor_lg(end - begin));
+            introsort_loop(begin, end, 2 * floor_lg(end - begin));
         }
     }
 
-    /*
-     * Quicksort algorithm modified for Introsort
-     */
-    private void introsort_loop(int[] a, int lo, int hi, int depth_limit) throws InterruptedException {
+
+    private void introsort_loop(int lo, int hi, int depth_limit) throws InterruptedException {
+
         while (hi - lo > size_threshold) {
             if (depth_limit == 0) {
-                heapsort(a, lo, hi);
+                heapsort(lo, hi);
                 return;
             }
             depth_limit = depth_limit - 1;
-            pivotIndex = medianof3(a, lo, lo + ((hi - lo) / 2) + 1, hi - 1);
+            pivotIndex = medianof3(lo, lo + ((hi - lo) / 2) + 1, hi - 1);
 
 
-            int p = partition(a, lo, hi, a[pivotIndex]);
+            int p = partition(lo, hi, pivotIndex);
             introsort_loop(a, p, hi, depth_limit);
             hi = p;
         }
-        insertionsort(a, lo, hi);
+        insertionsort(lo, hi);
+
     }
 
-    private int partition(int[] a, int lo, int hi, int x) throws InterruptedException {
+    private int partition(int lo, int hi, int x) throws InterruptedException {
         int i = lo, j = hi;
         while (true) {
-            while (a[i] < x) {
-                svp.visualCmp(i, pivotIndex, false);
+            while (operationExecutor.compare(i, x) == -1) {
                 i++;
             }
             j = j - 1;
-            while (x < a[j]) {
-                svp.visualCmp(j, pivotIndex, false);
+            while (operationExecutor.compare(x, j) == -1) {
                 j = j - 1;
             }
             if (!(i < j))
                 return i;
-            exchange(a, i, j);
-            svp.visualPivot(pivotIndex);
+            operationExecutor.exchange(i, j);
             i++;
         }
     }
 
-    private int medianof3(int[] a, int lo, int mid, int hi) {
-        if (a[mid] < a[lo]) {
-            if (a[hi] < a[mid])
+    private int medianof3(int lo, int mid, int hi) throws InterruptedException {
+        if (operationExecutor.compare(mid, lo) == -1) {
+            if (operationExecutor.compare(hi, mid) == -1)
                 return mid;
             else {
-                if (a[hi] < a[lo])
+                if (operationExecutor.compare(hi, lo) == -1)
                     return hi;
                 else
                     return lo;
             }
         } else {
-            if (a[hi] < a[mid]) {
-                if (a[hi] < a[lo])
+            if (operationExecutor.compare(hi, mid) == -1) {
+                if (operationExecutor.compare(hi, lo) == -1)
                     return lo;
                 else
                     return hi;
@@ -93,53 +100,48 @@ public class IntroSort extends Sort {
         }
     }
 
-    /*
-     * Heapsort algorithm
-     */
-    private void heapsort(int[] a, int lo, int hi) throws InterruptedException {
+    private void heapsort(int lo, int hi) throws InterruptedException {
         int n = hi - lo;
         for (int i = n / 2; i >= 1; i = i - 1) {
-            downheap(a, i, n, lo);
+            downheap(i, n, lo);
         }
         for (int i = n; i > 1; i = i - 1) {
-            exchange(a, lo, lo + i - 1);
-            downheap(a, 1, i - 1, lo);
+            operationExecutor.exchange(lo, lo + i - 1);
+            downheap(1, i - 1, lo);
         }
     }
 
-    private void downheap(int[] a, int i, int n, int lo) throws InterruptedException {
+    private void downheap(int i, int n, int lo) throws InterruptedException {
+
         int d = a[lo + i - 1];
         int child;
 
         while (i <= n / 2) {
             child = 2 * i;
-            if (child < n && a[lo + child - 1] < a[lo + child]) {
+
+            if (child < n && operationExecutor.compare(lo + child - 1, lo + child) == -1) {
                 child++;
             }
-            if (d >= a[lo + child - 1]) break;
+
+            if (operationExecutor.compare(lo + i - 1, lo + child - 1) != -1) break;
 
 
-            svp.visualInsert(lo + i - 1, a[lo + child - 1]);
-            panelUI.setInfo(accesses++, comparisons++);
-            checkRunCondition();
-
-            a[lo + i - 1] = a[lo + child - 1];
+            operationExecutor.insertByIndex(lo + i - 1,lo + child - 1);
             i = child;
-
         }
 
+        operationExecutor.insertByIndex(lo + i - 1,lo + i - 1);
         svp.visualInsert(lo + i - 1, d);
         panelUI.setInfo(accesses++, comparisons++);
         checkRunCondition();
         a[lo + i - 1] = d;
+
     }
 
-    /*
-     * Insertion sort algorithm
-     */
-    private void insertionsort(int[] a, int lo, int hi) throws InterruptedException {
+    private void insertionsort(int lo, int hi) throws InterruptedException {
         int i, j;
         int t;
+
 
         for (i = lo; i < hi; i++) {
             j = i;
@@ -160,16 +162,13 @@ public class IntroSort extends Sort {
         }
     }
 
-    /*
-     * Common methods for all algorithms
-     */
+
     private void mexchange(int[] a, int i, int j) throws InterruptedException {
         int t = a[i];
         a[i] = a[j];
         a[j] = t;
 
         svp.visualCmp(i, j, true);
-        panelUI.setInfo(accesses, comparisons++);
         accesses += 3;
         checkRunCondition();
 
@@ -187,11 +186,7 @@ public class IntroSort extends Sort {
             e.printStackTrace();
         }
 
-        setChanged();
-        notifyObservers(panelUI.getID());
-
-        if (flashing)
-            svp.visualTermination();
+        operationExecutor.terminate();
 
     }
 
@@ -199,6 +194,8 @@ public class IntroSort extends Sort {
     public SortAlgorithm getAlgorithmName() {
         return SortAlgorithm.Introsort;
     }
+
+    */
 
 
 }

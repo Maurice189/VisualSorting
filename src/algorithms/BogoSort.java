@@ -1,12 +1,12 @@
 package algorithms;
 
-import main.SortVisualisationPanel;
-import main.Statics.SortAlgorithm;
+import main.OperationExecutor;
+import main.Consts.SortAlgorithm;
 
 public class BogoSort extends Sort {
 
-    public BogoSort() {
-        super();
+    public BogoSort(OperationExecutor operationExecutor) {
+        super(operationExecutor);
     }
 
     void bogo() throws InterruptedException {
@@ -15,19 +15,19 @@ public class BogoSort extends Sort {
     }
 
     void shuffle() throws InterruptedException {
-        int i = elements.length - 1;
+        int i = operationExecutor.getNumberOfElements() - 1;
         while (i > 0)
             swap(i--, (int) (Math.random() * i));
     }
 
     void swap(int i, int j) throws InterruptedException {
-        exchange(i, j);
+        operationExecutor.exchange(i, j);
     }
 
     boolean isSorted() throws InterruptedException {
 
-        for (int i = 1; i < elements.length; i++) {
-            if (compare(i, i - 1) == -1) {
+        for (int i = 1; i < operationExecutor.getNumberOfElements(); i++) {
+            if (operationExecutor.compare(i, i - 1) == -1) {
                 return false;
             }
         }
@@ -40,12 +40,7 @@ public class BogoSort extends Sort {
 
         try {
             bogo();
-            setChanged();
-
-            notifyObservers(panelUI.getID());
-
-            if (flashing)
-                svp.visualTermination();
+            operationExecutor.terminate();
 
         } catch (InterruptedException e) {
             e.printStackTrace();

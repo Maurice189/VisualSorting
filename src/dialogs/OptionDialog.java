@@ -18,54 +18,60 @@ package dialogs;
  * THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-import java.awt.event.ActionListener;
+import main.Consts;
 
-import javax.swing.ImageIcon;
-import javax.swing.JDialog;
+import java.awt.*;
+
+import javax.swing.*;
 
 
-public abstract class OptionDialog extends JDialog implements ActionListener{
+public abstract class OptionDialog extends JDialog {
 
-	
-	private static final long serialVersionUID = 1L;
-	protected String title;
 
-	/**
-	 * 
-	 * the default frame icon is set to every dialog
-	 * 
-	 * @param width width of the dialog
-	 * @param height width of the dialog
-	 */
-	public OptionDialog(String title,int width, int height) {
-		
-		this.title = title;
-		initComponents();
-		setSize(width, height);
-		setTitle(title);
-		setLocationRelativeTo(null);
-		
-		java.net.URL helpURL = OptionDialog.class.getClassLoader().getResource(
-				"resources/frameIcon2.png");
-		if (helpURL != null) {
-			setIconImage(new ImageIcon(helpURL).getImage());
-		}
-		setVisible(true);
-	}
-	
-	public OptionDialog(){
-		setLocationRelativeTo(null);
-		java.net.URL helpURL = OptionDialog.class.getClassLoader().getResource(
-				"resources/frameIcon2.png");
-		if (helpURL != null) {
-			setIconImage(new ImageIcon(helpURL).getImage());
-		}
-	}
+    private static final long serialVersionUID = 1L;
+    protected String title;
 
-	/**
-	 * Declare and init the components should be displayed
-	 */
-	protected abstract void initComponents();
-		
+    /**
+     * the default frame icon is set to every dialog
+     *
+     * @param width  width of the dialog
+     * @param height width of the dialog
+     */
+    public OptionDialog(String title, int width, int height, boolean enableLoadingAnimation) {
+        this.title = title;
+
+        final JLabel loadGif = new JLabel(new ImageIcon(
+                Consts.class.getResource("/resources/icons/loading.gif")),
+                JLabel.CENTER);
+
+        setTitle(title);
+        setSize(width, height);
+        setLocationRelativeTo(null);
+        setLayout(new BorderLayout());
+
+        if (enableLoadingAnimation) {
+            add(loadGif);
+            setVisible(true);
+            new Thread(() -> {
+                initComponents();
+                remove(loadGif);
+                EventQueue.invokeLater(() -> setVisible(true));
+
+            }).start();
+        } else {
+            initComponents();
+        }
+
+
+
+
+
+    }
+
+    /**
+     * Declare and init the components should be displayed
+     */
+    protected abstract void initComponents();
+
 
 }

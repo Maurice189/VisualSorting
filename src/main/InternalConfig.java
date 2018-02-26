@@ -29,168 +29,135 @@ import algorithms.Sort;
 
 public class InternalConfig {
 
-	private static String PROPORTIES_NAME = System.getProperty("user.home")+"/config.txt";
-	private static Properties prop;
-	
-	private static String version; // prg version, language set
-	private static boolean autoPauseOn;
+    private static String PROPORTIES_NAME = System.getProperty("user.home") + "/config.txt";
+    private static Properties prop;
+
+    private static String version;
+    private static boolean autoPauseOn;
+    private static int[] elements;
+    private static int delayNs;
+    private static int delayMs;
 
 
-	/**
-	 * 
-	 * @param configPath
-	 */
-	public static void setConfigFileDirectory(String configPath){
-		PROPORTIES_NAME = configPath+"config.txt";
-	}
-	
-	/**
-	 * 
-	 */
-	public static void searchAvailableLanguages(){
-	    
-	    /*
-	     * TODO: figure out which languages.xml files exist
-	     */
-	    
-	}
-	
-	
-	public static void loadConfigFile() {
+    public static void setConfigFileDirectory(String configPath) {
+        PROPORTIES_NAME = configPath + "config.txt";
+    }
 
-		FileReader reader = null;
+    public static void loadConfigFile() {
 
-		try {
-			reader = new FileReader(PROPORTIES_NAME);
-		} catch (FileNotFoundException e1) {
-		
+        FileReader reader = null;
 
-			System.out.println("Info: config file does not exist\n --> create config file with default parameters");
-			FileWriter writer;
-			Properties prConfig = new Properties(System.getProperties());
-			
-			
-			try {
-				writer = new FileWriter(PROPORTIES_NAME);
-				prConfig.setProperty("version", "0.5 Beta");
-				prConfig.setProperty("delayms", "100");
-				prConfig.setProperty("delayns", "10");
-				prConfig.setProperty("nofelements", "128");
-				prConfig.setProperty("auto_pause", "true");
-				prConfig.store(writer, null);
-				writer.close();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
+        try {
+            reader = new FileReader(PROPORTIES_NAME);
+        } catch (FileNotFoundException e1) {
 
-		}
+            System.out.println("Info: config file does not exist\n --> create config file with default parameters");
+            FileWriter writer;
+            Properties prConfig = new Properties(System.getProperties());
 
-		try {
-			reader = new FileReader(PROPORTIES_NAME);
-			prop = new Properties();
-			prop.load(reader);
-			reader.close();
-			setValues();
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	
+            try {
+                writer = new FileWriter(PROPORTIES_NAME);
+                prConfig.setProperty("version", "0.5 Beta");
+                prConfig.setProperty("delayms", "100");
+                prConfig.setProperty("delayns", "10");
+                prConfig.setProperty("nofelements", "128");
+                prConfig.setProperty("auto_pause", "true");
+                prConfig.store(writer, null);
+                writer.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
 
-	}
-	
-	/**
-	 * set configuration parameters
-	 */
-	private static void setValues(){
+        try {
+            reader = new FileReader(PROPORTIES_NAME);
+            prop = new Properties();
+            prop.load(reader);
+            reader.close();
+            setValues();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
-		version = getValue("version");
-		int nofelements = Integer.parseInt(getValue("nofelements"));
-		autoPauseOn = Boolean.parseBoolean(getValue("auto_pause"));
-		Sort.setDelayMs(Long.parseLong(getValue("delayms")));
-		Sort.setDelayNs(Integer.parseInt(getValue("delayns")));
-		
-		int[] elements = new int[nofelements];
-		for (int i = 0; i < nofelements; i++)
-			elements[i] = MathFunc.getRandomNumber(0, nofelements / 3);
+    public static int getRandomNumber(int low, int high) {
+        return (int) (Math.random() * (high - low) + low);
+    }
 
-		Sort.setElements(elements);
+    public static void setElements(int[] elements) {
+        InternalConfig.elements = elements;
+    }
 
-	}
+    public static int[] getElements() {
+        return elements;
+    }
 
-	/**
-	 * 
-	 * @param key config setting
-	 * @param value value
-	 */
-	private static void setValue(String key, Object value) {
-		prop.setProperty(key, String.valueOf(value));
-	}
+    public static int getExecutionSpeedDelayMs() {
+        return delayMs;
+    }
 
-	/**
-	 * 
-	 * @param key 
-	 * @return the specific value, that was requested
-	 */
-	private static String getValue(String key) {
+    public static int getExecutionSpeedDelayNs() {
+        return delayNs;
+    }
 
-		return prop.getProperty(key);
+    public static void setExecutionSpeedParameters(int delayMs, int delayNs) {
+        InternalConfig.delayMs = delayMs;
+        InternalConfig.delayNs = delayNs;
+    }
 
-	}
-	
-	/**
-	 * the changes are saved in the proporties
-	 */
-	public static void saveChanges() {
+    private static void setValues() {
+        version = getValue("version");
+        int nofelements = Integer.parseInt(getValue("nofelements"));
+        autoPauseOn = Boolean.parseBoolean(getValue("auto_pause"));
+        delayMs = Integer.parseInt(getValue("delayms"));
+        delayNs = Integer.parseInt(getValue("delayns"));
 
-		setValue("delayms", Sort.getDelayMs());
-		setValue("delayns", Sort.getDelayNs());
-		setValue("nofelements", Sort.getElements().length);
-		setValue("auto_pause", String.valueOf(autoPauseOn));
-		
-		FileWriter writer;
-		try {
-			writer = new FileWriter(PROPORTIES_NAME);
-			prop.store(writer, null);
-			writer.close();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+        elements = new int[nofelements];
+        for (int i = 0; i < nofelements; i++)
+            elements[i] = InternalConfig.getRandomNumber(0, nofelements / 3);
 
-	}
+    }
 
+    private static void setValue(String key, Object value) {
+        prop.setProperty(key, String.valueOf(value));
+    }
 
-	public static void toggleAutoPause(){
-		
-		InternalConfig.autoPauseOn = ! InternalConfig.autoPauseOn;
-		
-	}
-	/**
-	 * 
-	 * @param version application version shown in some dialogs and the frame title
-	 */
-	public static void setVersion(String version){
-		InternalConfig.version = version;
-		
-	}
+    private static String getValue(String key) {
+        return prop.getProperty(key);
+    }
 
-	/**
-	 * 
-	 * @return auto pause enabled flag
-	 * @see public static void toggleAutoPause()
-	 */
-	public static boolean isAutoPauseEnabled(){
-		return InternalConfig.autoPauseOn;
-	}
-	
-	/**
-	 * 
-	 * @return application version
-	 * @see public static void setVersion(String version)
-	 */
-	public static String getVersion(){
-		return InternalConfig.version;
-	}
-	
+    public static void saveChanges() {
+        setValue("delayms", delayMs);
+        setValue("delayns", delayNs);
+        setValue("nofelements", elements.length);
+        setValue("auto_pause", String.valueOf(autoPauseOn));
+
+        FileWriter writer;
+        try {
+            writer = new FileWriter(PROPORTIES_NAME);
+            prop.store(writer, null);
+            writer.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void toggleAutoPause() {
+        InternalConfig.autoPauseOn = !InternalConfig.autoPauseOn;
+    }
+
+    public static void setVersion(String version) {
+        InternalConfig.version = version;
+    }
+
+    public static boolean isAutoPauseEnabled() {
+        return InternalConfig.autoPauseOn;
+    }
+
+    public static String getVersion() {
+        return InternalConfig.version;
+    }
+
 }

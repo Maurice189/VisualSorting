@@ -24,88 +24,87 @@ import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.plaf.FontUIResource;
 
-import main.Statics.SortAlgorithm;
+import main.Consts.SortAlgorithm;
 import dialogs.InfoDialog;
 
 public class Main {
 
-	public static void main(String[] args) {
-		
-		try {
-		    UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-		} catch (ClassNotFoundException e1) {
-			e1.printStackTrace();
-		} catch (InstantiationException e1) {
-			e1.printStackTrace();
-		} catch (IllegalAccessException e1) {
-			e1.printStackTrace();
-		} catch (UnsupportedLookAndFeelException e1) {
-			try {
-			    UIManager.setLookAndFeel( UIManager.getCrossPlatformLookAndFeelClassName() );
-			} catch (ClassNotFoundException
-				| InstantiationException
-				| IllegalAccessException
-				| UnsupportedLookAndFeelException e) {
-			    e.printStackTrace();
-			}
-		}
+    public static void main(String[] args) {
 
-		System.setProperty("apple.laf.useScreenMenuBar", "true");
-			
+        try {
+            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+        } catch (ClassNotFoundException e1) {
+            e1.printStackTrace();
+        } catch (InstantiationException e1) {
+            e1.printStackTrace();
+        } catch (IllegalAccessException e1) {
+            e1.printStackTrace();
+        } catch (UnsupportedLookAndFeelException e1) {
+            try {
+                UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
+            } catch (ClassNotFoundException
+                    | InstantiationException
+                    | IllegalAccessException
+                    | UnsupportedLookAndFeelException e) {
+                e.printStackTrace();
+            }
+        }
 
-		for(int i = 0; i<args.length;i++){
-			if(args[i].startsWith("-configdir:")){
-				InternalConfig.setConfigFileDirectory(args[i].subSequence("-configdir:".length(), args[i].length()).toString());
-			}
-		}
+        System.setProperty("apple.laf.useScreenMenuBar", "true");
 
-		InternalConfig.loadConfigFile();
+        for (int i = 0; i < args.length; i++) {
+            if (args[i].startsWith("-configdir:")) {
+                InternalConfig.setConfigFileDirectory(args[i].subSequence("-configdir:".length(), args[i].length()).toString());
+            }
+        }
 
-		// this font is used under the GPL from google fonts under 'OpenSans'
-		Window.setComponentFont("/resources/Fonts/OpenSans-Regular.ttf");
-		Window.setInfoFont("/resources/Fonts/Oxygen-Regular.ttf",30f);
-		
-		javax.swing.UIManager.put("OptionPane.messageFont", new FontUIResource(Window.getComponentFont(13f))); 
-		javax.swing.UIManager.put("Button.font",new FontUIResource(Window.getComponentFont(13f)));
-		javax.swing.UIManager.put("EditorPane.font",new FontUIResource(Window.getComponentFont(13f)));
-		javax.swing.UIManager.put("ComboBox.font", new FontUIResource(Window.getComponentFont(13f)));
-		javax.swing.UIManager.put("Label.font", new FontUIResource(Window.getComponentFont(12f)));
-		javax.swing.UIManager.put("MenuBar.font",new FontUIResource(Window.getComponentFont(13f)));
-		javax.swing.UIManager.put("MenuItem.font", new FontUIResource(Window.getComponentFont(13f)));
-		javax.swing.UIManager.put("RadioButton.font",new FontUIResource(Window.getComponentFont(13f)));
-		javax.swing.UIManager.put("CheckBox.font",new FontUIResource(Window.getComponentFont(13f)));
-		javax.swing.UIManager.put("RadioButtonMenuItem.font",new FontUIResource(Window.getComponentFont(13f)));
-		javax.swing.UIManager.put("CheckBoxMenuItem.font",new FontUIResource(Window.getComponentFont(13f)));
-		javax.swing.UIManager.put("TextField.font",new FontUIResource(Window.getComponentFont(13f)));
-		javax.swing.UIManager.put("TitledBorder.font",new FontUIResource(Window.getComponentFont(13f)));
-		javax.swing.UIManager.put("Menu.font",new FontUIResource(Window.getComponentFont(13f)));
-		javax.swing.UIManager.put("Spinner.font",new FontUIResource(Window.getComponentFont(13f)));
-		javax.swing.UIManager.put("Slider.font",new FontUIResource(Window.getComponentFont(13f)));
+        InternalConfig.loadConfigFile();
+
+        // this font is used under the GPL from google fonts under 'OpenSans'
+        Window.setComponentFont("/resources/Fonts/OpenSans-Regular.ttf");
+        Window.setInfoFont("/resources/Fonts/Oxygen-Regular.ttf", 30f);
+
+        javax.swing.UIManager.put("OptionPane.messageFont", new FontUIResource(Window.getComponentFont(13f)));
+        javax.swing.UIManager.put("Button.font", new FontUIResource(Window.getComponentFont(13f)));
+        javax.swing.UIManager.put("EditorPane.font", new FontUIResource(Window.getComponentFont(13f)));
+        javax.swing.UIManager.put("ComboBox.font", new FontUIResource(Window.getComponentFont(13f)));
+        javax.swing.UIManager.put("Label.font", new FontUIResource(Window.getComponentFont(12f)));
+        javax.swing.UIManager.put("MenuBar.font", new FontUIResource(Window.getComponentFont(13f)));
+        javax.swing.UIManager.put("MenuItem.font", new FontUIResource(Window.getComponentFont(13f)));
+        javax.swing.UIManager.put("RadioButton.font", new FontUIResource(Window.getComponentFont(13f)));
+        javax.swing.UIManager.put("CheckBox.font", new FontUIResource(Window.getComponentFont(13f)));
+        javax.swing.UIManager.put("RadioButtonMenuItem.font", new FontUIResource(Window.getComponentFont(13f)));
+        javax.swing.UIManager.put("CheckBoxMenuItem.font", new FontUIResource(Window.getComponentFont(13f)));
+        javax.swing.UIManager.put("TextField.font", new FontUIResource(Window.getComponentFont(13f)));
+        javax.swing.UIManager.put("TitledBorder.font", new FontUIResource(Window.getComponentFont(13f)));
+        javax.swing.UIManager.put("Menu.font", new FontUIResource(Window.getComponentFont(13f)));
+        javax.swing.UIManager.put("Spinner.font", new FontUIResource(Window.getComponentFont(13f)));
+        javax.swing.UIManager.put("Slider.font", new FontUIResource(Window.getComponentFont(13f)));
 
 
         // hashmap for resolving sort into the respective infopage file
-		HashMap<SortAlgorithm,String> map = new HashMap<SortAlgorithm,String>();
-		map.put(SortAlgorithm.Bubblesort, "infopage_bubblesort.html");
-		map.put(SortAlgorithm.Combsort, "infopage_combsort.html");
-		map.put(SortAlgorithm.Heapsort, "infopage_heapsort.html");
-		map.put(SortAlgorithm.Insertionsort, "infopage_insertionsort.html");
-		map.put(SortAlgorithm.Mergesort, "infopage_mergesort.html");
-		map.put(SortAlgorithm.Shakersort, "infopage_shakersort.html");
-		map.put(SortAlgorithm.Shellsort, "infopage_shellsort.html");
-		map.put(SortAlgorithm.Bogosort, "infopage_bogosort.html");
-		map.put(SortAlgorithm.Introsort, "infopage_introsort.html");
-        map.put(SortAlgorithm.Selectionsort, "infopage_introsort.html");
+        HashMap<SortAlgorithm, String> map = new HashMap<>();
+        map.put(SortAlgorithm.Bubblesort, "infopage_bubblesort.html");
+        map.put(SortAlgorithm.Combsort, "infopage_combsort.html");
+        map.put(SortAlgorithm.Heapsort, "infopage_heapsort.html");
+        map.put(SortAlgorithm.Insertionsort, "infopage_insertionsort.html");
+        map.put(SortAlgorithm.Mergesort, "infopage_mergesort.html");
+        map.put(SortAlgorithm.Shakersort, "infopage_shakersort.html");
+        map.put(SortAlgorithm.Shellsort, "infopage_shellsort.html");
+        map.put(SortAlgorithm.Bogosort, "infopage_bogosort.html");
+        map.put(SortAlgorithm.Introsort, "infopage_introsort.html");
+        map.put(SortAlgorithm.Selectionsort, "infopage_selectionsort.html");
         map.put(SortAlgorithm.Quicksort_FIXED, "infopage_quicksort.html");
         map.put(SortAlgorithm.Quicksort_RANDOM, "infopage_quicksort.html");
         map.put(SortAlgorithm.Quicksort_MO3, "infopage_quicksort.html");
 
         InfoDialog.initInfoPageResolver(map);
-		
-		Controller controller = new Controller();
-		Window window = new Window(controller,"Visual Sorting - ".concat(InternalConfig.getVersion()), 1200, 800);
-		controller.setView(window);
-	
-		
-	}
+
+        Controller controller = new Controller();
+        Window window = new Window(controller, "Visual Sorting - ".concat(InternalConfig.getVersion()), 1200, 800);
+        controller.setView(window);
+
+
+    }
 
 }

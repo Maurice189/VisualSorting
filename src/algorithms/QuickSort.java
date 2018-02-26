@@ -1,20 +1,7 @@
 package algorithms;
 
-
-// copied from http://www.java-uni.de/index.php?Seite=86
-
-/**
- * Implementation of the respective sort algorithm.
- *
- * @author maurice
- * @version BETA
- * @category Sort
- */
-
-import main.SortVisualisationPanel;
-import main.Statics.SortAlgorithm;
-
-import java.util.function.Function;
+import main.OperationExecutor;
+import main.Consts.SortAlgorithm;
 
 public class QuickSort extends Sort {
 
@@ -23,33 +10,34 @@ public class QuickSort extends Sort {
     private int pivotIndex;
     private PivotStrategy pivotStrategy;
 
-    public QuickSort(PivotStrategy pivotStrategy) {
-        super();
+    public QuickSort(PivotStrategy pivotStrategy, OperationExecutor operationExecutor) {
+        super(operationExecutor);
         this.pivotStrategy = pivotStrategy;
     }
 
-    private void sort(int x[], int left, int right) throws InterruptedException {
+    private void sort(int left, int right) throws InterruptedException {
         if (left < right) {
-            int i = partition(elements, left, right);
-            sort(x, left, i - 1);
-            sort(x, i + 1, right);
+            int i = partition(left, right);
+            sort(left, i - 1);
+            sort(i + 1, right);
         }
     }
 
 
     private int getPivotByRandom(int left, int right) {
-        return left + (int)(Math.random() * (right - left));
+        return left + (int) (Math.random() * (right - left));
     }
-    private int getPivotByMedianOfThree(int x[], int left, int right) throws InterruptedException {
+
+    private int getPivotByMedianOfThree(int left, int right) throws InterruptedException {
         int center = (left + right) / 2;
-        int cmpLR = compare(left, right);
-        int cmpRC = compare(right, center);
+        int cmpLR = operationExecutor.compare(left, right);
+        int cmpRC = operationExecutor.compare(right, center);
 
         if (cmpLR == -1 && cmpRC == -1) {
             return right;
         }
 
-        int cmpLC = compare(left, center);
+        int cmpLC = operationExecutor.compare(left, center);
 
         if (cmpLR == 1 && cmpLC == -1) {
             return left;
@@ -58,43 +46,40 @@ public class QuickSort extends Sort {
         return center;
     }
 
-    private int partition(int x[], int left, int right) throws InterruptedException {
+    private int partition(int left, int right) throws InterruptedException {
         int i, j;
 
         if (pivotStrategy == PivotStrategy.FIXED) {
             pivotIndex = right;
         } else if (pivotStrategy == PivotStrategy.RANDOM) {
             pivotIndex = getPivotByRandom(left, right);
-        } else  if (pivotStrategy == PivotStrategy.MO3) {
-            pivotIndex = getPivotByMedianOfThree(x, left, right);
+        } else if (pivotStrategy == PivotStrategy.MO3) {
+            pivotIndex = getPivotByMedianOfThree(left, right);
         }
 
-        exchange(pivotIndex, right);
+        operationExecutor.exchange(pivotIndex, right);
 
         i = left;
         j = right - 1;
 
         while (i <= j) {
-            if (compare(i, right) == 1) {
-                exchange(i, j);
+            if (operationExecutor.compare(i, right) == 1) {
+                operationExecutor.exchange(i, j);
                 j--;
             } else {
                 i++;
             }
         }
 
-        exchange(i, right);
+        operationExecutor.exchange(i, right);
         return i;
     }
 
     public void run() {
 
         try {
-            sort(elements, 0, elements.length - 1);
-            setChanged();
-            notifyObservers(panelUI.getID());
-
-            if (flashing) svp.visualTermination();
+            sort(0, operationExecutor.getNumberOfElements() - 1);
+            operationExecutor.terminate();
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -102,10 +87,10 @@ public class QuickSort extends Sort {
 
     @Override
     public SortAlgorithm getAlgorithmName() {
-        if(pivotStrategy == PivotStrategy.FIXED) {
+        if (pivotStrategy == PivotStrategy.FIXED) {
             return SortAlgorithm.Quicksort_FIXED;
         }
-        if(pivotStrategy == PivotStrategy.RANDOM) {
+        if (pivotStrategy == PivotStrategy.RANDOM) {
             return SortAlgorithm.Quicksort_RANDOM;
         }
         return SortAlgorithm.Quicksort_MO3;

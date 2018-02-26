@@ -41,12 +41,7 @@ import javax.swing.JSpinner;
 import javax.swing.JTabbedPane;
 import javax.swing.border.TitledBorder;
 
-import algorithms.Sort;
-import main.Controller;
-import main.MathFunc;
-import main.SortVisualisationPanel;
-import main.Statics;
-import main.Window;
+import main.*;
 
 /**
  * This class is responsible for editing the sorting list.
@@ -58,7 +53,7 @@ import main.Window;
  * @category Dialogs
  */
 
-public class EnterDialog extends OptionDialog {
+public class EnterDialog extends OptionDialog implements ActionListener {
 
     private DefaultListModel<Integer> listModel;
     private JList<Integer> elements;
@@ -71,13 +66,17 @@ public class EnterDialog extends OptionDialog {
 
     private static EnterDialog instance;
     private Controller controller;
-
     private static int width, height;
 
     private EnterDialog(Controller controller, int width, int height) {
-        super("sortlist", width, height);
+        super("sortlist", width, height, false);
         this.controller = controller;
     }
+
+    public int getRandomNumber(int low, int high) {
+        return (int) (Math.random() * (high - low) + low);
+    }
+
 
     private int[] getRandomSequence(int n) {
         List<Integer> s1 = new LinkedList<>();
@@ -88,7 +87,7 @@ public class EnterDialog extends OptionDialog {
         }
 
         for (int i = 0; i < n; i++) {
-            int r = MathFunc.getRandomNumber(0, n - i);
+            int r = getRandomNumber(0, n - i);
             randomSequence[i] = s1.remove(r);
         }
 
@@ -142,7 +141,7 @@ public class EnterDialog extends OptionDialog {
                 listModel.addElement(tmp[i]);
             }
 
-            Sort.setElements(tmp);
+            controller.elementsChanged(tmp);
             svp.setElements(tmp);
             svp.updateBarSize();
             svp.updatePanelSize();
@@ -173,13 +172,13 @@ public class EnterDialog extends OptionDialog {
         update.addActionListener(this);
         listTypeGroup = new ButtonGroup();
 
-        svp = new SortVisualisationPanel(width, height);
-        svp.setElements(Sort.getElements());
+        svp = new SortVisualisationPanel(Consts.SortAlgorithm.Quicksort_MO3, width, height, null);
+        svp.setElements(InternalConfig.getElements());
         svp.updateBarSize();
         svp.updatePanelSize();
         sp.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 
-        int tempElements[] = Sort.getElements();
+        int tempElements[] = InternalConfig.getElements();
         for (int i = 0; i < tempElements.length; i++) {
             listModel.addElement(new Integer(tempElements[i]));
         }
@@ -232,7 +231,7 @@ public class EnterDialog extends OptionDialog {
         btnWrpc1.insets = new Insets(4, 4, 4, 4);
 
         exit = new JButton("Exit");
-        exit.setActionCommand(Statics.ELEMENTS_SET);
+        exit.setActionCommand(Consts.ELEMENTS_SET);
         exit.addActionListener(this);
 
         btnWrp2 = new JPanel();

@@ -18,20 +18,16 @@ package main;
  * THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-import java.awt.BasicStroke;
-import java.awt.Color;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
+import java.awt.*;
+import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.util.Arrays;
-import java.util.Collections;
 
-import javax.swing.JPanel;
+import javax.swing.*;
+import javax.swing.border.TitledBorder;
 
-import algorithms.Sort;
-import com.sun.deploy.util.ArrayUtil;
-import com.sun.tools.javac.util.ArrayUtils;
+import dialogs.InfoDialog;
 
 /**
  * This class is used to display the animation in a panel. The animation is
@@ -47,6 +43,7 @@ public class SortVisualisationPanel extends JPanel {
     private static Color backgroundColor = Color.GREEN;
     private static final int preferredGapSize = 1, offsetY = 20;
     private static final int visualTerminationTime = 800;   // ms
+    private Consts.SortAlgorithm algorithm;
 
     private int width, height;
     private int refWidth, refHeight;
@@ -58,9 +55,9 @@ public class SortVisualisationPanel extends JPanel {
     private int elements[];
     private int maxElement;
 
-    public SortVisualisationPanel(ActionListener listener, String selectedSort,
-                                  int width, int height) {
+    public SortVisualisationPanel(Consts.SortAlgorithm algorithm, int width, int height, ActionListener listener) {
 
+        this.algorithm = algorithm;
         this.width = width;
         this.height = height;
         buffer = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
@@ -69,10 +66,23 @@ public class SortVisualisationPanel extends JPanel {
         gbuffer.setBackground(backgroundColor);
         gbuffer.clearRect(0, 0, width, height);
         this.setOpaque(false);
+
+        leftBorder = BorderFactory.createTitledBorder("");
+        leftBorder.setTitleJustification(TitledBorder.ABOVE_TOP);
+        leftBorder.setTitleColor(Color.darkGray);
+        leftBorder.setTitleFont(Window.getComponentFont(12f));
+        setInfo(0, 0);
+
+
+        setBorder(leftBorder);
+        manageButtons(listener);
+
+
     }
 
-    public SortVisualisationPanel(int width, int height) {
+    public SortVisualisationPanel(Consts.SortAlgorithm algorithm, int width, int height) {
 
+        this.algorithm = algorithm;
         this.width = width;
         this.height = height;
         buffer = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
@@ -81,6 +91,16 @@ public class SortVisualisationPanel extends JPanel {
         gbuffer.setBackground(backgroundColor);
         gbuffer.clearRect(0, 0, width, height);
         this.setOpaque(false);
+
+        leftBorder = BorderFactory.createTitledBorder("");
+        leftBorder.setTitleJustification(TitledBorder.ABOVE_TOP);
+        leftBorder.setTitleColor(Color.darkGray);
+        leftBorder.setTitleFont(Window.getComponentFont(12f));
+        setInfo(0, 0);
+
+
+        setBorder(leftBorder);
+        //manageButtons();
 
     }
 
@@ -149,20 +169,20 @@ public class SortVisualisationPanel extends JPanel {
     }
 
     public Color getBarColor(float relativePosition) {
-        if (relativePosition <=  0.33) {
+        if (relativePosition <= 0.33) {
             float hsb[] = new float[3];
-            Color.RGBtoHSB(207,26,203, hsb);
+            Color.RGBtoHSB(207, 26, 203, hsb);
             return Color.getHSBColor(hsb[0], hsb[1], hsb[2]);
         }
 
         if (relativePosition <= 0.66) {
             float hsb[] = new float[3];
-            Color.RGBtoHSB(86,0,234, hsb);
+            Color.RGBtoHSB(86, 0, 234, hsb);
             return Color.getHSBColor(hsb[0], hsb[1], hsb[2]);
         }
 
         float hsb[] = new float[3];
-        Color.RGBtoHSB(43,144,245, hsb);
+        Color.RGBtoHSB(43, 144, 245, hsb);
         return Color.getHSBColor(hsb[0], hsb[1], hsb[2]);
     }
 
@@ -262,13 +282,10 @@ public class SortVisualisationPanel extends JPanel {
     }
 
     public void updateBarSize() {
-
-        int elements[] = Sort.getElements();
-
-        if (MathFunc.getMax(elements) > 0) {
+        if (SortVisualisationPanel.getMax(elements) > 0) {
 
             refHeight = (height - offsetY - marginTop)
-                    / MathFunc.getMax(elements);
+                    / SortVisualisationPanel.getMax(elements);
             refWidth = (width - (elements.length * preferredGapSize))
                     / elements.length;
 
@@ -308,12 +325,12 @@ public class SortVisualisationPanel extends JPanel {
         lstInsert = -1;
         lstPivot = -1;
 
+        updateBarSize();
         drawElements();
 
     }
 
     private void drawElements() {
-
         gbuffer.setBackground(new Color(0, 0, 0, 0));
         gbuffer.clearRect(0, 0, buffer.getWidth(), buffer.getHeight());
         gbuffer.setColor(new Color(100, 100, 100));
@@ -350,5 +367,78 @@ public class SortVisualisationPanel extends JPanel {
     public static void setBackgroundColor(Color color) {
         backgroundColor = color;
     }
+
+
+    private TitledBorder leftBorder;
+    private JButton remove;
+
+    private void manageButtons(final ActionListener listener) {
+
+        GridBagConstraints gbc = new GridBagConstraints();
+        setLayout(new GridBagLayout());
+        gbc.gridx = 1;
+        gbc.gridy = 0;
+        gbc.gridwidth = 1;
+        gbc.gridheight = 1;
+        gbc.weightx = 0;
+        gbc.weighty = 1;
+        gbc.insets = new Insets(-7, 0, 0, 2);
+        gbc.anchor = GridBagConstraints.FIRST_LINE_END;
+        remove = new VSButton("/resources/icons/remove.png");
+
+        final SortVisualisationPanel parentReference = this;
+
+        remove.addActionListener(e -> listener.actionPerformed(new ActionEvent(parentReference, e.getID(), e.getActionCommand())));
+        remove.setActionCommand(Consts.REMOVE_SORT);
+        remove.setPreferredSize(new Dimension(16, 16));
+
+        JButton info = new VSButton("/resources/icons/info_rect.png");
+
+        info.addActionListener(e -> {
+            new InfoDialog(algorithm, algorithm.toString(), 600, 370);
+        });
+        info.setActionCommand(Consts.INFO);
+        info.setPreferredSize(new Dimension(16, 16));
+        GridBagConstraints gbc2 = (GridBagConstraints) gbc.clone();
+        gbc2.gridx = 0;
+        gbc2.weightx = 1;
+        gbc2.weighty = 1;
+
+        add(remove, gbc);
+        add(info, gbc2);
+    }
+
+    public void enableRemoveButton(boolean enable) {
+        remove.setEnabled(enable);
+    }
+
+    public void setInfo(int accesses, int comparisons) {
+
+        String info = "<html> <b>" +
+                algorithm.toString() + ("</b> - ( ") + String.valueOf(comparisons)
+                + (" comparisons | ") + String.valueOf(accesses) + (" accesses") + " ) </html>";
+
+        leftBorder.setTitle(info);
+
+    }
+
+    public static int getMax(int values[]) {
+
+        int max = 0;
+
+        for (int i = 0; i < values.length; i++) {
+            if (values[i] > max)
+                max = values[i];
+        }
+
+        return max;
+    }
+
+    public void setDuration(int sec, int msec) {
+        String durInfo = " in ".concat(String.valueOf(sec).concat(":")).concat(String.valueOf(msec)).concat(" sec.");
+        leftBorder.setTitle(leftBorder.getTitle().concat(durInfo));
+        repaint();
+    }
+
 
 }

@@ -24,6 +24,7 @@ import java.awt.Cursor;
 import java.awt.Desktop;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.IOException;
@@ -36,16 +37,17 @@ import javax.swing.border.CompoundBorder;
 import javax.swing.border.TitledBorder;
 
 import com.bulenkov.iconloader.IconLoader;
+import main.Controller;
 import main.Window;
 
 
-public class AboutDialog extends OptionDialog {
+public class AboutDialog extends OptionDialog implements ActionListener {
 
 
     private static AboutDialog instance;
 
     public AboutDialog(int width, int height) {
-        super("About - Visual Sorting", width, height);
+        super("About - Visual Sorting", width, height, true);
 
     }
 

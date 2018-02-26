@@ -1,32 +1,34 @@
 package algorithms;
 
-import main.Statics;
+import main.Consts;
+import main.OperationExecutor;
 
 public class SelectionSort extends Sort {
 
+
+    public SelectionSort(OperationExecutor operationExecutor) {
+        super(operationExecutor);
+    }
+
     @Override
-    public Statics.SortAlgorithm getAlgorithmName() {
-        return Statics.SortAlgorithm.Selectionsort;
+    public Consts.SortAlgorithm getAlgorithmName() {
+        return Consts.SortAlgorithm.Selectionsort;
     }
 
     @Override
     public void run() {
         try {
-            for (int i = 0; i < elements.length - 1; i++) {
+            for (int i = 0; i < operationExecutor.getNumberOfElements() - 1; i++) {
                 int indexMin = i;
-                for (int j = i + 1; j < elements.length; j++) {
-                    if (compare(j, indexMin) == -1) {
+                for (int j = i + 1; j < operationExecutor.getNumberOfElements(); j++) {
+                    if (operationExecutor.compare(j, indexMin) == -1) {
                         indexMin = j;
                     }
                 }
-                exchange(i, indexMin);
+                operationExecutor.exchange(i, indexMin);
             }
 
-            setChanged();
-            notifyObservers(panelUI.getID());
-
-            if (flashing)
-                svp.visualTermination();
+            operationExecutor.terminate();
 
         } catch (InterruptedException e) {
             e.printStackTrace();

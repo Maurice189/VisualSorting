@@ -3,10 +3,6 @@ package main;
 import javax.swing.*;
 import java.awt.*;
 
-/**
- * this class was created by two ibm authors.
- * @see ://www.ibm.com/developerworks/web/library/us-j2d/
- */
 public class RolloverIcon implements Icon {
     protected Icon icon;
 

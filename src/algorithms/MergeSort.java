@@ -1,51 +1,19 @@
 package algorithms;
 
-/*
-Visualsorting
-Copyright (C) 2014  Maurice Koch
-
-This program is free software: you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option) any later version.
-
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License
-along with this program.  If not, see <http://www.gnu.org/licenses/>.
-
-This sort algorithm is based on:
-http://www.javabeginners.de/Algorithmen/Sortieralgorithmen/Mergesort.php
-(C) Jörg Czeschla
-
-*/
-
-
-/**
- * Implementation of the respective sort algorithm.
- *
- * @author maurice
- * @version BETA
- * @category Sort
- */
-
-import main.SortVisualisationPanel;
-import main.Statics.SortAlgorithm;
+import main.OperationExecutor;
+import main.Consts.SortAlgorithm;
 
 
 public class MergeSort extends Sort {
 
+    public MergeSort(OperationExecutor operationExecutor) {
+        super(operationExecutor);
+    }
+
     public void run() {
         try {
-            sort(0, elements.length - 1);
-
-            setChanged();
-            notifyObservers(panelUI.getID());
-
-            if (flashing) svp.visualTermination();
+            sort(0, operationExecutor.getNumberOfElements() - 1);
+            operationExecutor.terminate();
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -54,7 +22,7 @@ public class MergeSort extends Sort {
 
     public void sort(int l, int r) throws InterruptedException {
         if (l < r) {
-            manualInstructionIncrement();
+            operationExecutor.manualInstructionIncrement();
             int q = (l + r) / 2;
 
             sort(l, q);
@@ -64,31 +32,29 @@ public class MergeSort extends Sort {
     }
 
     private void merge(int l, int q, int r) throws InterruptedException {
-        int[] arr = new int[elements.length];
+        int[] arr = new int[operationExecutor.getNumberOfElements()];
         int i, j;
 
         for (i = l; i <= q; i++) {
-            arr[i] = elements[i];
-            panelUI.setInfo(accesses++, comparisons);
+            arr[i] = operationExecutor.getElementAtIndex(i);
         }
 
         for (j = q + 1; j <= r; j++) {
-            arr[r + q + 1 - j] = elements[j];
-            panelUI.setInfo(accesses++, comparisons);
+            arr[r + q + 1 - j] = operationExecutor.getElementAtIndex(j);
         }
 
         i = l;
         j = r;
 
         for (int k = l; k <= r; k++) {
-            if (compare(arr, i, j) != 1) {
-                insertByValue(k, arr[i]);
+            if (operationExecutor.compare(arr, i, j) != 1) {
+                operationExecutor.insertByValue(k, arr[i]);
                 i++;
             } else {
-                insertByValue(k, arr[j]);
+                operationExecutor.insertByValue(k, arr[j]);
                 j--;
             }
-            panelUI.setInfo(accesses++, comparisons);
+            //panelUI.setInfo(accesses++, comparisons);
         }
     }
 
