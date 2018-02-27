@@ -62,7 +62,6 @@ public class Controller implements ComponentListener, ActionListener, WindowList
 
     public void setView(Window window) {
         this.window = window;
-        SortVisualisationPanel.setBackgroundColor(window.getBackground());
         window.addComponentListener(this);
         window.updateNumberOfElements(InternalConfig.getElements().length);
     }
@@ -76,6 +75,7 @@ public class Controller implements ComponentListener, ActionListener, WindowList
 
             if (!executor.isTerminated()) {
                 System.err.println("Attempt to interrupt active threads failed (after 2000 ms timeout). Try again, please.");
+                return;
             }
 
             timer.reset();
@@ -92,24 +92,14 @@ public class Controller implements ComponentListener, ActionListener, WindowList
 
     public void actionPerformed(ActionEvent e) {
         if (e.getActionCommand() == Consts.ADD_SORT) {
-            Sort sort;
-            SortAlgorithm selectedSort;
+            SortAlgorithm selectedSort = window.getSelectedSort();
+            SortVisualisationPanel temp = new SortVisualisationPanel(selectedSort, window.getWidth(), window.getHeight());
 
-            operationExecutors.forEach(OperationExecutor::initElements);
-            threadsAlive = 0;
-            selectedSort = window.getSelectedSort();
-
-            SortVisualisationPanel temp = new SortVisualisationPanel(selectedSort, window.getWidth(), window.getHeight(),
-                    e1 -> {
-                        if (operationExecutors.size() > 0) {
-                            window.removeSortVisualizationPanel(((SortVisualisationPanel) e1.getSource()));
-                            resize();
-                        }
-                    });
-
-            OperationExecutor operationExecutor = new OperationExecutor(this, temp);
+            final OperationExecutor operationExecutor = new OperationExecutor(this, temp);
             operationExecutor.initElements(InternalConfig.getElements());
             operationExecutor.setDelay(InternalConfig.getExecutionSpeedDelayMs(), InternalConfig.getExecutionSpeedDelayNs());
+
+            final Sort sort;
 
             if (selectedSort.equals(SortAlgorithm.Heapsort))
                 sort = new HeapSort(operationExecutor);
@@ -140,11 +130,20 @@ public class Controller implements ComponentListener, ActionListener, WindowList
             else
                 sort = new HeapSort(operationExecutor);
 
-            operationExecutors.add(operationExecutor);
-            tasks.add(sort);
-            window.addSortVisualizationPanel(temp);
-            resize();
+            temp.setActionListenerForRemoveAction(
+                    e1 -> {
+                        if (operationExecutors.size() > 0) {
+                            window.removeSortVisualizationPanel(((SortVisualisationPanel) e1.getSource()));
+                            operationExecutors.remove(operationExecutor);
+                            tasks.remove(sort);
+                        }
+                    });
 
+            operationExecutors.add(operationExecutor);
+            window.addSortVisualizationPanel(temp);
+            tasks.add(sort);
+            resize();
+            state = State.RESET;
         } else if (e.getActionCommand() == Consts.START) {
             if (state == State.RUNNING) {
                 operationExecutors.forEach(OperationExecutor::pause);
@@ -169,7 +168,7 @@ public class Controller implements ComponentListener, ActionListener, WindowList
 
                 threadsAlive = tasks.size();
 
-                operationExecutors.forEach(v -> v.getSortVisualizationPanel().enableRemoveButton(false));
+                window.setRemoveButtonsEnabled(false);
                 window.unlockManualIteration(false);
                 window.unlockAddSort(false);
 
@@ -193,9 +192,7 @@ public class Controller implements ComponentListener, ActionListener, WindowList
         }
     }
 
-
     public void terminationSignal(OperationExecutor operationExecutor) {
-
         if (--threadsAlive == 0) {
             System.out.println("All threads terminated !!!!!!");
             EventQueue.invokeLater(() -> {
@@ -204,7 +201,7 @@ public class Controller implements ComponentListener, ActionListener, WindowList
                 window.unlockManualIteration(true);
             });
             timer.stop();
-            operationExecutors.forEach(v -> v.getSortVisualizationPanel().enableRemoveButton(true));
+            window.setRemoveButtonsEnabled(true);
             state = State.RESET;
         }
         operationExecutor.getSortVisualizationPanel().setDuration(timer.getLeftSec(), timer.getLeftMs());
@@ -223,7 +220,6 @@ public class Controller implements ComponentListener, ActionListener, WindowList
 
     @Override
     public void windowActivated(WindowEvent e) {
-
         if (InternalConfig.isAutoPauseEnabled() && !pausedByUser && state == State.PAUSED) {
             if (threadsAlive != 0) {
                 timer.start();
@@ -236,7 +232,6 @@ public class Controller implements ComponentListener, ActionListener, WindowList
 
     @Override
     public void windowDeactivated(WindowEvent e) {
-
         if (InternalConfig.isAutoPauseEnabled() && state == State.RUNNING) {
             if (threadsAlive != 0) {
                 operationExecutors.forEach(OperationExecutor::pause);

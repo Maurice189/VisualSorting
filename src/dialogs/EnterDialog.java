@@ -71,7 +71,7 @@ public class EnterDialog extends OptionDialog implements ActionListener {
     private static int width, height;
 
     private EnterDialog(Controller controller, int width, int height) {
-        super("sortlist", width, height, false);
+        super("List of elements", width, height, false);
         this.controller = controller;
     }
 
@@ -169,7 +169,7 @@ public class EnterDialog extends OptionDialog implements ActionListener {
         update.addActionListener(this);
         listTypeGroup = new ButtonGroup();
 
-        svp = new SortVisualisationPanel(Consts.SortAlgorithm.Quicksort_MO3, width, height, null);
+        svp = new SortVisualisationPanel(Consts.SortAlgorithm.Quicksort_MO3, width, height);
         svp.setElements(InternalConfig.getElements());
         svp.updateBarSize();
         svp.updatePanelSize();

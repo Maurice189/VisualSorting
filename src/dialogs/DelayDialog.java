@@ -47,7 +47,7 @@ public final class DelayDialog extends OptionDialog implements ActionListener {
     private int delayMs = 0, delayNs = 0;
 
     private DelayDialog(Controller controller, int width, int height) {
-        super( "delay", width, height, false);
+        super( "Execution speed", width, height, false);
         this.controller = controller;
     }
 

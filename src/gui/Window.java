@@ -360,6 +360,11 @@ public class Window extends JFrame {
         }
     }
 
+
+    public void setRemoveButtonsEnabled(boolean enabled) {
+        vsPanel.forEach(v -> v.enableRemoveButton(true));
+    }
+
     public void addSortVisualizationPanel(SortVisualisationPanel temp) {
         if (vsPanel.size() == 0) {
             content.remove(info);
@@ -431,9 +436,7 @@ public class Window extends JFrame {
         vsPanel.remove(index);
         filler.remove(index);
 
-        // remove all components and show launching message
         if (vsPanel.isEmpty()) {
-
             content.removeAll();
             content.setLayout(new BorderLayout());
             content.add(info);
@@ -444,27 +447,20 @@ public class Window extends JFrame {
             newSort.setEnabled(true);
         }
 
-        /*
-         *  signal that parameters for 'SortVisualisationPanel' objects to
-         *  adjust their bar width
-         */
-        for (int i = 0; i < vsPanel.size(); i++) {
-            if (i != index) {
-                vsPanel.get(i).updatePanelSize();
+        if (!vsPanel.isEmpty()) {
+            for (SortVisualisationPanel tmp : vsPanel) {
+                tmp.updateSize();
             }
         }
 
-        // show results on frame
         revalidate();
         repaint();
     }
 
     public static void setComponentFont(String source) {
         try {
-
             InputStream in = Window.class.getResourceAsStream(source);
             componentFont = Font.createFont(Font.TRUETYPE_FONT, in);
-
         } catch (IOException e) {
             e.printStackTrace();
         } catch (FontFormatException e) {
