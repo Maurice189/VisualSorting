@@ -29,7 +29,7 @@ import algorithms.Sort;
 
 public class InternalConfig {
 
-    private static String PROPORTIES_NAME = System.getProperty("user.home") + "/config.txt";
+    private static String PROPORTIES_NAME = "config.txt";
     private static Properties prop;
 
     private static String version;
@@ -38,13 +38,11 @@ public class InternalConfig {
     private static int delayNs;
     private static int delayMs;
 
-
     public static void setConfigFileDirectory(String configPath) {
         PROPORTIES_NAME = configPath + "config.txt";
     }
 
     public static void loadConfigFile() {
-
         FileReader reader = null;
 
         try {

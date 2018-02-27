@@ -27,11 +27,9 @@ public class SelectionSort extends Sort {
                 }
                 operationExecutor.exchange(i, indexMin);
             }
-
-            operationExecutor.terminate();
-
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+        operationExecutor.terminate();
     }
 }

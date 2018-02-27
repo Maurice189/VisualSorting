@@ -13,10 +13,10 @@ public class MergeSort extends Sort {
     public void run() {
         try {
             sort(0, operationExecutor.getNumberOfElements() - 1);
-            operationExecutor.terminate();
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+        operationExecutor.terminate();
     }
 
 
@@ -54,7 +54,6 @@ public class MergeSort extends Sort {
                 operationExecutor.insertByValue(k, arr[j]);
                 j--;
             }
-            //panelUI.setInfo(accesses++, comparisons);
         }
     }
 
@@ -63,6 +62,5 @@ public class MergeSort extends Sort {
     public SortAlgorithm getAlgorithmName() {
         return SortAlgorithm.Mergesort;
     }
-
 
 }

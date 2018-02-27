@@ -40,11 +40,10 @@ public class BogoSort extends Sort {
 
         try {
             bogo();
-            operationExecutor.terminate();
-
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+        operationExecutor.terminate();
     }
 
     @Override

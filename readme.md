@@ -2,9 +2,14 @@
   <img width="350" src="logo.png">
 </p>
 
+# Please note
+
+**THIS SOFTWARE IS STILL UNDER DEVELOPMENT - CONSIDER THE ACTUAL STATE OF THE PROGRAM AS A TEASER / REVIEW**
+**A STABLE AND COMPLETE VERSION WILL BE PUBLISHED IN 03/2018**
+
 # Description
 
-Visual Sorting is an application that intend to visualize how different 
+Visual Sorting is an application that intend to visualize how different
 sort algorithms work. This idea has already been applied for instance by Timo Bingmann
 with his [sound-of-sorting](https://github.com/bingmann/sound-of-sorting). Though
 to get an idea how sort algorithms behave in terms of their runtime,

@@ -1,4 +1,4 @@
-package main;
+package gui;
 
 /*
  * This software is licensed under the MIT License.
@@ -31,12 +31,11 @@ import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
 
 import com.bulenkov.iconloader.IconLoader;
+import main.Consts;
 import main.Consts.SortAlgorithm;
+import main.Controller;
+import main.InternalConfig;
 
-
-/**
- * @author maurice
- */
 public class Window extends JFrame {
 
     private static Font componentFont = new Font("Monospace", Font.BOLD, 13);
@@ -45,7 +44,6 @@ public class Window extends JFrame {
     private JLabel algorithmInfo;
     private String title;
 
-    // component references
     private JButton newSort, nextStep, reset, delayBtn, listBtn;
     private PlayPauseToggle next;
     private JPanel content;
@@ -57,42 +55,20 @@ public class Window extends JFrame {
     private JMenu help, settings, programmFunctions;
     private JToolBar toolBar;
     private JPanel bottomBar;
-    private JSlider speed;
 
-    // we store the visualization panels dynamically, so we can add and remove it much easier
     private List<SortVisualisationPanel> vsPanel;
 
     // FIXME : BAD the filler is used for the vertical space between the visualization panels
     // the filler is used for the vertical space between the visualization panels
     private List<Component> filler = new LinkedList<Component>();
 
-    /**
-     * Initalizes the View with all needed
-     * parameters.
-     *
-     * @param controller as MVC pattern arranged
-     * @param title      of the application window
-     * @param width      of the applications window
-     * @param height     of the applications window
-     */
     public Window(Controller controller, String title, int width, int height) {
-
         this.title = title;
         this.controller = controller;
-
         initComponents(width, height);
-
     }
 
-    /**
-     * Just a wrapper method for
-     * creating the main application window.
-     *
-     * @param width  of the applications window
-     * @param height of the applications window
-     */
     private void initComponents(int width, int height) {
-
         JMenuBar menuBar;
         ButtonGroup bg = new ButtonGroup();
 
@@ -112,7 +88,8 @@ public class Window extends JFrame {
         switchIntPause.setState(InternalConfig.isAutoPauseEnabled());
 
         programmFunctions = new JMenu("Options");
-        programmFunctions.add(switchIntPause);
+
+        // TODO : Add this again when fixed - programmFunctions.add(switchIntPause);
 
         nofLabel = new JLabel();
         nofLabel.setToolTipText("Number of elements in list.");
@@ -208,10 +185,7 @@ public class Window extends JFrame {
 
         });
 
-
-        for(SortAlgorithm algorithm : SortAlgorithm.values()) {
-            sortChooser.addItem(algorithm);
-        }
+        Arrays.stream(SortAlgorithm.values()).forEach(algorithm -> sortChooser.addItem(algorithm));
 
         sortChooser.setMaximumSize(new Dimension(300, 100));
 
@@ -246,8 +220,6 @@ public class Window extends JFrame {
         newSort.setToolTipText("Add selected sort algorithm.");
         newSort.addActionListener(controller);
         newSort.setActionCommand(Consts.ADD_SORT);
-
-        speed = new JSlider(0, 300, 50);
 
         Hashtable labelTable = new Hashtable();
         labelTable.put(new Integer(0), new JLabel("Slow"));
@@ -360,14 +332,20 @@ public class Window extends JFrame {
         setVisible(true);
     }
 
-
-    /**
-     * Start-stop functionality for the visualisation
-     * progress.
-     */
+    /*
     public void toggleStartStop() {
         next.toggle();
         if (next.getState() == PlayPauseToggle.State.PAUSE) {
+            reset.setEnabled(false);
+        } else {
+            reset.setEnabled(true);
+        }
+    }
+    */
+
+    public void setStartStopState(PlayPauseToggle.State state) {
+        next.setState(state);
+        if (state == PlayPauseToggle.State.PAUSE) {
             reset.setEnabled(false);
         } else {
             reset.setEnabled(true);
@@ -383,8 +361,6 @@ public class Window extends JFrame {
     }
 
     public void addSortVisualizationPanel(SortVisualisationPanel temp) {
-
-
         if (vsPanel.size() == 0) {
             content.remove(info);
             content.setLayout(new BoxLayout(content, BoxLayout.Y_AXIS));
@@ -400,36 +376,18 @@ public class Window extends JFrame {
         filler.add(c);
         content.add(c);
         revalidate();
-
-
     }
 
     public void removeSortVisualizationPanel(SortVisualisationPanel temp) {
         removeSort(vsPanel.indexOf(temp));
     }
 
-    /**
-     * This method updates the number of elements, by
-     * setting the component label, that is located
-     * on the bottom of the window.
-     *
-     * @param nof number of elements to be sorted
-     */
+
     public void updateNumberOfElements(int nof) {
-
         nofLabel.setText(String.valueOf(nof).concat(" ").concat("number of elements"));
-
     }
 
-    /**
-     * This method updates the timer, by
-     * setting the component label, that is located
-     * on the bottom of the window. This timer checking
-     * how long the progress is taking place.
-     *
-     * @param sec  seconds of the timer
-     * @param msec milliseconds of the timer
-     */
+
     public void setClockParam(int sec, int msec) {
 
         String smsec, ssec;
@@ -446,56 +404,28 @@ public class Window extends JFrame {
 
     }
 
-    /**
-     * Alters the main application window's
-     * name, when realeasing the progress.
-     */
     public void appReleased() {
         this.setTitle(title);
     }
 
-    /**
-     * Alters the main application window's
-     * name, when pausing the progress.
-     */
     public void appStopped() {
         this.setTitle(title.concat(" - Paused"));
     }
 
-    /**
-     * @return Returns the current selected sort,
-     * from the combobox (top of the application).
-     */
     public SortAlgorithm getSelectedSort() {
         return (SortAlgorithm) sortChooser.getSelectedItem();
     }
 
-    /**
-     * @param lock Unlock or lock the manual iteration button
-     *             , that is responsible for executing a single
-     *             iteration on all current pausing sort algorithms.
-     */
     public void unlockManualIteration(boolean lock) {
-
         nextStep.setEnabled(lock);
         listBtn.setEnabled(lock);
-
     }
 
-    /**
-     * @param lock Unlock or lock the button for
-     *             adding new sort algorithms.
-     */
     public void unlockAddSort(boolean lock) {
         newSort.setEnabled(lock);
-
     }
 
-    /**
-     * @param index
-     */
     public void removeSort(int index) {
-
         content.remove(filler.get(index));
         content.remove(vsPanel.get(index));
         vsPanel.remove(index);
@@ -527,14 +457,9 @@ public class Window extends JFrame {
         // show results on frame
         revalidate();
         repaint();
-
     }
 
-    /**
-     * @param source
-     */
     public static void setComponentFont(String source) {
-
         try {
 
             InputStream in = Window.class.getResourceAsStream(source);
@@ -545,21 +470,12 @@ public class Window extends JFrame {
         } catch (FontFormatException e) {
             e.printStackTrace();
         }
-
     }
 
-    /**
-     * @param size
-     * @return
-     */
     public static Font getComponentFont(float size) {
         return componentFont.deriveFont(size);
     }
 
-    /**
-     * @param source
-     * @param size
-     */
     public static void setInfoFont(String source, float size) {
         try {
             InputStream in = Window.class.getResourceAsStream(source);
@@ -571,6 +487,4 @@ public class Window extends JFrame {
             e.printStackTrace();
         }
     }
-
-
 }

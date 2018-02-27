@@ -99,10 +99,10 @@ public class HeapSort extends Sort {
     public void run() {
         try {
             heapSort();
-            operationExecutor.terminate();
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+        operationExecutor.terminate();
     }
 
     @Override

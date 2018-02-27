@@ -23,8 +23,6 @@ import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Desktop;
 import java.awt.GridLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.IOException;
@@ -32,29 +30,20 @@ import java.net.URI;
 import java.net.URISyntaxException;
 
 import javax.swing.*;
-import javax.swing.border.Border;
 import javax.swing.border.CompoundBorder;
 import javax.swing.border.TitledBorder;
 
 import com.bulenkov.iconloader.IconLoader;
-import main.Controller;
-import main.Window;
+import gui.Window;
 
 
-public class AboutDialog extends OptionDialog implements ActionListener {
-
+public class AboutDialog extends OptionDialog {
 
     private static AboutDialog instance;
 
     public AboutDialog(int width, int height) {
         super("About - Visual Sorting", width, height, true);
-
     }
-
-    @Override
-    public void actionPerformed(ActionEvent e) {
-    }
-
 
     @Override
     protected void initComponents() {
@@ -129,29 +118,24 @@ public class AboutDialog extends OptionDialog implements ActionListener {
 
 
         setLayout(new BorderLayout());
-
         addMouseListener(new MouseAdapter() {
             public void mouseClicked(MouseEvent e) {
                 dispose();
             }
         });
-
         hyperlinks.add(hyperlinkGNU);
         hyperlinks.add(hyperlinkGitHub);
 
         JLabel logo = new JLabel(IconLoader.getIcon("/resources/icons/logo-simple.png"));
         logo.setBorder(BorderFactory.createEmptyBorder(10, 0, 0, 0));
-
         add(BorderLayout.PAGE_START, logo);
         add(BorderLayout.CENTER, cpr);
         add(BorderLayout.SOUTH, hyperlinks);
         setResizable(false);
-
     }
 
     public static AboutDialog getInstance(int width,
                                           int height) {
-
         if (instance == null)
             instance = new AboutDialog(width, height);
 

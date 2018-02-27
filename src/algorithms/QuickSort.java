@@ -76,13 +76,12 @@ public class QuickSort extends Sort {
     }
 
     public void run() {
-
         try {
             sort(0, operationExecutor.getNumberOfElements() - 1);
-            operationExecutor.terminate();
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+        operationExecutor.terminate();
     }
 
     @Override

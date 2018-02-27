@@ -26,11 +26,11 @@ import javax.swing.plaf.FontUIResource;
 
 import main.Consts.SortAlgorithm;
 import dialogs.InfoDialog;
+import gui.Window;
 
 public class Main {
 
     public static void main(String[] args) {
-
         try {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
         } catch (ClassNotFoundException e1) {
@@ -81,7 +81,6 @@ public class Main {
         javax.swing.UIManager.put("Spinner.font", new FontUIResource(Window.getComponentFont(13f)));
         javax.swing.UIManager.put("Slider.font", new FontUIResource(Window.getComponentFont(13f)));
 
-
         // hashmap for resolving sort into the respective infopage file
         HashMap<SortAlgorithm, String> map = new HashMap<>();
         map.put(SortAlgorithm.Bubblesort, "infopage_bubblesort.html");
@@ -99,11 +98,9 @@ public class Main {
         map.put(SortAlgorithm.Quicksort_MO3, "infopage_quicksort.html");
 
         InfoDialog.initInfoPageResolver(map);
-
         Controller controller = new Controller();
         Window window = new Window(controller, "Visual Sorting - ".concat(InternalConfig.getVersion()), 1200, 800);
         controller.setView(window);
-
 
     }
 

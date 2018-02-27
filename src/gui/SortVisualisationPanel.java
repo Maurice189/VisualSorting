@@ -1,4 +1,4 @@
-package main;
+package gui;
 
 /*
  * This software is licensed under the MIT License.
@@ -28,6 +28,7 @@ import javax.swing.*;
 import javax.swing.border.TitledBorder;
 
 import dialogs.InfoDialog;
+import main.Consts;
 
 /**
  * This class is used to display the animation in a panel. The animation is

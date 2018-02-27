@@ -29,11 +29,10 @@ public class ShellSort extends Sort {
                     increment *= (5.0 / 11);
                 }
             }
-
-            operationExecutor.terminate();
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+        operationExecutor.terminate();
     }
 
     @Override

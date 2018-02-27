@@ -42,6 +42,8 @@ import javax.swing.JTabbedPane;
 import javax.swing.border.TitledBorder;
 
 import main.*;
+import gui.SortVisualisationPanel;
+import gui.Window;
 
 /**
  * This class is responsible for editing the sorting list.
@@ -152,11 +154,6 @@ public class EnterDialog extends OptionDialog implements ActionListener {
 
     }
 
-
-    /**
-     * {@inheritDoc} overridden method
-     */
-
     @Override
     protected void initComponents() {
         listModel = new DefaultListModel<Integer>();
@@ -254,9 +251,6 @@ public class EnterDialog extends OptionDialog implements ActionListener {
         btnWrpc2.anchor = GridBagConstraints.SOUTH;
         btnWrpc2.insets = new Insets(4, 4, 4, 4);
 
-        // sp
-
-
         add(tp, tcnt);
         add(btnWrp1, btnWrpc1);
         add(btnWrp2, btnWrpc2);
@@ -273,13 +267,6 @@ public class EnterDialog extends OptionDialog implements ActionListener {
 
     }
 
-    /**
-     * @param width  width of the frame
-     * @param height height of the frame
-     * @return an instance of EnterDialog, if the wasn't requested before,
-     * it will be created. For more info see 'Singleton' (Design Pattern)
-     * @category Singleton (Design Pattern)
-     */
     public static EnterDialog getInstance(Controller controller, int width,
                                           int height) {
 

@@ -30,13 +30,9 @@ import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JSlider;
 import javax.swing.border.EtchedBorder;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 
-import algorithms.Sort;
 import main.Controller;
 import main.InternalConfig;
-import main.Window;
 
 
 public final class DelayDialog extends OptionDialog implements ActionListener {
@@ -55,13 +51,7 @@ public final class DelayDialog extends OptionDialog implements ActionListener {
         this.controller = controller;
     }
 
-    /**
-     * {@inheritDoc} overriden method
-     *
-     * @Override
-     */
     protected void initComponents() {
-
         delay = new JLabel();
         slider = new JSlider(0, 300, 50);
         ms = new JRadioButton("ms");
@@ -125,10 +115,7 @@ public final class DelayDialog extends OptionDialog implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        // TODO Auto-generated method stub
-
         if (e.getSource() == ns) {
-
             active = false;
             ms.setSelected(false);
             slider.setMajorTickSpacing(10);
@@ -136,10 +123,7 @@ public final class DelayDialog extends OptionDialog implements ActionListener {
             slider.setMinimum(0);
             slider.setValue(delayNs);
             active = true;
-
-
         } else if (e.getSource() == ms) {
-
             active = false;
             ns.setSelected(false);
             slider.setMajorTickSpacing(5);
@@ -147,24 +131,14 @@ public final class DelayDialog extends OptionDialog implements ActionListener {
             slider.setMinimum(0);
             slider.setValue(delayMs);
             active = true;
-
-
         }
-
-
     }
 
-    /**
-     * @param width  width of the frame
-     * @param height height of the frame
-     * @return an instance of EnterDialog, if the wasn't requested before,
-     * it will be created. For more info see 'Singleton' (Design Pattern)
-     * @category Singelton (Design Pattern)
-     */
+
     public static DelayDialog getInstance(Controller controller, int width, int height) {
-
-        if (instance == null) instance = new DelayDialog(controller, width, height);
-
+        if (instance == null) {
+            instance = new DelayDialog(controller, width, height);
+        }
         instance.setVisible(true);
         return instance;
     }

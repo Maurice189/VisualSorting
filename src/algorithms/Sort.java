@@ -24,18 +24,10 @@ import main.Consts.SortAlgorithm;
  */
 
 public abstract class Sort extends Observable implements Runnable {
-
-    protected String name;
     protected OperationExecutor operationExecutor;
 
     public Sort(OperationExecutor operationExecutor) {
         this.operationExecutor = operationExecutor;
     }
-
-    public void setName(String name) {
-        this.name = name;
-    }
     public abstract SortAlgorithm getAlgorithmName();
-
-
 }

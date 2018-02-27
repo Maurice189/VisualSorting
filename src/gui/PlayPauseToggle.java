@@ -1,4 +1,4 @@
-package main;
+package gui;
 
 import com.bulenkov.iconloader.IconLoader;
 
@@ -6,7 +6,7 @@ import javax.swing.*;
 
 public class PlayPauseToggle extends JButton {
 
-    enum State {PLAY, PAUSE}
+    public enum State {PLAY, PAUSE}
 
     private State state;
 

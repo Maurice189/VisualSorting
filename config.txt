@@ -1,5 +1,6 @@
-#Fri Jun 27 02:49:54 CEST 2014
+#Tue Feb 27 11:42:40 CET 2018
 version=0.8
-delayms=100
-delayns=10
-nofelements=100
+delayms=4
+delayns=0
+auto_pause=false
+nofelements=70

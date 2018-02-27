@@ -29,10 +29,10 @@ public class CombSort extends Sort {
                     }
                 }
             }
-            operationExecutor.terminate();
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+        operationExecutor.terminate();
     }
 
     @Override

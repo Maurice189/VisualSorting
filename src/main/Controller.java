@@ -33,6 +33,9 @@ import dialogs.AboutDialog;
 import dialogs.DelayDialog;
 import dialogs.EnterDialog;
 import main.Consts.SortAlgorithm;
+import gui.PlayPauseToggle;
+import gui.SortVisualisationPanel;
+import gui.Window;
 
 
 public class Controller implements ComponentListener, ActionListener, WindowListener {
@@ -80,7 +83,6 @@ public class Controller implements ComponentListener, ActionListener, WindowList
             operationExecutors.forEach(v -> v.getSortVisualizationPanel().enableRemoveButton(true));
 
             window.unlockAddSort(true);
-            threadsAlive = 0;
             pausedByUser = false;
             state = State.RESET;
         } catch (InterruptedException e) {
@@ -150,12 +152,14 @@ public class Controller implements ComponentListener, ActionListener, WindowList
                 timer.stop();
                 pausedByUser = true;
                 state = State.PAUSED;
+                window.setStartStopState(PlayPauseToggle.State.PLAY);
             } else if (state == State.PAUSED) {
                 window.unlockManualIteration(false);
                 operationExecutors.forEach(OperationExecutor::resume);
                 state = State.RUNNING;
                 timer.start();
                 pausedByUser = false;
+                window.setStartStopState(PlayPauseToggle.State.PAUSE);
             } else if (state == State.RESET) {
                 if (executor.isTerminated()) {
                     executor = Executors.newCachedThreadPool();
@@ -172,8 +176,8 @@ public class Controller implements ComponentListener, ActionListener, WindowList
                 timer.reset();
                 timer.start();
                 state = State.RUNNING;
+                window.setStartStopState(PlayPauseToggle.State.PAUSE);
             }
-            window.toggleStartStop();
         } else if (e.getActionCommand() == Consts.RESET) {
             reset();
         } else if (e.getActionCommand() == Consts.AUTO_PAUSE) {
@@ -193,8 +197,9 @@ public class Controller implements ComponentListener, ActionListener, WindowList
     public void terminationSignal(OperationExecutor operationExecutor) {
 
         if (--threadsAlive == 0) {
+            System.out.println("All threads terminated !!!!!!");
             EventQueue.invokeLater(() -> {
-                window.toggleStartStop();
+                window.setStartStopState(PlayPauseToggle.State.PLAY);
                 window.unlockAddSort(true);
                 window.unlockManualIteration(true);
             });

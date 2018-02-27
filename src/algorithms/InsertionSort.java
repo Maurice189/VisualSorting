@@ -21,11 +21,10 @@ public class InsertionSort extends Sort {
                 }
                 operationExecutor.insertByValue(j + 1, value);
             }
-            operationExecutor.terminate();
-
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+        operationExecutor.terminate();
     }
 
     @Override

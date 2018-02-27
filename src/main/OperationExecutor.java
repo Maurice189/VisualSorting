@@ -1,5 +1,7 @@
 package main;
 
+import gui.SortVisualisationPanel;
+
 public class OperationExecutor {
 
     private static final int INSTRUCTION_UNIT = 5;
@@ -15,6 +17,7 @@ public class OperationExecutor {
     private int[] elements, copyOfElements;
     private int instructionCount;
     private boolean flashing;
+    private boolean reset;
 
     public OperationExecutor(Controller controller, SortVisualisationPanel svp) {
         this.controller = controller;
@@ -24,6 +27,7 @@ public class OperationExecutor {
     public void reset() {
         this.flashing = false;
         this.pause = false;
+        this.reset = true;
         svp.enableRemoveButton(false);
     }
 
@@ -63,6 +67,7 @@ public class OperationExecutor {
     public void initElements() {
         this.elements = new int[copyOfElements.length];
         this.flashing = true;
+        this.reset = false;
 
         System.arraycopy(copyOfElements, 0, elements, 0, copyOfElements.length);
 
@@ -113,7 +118,6 @@ public class OperationExecutor {
     public void insertByValue(int i, int value) throws InterruptedException {
         insertByValue(elements, i, value);
     }
-
 
     public void manualInstruction(int count) throws InterruptedException {
         instructionCount += count;

@@ -27,16 +27,9 @@ import javax.swing.*;
 
 public abstract class OptionDialog extends JDialog {
 
-
     private static final long serialVersionUID = 1L;
     protected String title;
 
-    /**
-     * the default frame icon is set to every dialog
-     *
-     * @param width  width of the dialog
-     * @param height width of the dialog
-     */
     public OptionDialog(String title, int width, int height, boolean enableLoadingAnimation) {
         this.title = title;
 
@@ -62,16 +55,8 @@ public abstract class OptionDialog extends JDialog {
             initComponents();
         }
 
-
-
-
-
     }
 
-    /**
-     * Declare and init the components should be displayed
-     */
     protected abstract void initComponents();
-
 
 }

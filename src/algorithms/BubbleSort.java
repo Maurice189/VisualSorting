@@ -21,12 +21,10 @@ public class BubbleSort extends Sort {
                     }
                 }
             } while (swapped);
-
-            operationExecutor.terminate();
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-
+        operationExecutor.terminate();
     }
 
     @Override

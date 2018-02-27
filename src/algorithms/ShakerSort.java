@@ -35,10 +35,10 @@ public class ShakerSort extends Sort {
                 shaker2(i, l);
                 i++;
             }
-            operationExecutor.terminate();
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+        operationExecutor.terminate();
     }
 
     @Override
