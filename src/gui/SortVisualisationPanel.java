@@ -22,6 +22,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
+import java.awt.image.VolatileImage;
 import java.util.Arrays;
 
 import javax.swing.*;
@@ -59,23 +60,20 @@ public class SortVisualisationPanel extends JPanel {
     private JButton remove;
 
     private Color[] colors;
+    private GraphicsEnvironment graphicsEnvironment;
 
     public SortVisualisationPanel(Consts.SortAlgorithm algorithm, int width, int height) {
         this.algorithm = algorithm;
         this.width = width;
         this.height = height;
-        GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
+        this.graphicsEnvironment = GraphicsEnvironment.getLocalGraphicsEnvironment();
+
         try {
-            // See : http://www.oracle.com/technetwork/java/perf-graphics-135933.html - Tips for Achieving Better Performance
-            GraphicsDevice gs = ge.getDefaultScreenDevice();
-            GraphicsConfiguration gc = gs.getDefaultConfiguration();
-            buffer = gc.createCompatibleImage(
-                    width, height, Transparency.OPAQUE);
+            buffer = createOptimizedBufferedImage(width, height);
             gbuffer = (Graphics2D) buffer.getGraphics();
             gbuffer.setFont(Window.getComponentFont(12f));
             gbuffer.clearRect(0, 0, width, height);
             this.setOpaque(false);
-
             initColors();
 
             leftBorder = BorderFactory.createTitledBorder("");
@@ -89,6 +87,15 @@ public class SortVisualisationPanel extends JPanel {
         } catch (HeadlessException e) {
             e.printStackTrace();
         }
+    }
+
+
+    private BufferedImage createOptimizedBufferedImage(int width, int height) throws HeadlessException {
+        // See : http://www.oracle.com/technetwork/java/perf-graphics-135933.html - Tips for Achieving Better Performance
+        GraphicsDevice gs = graphicsEnvironment.getDefaultScreenDevice();
+        GraphicsConfiguration gc = gs.getDefaultConfiguration();
+        return gc.createCompatibleImage(
+                width, height, Transparency.BITMASK);
     }
 
     private void initColors() {
@@ -230,7 +237,6 @@ public class SortVisualisationPanel extends JPanel {
     }
 
     public void visualTermination() {
-
         // nur unteren bereich loeschen
         gbuffer.clearRect(0, height - offsetY, width, height);
         gbuffer.setColor(new Color(100, 100, 100));
@@ -238,7 +244,6 @@ public class SortVisualisationPanel extends JPanel {
         double delayNs = (visualTerminationTime * 1000.0 / elements.length);
 
         for (int i = 0; i < elements.length; i++) {
-
             gbuffer.fillRect((i * (refWidth + gapSize)) + margin,
                     (height - (refHeight * elements[i])) - offsetY, refWidth,
                     refHeight * elements[i]);
@@ -248,20 +253,23 @@ public class SortVisualisationPanel extends JPanel {
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-
             repaint();
-
         }
-
     }
 
     public void updatePanelSize() {
-        buffer = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
-        gbuffer = (Graphics2D) buffer.getGraphics();
-        gbuffer.setBackground(new Color(0, 0, 0, 0));
-        gbuffer.clearRect(0, 0, width, height);
-        gbuffer.setFont(Window.getComponentFont(14f));
-        drawElements();
+        GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
+
+        try {
+            buffer = createOptimizedBufferedImage(width, height);
+            gbuffer = (Graphics2D) buffer.getGraphics();
+            gbuffer.setBackground(new Color(0, 0, 0, 0));
+            gbuffer.clearRect(0, 0, width, height);
+            gbuffer.setFont(Window.getComponentFont(14f));
+            drawElements();
+        } catch (HeadlessException e) {
+            e.printStackTrace();
+        }
     }
 
     public void updateBarSize() {
