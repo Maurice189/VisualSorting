@@ -22,74 +22,53 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.HashMap;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.Properties;
-
-import algorithms.Sort;
 
 public class InternalConfig {
 
-    private static String PROPORTIES_NAME = "config.txt";
+    private static String CONFIG_FILE_PATH = "config.txt";
     private static Properties prop;
 
     private static String version;
     private static boolean autoPauseOn;
-    private static int[] elements;
     private static int delayNs;
     private static int delayMs;
+    private static int numberOfElements;
+
+    private final static String PROPERTY_VERSION = "version";
+    private final static String PROPERTY_DELAY_MS = "delay_ms";
+    private final static String PROPERTY_DELAY_NS = "delay_ns";
+    private final static String PROPERTY_NUMBER_OF_ELEMENTS = "number_of_elements";
+    private final static String PROPERTY_AUTO_PAUSE_ENABLED = "auto_pause_enabled";
 
     public static void setConfigFileDirectory(String configPath) {
-        PROPORTIES_NAME = configPath + "config.txt";
+        CONFIG_FILE_PATH = configPath + "config.txt";
     }
 
     public static void loadConfigFile() {
-        FileReader reader = null;
 
-        try {
-            reader = new FileReader(PROPORTIES_NAME);
-        } catch (FileNotFoundException e1) {
-
-            System.out.println("Info: config file does not exist\n --> create config file with default parameters");
-            FileWriter writer;
-            Properties prConfig = new Properties(System.getProperties());
-
+        if (Files.exists(Paths.get(CONFIG_FILE_PATH))) {
             try {
-                writer = new FileWriter(PROPORTIES_NAME);
-                prConfig.setProperty("version", "0.5 Beta");
-                prConfig.setProperty("delayms", "100");
-                prConfig.setProperty("delayns", "10");
-                prConfig.setProperty("nofelements", "128");
-                prConfig.setProperty("auto_pause", "true");
-                prConfig.store(writer, null);
-                writer.close();
+                FileReader reader = new FileReader(CONFIG_FILE_PATH);
+                prop = new Properties();
+                prop.load(reader);
+                reader.close();
+                setValues();
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
             } catch (IOException e) {
                 e.printStackTrace();
             }
-        }
-
-        try {
-            reader = new FileReader(PROPORTIES_NAME);
+        } else {
             prop = new Properties();
-            prop.load(reader);
-            reader.close();
-            setValues();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
+            version = "/";
+            delayMs = 100;
+            delayNs = 0;
+            numberOfElements = 100;
+            autoPauseOn = true;
         }
-    }
-
-    public static int getRandomNumber(int low, int high) {
-        return (int) (Math.random() * (high - low) + low);
-    }
-
-    public static void setElements(int[] elements) {
-        InternalConfig.elements = elements;
-    }
-
-    public static int[] getElements() {
-        return elements;
     }
 
     public static int getExecutionSpeedDelayMs() {
@@ -100,22 +79,25 @@ public class InternalConfig {
         return delayNs;
     }
 
+    public static int getNumberOfElements() {
+        return numberOfElements;
+    }
+
     public static void setExecutionSpeedParameters(int delayMs, int delayNs) {
         InternalConfig.delayMs = delayMs;
         InternalConfig.delayNs = delayNs;
     }
 
+    public static void setNumberOfElements(int numberOfElements) {
+        InternalConfig.numberOfElements = numberOfElements;
+    }
+
     private static void setValues() {
-        version = getValue("version");
-        int nofelements = Integer.parseInt(getValue("nofelements"));
-        autoPauseOn = Boolean.parseBoolean(getValue("auto_pause"));
-        delayMs = Integer.parseInt(getValue("delayms"));
-        delayNs = Integer.parseInt(getValue("delayns"));
-
-        elements = new int[nofelements];
-        for (int i = 0; i < nofelements; i++)
-            elements[i] = InternalConfig.getRandomNumber(0, nofelements / 3);
-
+        version = getValue(PROPERTY_VERSION);
+        numberOfElements = Integer.parseInt(getValue(PROPERTY_NUMBER_OF_ELEMENTS));
+        autoPauseOn = Boolean.parseBoolean(getValue(PROPERTY_AUTO_PAUSE_ENABLED));
+        delayMs = Integer.parseInt(getValue(PROPERTY_DELAY_MS));
+        delayNs = Integer.parseInt(getValue(PROPERTY_DELAY_NS));
     }
 
     private static void setValue(String key, Object value) {
@@ -127,14 +109,14 @@ public class InternalConfig {
     }
 
     public static void saveChanges() {
-        setValue("delayms", delayMs);
-        setValue("delayns", delayNs);
-        setValue("nofelements", elements.length);
-        setValue("auto_pause", String.valueOf(autoPauseOn));
+        setValue(PROPERTY_VERSION, version);
+        setValue(PROPERTY_DELAY_MS, delayMs);
+        setValue(PROPERTY_DELAY_NS, delayNs);
+        setValue(PROPERTY_NUMBER_OF_ELEMENTS, numberOfElements);
+        setValue(PROPERTY_AUTO_PAUSE_ENABLED, String.valueOf(autoPauseOn));
 
-        FileWriter writer;
         try {
-            writer = new FileWriter(PROPORTIES_NAME);
+            FileWriter writer = new FileWriter(CONFIG_FILE_PATH);
             prop.store(writer, null);
             writer.close();
         } catch (IOException e) {

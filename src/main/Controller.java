@@ -33,7 +33,6 @@ import dialogs.AboutDialog;
 import dialogs.DelayDialog;
 import dialogs.EnterDialog;
 import main.Consts.SortAlgorithm;
-import gui.PlayPauseToggle;
 import gui.SortVisualisationPanel;
 import gui.Window;
 
@@ -42,9 +41,6 @@ public class Controller implements ComponentListener, ActionListener, WindowList
 
     private boolean pausedByUser = false;
 
-    private enum State {RUNNING, PAUSED, RESET}
-
-    private State state = State.RESET;
     private ArrayList<OperationExecutor> operationExecutors;
 
     private Window window;
@@ -53,7 +49,10 @@ public class Controller implements ComponentListener, ActionListener, WindowList
     private volatile int threadsAlive;
     private Timer timer;
 
-    public Controller() {
+    private int[] elements;
+
+    public Controller(int[] initElements) {
+        elements = initElements;
         tasks = new LinkedBlockingQueue<>();
         operationExecutors = new ArrayList<>();
         executor = Executors.newCachedThreadPool();
@@ -63,7 +62,6 @@ public class Controller implements ComponentListener, ActionListener, WindowList
     public void setView(Window window) {
         this.window = window;
         window.addComponentListener(this);
-        window.updateNumberOfElements(InternalConfig.getElements().length);
     }
 
     public void reset() {
@@ -80,11 +78,8 @@ public class Controller implements ComponentListener, ActionListener, WindowList
 
             timer.reset();
             operationExecutors.forEach(OperationExecutor::initElements);
-            operationExecutors.forEach(v -> v.getSortVisualizationPanel().enableRemoveButton(true));
-
-            window.unlockAddSort(true);
             pausedByUser = false;
-            state = State.RESET;
+            window.setState(Window.State.STOPPED);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -96,7 +91,7 @@ public class Controller implements ComponentListener, ActionListener, WindowList
             SortVisualisationPanel temp = new SortVisualisationPanel(selectedSort, window.getWidth(), window.getHeight());
 
             final OperationExecutor operationExecutor = new OperationExecutor(this, temp);
-            operationExecutor.initElements(InternalConfig.getElements());
+            operationExecutor.initElements(elements);
             operationExecutor.setDelay(InternalConfig.getExecutionSpeedDelayMs(), InternalConfig.getExecutionSpeedDelayNs());
 
             final Sort sort;
@@ -125,8 +120,8 @@ public class Controller implements ComponentListener, ActionListener, WindowList
                 sort = new InsertionSort(operationExecutor);
             else if (selectedSort.equals(SortAlgorithm.Bogosort))
                 sort = new BogoSort(operationExecutor);
-            else if (selectedSort.equals(SortAlgorithm.Introsort))
-                sort = new IntroSort(operationExecutor);
+            //else if (selectedSort.equals(SortAlgorithm.Introsort))
+            //    sort = new IntroSort(operationExecutor);
             else
                 sort = new HeapSort(operationExecutor);
 
@@ -137,29 +132,28 @@ public class Controller implements ComponentListener, ActionListener, WindowList
                             operationExecutors.remove(operationExecutor);
                             tasks.remove(sort);
                         }
+                        if (operationExecutors.isEmpty()) {
+                            window.setState(Window.State.EMPTY);
+                        }
                     });
 
             operationExecutors.add(operationExecutor);
             window.addSortVisualizationPanel(temp);
             tasks.add(sort);
             resize();
-            state = State.RESET;
+            window.setState(Window.State.STOPPED);
         } else if (e.getActionCommand() == Consts.START) {
-            if (state == State.RUNNING) {
+            if (window.getWindowState() == Window.State.RUNNING) {
                 operationExecutors.forEach(OperationExecutor::pause);
-                window.unlockManualIteration(true);
                 timer.stop();
                 pausedByUser = true;
-                state = State.PAUSED;
-                window.setStartStopState(PlayPauseToggle.State.PLAY);
-            } else if (state == State.PAUSED) {
-                window.unlockManualIteration(false);
+                window.setState(Window.State.PAUSED);
+            } else if (window.getWindowState() == Window.State.PAUSED) {
                 operationExecutors.forEach(OperationExecutor::resume);
-                state = State.RUNNING;
+                window.setState(Window.State.RUNNING);
                 timer.start();
                 pausedByUser = false;
-                window.setStartStopState(PlayPauseToggle.State.PAUSE);
-            } else if (state == State.RESET) {
+            } else if (window.getWindowState() == Window.State.STOPPED) {
                 if (executor.isTerminated()) {
                     executor = Executors.newCachedThreadPool();
                 }
@@ -168,14 +162,9 @@ public class Controller implements ComponentListener, ActionListener, WindowList
 
                 threadsAlive = tasks.size();
 
-                window.setRemoveButtonsEnabled(false);
-                window.unlockManualIteration(false);
-                window.unlockAddSort(false);
-
                 timer.reset();
                 timer.start();
-                state = State.RUNNING;
-                window.setStartStopState(PlayPauseToggle.State.PAUSE);
+                window.setState(Window.State.RUNNING);
             }
         } else if (e.getActionCommand() == Consts.RESET) {
             reset();
@@ -194,18 +183,12 @@ public class Controller implements ComponentListener, ActionListener, WindowList
 
     public void terminationSignal(OperationExecutor operationExecutor) {
         if (--threadsAlive == 0) {
-            System.out.println("All threads terminated !!!!!!");
             EventQueue.invokeLater(() -> {
-                window.setStartStopState(PlayPauseToggle.State.PLAY);
-                window.unlockAddSort(true);
-                window.unlockManualIteration(true);
+                window.setState(Window.State.STOPPED);
             });
             timer.stop();
-            window.setRemoveButtonsEnabled(true);
-            state = State.RESET;
         }
         operationExecutor.getSortVisualizationPanel().setDuration(timer.getLeftSec(), timer.getLeftMs());
-        System.out.println("Termination signal : " + threadsAlive);
     }
 
     @Override
@@ -220,24 +203,22 @@ public class Controller implements ComponentListener, ActionListener, WindowList
 
     @Override
     public void windowActivated(WindowEvent e) {
-        if (InternalConfig.isAutoPauseEnabled() && !pausedByUser && state == State.PAUSED) {
+        if (InternalConfig.isAutoPauseEnabled() && !pausedByUser && window.getWindowState() == Window.State.PAUSED) {
             if (threadsAlive != 0) {
                 timer.start();
                 operationExecutors.forEach(OperationExecutor::resume);
             }
-            state = State.RUNNING;
-            window.appReleased();
+            window.setState(Window.State.RUNNING);
         }
     }
 
     @Override
     public void windowDeactivated(WindowEvent e) {
-        if (InternalConfig.isAutoPauseEnabled() && state == State.RUNNING) {
+        if (InternalConfig.isAutoPauseEnabled() && window.getWindowState() == Window.State.RUNNING) {
             if (threadsAlive != 0) {
                 operationExecutors.forEach(OperationExecutor::pause);
-                window.appStopped();
                 timer.stop();
-                state = State.PAUSED;
+                window.setState(Window.State.PAUSED);
             }
         }
     }
@@ -248,7 +229,8 @@ public class Controller implements ComponentListener, ActionListener, WindowList
     }
 
     public void elementsChanged(int[] elements) {
-        InternalConfig.setElements(elements);
+        this.elements = elements;
+        InternalConfig.setNumberOfElements(elements.length);
         window.updateNumberOfElements(elements.length);
         operationExecutors.forEach(v -> v.initElements(elements));
         reset();
@@ -304,9 +286,9 @@ public class Controller implements ComponentListener, ActionListener, WindowList
                     leftMs = 0;
                     leftSec++;
                 }
-                window.setClockParam(leftSec, leftMs);
+                window.setExecutionTime(leftSec, leftMs);
             });
-            if (window != null) window.setClockParam(0, 0);
+            if (window != null) window.setExecutionTime(0, 0);
         }
 
         public int getLeftMs() {

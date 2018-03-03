@@ -168,6 +168,10 @@ public class OperationExecutor {
         return result;
     }
 
+    public int[] getElements() {
+        return elements;
+    }
+
     public int getNumberOfElements() {
         return elements.length;
     }

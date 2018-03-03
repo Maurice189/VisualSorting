@@ -57,6 +57,8 @@ import gui.Window;
 
 public class EnterDialog extends OptionDialog implements ActionListener {
 
+    private static int[] listOfElements;
+
     private DefaultListModel<Integer> listModel;
     private JList<Integer> elements;
     private JSpinner nofValues;
@@ -75,46 +77,7 @@ public class EnterDialog extends OptionDialog implements ActionListener {
         this.controller = controller;
     }
 
-    public int getRandomNumber(int low, int high) {
-        return (int) (Math.random() * (high - low) + low);
-    }
 
-
-    private int[] getRandomSequence(int n) {
-        List<Integer> s1 = new LinkedList<>();
-        int[] randomSequence = new int[n];
-
-        for (int i = 0; i < n; i++) {
-            s1.add(i);
-        }
-
-        for (int i = 0; i < n; i++) {
-            int r = getRandomNumber(0, n - i);
-            randomSequence[i] = s1.remove(r);
-        }
-
-        return randomSequence;
-    }
-
-    private int[] getSortedSequence(int n) {
-        int[] sortedSequence = new int[n];
-
-        for (int i = 0; i < n; i++) {
-            sortedSequence[i] = i;
-        }
-
-        return sortedSequence;
-    }
-
-    private int[] getReversedSequence(int n) {
-        int[] reversedSequence = new int[n];
-
-        for (int i = 0; i < n; i++) {
-            reversedSequence[i] = n - 1 - i;
-        }
-
-        return reversedSequence;
-    }
 
 
     @Override
@@ -130,13 +93,13 @@ public class EnterDialog extends OptionDialog implements ActionListener {
             int[] tmp = new int[l];
 
             if (random.isSelected()) {
-                tmp = getRandomSequence(l);
+                tmp = Utils.getRandomSequence(l);
             }
             if (sorted.isSelected()) {
-                tmp = getSortedSequence(l);
+                tmp = Utils.getSortedSequence(l);
             }
             if (reversed.isSelected()) {
-                tmp = getReversedSequence(l);
+                tmp = Utils.getReversedSequence(l);
             }
 
             for (int i = 0; i < l; i++) {
@@ -156,8 +119,13 @@ public class EnterDialog extends OptionDialog implements ActionListener {
 
     @Override
     protected void initComponents() {
-        listModel = new DefaultListModel<Integer>();
+        listModel = new DefaultListModel<>();
         elements = new JList<Integer>(listModel);
+
+        for (int i = 0; i < listOfElements.length; i++) {
+            listModel.addElement(listOfElements[i]);
+        }
+
         nofValues = new JSpinner();
         nofValues.setFont(Window.getComponentFont(15f));
         setLayout(new GridBagLayout());
@@ -170,15 +138,11 @@ public class EnterDialog extends OptionDialog implements ActionListener {
         listTypeGroup = new ButtonGroup();
 
         svp = new SortVisualisationPanel(Consts.SortAlgorithm.Quicksort_MO3, width, height);
-        svp.setElements(InternalConfig.getElements());
+        svp.setElements(listOfElements);
         svp.updateBarSize();
         svp.updatePanelSize();
         sp.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 
-        int tempElements[] = InternalConfig.getElements();
-        for (int i = 0; i < tempElements.length; i++) {
-            listModel.addElement(new Integer(tempElements[i]));
-        }
         nofValues.setValue(listModel.getSize());
 
         tp.addTab("List", sp);
@@ -265,6 +229,12 @@ public class EnterDialog extends OptionDialog implements ActionListener {
 
         //setResizable(false);
 
+    }
+
+    public static void setElements(int[] elements) {
+        EnterDialog.listOfElements = new int[elements.length];
+        System.arraycopy(elements, 0, EnterDialog.listOfElements, 0, elements.length);
+        System.out.println(EnterDialog.listOfElements.length);
     }
 
     public static EnterDialog getInstance(Controller controller, int width,

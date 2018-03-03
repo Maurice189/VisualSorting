@@ -1,0 +1,6 @@
+#Tue Feb 27 16:58:57 CET 2018
+version=0.5 Beta
+delayms=11
+delayns=0
+auto_pause=true
+nofelements=128

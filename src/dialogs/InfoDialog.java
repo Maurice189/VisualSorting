@@ -31,7 +31,6 @@ import main.Consts.SortAlgorithm;
 public class InfoDialog extends OptionDialog {
 
     private static HashMap<SortAlgorithm, String> infoPageRes;
-    private static HashMap<SortAlgorithm, String> toTitle;
 
     private JEditorPane manual;
     private JScrollPane editorScrollPane;
@@ -73,9 +72,11 @@ public class InfoDialog extends OptionDialog {
             algorithm = SortAlgorithm.Heapsort;
         } else if (infoPageTitle.endsWith("insertionsort.html")) {
             algorithm = SortAlgorithm.Insertionsort;
-        } else if (infoPageTitle.endsWith("introsort.html")) {
-            algorithm = SortAlgorithm.Introsort;
-        } else if (infoPageTitle.endsWith("mergesort.html")) {
+        }
+        //else if (infoPageTitle.endsWith("introsort.html")) {
+        //    algorithm = SortAlgorithm.Introsort;
+        //}
+        else if (infoPageTitle.endsWith("mergesort.html")) {
             algorithm = SortAlgorithm.Mergesort;
         } else if (infoPageTitle.endsWith("quicksort_fixed.html")) {
             algorithm = SortAlgorithm.Quicksort_FIXED;
@@ -90,12 +91,12 @@ public class InfoDialog extends OptionDialog {
         } else if (infoPageTitle.endsWith("selectionsort.html")) {
             algorithm = SortAlgorithm.Selectionsort;
         }
+        algorithmList.setSelectedIndex(Arrays.asList(SortAlgorithm.values()).indexOf(algorithm));
         setPage(algorithm);
     }
 
     @Override
     protected void initComponents() {
-
         setLayout(new BorderLayout());
 
         manual = new JEditorPane();
@@ -135,7 +136,6 @@ public class InfoDialog extends OptionDialog {
             }
         });
         algorithmList.addListSelectionListener(e -> {
-            System.out.println(algorithmList.getSelectedIndex());
             setPage(SortAlgorithm.values()[(algorithmList.getSelectedIndex())]);
         });
 

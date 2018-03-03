@@ -40,16 +40,19 @@ public class Window extends JFrame {
 
     private static Font componentFont = new Font("Monospace", Font.BOLD, 13);
     private static Font infoFont = new Font("Monospace", Font.BOLD, 43);
+    private State state;
+
+    public enum State {EMPTY, RUNNING, PAUSED, STOPPED}
 
     private JLabel algorithmInfo;
     private String title;
 
-    private JButton newSort, nextStep, reset, delayBtn, listBtn;
-    private PlayPauseToggle next;
-    private JPanel content;
+    private JButton addAlgorithmBtn, nextInstructionBtn, resetBtn, adjustSpeedBtn, listOfElementsBtn;
+    private PlayPauseToggle playPauseToggle;
+    private JPanel panelContainer;
     private Controller controller;
-    private JLabel info, clock, nofLabel;
-    private JComboBox<SortAlgorithm> sortChooser;
+    private JLabel centeredInfoLabel, executionTimeLabel, numberOfElementsLabel;
+    private JComboBox<SortAlgorithm> algorithmCombobox;
     private JMenuItem about, list, delay;
     private JCheckBoxMenuItem switchIntPause;
     private JMenu help, settings, programmFunctions;
@@ -57,10 +60,6 @@ public class Window extends JFrame {
     private JPanel bottomBar;
 
     private List<SortVisualisationPanel> vsPanel;
-
-    // FIXME : BAD the filler is used for the vertical space between the visualization panels
-    // the filler is used for the vertical space between the visualization panels
-    private List<Component> filler = new LinkedList<Component>();
 
     public Window(Controller controller, String title, int width, int height) {
         this.title = title;
@@ -70,17 +69,16 @@ public class Window extends JFrame {
 
     private void initComponents(int width, int height) {
         JMenuBar menuBar;
-        ButtonGroup bg = new ButtonGroup();
 
-        info = new JLabel("Add some sort algorithm",
+        centeredInfoLabel = new JLabel("Add some sort algorithm",
                 JLabel.CENTER);
-        info.setFont(infoFont);
-        info.setForeground(Color.GRAY);
+        centeredInfoLabel.setFont(infoFont);
+        centeredInfoLabel.setForeground(Color.GRAY);
 
-        clock = new JLabel();
-        clock.setToolTipText("Execution time.");
-        clock.setForeground(Color.black);
-        clock.setIcon(IconLoader.getIcon("/resources/icons/timer.png"));
+        executionTimeLabel = new JLabel();
+        executionTimeLabel.setToolTipText("Execution time.");
+        executionTimeLabel.setForeground(Color.black);
+        executionTimeLabel.setIcon(IconLoader.getIcon("/resources/icons/timer.png"));
 
         switchIntPause = new JCheckBoxMenuItem("Automatic pause enabled");
         switchIntPause.addActionListener(controller);
@@ -91,9 +89,9 @@ public class Window extends JFrame {
 
         // TODO : Add this again when fixed - programmFunctions.add(switchIntPause);
 
-        nofLabel = new JLabel();
-        nofLabel.setToolTipText("Number of elements in list.");
-        nofLabel.setForeground(Color.black);
+        numberOfElementsLabel = new JLabel();
+        numberOfElementsLabel.setToolTipText("Number of elements in list.");
+        numberOfElementsLabel.setForeground(Color.black);
 
         setTitle(title);
         setSize(width, height);
@@ -113,9 +111,9 @@ public class Window extends JFrame {
         bottomBar.setLayout(new BoxLayout(bottomBar, BoxLayout.X_AXIS));
         bottomBar.setBackground(bottomBar.getBackground().darker());
         bottomBar.setBorder(BorderFactory.createEtchedBorder());
-        bottomBar.add(clock);
+        bottomBar.add(executionTimeLabel);
         bottomBar.add(Box.createHorizontalGlue());
-        bottomBar.add(nofLabel);
+        bottomBar.add(numberOfElementsLabel);
 
         settings = new JMenu("Settings");
         help = new JMenu("Help");
@@ -128,7 +126,6 @@ public class Window extends JFrame {
         delay.setActionCommand(Consts.DELAY);
 
         about = new JMenuItem("About " + title);
-
         about.addActionListener(controller);
         about.setActionCommand(Consts.ABOUT);
 
@@ -137,7 +134,6 @@ public class Window extends JFrame {
         settings.add(list);
         settings.add(delay);
 
-
         menuBar.add(settings);
         menuBar.add(help);
         setJMenuBar(menuBar);
@@ -145,10 +141,10 @@ public class Window extends JFrame {
         algorithmInfo = new JLabel();
         algorithmInfo.setForeground(Color.GRAY);
 
-        sortChooser = new JComboBox<>();
+        algorithmCombobox = new JComboBox<>();
 
-        sortChooser.addItemListener(itemEvent -> {
-            SortAlgorithm algorithm = (SortAlgorithm) sortChooser.getSelectedItem();
+        algorithmCombobox.addItemListener(itemEvent -> {
+            SortAlgorithm algorithm = (SortAlgorithm) algorithmCombobox.getSelectedItem();
 
             if (algorithm == SortAlgorithm.Bogosort) {
                 algorithmInfo.setText("<html><b>Bogo sort</b> - Generate random permutations until it finds on that sorted.</html>");
@@ -160,9 +156,11 @@ public class Window extends JFrame {
                 algorithmInfo.setText("<html><b>Merge sort</b> - Divide unsorted lists and repeatedly merge sorted sub-lists.</html>\"");
             } else if (algorithm == SortAlgorithm.Insertionsort) {
                 algorithmInfo.setText("<html><b>Insertion sort</b> - In each iterations finds correct insert position of element</html>\"");
-            } else if (algorithm == SortAlgorithm.Introsort) {
-                algorithmInfo.setText("<html><b>Intro sort</b> - Hybrid sorting algorithm uses both quick sort and Heapsort.</html>\"");
-            } else if (algorithm == SortAlgorithm.Shakersort) {
+            }
+            //else if (algorithm == SortAlgorithm.Introsort) {
+            //    algorithmInfo.setText("<html><b>Intro sort</b> - Hybrid sorting algorithm uses both quick sort and Heapsort.</html>\"");
+            //}
+            else if (algorithm == SortAlgorithm.Shakersort) {
                 algorithmInfo.setText("<html><b>Shaker sort</b> - Bidirectional bubble sort, also known as cocktail sort.</html>\"");
             } else if (algorithm == SortAlgorithm.Selectionsort) {
                 algorithmInfo.setText("<html><b>Selection sort</b> - Repeatedly finds the minimum element and append to sorted list.</html>\"");
@@ -185,11 +183,11 @@ public class Window extends JFrame {
 
         });
 
-        Arrays.stream(SortAlgorithm.values()).forEach(algorithm -> sortChooser.addItem(algorithm));
+        Arrays.stream(SortAlgorithm.values()).forEach(algorithm -> algorithmCombobox.addItem(algorithm));
 
-        sortChooser.setMaximumSize(new Dimension(300, 100));
+        algorithmCombobox.setMaximumSize(new Dimension(300, 100));
 
-        content = new JPanel() {
+        panelContainer = new JPanel() {
             @Override
             protected void paintComponent(Graphics grphcs) {
                 super.paintComponent(grphcs);
@@ -205,86 +203,79 @@ public class Window extends JFrame {
 
         };
 
-        content.setLayout(new BorderLayout());
+        panelContainer.setLayout(new BorderLayout());
 
-        next = new PlayPauseToggle();
-        next.setPlayIcon("/resources/icons/start.png");
-        next.setPauseIcon("/resources/icons/pause.png");
-        next.setState(PlayPauseToggle.State.PLAY);
-        next.setToolTipText("Start/Pause sorting process.");
-        next.addActionListener(controller);
-        next.setActionCommand(Consts.START);
+        playPauseToggle = new PlayPauseToggle();
+        playPauseToggle.setPlayIcon("/resources/icons/start.png");
+        playPauseToggle.setPauseIcon("/resources/icons/pause.png");
+        playPauseToggle.setState(PlayPauseToggle.State.PLAY);
+        playPauseToggle.setToolTipText("Start/Pause sorting process.");
+        playPauseToggle.addActionListener(controller);
+        playPauseToggle.setActionCommand(Consts.START);
 
-
-        newSort = new VSButton("/resources/icons/add.png");
-        newSort.setToolTipText("Add selected sort algorithm.");
-        newSort.addActionListener(controller);
-        newSort.setActionCommand(Consts.ADD_SORT);
+        addAlgorithmBtn = new VSButton("/resources/icons/add.png");
+        addAlgorithmBtn.setToolTipText("Add selected sort algorithm.");
+        addAlgorithmBtn.addActionListener(controller);
+        addAlgorithmBtn.setActionCommand(Consts.ADD_SORT);
 
         Hashtable labelTable = new Hashtable();
         labelTable.put(new Integer(0), new JLabel("Slow"));
         labelTable.put(new Integer(300), new JLabel("Fast"));
 
-        delayBtn = new VSButton("/resources/icons/speed.png");
-        delayBtn.setToolTipText("Adjust the sorting speed.");
-        delayBtn.addActionListener(controller);
-        delayBtn.setActionCommand(Consts.DELAY);
+        adjustSpeedBtn = new VSButton("/resources/icons/speed.png");
+        adjustSpeedBtn.setToolTipText("Adjust the sorting speed.");
+        adjustSpeedBtn.addActionListener(controller);
+        adjustSpeedBtn.setActionCommand(Consts.DELAY);
 
-        listBtn = new VSButton("/resources/icons/elements.png");
-        listBtn.setToolTipText("Edit elements in list.");
-        listBtn.addActionListener(controller);
-        listBtn.setActionCommand(Consts.NEW_ELEMENTS);
+        listOfElementsBtn = new VSButton("/resources/icons/elements.png");
+        listOfElementsBtn.setToolTipText("Edit elements in list.");
+        listOfElementsBtn.addActionListener(controller);
+        listOfElementsBtn.setActionCommand(Consts.NEW_ELEMENTS);
 
 
-        nextStep = new VSButton("/resources/icons/next_instruction.png");
-        nextStep.setToolTipText("Execute next instruction.");
-        nextStep.addActionListener(controller);
-        nextStep.setActionCommand(Consts.NEXT_ITERATION);
+        nextInstructionBtn = new VSButton("/resources/icons/next_instruction.png");
+        nextInstructionBtn.setToolTipText("Execute playPauseToggle instruction.");
+        nextInstructionBtn.addActionListener(controller);
+        nextInstructionBtn.setActionCommand(Consts.NEXT_ITERATION);
 
-        reset = new VSButton("/resources/icons/reset.png"); //Consts.getNamebyXml(Consts.COMPONENT_TITLE.RESET)
-        reset.setToolTipText("Reset to unsorted state.");
-        reset.addActionListener(controller);
-        reset.setActionCommand(Consts.RESET);
+        resetBtn = new VSButton("/resources/icons/reset.png"); //Consts.getNamebyXml(Consts.COMPONENT_TITLE.RESET)
+        resetBtn.setToolTipText("Reset to unsorted state.");
+        resetBtn.addActionListener(controller);
+        resetBtn.setActionCommand(Consts.RESET);
 
-        content.add(BorderLayout.CENTER, info);
+        panelContainer.add(BorderLayout.CENTER, centeredInfoLabel);
 
         JSeparator separator = new JSeparator(JSeparator.VERTICAL);
         Dimension size = new Dimension(separator.getPreferredSize().width,
                 separator.getMaximumSize().height);
         separator.setMaximumSize(size);
 
-
         algorithmInfo.setToolTipText("Short description of currently selected sort algorithm.");
         algorithmInfo.setIcon(new ImageIcon(Consts.class.getResource("/resources/icons/info_round.png")));
         algorithmInfo.setIconTextGap(10);
         //algorithmInfo.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createLoweredBevelBorder(), new EmptyBorder(10, 10, 10, 10)));
 
-
         toolBar.add(Box.createHorizontalStrut(3));
-        toolBar.add(next);
+        toolBar.add(playPauseToggle);
         toolBar.add(Box.createHorizontalStrut(15));
-        toolBar.add(reset);
+        toolBar.add(resetBtn);
         toolBar.add(Box.createHorizontalStrut(15));
         toolBar.add(separator);
         toolBar.add(Box.createHorizontalStrut(15));
-        toolBar.add(nextStep);
+        toolBar.add(nextInstructionBtn);
         toolBar.add(Box.createHorizontalStrut(15));
-        toolBar.add(delayBtn);
+        toolBar.add(adjustSpeedBtn);
         toolBar.add(Box.createHorizontalStrut(15));
-        toolBar.add(listBtn);
+        toolBar.add(listOfElementsBtn);
         toolBar.add(Box.createHorizontalStrut(15));
         toolBar.add(Box.createHorizontalGlue());
         toolBar.add(algorithmInfo);
         toolBar.add(Box.createHorizontalGlue());
         toolBar.add(Box.createHorizontalStrut(15));
-        toolBar.add(newSort);
+        toolBar.add(addAlgorithmBtn);
         toolBar.add(Box.createHorizontalStrut(5));
-        toolBar.add(sortChooser);
+        toolBar.add(algorithmCombobox);
         toolBar.add(Box.createHorizontalStrut(3));
-
-        reset.setEnabled(false);
-        next.setEnabled(false);
-        nextStep.setEnabled(false);
 
         java.net.URL icon = Window.class.getClassLoader().getResource(
                 "resources/icons/icon.png");
@@ -324,77 +315,108 @@ public class Window extends JFrame {
 
         setLayout(new BoxLayout(this.getContentPane(), BoxLayout.Y_AXIS));
         add(toolBar);
-        add(content);
+        add(panelContainer);
         add(bottomBar);
 
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
         setVisible(true);
+
+        setState(State.EMPTY);
     }
 
-    /*
-    public void toggleStartStop() {
-        next.toggle();
-        if (next.getState() == PlayPauseToggle.State.PAUSE) {
-            reset.setEnabled(false);
-        } else {
-            reset.setEnabled(true);
-        }
+    public State getWindowState() {
+        return state;
     }
-    */
 
-    public void setStartStopState(PlayPauseToggle.State state) {
-        next.setState(state);
-        if (state == PlayPauseToggle.State.PAUSE) {
-            reset.setEnabled(false);
-        } else {
-            reset.setEnabled(true);
+    public void setState(State state) {
+        this.state = state;
+        switch (state) {
+            case EMPTY:
+                resetBtn.setEnabled(false);
+                playPauseToggle.setEnabled(false);
+                nextInstructionBtn.setEnabled(false);
+                listOfElementsBtn.setEnabled(true);
+                addAlgorithmBtn.setEnabled(true);
+
+                playPauseToggle.setState(PlayPauseToggle.State.PLAY);
+
+                panelContainer.removeAll();
+                panelContainer.setLayout(new BorderLayout());
+                panelContainer.add(centeredInfoLabel);
+                panelContainer.repaint();
+                revalidate();
+                repaint();
+                break;
+            case RUNNING:
+                resetBtn.setEnabled(false);
+                playPauseToggle.setEnabled(true);
+                nextInstructionBtn.setEnabled(false);
+                listOfElementsBtn.setEnabled(false);
+                addAlgorithmBtn.setEnabled(false);
+                vsPanel.forEach(v -> v.enableRemoveButton(false));
+
+                playPauseToggle.setState(PlayPauseToggle.State.PAUSE);
+                this.setTitle(title);
+                break;
+            case PAUSED:
+                resetBtn.setEnabled(true);
+                playPauseToggle.setEnabled(true);
+                nextInstructionBtn.setEnabled(true);
+                listOfElementsBtn.setEnabled(false);
+                addAlgorithmBtn.setEnabled(false);
+                vsPanel.forEach(v -> v.enableRemoveButton(false));
+
+                playPauseToggle.setState(PlayPauseToggle.State.PLAY);
+                this.setTitle(title.concat(" - Paused"));
+                break;
+            case STOPPED:
+                resetBtn.setEnabled(true);
+                playPauseToggle.setEnabled(true);
+                nextInstructionBtn.setEnabled(false);
+                listOfElementsBtn.setEnabled(true);
+                addAlgorithmBtn.setEnabled(true);
+                vsPanel.forEach(v -> v.enableRemoveButton(true));
+
+                playPauseToggle.setState(PlayPauseToggle.State.PLAY);
+                break;
         }
     }
 
     public void updateSize() {
-        if (!vsPanel.isEmpty()) {
-            for (SortVisualisationPanel tmp : vsPanel) {
-                tmp.updateSize();
-            }
+        for (SortVisualisationPanel svp : vsPanel) {
+            svp.updateSize();
         }
-    }
-
-
-    public void setRemoveButtonsEnabled(boolean enabled) {
-        vsPanel.forEach(v -> v.enableRemoveButton(true));
+        revalidate();
+        repaint();
     }
 
     public void addSortVisualizationPanel(SortVisualisationPanel temp) {
         if (vsPanel.size() == 0) {
-            content.remove(info);
-            content.setLayout(new BoxLayout(content, BoxLayout.Y_AXIS));
-            content.add(Box.createVerticalStrut(20));
-            next.setEnabled(true);
-            reset.setEnabled(true);
+            panelContainer.remove(centeredInfoLabel);
+            panelContainer.setLayout(new BoxLayout(panelContainer, BoxLayout.Y_AXIS));
+            panelContainer.add(Box.createVerticalStrut(20));
         }
 
         vsPanel.add(temp);
-        content.add(temp);
-
-        Component c = Box.createVerticalStrut(50);
-        filler.add(c);
-        content.add(c);
+        panelContainer.add(temp);
         revalidate();
     }
 
     public void removeSortVisualizationPanel(SortVisualisationPanel temp) {
-        removeSort(vsPanel.indexOf(temp));
+        if (!vsPanel.contains(temp) || !panelContainer.isAncestorOf(temp)) {
+            throw new IllegalArgumentException("Variable 'temp' was never added");
+        }
+        panelContainer.remove(temp);
+        vsPanel.remove(temp);
+        updateSize();
     }
-
 
     public void updateNumberOfElements(int nof) {
-        nofLabel.setText(String.valueOf(nof).concat(" ").concat("number of elements"));
+        numberOfElementsLabel.setText(String.valueOf(nof).concat(" ").concat("number of elements"));
     }
 
-
-    public void setClockParam(int sec, int msec) {
-
+    public void setExecutionTime(int sec, int msec) {
         String smsec, ssec;
 
         if (msec < 10) smsec = "00".concat(String.valueOf(msec));
@@ -404,57 +426,11 @@ public class Window extends JFrame {
         if (sec < 10) ssec = "0".concat(String.valueOf(sec));
         else ssec = String.valueOf(sec);
 
-
-        clock.setText(ssec.concat("s : ").concat(smsec).concat("ms"));
-
-    }
-
-    public void appReleased() {
-        this.setTitle(title);
-    }
-
-    public void appStopped() {
-        this.setTitle(title.concat(" - Paused"));
+        executionTimeLabel.setText(ssec.concat("s : ").concat(smsec).concat("ms"));
     }
 
     public SortAlgorithm getSelectedSort() {
-        return (SortAlgorithm) sortChooser.getSelectedItem();
-    }
-
-    public void unlockManualIteration(boolean lock) {
-        nextStep.setEnabled(lock);
-        listBtn.setEnabled(lock);
-    }
-
-    public void unlockAddSort(boolean lock) {
-        newSort.setEnabled(lock);
-    }
-
-    public void removeSort(int index) {
-        content.remove(filler.get(index));
-        content.remove(vsPanel.get(index));
-        vsPanel.remove(index);
-        filler.remove(index);
-
-        if (vsPanel.isEmpty()) {
-            content.removeAll();
-            content.setLayout(new BorderLayout());
-            content.add(info);
-            content.repaint();
-            next.setEnabled(false);
-            reset.setEnabled(false);
-            nextStep.setEnabled(false);
-            newSort.setEnabled(true);
-        }
-
-        if (!vsPanel.isEmpty()) {
-            for (SortVisualisationPanel tmp : vsPanel) {
-                tmp.updateSize();
-            }
-        }
-
-        revalidate();
-        repaint();
+        return (SortAlgorithm) algorithmCombobox.getSelectedItem();
     }
 
     public static void setComponentFont(String source) {

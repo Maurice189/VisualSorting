@@ -24,6 +24,9 @@ import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.plaf.FontUIResource;
 
+import com.sun.tools.javac.comp.Enter;
+import dialogs.DelayDialog;
+import dialogs.EnterDialog;
 import main.Consts.SortAlgorithm;
 import dialogs.InfoDialog;
 import gui.Window;
@@ -60,26 +63,33 @@ public class Main {
 
         InternalConfig.loadConfigFile();
 
+        int[] initElements = Utils.getRandomSequence(InternalConfig.getNumberOfElements());
+
+        DelayDialog.setDelayMs(InternalConfig.getExecutionSpeedDelayMs());
+        DelayDialog.setDelayNs(InternalConfig.getExecutionSpeedDelayNs());
+        EnterDialog.setElements(initElements);
+
+
         // this font is used under the GPL from google fonts under 'OpenSans'
         Window.setComponentFont("/resources/Fonts/OpenSans-Regular.ttf");
         Window.setInfoFont("/resources/Fonts/Oxygen-Regular.ttf", 30f);
 
-        javax.swing.UIManager.put("OptionPane.messageFont", new FontUIResource(Window.getComponentFont(13f)));
-        javax.swing.UIManager.put("Button.font", new FontUIResource(Window.getComponentFont(13f)));
-        javax.swing.UIManager.put("EditorPane.font", new FontUIResource(Window.getComponentFont(13f)));
-        javax.swing.UIManager.put("ComboBox.font", new FontUIResource(Window.getComponentFont(13f)));
-        javax.swing.UIManager.put("Label.font", new FontUIResource(Window.getComponentFont(12f)));
-        javax.swing.UIManager.put("MenuBar.font", new FontUIResource(Window.getComponentFont(13f)));
-        javax.swing.UIManager.put("MenuItem.font", new FontUIResource(Window.getComponentFont(13f)));
-        javax.swing.UIManager.put("RadioButton.font", new FontUIResource(Window.getComponentFont(13f)));
-        javax.swing.UIManager.put("CheckBox.font", new FontUIResource(Window.getComponentFont(13f)));
-        javax.swing.UIManager.put("RadioButtonMenuItem.font", new FontUIResource(Window.getComponentFont(13f)));
-        javax.swing.UIManager.put("CheckBoxMenuItem.font", new FontUIResource(Window.getComponentFont(13f)));
-        javax.swing.UIManager.put("TextField.font", new FontUIResource(Window.getComponentFont(13f)));
-        javax.swing.UIManager.put("TitledBorder.font", new FontUIResource(Window.getComponentFont(13f)));
-        javax.swing.UIManager.put("Menu.font", new FontUIResource(Window.getComponentFont(13f)));
-        javax.swing.UIManager.put("Spinner.font", new FontUIResource(Window.getComponentFont(13f)));
-        javax.swing.UIManager.put("Slider.font", new FontUIResource(Window.getComponentFont(13f)));
+        UIManager.put("OptionPane.messageFont", new FontUIResource(Window.getComponentFont(13f)));
+        UIManager.put("Button.font", new FontUIResource(Window.getComponentFont(13f)));
+        UIManager.put("EditorPane.font", new FontUIResource(Window.getComponentFont(13f)));
+        UIManager.put("ComboBox.font", new FontUIResource(Window.getComponentFont(13f)));
+        UIManager.put("Label.font", new FontUIResource(Window.getComponentFont(12f)));
+        UIManager.put("MenuBar.font", new FontUIResource(Window.getComponentFont(13f)));
+        UIManager.put("MenuItem.font", new FontUIResource(Window.getComponentFont(13f)));
+        UIManager.put("RadioButton.font", new FontUIResource(Window.getComponentFont(13f)));
+        UIManager.put("CheckBox.font", new FontUIResource(Window.getComponentFont(13f)));
+        UIManager.put("RadioButtonMenuItem.font", new FontUIResource(Window.getComponentFont(13f)));
+        UIManager.put("CheckBoxMenuItem.font", new FontUIResource(Window.getComponentFont(13f)));
+        UIManager.put("TextField.font", new FontUIResource(Window.getComponentFont(13f)));
+        UIManager.put("TitledBorder.font", new FontUIResource(Window.getComponentFont(13f)));
+        UIManager.put("Menu.font", new FontUIResource(Window.getComponentFont(13f)));
+        UIManager.put("Spinner.font", new FontUIResource(Window.getComponentFont(13f)));
+        UIManager.put("Slider.font", new FontUIResource(Window.getComponentFont(13f)));
 
         // hashmap for resolving sort into the respective infopage file
         HashMap<SortAlgorithm, String> map = new HashMap<>();
@@ -91,14 +101,14 @@ public class Main {
         map.put(SortAlgorithm.Shakersort, "infopage_shakersort.html");
         map.put(SortAlgorithm.Shellsort, "infopage_shellsort.html");
         map.put(SortAlgorithm.Bogosort, "infopage_bogosort.html");
-        map.put(SortAlgorithm.Introsort, "infopage_introsort.html");
+        //map.put(SortAlgorithm.Introsort, "infopage_introsort.html");
         map.put(SortAlgorithm.Selectionsort, "infopage_selectionsort.html");
         map.put(SortAlgorithm.Quicksort_FIXED, "infopage_quicksort.html");
         map.put(SortAlgorithm.Quicksort_RANDOM, "infopage_quicksort.html");
         map.put(SortAlgorithm.Quicksort_MO3, "infopage_quicksort.html");
 
         InfoDialog.initInfoPageResolver(map);
-        Controller controller = new Controller();
+        Controller controller = new Controller(initElements);
         Window window = new Window(controller, "Visual Sorting - ".concat(InternalConfig.getVersion()), 1200, 800);
         controller.setView(window);
 

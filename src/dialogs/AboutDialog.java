@@ -105,14 +105,13 @@ public class AboutDialog extends OptionDialog {
         hyperlinkGNU.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-
                 try {
                     Desktop.getDesktop().browse(new URI("https://opensource.org/licenses/MIT"));
                 } catch (IOException e2) {
                     e2.printStackTrace();
                 } catch (URISyntaxException e1) {
+                    e1.printStackTrace();
                 }
-
             }
         });
 

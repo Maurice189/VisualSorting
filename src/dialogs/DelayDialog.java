@@ -44,7 +44,7 @@ public final class DelayDialog extends OptionDialog implements ActionListener {
     private JRadioButton ms, ns;
     private boolean active = true;
 
-    private int delayMs = 0, delayNs = 0;
+    private static int delayMs = 0, delayNs = 0;
 
     private DelayDialog(Controller controller, int width, int height) {
         super( "Execution speed", width, height, false);
@@ -134,6 +134,13 @@ public final class DelayDialog extends OptionDialog implements ActionListener {
         }
     }
 
+    public static void setDelayMs(int delayMs) {
+        DelayDialog.delayMs = delayMs;
+    }
+
+    public static void setDelayNs(int delayNs) {
+        DelayDialog.delayNs = delayNs;
+    }
 
     public static DelayDialog getInstance(Controller controller, int width, int height) {
         if (instance == null) {

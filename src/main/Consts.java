@@ -23,7 +23,9 @@ public class Consts {
     private Consts() {}
 
     public enum SortAlgorithm {
-        Bogosort, Bubblesort, Combsort, Heapsort, Insertionsort, Introsort, Mergesort,
+        Bogosort, Bubblesort, Combsort, Heapsort, Insertionsort,
+        //Introsort,
+        Mergesort,
         Quicksort_FIXED, Quicksort_RANDOM, Quicksort_MO3, Selectionsort, Shakersort, Shellsort;
 
 
@@ -47,9 +49,9 @@ public class Consts {
                 case Insertionsort:
                     result = "Insertion sort";
                     break;
-                case Introsort:
-                    result = "Intro sort";
-                    break;
+                //case Introsort:
+                //    result = "Intro sort";
+                //    break;
                 case Mergesort:
                     result = "Merge sort";
                     break;
