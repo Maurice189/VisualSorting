@@ -67,7 +67,7 @@ public class InternalConfig {
             delayMs = 100;
             delayNs = 0;
             numberOfElements = 100;
-            autoPauseOn = true;
+            autoPauseOn = false;
         }
     }
 

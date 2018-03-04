@@ -140,7 +140,7 @@ public class Controller implements ComponentListener, ActionListener, WindowList
             operationExecutors.add(operationExecutor);
             window.addSortVisualizationPanel(temp);
             tasks.add(sort);
-            resize();
+            window.updateSize();
             window.setState(Window.State.STOPPED);
         } else if (e.getActionCommand() == Consts.START) {
             if (window.getWindowState() == Window.State.RUNNING) {
@@ -249,13 +249,9 @@ public class Controller implements ComponentListener, ActionListener, WindowList
     public void windowDeiconified(WindowEvent e) {
     }
 
-    private void resize() {
-        window.updateSize();
-    }
-
     @Override
     public void componentResized(ComponentEvent e) {
-        resize();
+        window.updateSize();
     }
 
     @Override
@@ -273,6 +269,8 @@ public class Controller implements ComponentListener, ActionListener, WindowList
 
     private class Timer {
 
+        private final static int TIMER_DELAY_MS = 100;
+
         private int leftMs, leftSec;
         private javax.swing.Timer appTimer;
 
@@ -280,10 +278,12 @@ public class Controller implements ComponentListener, ActionListener, WindowList
             leftMs = 0;
             leftSec = 0;
 
-            appTimer = new javax.swing.Timer(10, e -> {
-                leftMs += 10;
-                if (leftMs == 1000) {
-                    leftMs = 0;
+            assert (TIMER_DELAY_MS <= 1000);
+
+            appTimer = new javax.swing.Timer(TIMER_DELAY_MS, e -> {
+                leftMs += TIMER_DELAY_MS;
+                if (leftMs >= 1000) {
+                    leftMs -= 1000;
                     leftSec++;
                 }
                 window.setExecutionTime(leftSec, leftMs);

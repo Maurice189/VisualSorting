@@ -25,7 +25,6 @@ public class BogoSort extends Sort {
     }
 
     boolean isSorted() throws InterruptedException {
-
         for (int i = 1; i < operationExecutor.getNumberOfElements(); i++) {
             if (operationExecutor.compare(i, i - 1) == -1) {
                 return false;

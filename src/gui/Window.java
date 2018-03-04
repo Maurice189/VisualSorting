@@ -377,6 +377,7 @@ public class Window extends JFrame {
                 listOfElementsBtn.setEnabled(true);
                 addAlgorithmBtn.setEnabled(true);
                 vsPanel.forEach(v -> v.enableRemoveButton(true));
+                setExecutionTime(0, 0);
 
                 playPauseToggle.setState(PlayPauseToggle.State.PLAY);
                 break;
@@ -384,10 +385,10 @@ public class Window extends JFrame {
     }
 
     public void updateSize() {
+        revalidate();
         for (FramedSortPanel svp : vsPanel) {
             svp.updateSize();
         }
-        revalidate();
         repaint();
     }
 
