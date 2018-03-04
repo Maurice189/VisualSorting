@@ -59,7 +59,7 @@ public class Window extends JFrame {
     private JToolBar toolBar;
     private JPanel bottomBar;
 
-    private List<SortVisualisationPanel> vsPanel;
+    private List<FramedSortPanel> vsPanel;
 
     public Window(Controller controller, String title, int width, int height) {
         this.title = title;
@@ -384,14 +384,14 @@ public class Window extends JFrame {
     }
 
     public void updateSize() {
-        for (SortVisualisationPanel svp : vsPanel) {
+        for (FramedSortPanel svp : vsPanel) {
             svp.updateSize();
         }
         revalidate();
         repaint();
     }
 
-    public void addSortVisualizationPanel(SortVisualisationPanel temp) {
+    public void addSortVisualizationPanel(FramedSortPanel temp) {
         if (vsPanel.size() == 0) {
             panelContainer.remove(centeredInfoLabel);
             panelContainer.setLayout(new BoxLayout(panelContainer, BoxLayout.Y_AXIS));
@@ -403,7 +403,7 @@ public class Window extends JFrame {
         revalidate();
     }
 
-    public void removeSortVisualizationPanel(SortVisualisationPanel temp) {
+    public void removeSortVisualizationPanel(FramedSortPanel temp) {
         if (!vsPanel.contains(temp) || !panelContainer.isAncestorOf(temp)) {
             throw new IllegalArgumentException("Variable 'temp' was never added");
         }

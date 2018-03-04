@@ -63,7 +63,7 @@ public class QuickSort extends Sort {
         j = right - 1;
 
         while (i <= j) {
-            if (operationExecutor.compare(i, right) == 1) {
+            if (operationExecutor.compareByPivot(i, right) == 1) {
                 operationExecutor.exchange(i, j);
                 j--;
             } else {

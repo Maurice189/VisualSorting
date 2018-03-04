@@ -47,7 +47,7 @@ public class MergeSort extends Sort {
         j = r;
 
         for (int k = l; k <= r; k++) {
-            if (operationExecutor.compare(arr, i, j) != 1) {
+            if (operationExecutor.compare(arr, i, j, false) != 1) {
                 operationExecutor.insertByValue(k, arr[i]);
                 i++;
             } else {

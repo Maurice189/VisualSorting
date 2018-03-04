@@ -1,6 +1,6 @@
-#Sat Mar 03 02:34:46 CET 2018
+#Sun Mar 04 14:58:52 CET 2018
 version=/
-number_of_elements=123
-auto_pause_enabled=true
-delay_ms=23
-delay_ns=0
+number_of_elements=100
+auto_pause_enabled=false
+delay_ms=5
+delay_ns=476

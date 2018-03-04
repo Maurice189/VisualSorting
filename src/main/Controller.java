@@ -33,7 +33,7 @@ import dialogs.AboutDialog;
 import dialogs.DelayDialog;
 import dialogs.EnterDialog;
 import main.Consts.SortAlgorithm;
-import gui.SortVisualisationPanel;
+import gui.FramedSortPanel;
 import gui.Window;
 
 
@@ -88,7 +88,7 @@ public class Controller implements ComponentListener, ActionListener, WindowList
     public void actionPerformed(ActionEvent e) {
         if (e.getActionCommand() == Consts.ADD_SORT) {
             SortAlgorithm selectedSort = window.getSelectedSort();
-            SortVisualisationPanel temp = new SortVisualisationPanel(selectedSort, window.getWidth(), window.getHeight());
+            FramedSortPanel temp = new FramedSortPanel(selectedSort, window.getWidth(), window.getHeight());
 
             final OperationExecutor operationExecutor = new OperationExecutor(this, temp);
             operationExecutor.initElements(elements);
@@ -128,7 +128,7 @@ public class Controller implements ComponentListener, ActionListener, WindowList
             temp.setActionListenerForRemoveAction(
                     e1 -> {
                         if (operationExecutors.size() > 0) {
-                            window.removeSortVisualizationPanel(((SortVisualisationPanel) e1.getSource()));
+                            window.removeSortVisualizationPanel(((FramedSortPanel) e1.getSource()));
                             operationExecutors.remove(operationExecutor);
                             tasks.remove(sort);
                         }

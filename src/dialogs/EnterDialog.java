@@ -24,8 +24,6 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.*;
-import java.util.LinkedList;
-import java.util.List;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
@@ -41,8 +39,9 @@ import javax.swing.JSpinner;
 import javax.swing.JTabbedPane;
 import javax.swing.border.TitledBorder;
 
+import gui.SortPanel;
 import main.*;
-import gui.SortVisualisationPanel;
+import gui.FramedSortPanel;
 import gui.Window;
 
 /**
@@ -65,7 +64,7 @@ public class EnterDialog extends OptionDialog implements ActionListener {
     private JButton update, exit;
     private ButtonGroup listTypeGroup;
     private JRadioButton random, reversed, sorted;
-    private SortVisualisationPanel svp;
+    private SortPanel svp;
     private JPanel btnWrp1, btnWrp2;
 
     private static EnterDialog instance;
@@ -137,7 +136,7 @@ public class EnterDialog extends OptionDialog implements ActionListener {
         update.addActionListener(this);
         listTypeGroup = new ButtonGroup();
 
-        svp = new SortVisualisationPanel(Consts.SortAlgorithm.Quicksort_MO3, width, height);
+        svp = new SortPanel(width, height);
         svp.setElements(listOfElements);
         svp.updateBarSize();
         svp.updatePanelSize();

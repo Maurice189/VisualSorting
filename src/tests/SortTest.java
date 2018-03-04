@@ -1,12 +1,11 @@
 package tests;
 
 import algorithms.*;
-import gui.SortVisualisationPanel;
+import gui.FramedSortPanel;
 import main.Consts;
 import main.Controller;
 import main.OperationExecutor;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 
 
@@ -26,7 +25,7 @@ public class SortTest {
     @Before
     public void setup() {
         Controller controller = new Controller(new int[1]);
-        SortVisualisationPanel panel = new SortVisualisationPanel(Consts.SortAlgorithm.Heapsort, 1, 1);
+        FramedSortPanel panel = new FramedSortPanel(Consts.SortAlgorithm.Heapsort, 1, 1);
 
         executor = new OperationExecutor(controller, panel);
 

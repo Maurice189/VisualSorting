@@ -1,6 +1,6 @@
 package main;
 
-import gui.SortVisualisationPanel;
+import gui.FramedSortPanel;
 
 public class OperationExecutor {
 
@@ -13,41 +13,14 @@ public class OperationExecutor {
     private int delayNs;
     private int accesses;
     private int comparisons;
-    private SortVisualisationPanel svp;
+    private FramedSortPanel svp;
     private int[] elements, copyOfElements;
     private int instructionCount;
     private boolean flashing;
 
-    public OperationExecutor(Controller controller, SortVisualisationPanel svp) {
+    public OperationExecutor(Controller controller, FramedSortPanel svp) {
         this.controller = controller;
         this.svp = svp;
-    }
-
-    public void reset() {
-        this.flashing = false;
-        this.pause = false;
-        svp.enableRemoveButton(false);
-    }
-
-    public int getElementAtIndex(int index) throws InterruptedException {
-        int result = -1;
-
-        if (index < elements.length) {
-            result = elements[index];
-        }
-
-        manualInstructionIncrement();
-        accesses += 1;
-        svp.setInfo(accesses, comparisons);
-        return result;
-    }
-
-    public void resume() {
-        pause = false;
-    }
-
-    public void pause() {
-        pause = true;
     }
 
     public void initElements(int[] elements) {
@@ -116,6 +89,48 @@ public class OperationExecutor {
         insertByValue(elements, i, value);
     }
 
+    public int compare(int x[], int i, int j, boolean isPivot) throws InterruptedException {
+        int result = 0;
+
+        if (x[i] > x[j])
+            result = 1;
+        if (x[j] > x[i])
+            result = -1;
+
+        manualInstruction(INSTRUCTION_UNIT);
+        accesses += 2;
+        comparisons++;
+        svp.setInfo(accesses, comparisons);
+        svp.visualCompare(i, j, isPivot);
+
+        return result;
+    }
+
+    public int compare(int i, int j) throws InterruptedException {
+        return compare(elements, i, j, false);
+    }
+
+    public int compareByPivot(int i, int j) throws InterruptedException {
+        return compare(elements, i, j, true);
+    }
+
+    public int compareByValue(int i, int value) throws InterruptedException {
+        int result = 0;
+
+        if (elements[i] > value)
+            result = 1;
+        if (value > elements[i])
+            result = -1;
+
+        manualInstruction(INSTRUCTION_UNIT);
+        accesses += 2;
+        comparisons++;
+        svp.setInfo(accesses, comparisons);
+
+        // TODO : How to visualize svp.visualCompare(i, value, false) ?
+        return result;
+    }
+
     public void manualInstruction(int count) throws InterruptedException {
         instructionCount += count;
         if (instructionCount > INSTRUCTION_UNIT) {
@@ -134,38 +149,31 @@ public class OperationExecutor {
         manualInstruction(1);
     }
 
-    public int compare(int x[], int i, int j) throws InterruptedException {
-        int result = 0;
+    public void reset() {
+        this.flashing = false;
+        this.pause = false;
+        svp.enableRemoveButton(false);
+    }
 
-        if (x[i] > x[j])
-            result = 1;
-        if (x[j] > x[i])
-            result = -1;
+    public int getElementAtIndex(int index) throws InterruptedException {
+        int result = -1;
 
-        manualInstruction(INSTRUCTION_UNIT);
-        accesses += 2;
-        comparisons++;
+        if (index < elements.length) {
+            result = elements[index];
+        }
+
+        manualInstructionIncrement();
+        accesses += 1;
         svp.setInfo(accesses, comparisons);
-        svp.visualCmp(i, j, false);
-
         return result;
     }
 
-    public int compareByValue(int i, int value) throws InterruptedException {
-        int result = 0;
+    public void resume() {
+        pause = false;
+    }
 
-        if (elements[i] > value)
-            result = 1;
-        if (value > elements[i])
-            result = -1;
-
-        manualInstruction(INSTRUCTION_UNIT);
-        accesses += 2;
-        comparisons++;
-        svp.setInfo(accesses, comparisons);
-
-        // TODO : How to visualize svp.visualCmp(i, value, false) ?
-        return result;
+    public void pause() {
+        pause = true;
     }
 
     public int[] getElements() {
@@ -182,16 +190,12 @@ public class OperationExecutor {
         controller.terminationSignal(this);
     }
 
-    public int compare(int i, int j) throws InterruptedException {
-        return compare(elements, i, j);
-    }
-
     public void setDelay(int delayMs, int delayNs) {
         this.delayMs = delayMs;
         this.delayNs = delayNs;
     }
 
-    public SortVisualisationPanel getSortVisualizationPanel() {
+    public FramedSortPanel getSortVisualizationPanel() {
         return svp;
     }
 }
