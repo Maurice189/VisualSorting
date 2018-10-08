@@ -3,6 +3,9 @@ package algorithms;
 import main.OperationExecutor;
 import main.Consts.SortAlgorithm;
 
+/**
+* Provides sorting using the BubbleSort Algorithm (https://en.wikipedia.org/wiki/Bubble_sort)
+*/
 public class BubbleSort extends Sort {
 
     public BubbleSort(OperationExecutor operationExecutor) {
