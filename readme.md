@@ -2,30 +2,27 @@
   <img width="350" src="logo.png">
 </p>
 
+![visual-sorting-teaser.gif](visual-sorting-teaser.gif)
+
 # Please note
 
-**THIS SOFTWARE IS STILL UNDER DEVELOPMENT - CONSIDER THE ACTUAL STATE OF THE PROGRAM AS A TEASER / REVIEW**
+**THIS SOFTWARE IS STILL UNDER DEVELOPMENT - CONSIDER THE ACTUAL STATE AS A TEASER**
 
 # Description
 
-Visual Sorting is an application that intend to visualize how different
-sort algorithms work. This idea has already been applied for instance by Timo Bingmann
-with his [sound-of-sorting](https://github.com/bingmann/sound-of-sorting). Though
-to get an idea how sort algorithms behave in terms of their runtime,
-**visualizing them in parallel** is crucial. Therefore we introduce *Visual Sorting*.
+Visual Sorting is an application that visualizes the run behaviour of different
+sort algorithms in parallel. The concept of VisualSorting is somewhat similar to [sound-of-sorting](https://github.com/bingmann/sound-of-sorting) developed by Timo Bingmann. 
 
-The (core) development of Visual Sorting is still in progress, so you may encounter misbehavior
-during execution. In that case I would highly appreciate a bug report. Thanks in advance !
+The development of Visual Sorting is still in progress, so you may encounter bugs. 
+In that case I would highly appreciate a bug report. Thanks in advance !
 
 # Features
 
-![visual-sorting-teaser.gif](visual-sorting-teaser.gif)
-
-* Visualize multiple sort algorithms **in parallel**.
-* Over **ten most common sort algorithms**, including Quick sort, Merge sort and Bubble sort.
-* Start/Pause feature and (manual) **single step execution**.
-* Adjustment of the **running speed**.
-* Arbitrary **number of elements** to be sorted.
+* Visualize multiple sort algorithms in parallel.
+* Over ten most common sort algorithms, including Quick sort, Merge sort and Bubble sort.
+* Start/Pause feature and (manual) single step execution.
+* Adjustment of the running speed.
+* Arbitrary number of elements to be sorted.
 
 # Installing & Running
 
@@ -36,7 +33,7 @@ Make sure you have installed **Java 8.xx** installed on your machine. Then you h
 1. Go to `VisualSorting/out/artifacts/VisualSorting_jar/` and double-click on `VisualSorting.jar`
 or if thats not working, open a terminal in the same folder and type `java -jar VisualSorting.jar`.
 2. The easiest way of compiling and building the application yourself is by importing
-it into IntelliJ IDEA (project files already exist).
+it into IntelliJ IDEA (project files are already present).
 
 # License
 
