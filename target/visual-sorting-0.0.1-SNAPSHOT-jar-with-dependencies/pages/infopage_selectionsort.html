@@ -1,0 +1,42 @@
+<!DOCTYPE HTML>  
+ 
+ <html>
+    <body>
+    <h2>Complexity</h2>
+    
+    <table border="0">
+  	<tr>
+ 		<th align="left">Worst case </br>performance</th>
+		<td><p>O(<i>n</i><sup>2</sup>)</p></td>
+    </tr>
+    <tr>
+   		<th align="left">Best case </br>performance</th>
+   		<td><p>O(<i>n</i><sup>2</sup>)</td>
+  	</tr>
+  	<tr>
+    	<th align="left">Average case </br>performance</th>
+    	<td><p>O(<i>n</i><sup>2</sup>)</p></td>
+  	</tr>
+  	<tr>
+    	<th align="left">Worst case space </br>complexity</th>
+    	<td>O(<i>n</i>) total, O(1) auxiliary.</td>
+  	</tr>
+	</table>
+
+	<h2>Abstract</h2>
+    <p>Selection sort is an <b>in-place</b> algorithm with O(<i>n</i><sup>2</sup>) time complexity.
+        In each iteration the <b>smallest element</b> of the unsorted list is calculated and afterwards added
+        to the already sorted list. Conceptually this makes selection sort <b>very similar to insertion sort</b>.
+        However selection sort has to scan through all elements to find the minimum, whereas insertion sort
+        only scans as many elements as it needs in order to place to element to the correct position. Despite
+        the unfavorable efficiency aspects, selection sort <b>performs only <i>n</i> write operations in total</b>,
+        which can be crucial fact if <b>write operations</b> are rather expensive (EEPROM or Flash).
+    </p>
+
+    <h2>Related</h2>
+    <ul>
+        <li><a href="infopage_insertionsort.html">Insertion sort</a> </li>
+    </ul></br>
+	<p>Information from <a href="http://en.wikipedia.org/wiki/Selection_sort"><i>Wikipedia</i></a></p>
+    </body>
+ </html> 
