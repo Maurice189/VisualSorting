@@ -22,6 +22,7 @@ package kochme.visualsorting.ui;
 import java.awt.*;
 import java.io.IOException;
 import java.io.InputStream;
+import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.List;
 
@@ -30,40 +31,33 @@ import javax.swing.border.Border;
 import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
 
-import kochme.visualsorting.ui.IconLoader;
 import kochme.visualsorting.app.Consts;
 import kochme.visualsorting.app.Consts.SortAlgorithm;
 import kochme.visualsorting.app.Controller;
 import kochme.visualsorting.app.InternalConfig;
 
-import kochme.visualsorting.ui.Utility;
-
-public class Window extends JFrame {
-
+public class MainWindow extends JFrame {
     private static Font componentFont = new Font("Monospace", Font.BOLD, 13);
     private static Font infoFont = new Font("Monospace", Font.BOLD, 43);
-    private State state;
 
     public enum State {EMPTY, RUNNING, PAUSED, STOPPED}
 
     private JLabel algorithmInfo;
-    private String title;
+    private final String title;
 
-    private JButton addAlgorithmBtn, nextInstructionBtn, resetBtn, adjustSpeedBtn, listOfElementsBtn;
+    private JButton addAlgorithmBtn;
+    private JButton nextInstructionBtn;
+    private JButton resetBtn;
+    private JButton listOfElementsBtn;
     private PlayPauseToggle playPauseToggle;
     private JPanel panelContainer;
-    private Controller controller;
+    private final Controller controller;
     private JLabel centeredInfoLabel, executionTimeLabel, numberOfElementsLabel;
-    private JComboBox<SortAlgorithm> algorithmCombobox;
-    private JMenuItem about, list, delay;
-    private JCheckBoxMenuItem switchIntPause;
-    private JMenu help, settings, programmFunctions;
-    private JToolBar toolBar;
-    private JPanel bottomBar;
+    private JComboBox<SortAlgorithm> algorithmSelection;
 
-    private List<FramedSortPanel> vsPanel;
+    private List<FramedElementsCanvas> vsPanel;
 
-    public Window(Controller controller, String title, int width, int height) {
+    public MainWindow(Controller controller, String title, int width, int height) {
         this.title = title;
         this.controller = controller;
         initComponents(width, height);
@@ -82,12 +76,12 @@ public class Window extends JFrame {
         executionTimeLabel.setForeground(Color.black);
         executionTimeLabel.setIcon(IconLoader.getIcon("/icons/timer.png"));
 
-        switchIntPause = new JCheckBoxMenuItem("Automatic pause enabled");
+        JCheckBoxMenuItem switchIntPause = new JCheckBoxMenuItem("Automatic pause enabled");
         switchIntPause.addActionListener(controller);
         switchIntPause.setActionCommand(Consts.AUTO_PAUSE);
         switchIntPause.setState(InternalConfig.isAutoPauseEnabled());
 
-        programmFunctions = new JMenu("Options");
+        JMenu programmFunctions = new JMenu("Options");
 
         // TODO : Add this again when fixed - programmFunctions.add(switchIntPause);
 
@@ -100,7 +94,7 @@ public class Window extends JFrame {
         vsPanel = new ArrayList<>();
         addWindowListener(controller);
 
-        toolBar = new JToolBar();
+        JToolBar toolBar = new JToolBar();
         toolBar.setFloatable(false);
         toolBar.setRollover(true);
         menuBar = new JMenuBar();
@@ -109,7 +103,7 @@ public class Window extends JFrame {
         Border margin = new EmptyBorder(5, 1, 10, 1);
         toolBar.setBorder(new CompoundBorder(border, margin));
 
-        bottomBar = new JPanel();
+        JPanel bottomBar = new JPanel();
         bottomBar.setLayout(new BoxLayout(bottomBar, BoxLayout.X_AXIS));
         bottomBar.setBackground(bottomBar.getBackground().darker());
         bottomBar.setBorder(BorderFactory.createEtchedBorder());
@@ -117,17 +111,17 @@ public class Window extends JFrame {
         bottomBar.add(Box.createHorizontalGlue());
         bottomBar.add(numberOfElementsLabel);
 
-        settings = new JMenu("Settings");
-        help = new JMenu("Help");
-        list = new JMenuItem("List of elements");
+        JMenu settings = new JMenu("Settings");
+        JMenu help = new JMenu("Help");
+        JMenuItem list = new JMenuItem("List of elements");
         list.addActionListener(controller);
         list.setActionCommand(Consts.NEW_ELEMENTS);
 
-        delay = new JMenuItem("Speed");
+        JMenuItem delay = new JMenuItem("Speed");
         delay.addActionListener(controller);
         delay.setActionCommand(Consts.DELAY);
 
-        about = new JMenuItem("About " + title);
+        JMenuItem about = new JMenuItem("About " + title);
         about.addActionListener(controller);
         about.setActionCommand(Consts.ABOUT);
 
@@ -142,11 +136,10 @@ public class Window extends JFrame {
 
         algorithmInfo = new JLabel();
         algorithmInfo.setForeground(Color.GRAY);
+        algorithmSelection = new JComboBox<>();
 
-        algorithmCombobox = new JComboBox<>();
-
-        algorithmCombobox.addItemListener(itemEvent -> {
-            SortAlgorithm algorithm = (SortAlgorithm) algorithmCombobox.getSelectedItem();
+        algorithmSelection.addItemListener(itemEvent -> {
+            SortAlgorithm algorithm = (SortAlgorithm) algorithmSelection.getSelectedItem();
 
             if (algorithm == SortAlgorithm.Bogosort) {
                 algorithmInfo.setText("<html><b>Bogo sort</b> - Generate random permutations until it finds on that sorted.</html>");
@@ -158,11 +151,7 @@ public class Window extends JFrame {
                 algorithmInfo.setText("<html><b>Merge sort</b> - Divide unsorted lists and repeatedly merge sorted sub-lists.</html>\"");
             } else if (algorithm == SortAlgorithm.Insertionsort) {
                 algorithmInfo.setText("<html><b>Insertion sort</b> - In each iterations finds correct insert position of element</html>\"");
-            }
-            //else if (algorithm == SortAlgorithm.Introsort) {
-            //    algorithmInfo.setText("<html><b>Intro sort</b> - Hybrid sorting algorithm uses both quick sort and Heapsort.</html>\"");
-            //}
-            else if (algorithm == SortAlgorithm.Shakersort) {
+            } else if (algorithm == SortAlgorithm.Shakersort) {
                 algorithmInfo.setText("<html><b>Shaker sort</b> - Bidirectional bubble sort, also known as cocktail sort.</html>\"");
             } else if (algorithm == SortAlgorithm.Selectionsort) {
                 algorithmInfo.setText("<html><b>Selection sort</b> - Repeatedly finds the minimum element and append to sorted list.</html>\"");
@@ -179,19 +168,18 @@ public class Window extends JFrame {
             } else {
                 algorithmInfo.setText("-");
             }
-
             int prefWidth = algorithmInfo.getPreferredSize().width;
             algorithmInfo.setMaximumSize(new Dimension(prefWidth, 70));
         });
 
-        Arrays.stream(SortAlgorithm.values()).forEach(algorithm -> algorithmCombobox.addItem(algorithm));
-        algorithmCombobox.setMaximumSize(new Dimension(300, 100));
+        Arrays.stream(SortAlgorithm.values()).forEach(algorithm -> algorithmSelection.addItem(algorithm));
+        algorithmSelection.setMaximumSize(new Dimension(300, 100));
 
         panelContainer = new JPanel() {
             @Override
-            protected void paintComponent(Graphics grphcs) {
-                super.paintComponent(grphcs);
-                Graphics2D g2d = (Graphics2D) grphcs;
+            protected void paintComponent(Graphics graphics) {
+                super.paintComponent(graphics);
+                Graphics2D g2d = (Graphics2D) graphics;
                 g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
                         RenderingHints.VALUE_ANTIALIAS_ON);
                 GradientPaint gp = new GradientPaint(0, 0,
@@ -217,11 +205,7 @@ public class Window extends JFrame {
         addAlgorithmBtn.addActionListener(controller);
         addAlgorithmBtn.setActionCommand(Consts.ADD_SORT);
 
-        Hashtable labelTable = new Hashtable();
-        labelTable.put(new Integer(0), new JLabel("Slow"));
-        labelTable.put(new Integer(300), new JLabel("Fast"));
-
-        adjustSpeedBtn = Utility.createButton("/icons/speed.png");
+        JButton adjustSpeedBtn = Utility.createButton("/icons/speed.png");
         adjustSpeedBtn.setToolTipText("Adjust the sorting speed.");
         adjustSpeedBtn.addActionListener(controller);
         adjustSpeedBtn.setActionCommand(Consts.DELAY);
@@ -231,13 +215,12 @@ public class Window extends JFrame {
         listOfElementsBtn.addActionListener(controller);
         listOfElementsBtn.setActionCommand(Consts.NEW_ELEMENTS);
 
-
         nextInstructionBtn = Utility.createButton("/icons/next_instruction.png");
         nextInstructionBtn.setToolTipText("Execute playPauseToggle instruction.");
         nextInstructionBtn.addActionListener(controller);
         nextInstructionBtn.setActionCommand(Consts.NEXT_ITERATION);
 
-        resetBtn = Utility.createButton("/icons/reset.png"); //Consts.getNamebyXml(Consts.COMPONENT_TITLE.RESET)
+        resetBtn = Utility.createButton("/icons/reset.png");
         resetBtn.setToolTipText("Reset to unsorted state.");
         resetBtn.addActionListener(controller);
         resetBtn.setActionCommand(Consts.RESET);
@@ -252,7 +235,6 @@ public class Window extends JFrame {
         algorithmInfo.setToolTipText("Short description of currently selected sort algorithm.");
         algorithmInfo.setIcon(new ImageIcon(Consts.class.getResource("/icons/info_round.png")));
         algorithmInfo.setIconTextGap(10);
-        //algorithmInfo.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createLoweredBevelBorder(), new EmptyBorder(10, 10, 10, 10)));
 
         toolBar.add(Box.createHorizontalStrut(3));
         toolBar.add(playPauseToggle);
@@ -273,20 +255,20 @@ public class Window extends JFrame {
         toolBar.add(Box.createHorizontalStrut(15));
         toolBar.add(addAlgorithmBtn);
         toolBar.add(Box.createHorizontalStrut(5));
-        toolBar.add(algorithmCombobox);
+        toolBar.add(algorithmSelection);
         toolBar.add(Box.createHorizontalStrut(3));
 
-        java.net.URL icon = Window.class.getResource(
+        java.net.URL icon = MainWindow.class.getResource(
                 "/icons/icon.png");
-        java.net.URL icon2x = Window.class.getResource(
+        java.net.URL icon2x = MainWindow.class.getResource(
                 "/icons/icon@2x.png");
-        java.net.URL icon3x = Window.class.getResource(
+        java.net.URL icon3x = MainWindow.class.getResource(
                 "/icons/icon@3x.png");
-        java.net.URL icon4x = Window.class.getResource(
+        java.net.URL icon4x = MainWindow.class.getResource(
                 "/icons/icon@4x.png");
-        java.net.URL icon5x = Window.class.getResource(
+        java.net.URL icon5x = MainWindow.class.getResource(
                 "/icons/icon@5x.png");
-        java.net.URL icon6x = Window.class.getResource(
+        java.net.URL icon6x = MainWindow.class.getResource(
                 "/icons/icon@6x.png");
 
         List<Image> icons = new ArrayList<Image>();
@@ -299,7 +281,6 @@ public class Window extends JFrame {
         icons.add(new ImageIcon(icon6x).getImage());
 
         setIconImages(icons);
-
         setLayout(new BoxLayout(this.getContentPane(), BoxLayout.Y_AXIS));
         add(toolBar);
         add(panelContainer);
@@ -308,16 +289,10 @@ public class Window extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
         setVisible(true);
-
         setState(State.EMPTY);
     }
 
-    public State getWindowState() {
-        return state;
-    }
-
     public void setState(State state) {
-        this.state = state;
         switch (state) {
             case EMPTY:
                 resetBtn.setEnabled(false);
@@ -325,9 +300,7 @@ public class Window extends JFrame {
                 nextInstructionBtn.setEnabled(false);
                 listOfElementsBtn.setEnabled(true);
                 addAlgorithmBtn.setEnabled(true);
-
                 playPauseToggle.setState(PlayPauseToggle.State.PLAY);
-
                 panelContainer.removeAll();
                 panelContainer.setLayout(new BorderLayout());
                 panelContainer.add(centeredInfoLabel);
@@ -342,7 +315,6 @@ public class Window extends JFrame {
                 listOfElementsBtn.setEnabled(false);
                 addAlgorithmBtn.setEnabled(false);
                 vsPanel.forEach(v -> v.enableRemoveButton(false));
-
                 playPauseToggle.setState(PlayPauseToggle.State.PAUSE);
                 this.setTitle(title);
                 break;
@@ -353,7 +325,6 @@ public class Window extends JFrame {
                 listOfElementsBtn.setEnabled(false);
                 addAlgorithmBtn.setEnabled(false);
                 vsPanel.forEach(v -> v.enableRemoveButton(false));
-
                 playPauseToggle.setState(PlayPauseToggle.State.PLAY);
                 this.setTitle(title.concat(" - Paused"));
                 break;
@@ -364,8 +335,7 @@ public class Window extends JFrame {
                 listOfElementsBtn.setEnabled(true);
                 addAlgorithmBtn.setEnabled(true);
                 vsPanel.forEach(v -> v.enableRemoveButton(true));
-                setExecutionTime(0, 0);
-
+                setExecutionTime(0);
                 playPauseToggle.setState(PlayPauseToggle.State.PLAY);
                 break;
         }
@@ -373,13 +343,11 @@ public class Window extends JFrame {
 
     public void updateSize() {
         revalidate();
-        for (FramedSortPanel svp : vsPanel) {
-            svp.updateSize();
-        }
+        vsPanel.forEach(ElementsCanvas::updateSize);
         repaint();
     }
 
-    public void addSortVisualizationPanel(FramedSortPanel temp) {
+    public void addSortVisualizationPanel(FramedElementsCanvas temp) {
         if (vsPanel.size() == 0) {
             panelContainer.remove(centeredInfoLabel);
             panelContainer.setLayout(new BoxLayout(panelContainer, BoxLayout.Y_AXIS));
@@ -391,7 +359,7 @@ public class Window extends JFrame {
         revalidate();
     }
 
-    public void removeSortVisualizationPanel(FramedSortPanel temp) {
+    public void removeSortVisualizationPanel(FramedElementsCanvas temp) {
         if (!vsPanel.contains(temp) || !panelContainer.isAncestorOf(temp)) {
             throw new IllegalArgumentException("Variable 'temp' was never added");
         }
@@ -404,30 +372,22 @@ public class Window extends JFrame {
         numberOfElementsLabel.setText(String.valueOf(nof).concat(" ").concat("number of elements"));
     }
 
-    public void setExecutionTime(int sec, int msec) {
-        String smsec, ssec;
-
-        if (msec < 10) smsec = "00".concat(String.valueOf(msec));
-        else if (msec < 100) smsec = "0".concat(String.valueOf(msec));
-        else smsec = String.valueOf(msec);
-
-        if (sec < 10) ssec = "0".concat(String.valueOf(sec));
-        else ssec = String.valueOf(sec);
-
-        executionTimeLabel.setText(ssec.concat("s : ").concat(smsec).concat("ms"));
+    public void setExecutionTime(int milliSeconds) {
+        SimpleDateFormat dataFormat = new SimpleDateFormat("mm:ss:SSS");
+        executionTimeLabel.setText(dataFormat.format(new Date(milliSeconds)));
     }
 
     public SortAlgorithm getSelectedSort() {
-        return (SortAlgorithm) algorithmCombobox.getSelectedItem();
+        return (SortAlgorithm) algorithmSelection.getSelectedItem();
     }
 
     public static void setComponentFont(String source) {
         try {
-            InputStream in = Window.class.getResourceAsStream(source);
-            componentFont = Font.createFont(Font.TRUETYPE_FONT, in);
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (FontFormatException e) {
+            InputStream in = MainWindow.class.getResourceAsStream(source);
+            if (in != null) {
+                componentFont = Font.createFont(Font.TRUETYPE_FONT, in);
+            }
+        } catch (IOException | FontFormatException e) {
             e.printStackTrace();
         }
     }
@@ -438,12 +398,12 @@ public class Window extends JFrame {
 
     public static void setInfoFont(String source, float size) {
         try {
-            InputStream in = Window.class.getResourceAsStream(source);
-            infoFont = Font.createFont(Font.TRUETYPE_FONT, in);
-            infoFont = infoFont.deriveFont(size);
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (FontFormatException e) {
+            InputStream in = MainWindow.class.getResourceAsStream(source);
+            if (in != null) {
+                infoFont = Font.createFont(Font.TRUETYPE_FONT, in);
+                infoFont = infoFont.deriveFont(size);
+            }
+        } catch (IOException | FontFormatException e) {
             e.printStackTrace();
         }
     }

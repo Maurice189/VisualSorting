@@ -1,6 +1,4 @@
 package kochme.visualsorting.app;
-
-
 /*
  * This software is licensed under the MIT License.
  * Copyright 2018, Maurice Koch
@@ -28,7 +26,6 @@ import java.nio.file.Paths;
 import java.util.Properties;
 
 public class InternalConfig {
-
     private static String CONFIG_FILE_PATH = "config.txt";
     private static Properties prop;
 
@@ -57,8 +54,6 @@ public class InternalConfig {
                 prop.load(reader);
                 reader.close();
                 setValues();
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
             } catch (IOException e) {
                 e.printStackTrace();
             }

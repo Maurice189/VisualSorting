@@ -1,26 +1,28 @@
 package kochme.visualsorting.app;
 
 
-import kochme.visualsorting.ui.FramedSortPanel;
+import kochme.visualsorting.ui.FramedElementsCanvas;
 
 public class OperationExecutor {
     private static final int INSTRUCTION_UNIT = 5;
 
-    private final Controller controller;
+    private OperationExecutorListener listener;
     private volatile boolean pause;
     private volatile boolean executeNextStep;
     private long delayMs;
     private int delayNs;
     private int accesses;
     private int comparisons;
-    private FramedSortPanel svp;
+    private final FramedElementsCanvas svp;
     private int[] elements, copyOfElements;
     private int instructionCount;
-    private boolean flashing;
 
-    public OperationExecutor(Controller controller, FramedSortPanel svp) {
-        this.controller = controller;
+    public OperationExecutor(FramedElementsCanvas svp) {
         this.svp = svp;
+    }
+
+    public void setOperationExecutorListener(OperationExecutorListener listener) {
+        this.listener = listener;
     }
 
     public void initElements(int[] elements) {
@@ -36,13 +38,11 @@ public class OperationExecutor {
 
 
     public void initElements() {
+        this.accesses = 0;
+        this.comparisons = 0;
         this.elements = new int[copyOfElements.length];
-        this.flashing = true;
 
         System.arraycopy(copyOfElements, 0, elements, 0, copyOfElements.length);
-
-        accesses = 0;
-        comparisons = 0;
         svp.setElements(this.elements);
     }
 
@@ -50,7 +50,7 @@ public class OperationExecutor {
         this.executeNextStep = true;
     }
 
-    public void exchange(int x[], int i, int j) throws InterruptedException {
+    public void exchange(int[] x, int i, int j) throws InterruptedException {
         int tmp = x[i];
         x[i] = x[j];
         x[j] = tmp;
@@ -65,7 +65,7 @@ public class OperationExecutor {
         exchange(elements, i, j);
     }
 
-    public void insertByIndex(int x[], int i, int j) throws InterruptedException {
+    public void insertByIndex(int[] x, int i, int j) throws InterruptedException {
         svp.visualInsert(i, x[j]);
         svp.setInfo(accesses, comparisons++);
         accesses += 2;
@@ -77,7 +77,7 @@ public class OperationExecutor {
         insertByIndex(elements, i, j);
     }
 
-    public void insertByValue(int x[], int i, int value) throws InterruptedException {
+    public void insertByValue(int[] x, int i, int value) throws InterruptedException {
         svp.visualInsert(i, value);
         svp.setInfo(accesses, comparisons++);
         accesses++;
@@ -89,7 +89,7 @@ public class OperationExecutor {
         insertByValue(elements, i, value);
     }
 
-    public int compare(int x[], int i, int j, boolean isPivot) throws InterruptedException {
+    public int compare(int[] x, int i, int j, boolean isPivot) throws InterruptedException {
         int result = 0;
 
         if (x[i] > x[j])
@@ -102,7 +102,6 @@ public class OperationExecutor {
         comparisons++;
         svp.setInfo(accesses, comparisons);
         svp.visualCompare(i, j, isPivot);
-
         return result;
     }
 
@@ -150,7 +149,6 @@ public class OperationExecutor {
     }
 
     public void reset() {
-        this.flashing = false;
         this.pause = false;
         svp.enableRemoveButton(false);
     }
@@ -182,17 +180,15 @@ public class OperationExecutor {
     }
 
     public void terminate() {
-        if (flashing)
-            svp.visualTermination();
-        controller.terminationSignal(this);
+        svp.visualTermination();
+        if (listener != null) {
+            int leftMs = (int) listener.terminated();
+            svp.setDuration(leftMs / 1000, leftMs % 1000);
+        }
     }
 
     public void setDelay(int delayMs, int delayNs) {
         this.delayMs = delayMs;
         this.delayNs = delayNs;
-    }
-
-    public FramedSortPanel getSortVisualizationPanel() {
-        return svp;
     }
 }

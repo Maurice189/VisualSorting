@@ -34,7 +34,7 @@ import javax.swing.border.CompoundBorder;
 import javax.swing.border.TitledBorder;
 
 import kochme.visualsorting.ui.IconLoader;
-import kochme.visualsorting.ui.Window;
+import kochme.visualsorting.ui.MainWindow;
 
 
 public class AboutDialog extends OptionDialog {
@@ -53,16 +53,16 @@ public class AboutDialog extends OptionDialog {
         JPanel hyperlinks = new JPanel(new GridLayout(2, 0));
         TitledBorder tb = BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.GRAY),
                 "Visual Sorting - Copyright 2018, Maurice Koch");
-        tb.setTitleFont(Window.getComponentFont(10f));
+        tb.setTitleFont(MainWindow.getComponentFont(10f));
 
-        cpr.setFont(Window.getComponentFont(10f));
+        cpr.setFont(MainWindow.getComponentFont(10f));
         cpr.setBackground(UIManager.getColor("Panel.background"));
         cpr.setEditable(false);
         hyperlinks.setBorder(BorderFactory.createEmptyBorder(0, 6, 2, 0));
         cpr.setBorder(new CompoundBorder(BorderFactory.createEmptyBorder(11, 5, 5, 5), tb));
-        hyperlinkGitHub.setFont(Window.getComponentFont(10f));
+        hyperlinkGitHub.setFont(MainWindow.getComponentFont(10f));
         hyperlinkGNU.setForeground(Color.blue);
-        hyperlinkGNU.setFont(Window.getComponentFont(10f));
+        hyperlinkGNU.setFont(MainWindow.getComponentFont(10f));
         hyperlinkGitHub.setForeground(Color.blue);
         hyperlinkGitHub.setText("GitHub - https://github.com/Maurice189/VisualSorting");
         hyperlinkGNU.setText("License - https://opensource.org/licenses/MIT");

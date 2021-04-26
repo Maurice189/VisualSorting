@@ -39,10 +39,9 @@ import javax.swing.JSpinner;
 import javax.swing.JTabbedPane;
 import javax.swing.border.TitledBorder;
 
-import kochme.visualsorting.ui.SortPanel;
+import kochme.visualsorting.ui.MainWindow;
+import kochme.visualsorting.ui.ElementsCanvas;
 import kochme.visualsorting.app.*;
-import kochme.visualsorting.ui.FramedSortPanel;
-import kochme.visualsorting.ui.Window;
 
 /**
  * This class is responsible for editing the sorting list.
@@ -64,7 +63,7 @@ public class EnterDialog extends OptionDialog implements ActionListener {
     private JButton update, exit;
     private ButtonGroup listTypeGroup;
     private JRadioButton random, reversed, sorted;
-    private SortPanel svp;
+    private ElementsCanvas svp;
     private JPanel btnWrp1, btnWrp2;
 
     private static EnterDialog instance;
@@ -126,7 +125,7 @@ public class EnterDialog extends OptionDialog implements ActionListener {
         }
 
         nofValues = new JSpinner();
-        nofValues.setFont(Window.getComponentFont(15f));
+        nofValues.setFont(MainWindow.getComponentFont(15f));
         setLayout(new GridBagLayout());
 
         JTabbedPane tp = new JTabbedPane();
@@ -136,7 +135,7 @@ public class EnterDialog extends OptionDialog implements ActionListener {
         update.addActionListener(this);
         listTypeGroup = new ButtonGroup();
 
-        svp = new SortPanel(width, height);
+        svp = new ElementsCanvas(width, height);
         svp.setElements(listOfElements);
         svp.updateBarSize();
         svp.updatePanelSize();

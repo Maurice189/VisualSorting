@@ -28,17 +28,13 @@ import kochme.visualsorting.dialogs.DelayDialog;
 import kochme.visualsorting.dialogs.EnterDialog;
 import kochme.visualsorting.app.Consts.SortAlgorithm;
 import kochme.visualsorting.dialogs.InfoDialog;
-import kochme.visualsorting.ui.Window;
+import kochme.visualsorting.ui.MainWindow;
 
-public class Main {
+public class App {
     public static void main(String[] args) {
         try {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-        } catch (ClassNotFoundException e1) {
-            e1.printStackTrace();
-        } catch (InstantiationException e1) {
-            e1.printStackTrace();
-        } catch (IllegalAccessException e1) {
+        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException e1) {
             e1.printStackTrace();
         } catch (UnsupportedLookAndFeelException e1) {
             try {
@@ -53,14 +49,13 @@ public class Main {
 
         System.setProperty("apple.laf.useScreenMenuBar", "true");
 
-        for (int i = 0; i < args.length; i++) {
-            if (args[i].startsWith("-configdir:")) {
-                InternalConfig.setConfigFileDirectory(args[i].subSequence("-configdir:".length(), args[i].length()).toString());
+        for (String arg : args) {
+            if (arg.startsWith("-configdir:")) {
+                InternalConfig.setConfigFileDirectory(arg.subSequence("-configdir:".length(), arg.length()).toString());
             }
         }
 
         InternalConfig.loadConfigFile();
-
         int[] initElements = Utils.getRandomSequence(InternalConfig.getNumberOfElements());
 
         DelayDialog.setDelayMs(InternalConfig.getExecutionSpeedDelayMs());
@@ -68,27 +63,26 @@ public class Main {
         EnterDialog.setElements(initElements);
 
         // this font is used under the GPL from google fonts under 'OpenSans'
-        Window.setComponentFont("/Fonts/OpenSans-Regular.ttf");
-        Window.setInfoFont("/Fonts/Oxygen-Regular.ttf", 30f);
+        MainWindow.setComponentFont("/Fonts/OpenSans-Regular.ttf");
+        MainWindow.setInfoFont("/Fonts/Oxygen-Regular.ttf", 30f);
 
-        UIManager.put("OptionPane.messageFont", new FontUIResource(Window.getComponentFont(13f)));
-        UIManager.put("Button.font", new FontUIResource(Window.getComponentFont(13f)));
-        UIManager.put("EditorPane.font", new FontUIResource(Window.getComponentFont(13f)));
-        UIManager.put("ComboBox.font", new FontUIResource(Window.getComponentFont(13f)));
-        UIManager.put("Label.font", new FontUIResource(Window.getComponentFont(12f)));
-        UIManager.put("MenuBar.font", new FontUIResource(Window.getComponentFont(13f)));
-        UIManager.put("MenuItem.font", new FontUIResource(Window.getComponentFont(13f)));
-        UIManager.put("RadioButton.font", new FontUIResource(Window.getComponentFont(13f)));
-        UIManager.put("CheckBox.font", new FontUIResource(Window.getComponentFont(13f)));
-        UIManager.put("RadioButtonMenuItem.font", new FontUIResource(Window.getComponentFont(13f)));
-        UIManager.put("CheckBoxMenuItem.font", new FontUIResource(Window.getComponentFont(13f)));
-        UIManager.put("TextField.font", new FontUIResource(Window.getComponentFont(13f)));
-        UIManager.put("TitledBorder.font", new FontUIResource(Window.getComponentFont(13f)));
-        UIManager.put("Menu.font", new FontUIResource(Window.getComponentFont(13f)));
-        UIManager.put("Spinner.font", new FontUIResource(Window.getComponentFont(13f)));
-        UIManager.put("Slider.font", new FontUIResource(Window.getComponentFont(13f)));
+        UIManager.put("OptionPane.messageFont", new FontUIResource(MainWindow.getComponentFont(13f)));
+        UIManager.put("Button.font", new FontUIResource(MainWindow.getComponentFont(13f)));
+        UIManager.put("EditorPane.font", new FontUIResource(MainWindow.getComponentFont(13f)));
+        UIManager.put("ComboBox.font", new FontUIResource(MainWindow.getComponentFont(13f)));
+        UIManager.put("Label.font", new FontUIResource(MainWindow.getComponentFont(12f)));
+        UIManager.put("MenuBar.font", new FontUIResource(MainWindow.getComponentFont(13f)));
+        UIManager.put("MenuItem.font", new FontUIResource(MainWindow.getComponentFont(13f)));
+        UIManager.put("RadioButton.font", new FontUIResource(MainWindow.getComponentFont(13f)));
+        UIManager.put("CheckBox.font", new FontUIResource(MainWindow.getComponentFont(13f)));
+        UIManager.put("RadioButtonMenuItem.font", new FontUIResource(MainWindow.getComponentFont(13f)));
+        UIManager.put("CheckBoxMenuItem.font", new FontUIResource(MainWindow.getComponentFont(13f)));
+        UIManager.put("TextField.font", new FontUIResource(MainWindow.getComponentFont(13f)));
+        UIManager.put("TitledBorder.font", new FontUIResource(MainWindow.getComponentFont(13f)));
+        UIManager.put("Menu.font", new FontUIResource(MainWindow.getComponentFont(13f)));
+        UIManager.put("Spinner.font", new FontUIResource(MainWindow.getComponentFont(13f)));
+        UIManager.put("Slider.font", new FontUIResource(MainWindow.getComponentFont(13f)));
 
-        // hashmap for resolving sort into the respective infopage file
         HashMap<SortAlgorithm, String> map = new HashMap<>();
         map.put(SortAlgorithm.Bubblesort, "infopage_bubblesort.html");
         map.put(SortAlgorithm.Combsort, "infopage_combsort.html");
@@ -98,7 +92,6 @@ public class Main {
         map.put(SortAlgorithm.Shakersort, "infopage_shakersort.html");
         map.put(SortAlgorithm.Shellsort, "infopage_shellsort.html");
         map.put(SortAlgorithm.Bogosort, "infopage_bogosort.html");
-        //map.put(SortAlgorithm.Introsort, "infopage_introsort.html");
         map.put(SortAlgorithm.Selectionsort, "infopage_selectionsort.html");
         map.put(SortAlgorithm.Quicksort_FIXED, "infopage_quicksort.html");
         map.put(SortAlgorithm.Quicksort_RANDOM, "infopage_quicksort.html");
@@ -106,7 +99,7 @@ public class Main {
 
         InfoDialog.initInfoPageResolver(map);
         Controller controller = new Controller(initElements);
-        Window window = new Window(controller, "Visual Sorting - ".concat(InternalConfig.getVersion()), 1200, 800);
-        controller.setView(window);
+        MainWindow mainWindow = new MainWindow(controller, "Visual Sorting - ".concat(InternalConfig.getVersion()), 1200, 800);
+        controller.setView(mainWindow);
     }
 }

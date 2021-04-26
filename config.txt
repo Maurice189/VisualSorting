@@ -1,6 +1,6 @@
-#Sat Apr 24 00:18:24 CEST 2021
-version=/
-number_of_elements=512
-delay_ms=6
-auto_pause_enabled=false
+#Sat Apr 24 18:36:20 CEST 2021
 delay_ns=476
+delay_ms=5
+version=/
+number_of_elements=32
+auto_pause_enabled=false

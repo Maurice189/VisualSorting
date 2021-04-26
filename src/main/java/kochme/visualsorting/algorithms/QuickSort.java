@@ -43,7 +43,6 @@ public class QuickSort extends SortAlgorithm {
         if (cmpLR == 1 && cmpLC == -1) {
             return left;
         }
-
         return center;
     }
 

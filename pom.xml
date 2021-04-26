@@ -20,7 +20,7 @@
                 <configuration>
                     <archive>
                         <manifest>
-                            <mainClass>kochme.visualsorting.app.Main</mainClass>
+                            <mainClass>kochme.visualsorting.app.App</mainClass>
                         </manifest>
                     </archive>
                     <descriptorRefs>

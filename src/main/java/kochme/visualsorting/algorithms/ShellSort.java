@@ -11,7 +11,6 @@ public class ShellSort extends SortAlgorithm {
     }
 
     public void run() {
-
         try {
             int increment = operationExecutor.getNumberOfElements() / 2;
             while (increment > 0) {

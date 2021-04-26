@@ -20,15 +20,12 @@ package kochme.visualsorting.ui;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.image.BufferedImage;
-import java.util.Arrays;
 
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
 
 import kochme.visualsorting.dialogs.InfoDialog;
 import kochme.visualsorting.app.Consts;
-import kochme.visualsorting.ui.Utility;
 
 /**
  * This class is used to display the animation in a panel. The animation is
@@ -39,21 +36,19 @@ import kochme.visualsorting.ui.Utility;
  * @version beta
  * @category graphics
  **/
-public class FramedSortPanel extends SortPanel {
-
-    private TitledBorder leftBorder;
+public class FramedElementsCanvas extends ElementsCanvas {
+    private final TitledBorder leftBorder;
+    private final Consts.SortAlgorithm algorithm;
     private JButton remove;
-    private Consts.SortAlgorithm algorithm;
 
-    public FramedSortPanel(Consts.SortAlgorithm algorithm, int width, int height) {
+    public FramedElementsCanvas(Consts.SortAlgorithm algorithm, int width, int height) {
         super(width, height);
-
         this.algorithm = algorithm;
 
         leftBorder = BorderFactory.createTitledBorder("");
         leftBorder.setTitleJustification(TitledBorder.ABOVE_TOP);
         leftBorder.setTitleColor(Color.darkGray);
-        leftBorder.setTitleFont(Window.getComponentFont(12f));
+        leftBorder.setTitleFont(MainWindow.getComponentFont(12f));
         setInfo(0, 0);
 
         setBorder(leftBorder);
@@ -65,7 +60,6 @@ public class FramedSortPanel extends SortPanel {
     }
 
     private void manageButtons() {
-
         GridBagConstraints gbc = new GridBagConstraints();
         setLayout(new GridBagLayout());
         gbc.gridx = 1;
@@ -104,24 +98,12 @@ public class FramedSortPanel extends SortPanel {
         String info = "<html> <b>" +
                 algorithm.toString() + ("</b> - ( ") + String.valueOf(comparisons)
                 + (" comparisons | ") + String.valueOf(accesses) + (" accesses") + " ) </html>";
-
         leftBorder.setTitle(info);
     }
 
-    public static int getMax(int values[]) {
-        int max = 0;
-
-        for (int i = 0; i < values.length; i++) {
-            if (values[i] > max)
-                max = values[i];
-        }
-        return max;
-    }
-
-    public void setDuration(int sec, int msec) {
-        String durInfo = " in ".concat(String.valueOf(sec).concat(":")).concat(String.valueOf(msec)).concat(" sec.");
+    public void setDuration(int sec, int milliSeconds) {
+        String durInfo = " in ".concat(String.valueOf(sec).concat(":")).concat(String.valueOf(milliSeconds)).concat(" sec.");
         leftBorder.setTitle(leftBorder.getTitle().concat(durInfo));
         repaint();
     }
-
 }
