@@ -74,7 +74,7 @@ public class MainWindow extends JFrame {
         executionTimeLabel = new JLabel();
         executionTimeLabel.setToolTipText("Execution time.");
         executionTimeLabel.setForeground(Color.black);
-        executionTimeLabel.setIcon(IconLoader.getIcon("/icons/timer.png"));
+        executionTimeLabel.setIcon(new ImageIcon(this.getClass().getResource("/icons/timer.png")));
 
         JCheckBoxMenuItem switchIntPause = new JCheckBoxMenuItem("Automatic pause enabled");
         switchIntPause.addActionListener(controller);

@@ -181,16 +181,16 @@ public class Controller implements ComponentListener, ActionListener, WindowList
                 InternalConfig.toggleAutoPause();
                 break;
             case Consts.NEW_ELEMENTS:
-                EnterDialog.getInstance(this, 500, 300);
+                ElementEditorDialog.getInstance(this, 500, 300);
                 break;
             case Consts.ABOUT:
-                AboutDialog.getInstance(400, 470);
+                AboutDialog.getInstance(420, 500);
                 break;
             case Consts.NEXT_ITERATION:
                 operationExecutors.forEach(OperationExecutor::executeNextStep);
                 break;
             case Consts.DELAY:
-                DelayDialog.getInstance(this, 320, 150);
+                SpeedAdjustDialog.getInstance(this, 320, 150);
                 break;
         }
     }

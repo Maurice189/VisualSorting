@@ -1,6 +1,0 @@
-#Fri Apr 23 11:46:42 CEST 2021
-version=0.5 Beta
-delayms=15
-delayns=0
-auto_pause=true
-nofelements=128

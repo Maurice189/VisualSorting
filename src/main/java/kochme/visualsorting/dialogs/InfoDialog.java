@@ -28,20 +28,25 @@ import javax.swing.event.*;
 
 import kochme.visualsorting.app.Consts.SortAlgorithm;
 
-public class InfoDialog extends OptionDialog {
+public class InfoDialog extends JDialog {
 
     private static HashMap<SortAlgorithm, String> infoPageRes;
 
     private JEditorPane manual;
-    private JScrollPane editorScrollPane;
     private JList<String> algorithmList;
-    private SortAlgorithm algorithm;
+    private final SortAlgorithm algorithm;
 
     public InfoDialog(SortAlgorithm SortAlgorithm, String title, int width,
                       int height) {
 
-        super(title, width, height, true);
         this.algorithm = SortAlgorithm;
+
+        setTitle(title);
+        setSize(width, height);
+        setLocationRelativeTo(null);
+        setLayout(new BorderLayout());
+        initComponents();
+        setVisible(true);
     }
 
     private void setPage(SortAlgorithm algorithm) {
@@ -71,9 +76,6 @@ public class InfoDialog extends OptionDialog {
         } else if (infoPageTitle.endsWith("insertionsort.html")) {
             algorithm = SortAlgorithm.Insertionsort;
         }
-        //else if (infoPageTitle.endsWith("introsort.html")) {
-        //    algorithm = SortAlgorithm.Introsort;
-        //}
         else if (infoPageTitle.endsWith("mergesort.html")) {
             algorithm = SortAlgorithm.Mergesort;
         } else if (infoPageTitle.endsWith("quicksort_fixed.html")) {
@@ -93,7 +95,6 @@ public class InfoDialog extends OptionDialog {
         setPage(algorithm);
     }
 
-    @Override
     protected void initComponents() {
         setLayout(new BorderLayout());
 
@@ -116,7 +117,7 @@ public class InfoDialog extends OptionDialog {
             }
         });
 
-        editorScrollPane = new JScrollPane(manual);
+        JScrollPane editorScrollPane = new JScrollPane(manual);
         editorScrollPane.setBorder(BorderFactory.createEtchedBorder());
         editorScrollPane.setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
 
@@ -137,7 +138,6 @@ public class InfoDialog extends OptionDialog {
             setPage(SortAlgorithm.values()[(algorithmList.getSelectedIndex())]);
         });
 
-
         algorithmList.setSelectedIndex(Arrays.asList(SortAlgorithm.values()).indexOf(algorithm));
 
         add(BorderLayout.WEST, algorithmList);
@@ -148,6 +148,5 @@ public class InfoDialog extends OptionDialog {
     public static void initInfoPageResolver(
             HashMap<SortAlgorithm, String> infoPageRes) {
         InfoDialog.infoPageRes = infoPageRes;
-
     }
 }

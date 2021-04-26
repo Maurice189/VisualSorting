@@ -24,8 +24,8 @@ import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.plaf.FontUIResource;
 //import com.sun.tools.javac.comp.Enter;
 
-import kochme.visualsorting.dialogs.DelayDialog;
-import kochme.visualsorting.dialogs.EnterDialog;
+import kochme.visualsorting.dialogs.SpeedAdjustDialog;
+import kochme.visualsorting.dialogs.ElementEditorDialog;
 import kochme.visualsorting.app.Consts.SortAlgorithm;
 import kochme.visualsorting.dialogs.InfoDialog;
 import kochme.visualsorting.ui.MainWindow;
@@ -58,9 +58,9 @@ public class App {
         InternalConfig.loadConfigFile();
         int[] initElements = Utils.getRandomSequence(InternalConfig.getNumberOfElements());
 
-        DelayDialog.setDelayMs(InternalConfig.getExecutionSpeedDelayMs());
-        DelayDialog.setDelayNs(InternalConfig.getExecutionSpeedDelayNs());
-        EnterDialog.setElements(initElements);
+        SpeedAdjustDialog.setDelayMs(InternalConfig.getExecutionSpeedDelayMs());
+        SpeedAdjustDialog.setDelayNs(InternalConfig.getExecutionSpeedDelayNs());
+        ElementEditorDialog.setElements(initElements);
 
         // this font is used under the GPL from google fonts under 'OpenSans'
         MainWindow.setComponentFont("/Fonts/OpenSans-Regular.ttf");

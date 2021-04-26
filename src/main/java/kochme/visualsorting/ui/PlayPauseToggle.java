@@ -1,7 +1,5 @@
 package kochme.visualsorting.ui;
 
-import kochme.visualsorting.ui.IconLoader;
-
 import javax.swing.*;
 
 public class PlayPauseToggle extends JButton {
@@ -24,13 +22,13 @@ public class PlayPauseToggle extends JButton {
     }
 
     public void setPlayIcon(String iconResourcePath) {
-        playIcon = IconLoader.getIcon(iconResourcePath);
+        playIcon = new ImageIcon(this.getClass().getResource(iconResourcePath));
         playRolloverIcon = new RolloverIcon(playIcon);
         playDisabledIcon = new DisabledIcon(playIcon);
     }
 
     public void setPauseIcon(String iconResourcePath) {
-        pauseIcon = IconLoader.getIcon(iconResourcePath);
+        pauseIcon = new ImageIcon(this.getClass().getResource(iconResourcePath));
         pauseRolloverIcon = new RolloverIcon(pauseIcon);
         pauseDisabledIcon = new DisabledIcon(pauseIcon);
     }

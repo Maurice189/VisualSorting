@@ -33,14 +33,11 @@ import javax.swing.*;
 import javax.swing.border.CompoundBorder;
 import javax.swing.border.TitledBorder;
 
-import kochme.visualsorting.ui.IconLoader;
 import kochme.visualsorting.ui.MainWindow;
 
 
 public class AboutDialog extends OptionDialog {
-
     private static AboutDialog instance;
-
     public AboutDialog(int width, int height) {
         super("About - Visual Sorting", width, height, true);
     }
@@ -52,7 +49,7 @@ public class AboutDialog extends OptionDialog {
         JTextArea cpr = new JTextArea();
         JPanel hyperlinks = new JPanel(new GridLayout(2, 0));
         TitledBorder tb = BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.GRAY),
-                "Visual Sorting - Copyright 2018, Maurice Koch");
+                "Visual Sorting 0.1 - Copyright 2021, Maurice Koch");
         tb.setTitleFont(MainWindow.getComponentFont(10f));
 
         cpr.setFont(MainWindow.getComponentFont(10f));
@@ -90,14 +87,12 @@ public class AboutDialog extends OptionDialog {
         hyperlinkGitHub.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-
                 try {
                     Desktop.getDesktop().browse(new URI("https://github.com/Maurice189/VisualSorting"));
                 } catch (IOException e2) {
                     e2.printStackTrace();
-                } catch (URISyntaxException e1) {
+                } catch (URISyntaxException ignored) {
                 }
-
             }
         });
 
@@ -107,14 +102,11 @@ public class AboutDialog extends OptionDialog {
             public void mouseClicked(MouseEvent e) {
                 try {
                     Desktop.getDesktop().browse(new URI("https://opensource.org/licenses/MIT"));
-                } catch (IOException e2) {
+                } catch (IOException | URISyntaxException e2) {
                     e2.printStackTrace();
-                } catch (URISyntaxException e1) {
-                    e1.printStackTrace();
                 }
             }
         });
-
 
         setLayout(new BorderLayout());
         addMouseListener(new MouseAdapter() {
@@ -125,7 +117,7 @@ public class AboutDialog extends OptionDialog {
         hyperlinks.add(hyperlinkGNU);
         hyperlinks.add(hyperlinkGitHub);
 
-        JLabel logo = new JLabel(IconLoader.getIcon("/icons/logo-simple.png"));
+        JLabel logo = new JLabel(new ImageIcon(this.getClass().getResource("/icons/logo-simple.png")));
         logo.setBorder(BorderFactory.createEmptyBorder(10, 0, 0, 0));
         add(BorderLayout.PAGE_START, logo);
         add(BorderLayout.CENTER, cpr);
@@ -133,13 +125,10 @@ public class AboutDialog extends OptionDialog {
         setResizable(false);
     }
 
-    public static AboutDialog getInstance(int width,
-                                          int height) {
+    public static void getInstance(int width, int height) {
         if (instance == null)
             instance = new AboutDialog(width, height);
-
         instance.setVisible(true);
-        return instance;
     }
 
 }
