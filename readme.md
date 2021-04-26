@@ -7,21 +7,21 @@ The concept of VisualSorting is somewhat similar to [sound-of-sorting](https://g
 
 # Features
 
-* Multiple sort algorithms can be studied concurrently.
-* Commonly known sort algorithms like Quick sort, Merge sort and Bubble sort are available.
-* Start/Pause feature and (manual) single step execution.
+* Multiple sort algorithms can be compared concurrently.
+* Common sort algorithms are available like Quick sort, Merge sort and Bubble sort.
+* Start/Stop/Pause and step by step execution functionality.
 
 # Maven Build
 
-In the root directory of this repository, simply run `maven install assembly:single`. 
-Make sure that Maven is installed on your machine.
-
+First, make sure that Java SE Runtime Environment 8 and Maven are installed on your machine.
+Then run `maven package` from the top level directory of this repository.
+After successful build, you should be able launch the application with the following command `java -jar target/visual-sorting-0.1.jar`.
 
 # License
 
 Visual Sorting is licenced under the MIT License.
 
-Copyright 2018, Maurice Koch
+Copyright 2021, Maurice Koch
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
 
@@ -29,7 +29,7 @@ The above copyright notice and this permission notice shall be included in all c
 
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-# Icon Credits
+# Credits
 
 Most of the program icons used in this program are based
 on Google's Material Design / Monochrome icons, downloaded from www.flaticon.com.
