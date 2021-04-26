@@ -36,15 +36,18 @@ import javax.swing.border.TitledBorder;
 import kochme.visualsorting.ui.MainWindow;
 
 
-public class AboutDialog extends OptionDialog {
+public class AboutDialog extends JDialog {
     private static AboutDialog instance;
+
     public AboutDialog(int width, int height) {
-        super("About - Visual Sorting", width, height, true);
+        setTitle("About - Visual Sorting");
+        setSize(width, height);
+        setLocationRelativeTo(null);
+        setLayout(new BorderLayout());
+        initComponents();
     }
 
-    @Override
     protected void initComponents() {
-
         JLabel hyperlinkGitHub = new JLabel(), hyperlinkGNU = new JLabel();
         JTextArea cpr = new JTextArea();
         JPanel hyperlinks = new JPanel(new GridLayout(2, 0));
@@ -117,7 +120,7 @@ public class AboutDialog extends OptionDialog {
         hyperlinks.add(hyperlinkGNU);
         hyperlinks.add(hyperlinkGitHub);
 
-        JLabel logo = new JLabel(new ImageIcon(this.getClass().getResource("/icons/logo-simple.png")));
+        JLabel logo = new JLabel(new ImageIcon(this.getClass().getResource("/icons/banner.png")));
         logo.setBorder(BorderFactory.createEmptyBorder(10, 0, 0, 0));
         add(BorderLayout.PAGE_START, logo);
         add(BorderLayout.CENTER, cpr);

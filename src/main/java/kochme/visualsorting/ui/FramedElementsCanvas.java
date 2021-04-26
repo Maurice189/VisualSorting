@@ -70,11 +70,11 @@ public class FramedElementsCanvas extends ElementsCanvas {
         gbc.weighty = 1;
         gbc.insets = new Insets(-7, 0, 0, 2);
         gbc.anchor = GridBagConstraints.FIRST_LINE_END;
-        remove = Utility.createButton("/icons/remove.png");
+        remove = Utility.createButton("/icons/remove-small.png");
         remove.setActionCommand(Consts.REMOVE_SORT);
         remove.setPreferredSize(new Dimension(16, 16));
 
-        JButton info = Utility.createButton("/icons/info_rect.png");
+        JButton info = Utility.createButton("/icons/info.png");
 
         info.addActionListener(e -> {
             new InfoDialog(algorithm, algorithm.toString(), 600, 370);

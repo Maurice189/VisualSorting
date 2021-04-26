@@ -63,8 +63,8 @@ public class App {
         ElementEditorDialog.setElements(initElements);
 
         // this font is used under the GPL from google fonts under 'OpenSans'
-        MainWindow.setComponentFont("/Fonts/OpenSans-Regular.ttf");
-        MainWindow.setInfoFont("/Fonts/Oxygen-Regular.ttf", 30f);
+        MainWindow.setComponentFont("/fonts/OpenSans-Regular.ttf");
+        MainWindow.setInfoFont("/fonts/Oxygen-Regular.ttf", 30f);
 
         UIManager.put("OptionPane.messageFont", new FontUIResource(MainWindow.getComponentFont(13f)));
         UIManager.put("Button.font", new FontUIResource(MainWindow.getComponentFont(13f)));

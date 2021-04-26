@@ -18,25 +18,10 @@ package kochme.visualsorting.dialogs;
  * THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-import java.awt.Color;
-import java.awt.FlowLayout;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.Insets;
+import java.awt.*;
 import java.awt.event.*;
 
-import javax.swing.BorderFactory;
-import javax.swing.Box;
-import javax.swing.BoxLayout;
-import javax.swing.ButtonGroup;
-import javax.swing.DefaultListModel;
-import javax.swing.JButton;
-import javax.swing.JList;
-import javax.swing.JPanel;
-import javax.swing.JRadioButton;
-import javax.swing.JScrollPane;
-import javax.swing.JSpinner;
-import javax.swing.JTabbedPane;
+import javax.swing.*;
 import javax.swing.border.TitledBorder;
 
 import kochme.visualsorting.ui.MainWindow;
@@ -53,7 +38,7 @@ import kochme.visualsorting.app.*;
  * @category Dialogs
  */
 
-public class ElementEditorDialog extends OptionDialog implements ActionListener {
+public class ElementEditorDialog extends JDialog implements ActionListener {
 
     private static int[] listOfElements;
 
@@ -68,8 +53,13 @@ public class ElementEditorDialog extends OptionDialog implements ActionListener 
     private static int width, height;
 
     private ElementEditorDialog(Controller controller, int width, int height) {
-        super("Element Editor", width, height, false);
         this.controller = controller;
+
+        setTitle("Element Editor");
+        setSize(width, height);
+        setLocationRelativeTo(null);
+        setLayout(new BorderLayout());
+        initComponents();
     }
 
     @Override
@@ -107,7 +97,6 @@ public class ElementEditorDialog extends OptionDialog implements ActionListener 
         }
     }
 
-    @Override
     protected void initComponents() {
         listModel = new DefaultListModel<>();
         JList<Integer> elements = new JList<Integer>(listModel);

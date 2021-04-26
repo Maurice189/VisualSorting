@@ -18,24 +18,15 @@ package kochme.visualsorting.dialogs;
  * THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-import java.awt.FlowLayout;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
-import javax.swing.BorderFactory;
-import javax.swing.Box;
-import javax.swing.BoxLayout;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JRadioButton;
-import javax.swing.JSlider;
+import javax.swing.*;
 import javax.swing.border.EtchedBorder;
-
 import kochme.visualsorting.app.Controller;
 import kochme.visualsorting.app.InternalConfig;
 
-public final class SpeedAdjustDialog extends OptionDialog implements ActionListener {
-
+public final class SpeedAdjustDialog extends JDialog implements ActionListener {
     private static SpeedAdjustDialog instance;
     private final Controller controller;
     private JLabel delay;
@@ -46,8 +37,12 @@ public final class SpeedAdjustDialog extends OptionDialog implements ActionListe
     private static int delayMs = 0, delayNs = 0;
 
     private SpeedAdjustDialog(Controller controller, int width, int height) {
-        super( "Execution speed", width, height, false);
         this.controller = controller;
+        setTitle("Adjust Execution Speed");
+        setSize(width, height);
+        setLocationRelativeTo(null);
+        setLayout(new BorderLayout());
+        initComponents();
     }
 
     protected void initComponents() {

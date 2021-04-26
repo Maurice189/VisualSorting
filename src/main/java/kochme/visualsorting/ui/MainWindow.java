@@ -74,7 +74,7 @@ public class MainWindow extends JFrame {
         executionTimeLabel = new JLabel();
         executionTimeLabel.setToolTipText("Execution time.");
         executionTimeLabel.setForeground(Color.black);
-        executionTimeLabel.setIcon(new ImageIcon(this.getClass().getResource("/icons/timer.png")));
+        executionTimeLabel.setIcon(new ImageIcon(this.getClass().getResource("/icons/timer-small.png")));
 
         JCheckBoxMenuItem switchIntPause = new JCheckBoxMenuItem("Automatic pause enabled");
         switchIntPause.addActionListener(controller);
@@ -111,26 +111,13 @@ public class MainWindow extends JFrame {
         bottomBar.add(Box.createHorizontalGlue());
         bottomBar.add(numberOfElementsLabel);
 
-        JMenu settings = new JMenu("Settings");
         JMenu help = new JMenu("Help");
-        JMenuItem list = new JMenuItem("List of elements");
-        list.addActionListener(controller);
-        list.setActionCommand(Consts.NEW_ELEMENTS);
-
-        JMenuItem delay = new JMenuItem("Speed");
-        delay.addActionListener(controller);
-        delay.setActionCommand(Consts.DELAY);
 
         JMenuItem about = new JMenuItem("About " + title);
         about.addActionListener(controller);
         about.setActionCommand(Consts.ABOUT);
 
         help.add(about);
-        settings.add(programmFunctions);
-        settings.add(list);
-        settings.add(delay);
-
-        menuBar.add(settings);
         menuBar.add(help);
         setJMenuBar(menuBar);
 
@@ -200,27 +187,27 @@ public class MainWindow extends JFrame {
         playPauseToggle.addActionListener(controller);
         playPauseToggle.setActionCommand(Consts.START);
 
-        addAlgorithmBtn = Utility.createButton("/icons/add.png");
+        addAlgorithmBtn = Utility.createButton("/icons/insert.png");
         addAlgorithmBtn.setToolTipText("Add selected sort algorithm.");
         addAlgorithmBtn.addActionListener(controller);
         addAlgorithmBtn.setActionCommand(Consts.ADD_SORT);
 
-        JButton adjustSpeedBtn = Utility.createButton("/icons/speed.png");
+        JButton adjustSpeedBtn = Utility.createButton("/icons/timer.png");
         adjustSpeedBtn.setToolTipText("Adjust the sorting speed.");
         adjustSpeedBtn.addActionListener(controller);
         adjustSpeedBtn.setActionCommand(Consts.DELAY);
 
-        listOfElementsBtn = Utility.createButton("/icons/elements.png");
+        listOfElementsBtn = Utility.createButton("/icons/bars.png");
         listOfElementsBtn.setToolTipText("Edit elements in list.");
         listOfElementsBtn.addActionListener(controller);
         listOfElementsBtn.setActionCommand(Consts.NEW_ELEMENTS);
 
-        nextInstructionBtn = Utility.createButton("/icons/next_instruction.png");
+        nextInstructionBtn = Utility.createButton("/icons/step.png");
         nextInstructionBtn.setToolTipText("Execute playPauseToggle instruction.");
         nextInstructionBtn.addActionListener(controller);
         nextInstructionBtn.setActionCommand(Consts.NEXT_ITERATION);
 
-        resetBtn = Utility.createButton("/icons/reset.png");
+        resetBtn = Utility.createButton("/icons/stop.png");
         resetBtn.setToolTipText("Reset to unsorted state.");
         resetBtn.addActionListener(controller);
         resetBtn.setActionCommand(Consts.RESET);
@@ -233,7 +220,7 @@ public class MainWindow extends JFrame {
         separator.setMaximumSize(size);
 
         algorithmInfo.setToolTipText("Short description of currently selected sort algorithm.");
-        algorithmInfo.setIcon(new ImageIcon(Consts.class.getResource("/icons/info_round.png")));
+        algorithmInfo.setIcon(new ImageIcon(Consts.class.getResource("/icons/info.png")));
         algorithmInfo.setIconTextGap(10);
 
         toolBar.add(Box.createHorizontalStrut(3));
@@ -259,17 +246,17 @@ public class MainWindow extends JFrame {
         toolBar.add(Box.createHorizontalStrut(3));
 
         java.net.URL icon = MainWindow.class.getResource(
-                "/icons/icon.png");
+                "/icons/logo.png");
         java.net.URL icon2x = MainWindow.class.getResource(
-                "/icons/icon@2x.png");
+                "/icons/logo@2x.png");
         java.net.URL icon3x = MainWindow.class.getResource(
-                "/icons/icon@3x.png");
+                "/icons/logo@3x.png");
         java.net.URL icon4x = MainWindow.class.getResource(
-                "/icons/icon@4x.png");
+                "/icons/logo@4x.png");
         java.net.URL icon5x = MainWindow.class.getResource(
-                "/icons/icon@5x.png");
+                "/icons/logo@5x.png");
         java.net.URL icon6x = MainWindow.class.getResource(
-                "/icons/icon@6x.png");
+                "/icons/logo@6x.png");
 
         List<Image> icons = new ArrayList<Image>();
 
