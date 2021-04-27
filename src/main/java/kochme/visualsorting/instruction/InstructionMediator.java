@@ -92,7 +92,9 @@ public class InstructionMediator {
         if (value > elements[i])
             result = -1;
 
-        // TODO : How to visualize svp.visualCompare(i, value, false) ?
+        typeQueue.add(InstructionType.COMPARE);
+        // We cannot compare with values but only with indices.
+        compareQueue.add(new InstructionCompare(i, i, false));
         return result;
     }
 

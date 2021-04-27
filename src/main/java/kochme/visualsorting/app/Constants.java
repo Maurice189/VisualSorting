@@ -24,9 +24,7 @@ public class Constants {
     private Constants() {}
 
     public enum SortAlgorithm {
-        Bogosort, Bubblesort, Combsort, Heapsort, Insertionsort,
-        //Introsort,
-        Mergesort,
+        Bubblesort, Combsort, Heapsort, Insertionsort, Mergesort,
         Quicksort_FIXED, Quicksort_RANDOM, Quicksort_MO3, Selectionsort, Shakersort, Shellsort;
 
 
@@ -35,9 +33,6 @@ public class Constants {
             String result = "";
 
             switch (this) {
-                case Bogosort:
-                    result = "Bogo sort";
-                    break;
                 case Bubblesort:
                     result = "Bubble sort";
                     break;
@@ -50,9 +45,6 @@ public class Constants {
                 case Insertionsort:
                     result = "Insertion sort";
                     break;
-                //case Introsort:
-                //    result = "Intro sort";
-                //    break;
                 case Mergesort:
                     result = "Merge sort";
                     break;

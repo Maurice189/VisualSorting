@@ -107,7 +107,7 @@ public class ElementsCanvas extends JPanel {
         }
     }
 
-    public void visualExchange(int c1, int c2) {
+    public void visualSwap(int c1, int c2) {
         undoLastHighlight();
 
         int tmp = elements[c1];
@@ -197,6 +197,8 @@ public class ElementsCanvas extends JPanel {
     public void visualTermination() {
         graphics2D.clearRect(0, height - offsetY, width, height);
         graphics2D.setColor(new Color(100, 100, 100));
+
+        //int delayMs = (int) 250. / elements.length;
 
         for (int i = 0; i < elements.length; i++) {
             graphics2D.fillRect((i * (refWidth + gapSize)) + margin,

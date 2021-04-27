@@ -109,8 +109,6 @@ public class Controller implements ComponentListener, ActionListener, WindowList
                     sort = new ShellSort(instructionMediator);
                 else if (selectedSort.equals(Constants.SortAlgorithm.Insertionsort))
                     sort = new InsertionSort(instructionMediator);
-                else if (selectedSort.equals(Constants.SortAlgorithm.Bogosort))
-                    sort = new BogoSort(instructionMediator);
                 else
                     sort = new HeapSort(instructionMediator);
 

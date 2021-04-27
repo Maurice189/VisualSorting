@@ -41,7 +41,7 @@ public class BogoSort extends SortAlgorithm {
 
     @Override
     public Constants.SortAlgorithm getAlgorithmName() {
-        return Constants.SortAlgorithm.Bogosort;
+        return Constants.SortAlgorithm.Bubblesort;
     }
 
 }

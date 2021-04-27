@@ -34,7 +34,7 @@ public class HeapSort extends SortAlgorithm {
         super(instructionMediator);
     }
 
-    public void heapSort() throws InterruptedException {
+    public void heapSort() {
         int count = instructionMediator.getNumberOfElements();
 
         //first place a in max-heap order
@@ -54,7 +54,7 @@ public class HeapSort extends SortAlgorithm {
         }
     }
 
-    public void heapify(int count) throws InterruptedException {
+    public void heapify(int count) {
         //start is assigned the index in a of the last parent node
         int start = (count - 2) / 2; //binary heap
 
@@ -68,7 +68,7 @@ public class HeapSort extends SortAlgorithm {
         //after sifting down the root all nodes/elements are in heap order
     }
 
-    public void siftDown(int start, int end) throws InterruptedException {
+    public void siftDown(int start, int end) {
         //end represents the limit of how far down the heap to sift
         int root = start;
 
@@ -90,11 +90,7 @@ public class HeapSort extends SortAlgorithm {
     }
 
     public void run() {
-        try {
-            heapSort();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+        heapSort();
     }
 
     @Override

@@ -59,9 +59,9 @@ public class Configuration {
         } else {
             prop = new Properties();
             version = "/";
-            delayMs = 100;
+            delayMs = 50;
             delayNs = 0;
-            numberOfElements = 100;
+            numberOfElements = 128;
             autoPauseOn = false;
         }
     }

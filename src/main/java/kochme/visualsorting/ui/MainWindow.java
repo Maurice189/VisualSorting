@@ -72,7 +72,7 @@ public class MainWindow extends JFrame {
         centeredInfoLabel.setForeground(Color.GRAY);
 
         executionTimeLabel = new JLabel();
-        executionTimeLabel.setToolTipText("Execution time.");
+        executionTimeLabel.setToolTipText("Execution time [min:sec:msec].");
         executionTimeLabel.setForeground(Color.black);
         executionTimeLabel.setIcon(new ImageIcon(this.getClass().getResource("/icons/timer-small.png")));
 
@@ -80,10 +80,6 @@ public class MainWindow extends JFrame {
         switchIntPause.addActionListener(controller);
         switchIntPause.setActionCommand(Constants.AUTO_PAUSE);
         switchIntPause.setState(Configuration.isAutoPauseEnabled());
-
-        JMenu programmFunctions = new JMenu("Options");
-
-        // TODO : Add this again when fixed - programmFunctions.add(switchIntPause);
 
         numberOfElementsLabel = new JLabel();
         numberOfElementsLabel.setToolTipText("Number of elements in list.");
@@ -128,9 +124,7 @@ public class MainWindow extends JFrame {
         algorithmSelection.addItemListener(itemEvent -> {
             SortAlgorithm algorithm = (SortAlgorithm) algorithmSelection.getSelectedItem();
 
-            if (algorithm == SortAlgorithm.Bogosort) {
-                algorithmInfo.setText("<html><b>Bogo sort</b> - Generate random permutations until it finds on that sorted.</html>");
-            } else if (algorithm == SortAlgorithm.Bubblesort) {
+            if (algorithm == SortAlgorithm.Bubblesort) {
                 algorithmInfo.setText("<html><b>Bubble sort</b> - Compare elements pairwise and perform swaps if necessary.</html>\"");
             } else if (algorithm == SortAlgorithm.Combsort) {
                 algorithmInfo.setText("<html><b>Comb sort</b> - Improvement of bubble sort with dynamic gap sizes.</html>\"");
@@ -183,32 +177,32 @@ public class MainWindow extends JFrame {
         playPauseToggle.setPlayIcon("/icons/start.png");
         playPauseToggle.setPauseIcon("/icons/pause.png");
         playPauseToggle.setState(PlayPauseToggle.State.PLAY);
-        playPauseToggle.setToolTipText("Start/Pause sorting process.");
+        playPauseToggle.setToolTipText("Toggle start/pause execution");
         playPauseToggle.addActionListener(controller);
         playPauseToggle.setActionCommand(Constants.START);
 
         addAlgorithmBtn = Utility.createButton("/icons/insert.png");
-        addAlgorithmBtn.setToolTipText("Add selected sort algorithm.");
+        addAlgorithmBtn.setToolTipText("Add selected algorithm.");
         addAlgorithmBtn.addActionListener(controller);
         addAlgorithmBtn.setActionCommand(Constants.ADD_SORT);
 
         JButton adjustSpeedBtn = Utility.createButton("/icons/timer.png");
-        adjustSpeedBtn.setToolTipText("Adjust the sorting speed.");
+        adjustSpeedBtn.setToolTipText("Adjust execution speed.");
         adjustSpeedBtn.addActionListener(controller);
         adjustSpeedBtn.setActionCommand(Constants.DELAY);
 
         listOfElementsBtn = Utility.createButton("/icons/bars.png");
-        listOfElementsBtn.setToolTipText("Edit elements in list.");
+        listOfElementsBtn.setToolTipText("Set number of elements.");
         listOfElementsBtn.addActionListener(controller);
         listOfElementsBtn.setActionCommand(Constants.NEW_ELEMENTS);
 
         nextInstructionBtn = Utility.createButton("/icons/step.png");
-        nextInstructionBtn.setToolTipText("Execute playPauseToggle instruction.");
+        nextInstructionBtn.setToolTipText("Step by step execution.");
         nextInstructionBtn.addActionListener(controller);
         nextInstructionBtn.setActionCommand(Constants.NEXT_ITERATION);
 
         resetBtn = Utility.createButton("/icons/stop.png");
-        resetBtn.setToolTipText("Reset to unsorted state.");
+        resetBtn.setToolTipText("Reset to initial state.");
         resetBtn.addActionListener(controller);
         resetBtn.setActionCommand(Constants.RESET);
 
@@ -219,7 +213,7 @@ public class MainWindow extends JFrame {
                 separator.getMaximumSize().height);
         separator.setMaximumSize(size);
 
-        algorithmInfo.setToolTipText("Short description of currently selected sort algorithm.");
+        algorithmInfo.setToolTipText("Short description of currently selected algorithm.");
         algorithmInfo.setIcon(new ImageIcon(Constants.class.getResource("/icons/info.png")));
         algorithmInfo.setIconTextGap(10);
 

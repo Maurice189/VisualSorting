@@ -15,7 +15,7 @@ public class QuickSort extends SortAlgorithm {
         this.pivotStrategy = pivotStrategy;
     }
 
-    private void sort(int left, int right) throws InterruptedException {
+    private void sort(int left, int right) {
         if (left < right) {
             int i = partition(left, right);
             sort(left, i - 1);
@@ -28,7 +28,7 @@ public class QuickSort extends SortAlgorithm {
         return left + (int) (Math.random() * (right - left));
     }
 
-    private int getPivotByMedianOfThree(int left, int right) throws InterruptedException {
+    private int getPivotByMedianOfThree(int left, int right) {
         int center = (left + right) / 2;
         int cmpLR = instructionMediator.compare(left, right);
         int cmpRC = instructionMediator.compare(right, center);
@@ -45,7 +45,7 @@ public class QuickSort extends SortAlgorithm {
         return center;
     }
 
-    private int partition(int left, int right) throws InterruptedException {
+    private int partition(int left, int right) {
         int i, j;
 
         if (pivotStrategy == PivotStrategy.FIXED) {
@@ -75,11 +75,7 @@ public class QuickSort extends SortAlgorithm {
     }
 
     public void run() {
-        try {
-            sort(0, instructionMediator.getNumberOfElements() - 1);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+        sort(0, instructionMediator.getNumberOfElements() - 1);
     }
 
     @Override

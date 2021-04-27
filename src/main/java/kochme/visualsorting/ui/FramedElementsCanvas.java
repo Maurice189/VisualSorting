@@ -73,14 +73,16 @@ public class FramedElementsCanvas extends ElementsCanvas {
         remove = Utility.createButton("/icons/remove-rect.png");
         remove.setActionCommand(Constants.REMOVE_SORT);
         remove.setPreferredSize(new Dimension(16, 16));
+        remove.setToolTipText("Remove.");
 
         JButton info = Utility.createButton("/icons/info-rect.png");
 
         info.addActionListener(e -> {
-            new InfoDialog(algorithm, algorithm.toString(), 600, 370);
+            new InfoDialog(algorithm, algorithm.toString(), 800, 500);
         });
         info.setActionCommand(Constants.INFO);
         info.setPreferredSize(new Dimension(16, 16));
+        info.setToolTipText("Detailed information.");
         GridBagConstraints gbc2 = (GridBagConstraints) gbc.clone();
         gbc2.gridx = 0;
         gbc2.weightx = 1;

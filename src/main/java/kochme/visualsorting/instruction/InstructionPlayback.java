@@ -11,6 +11,7 @@ public class InstructionPlayback implements Runnable {
     private final List<FramedElementsCanvas> elementsCanvases;
     private final AtomicInteger sleepMillis;
     private final AtomicInteger sleepNanos;
+    private final Boolean[] terminated;
 
     private enum Status {PLAYING, PAUSED, STOPPED};
     private Status status;
@@ -27,9 +28,11 @@ public class InstructionPlayback implements Runnable {
 
         this.accessCounts = new int[elementsCanvases.size()];
         this.comparisonCounts = new int[elementsCanvases.size()];
+        this.terminated = new Boolean[instructionMediators.size()];
 
         Arrays.fill(accessCounts, 0);
         Arrays.fill(comparisonCounts, 0);
+        Arrays.fill(terminated, false);
     }
 
     public void setDelay(int sleepMillis, int sleepNanos) {
@@ -51,11 +54,11 @@ public class InstructionPlayback implements Runnable {
 
     @Override
     public void run() {
-        boolean hasLeft = true;
-        while(status != Status.STOPPED && hasLeft) {
+        boolean hasLeftInstructions = true;
+        while(status != Status.STOPPED && hasLeftInstructions) {
             try {
                 if (status == Status.PLAYING) {
-                    hasLeft = instructionStep();
+                    hasLeftInstructions = instructionStep();
                 }
                 Thread.sleep(sleepMillis.get(), sleepNanos.get());
             } catch (InterruptedException e) {
@@ -65,11 +68,10 @@ public class InstructionPlayback implements Runnable {
     }
 
     public boolean instructionStep() {
-        boolean leftInstructions = false;
-
         for (int idx = 0; idx < instructionMediators.size(); idx++) {
             FramedElementsCanvas elementsCanvas = elementsCanvases.get(idx);
             InstructionMediator instructionMediator = instructionMediators.get(idx);
+
             if (instructionMediator.hasNextInstruction()) {
                 InstructionMediator.InstructionType type = instructionMediator.getTypeOfNextInstruction();
                 switch (type) {
@@ -89,16 +91,19 @@ public class InstructionPlayback implements Runnable {
                     break;
                     case SWAP: {
                         InstructionSwap inst = instructionMediator.getNextSwapInstruction();
-                        elementsCanvas.visualExchange(inst.getFirstIdx(), inst.getSecondIdx());
+                        elementsCanvas.visualSwap(inst.getFirstIdx(), inst.getSecondIdx());
                         accessCounts[idx] += inst.accessCount();
                         comparisonCounts[idx] += inst.compareCount();
                     }
                     break;
                 }
                 elementsCanvas.setInfo(accessCounts[idx], comparisonCounts[idx]);
-                leftInstructions = true;
+            }
+            else if (!terminated[idx]) {
+                elementsCanvas.visualTermination();
+                terminated[idx] = true;
             }
         }
-        return leftInstructions;
+        return Arrays.stream(terminated).anyMatch(b -> !b);
     }
 }

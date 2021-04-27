@@ -63,11 +63,9 @@ public class InfoDialog extends JDialog {
     }
 
     private void setPage(String infoPageTitle) {
-        SortAlgorithm algorithm = SortAlgorithm.Bogosort;
+        SortAlgorithm algorithm = SortAlgorithm.Bubblesort;
 
-        if (infoPageTitle.endsWith("bogosort.html")) {
-            algorithm = SortAlgorithm.Bogosort;
-        } else if (infoPageTitle.endsWith("bubblesort.html")) {
+        if (infoPageTitle.endsWith("bubblesort.html")) {
             algorithm = SortAlgorithm.Bubblesort;
         } else if (infoPageTitle.endsWith("combsort.html")) {
             algorithm = SortAlgorithm.Combsort;

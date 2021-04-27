@@ -47,7 +47,7 @@ public final class SpeedAdjustDialog extends JDialog implements ActionListener {
 
     protected void initComponents() {
         delay = new JLabel();
-        slider = new JSlider(0, 300, 50);
+        slider = new JSlider(0, 100, 50);
         ms = new JRadioButton("ms");
         ms.addActionListener(this);
         ns = new JRadioButton("ns");
@@ -121,7 +121,7 @@ public final class SpeedAdjustDialog extends JDialog implements ActionListener {
             active = false;
             ns.setSelected(false);
             slider.setMajorTickSpacing(5);
-            slider.setMaximum(300);
+            slider.setMaximum(100);
             slider.setMinimum(0);
             slider.setValue(delayMs);
             active = true;

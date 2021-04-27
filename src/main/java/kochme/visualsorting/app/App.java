@@ -91,7 +91,6 @@ public class App {
         map.put(SortAlgorithm.Mergesort, "infopage_mergesort.html");
         map.put(SortAlgorithm.Shakersort, "infopage_shakersort.html");
         map.put(SortAlgorithm.Shellsort, "infopage_shellsort.html");
-        map.put(SortAlgorithm.Bogosort, "infopage_bogosort.html");
         map.put(SortAlgorithm.Selectionsort, "infopage_selectionsort.html");
         map.put(SortAlgorithm.Quicksort_FIXED, "infopage_quicksort.html");
         map.put(SortAlgorithm.Quicksort_RANDOM, "infopage_quicksort.html");
