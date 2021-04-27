@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="246.92587mm"
+   height="136.60219mm"
+   viewBox="0 0 246.92587 136.60219"
+   version="1.1"
+   id="svg1834"
+   inkscape:version="1.0.2-2 (e86c870879, 2021-01-15)"
+   sodipodi:docname="pause.svg">
+  <defs
+     id="defs1828" />
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="0.35"
+     inkscape:cx="566.63168"
+     inkscape:cy="183.86016"
+     inkscape:document-units="mm"
+     inkscape:current-layer="layer1"
+     inkscape:document-rotation="0"
+     showgrid="false"
+     fit-margin-top="0"
+     fit-margin-left="0"
+     fit-margin-right="0"
+     fit-margin-bottom="0"
+     inkscape:window-width="1254"
+     inkscape:window-height="1041"
+     inkscape:window-x="26"
+     inkscape:window-y="0"
+     inkscape:window-maximized="0" />
+  <metadata
+     id="metadata1831">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Ebene 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(44.087964,-99.520334)">
+    <g
+       id="g1284"
+       transform="translate(2051.995,218.32312)"
+       inkscape:export-filename="/Users/kochme/Projekte/VisualSorting/src/resources/icons/pause@2x.png"
+       inkscape:export-xdpi="12.24092"
+       inkscape:export-ydpi="12.24092">
+      <g
+         id="g1400"
+         transform="translate(-697.09238,-87.557497)">
+        <rect
+           style="opacity:0;fill:#000000;fill-opacity:0.0879121;stroke:#939393;stroke-width:3.509;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+           id="rect5334-4-5"
+           width="243.41687"
+           height="133.09319"
+           x="-1397.2361"
+           y="-29.490789"
+           ry="11.22532"
+           inkscape:export-filename="/Users/kochme/Projekte/VisualSorting/src/resources/pause_visualsort_rollover_1.png"
+           inkscape:export-xdpi="6.1848741"
+           inkscape:export-ydpi="6.1848741"
+           rx="8.2168169" />
+        <g
+           id="g1599-4"
+           transform="translate(326.78917,-242.08093)"
+           inkscape:export-filename="/Users/kochme/Projekte/VisualSorting/src/resources/pause_visualsort_rollover_1.png"
+           inkscape:export-xdpi="6.1848741"
+           inkscape:export-ydpi="6.1848741">
+          <rect
+             inkscape:export-ydpi="6.2800002"
+             inkscape:export-xdpi="6.2800002"
+             inkscape:export-filename="/Users/kochme/Projekte/VisualSorting/src/resources/start_visualsort_1.png"
+             ry="0"
+             transform="scale(1,-1)"
+             y="-318.16666"
+             x="-1606.1024"
+             height="52.916664"
+             width="29.185831"
+             id="rect4262-4-9-1"
+             style="opacity:1;fill:#646464;fill-opacity:1;stroke:none;stroke-width:3.509;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+          <rect
+             inkscape:export-ydpi="6.2800002"
+             inkscape:export-xdpi="6.2800002"
+             inkscape:export-filename="/Users/kochme/Projekte/VisualSorting/src/resources/start_visualsort_1.png"
+             transform="scale(1,-1)"
+             y="-318.16666"
+             x="-1532.019"
+             height="74.083344"
+             width="29.185829"
+             id="rect4262-5-7-9-3"
+             style="fill:#646464;fill-opacity:1;stroke:none;stroke-width:3.509;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+          <rect
+             inkscape:export-ydpi="6.2800002"
+             inkscape:export-xdpi="6.2800002"
+             inkscape:export-filename="/Users/kochme/Projekte/VisualSorting/src/resources/start_visualsort_1.png"
+             transform="scale(1,-1)"
+             y="-318.16666"
+             x="-1569.0608"
+             height="29.104179"
+             width="29.185829"
+             id="rect4262-5-2-1-70-7"
+             style="fill:#646464;fill-opacity:1;stroke:none;stroke-width:3.509;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+          <g
+             style="fill:#646464;fill-opacity:1"
+             transform="matrix(0.21270424,0,0,0.21270424,-1509.4576,167.60842)"
+             id="g3759-8">
+            <g
+               transform="translate(0,58.463417)"
+               style="fill:#646464;fill-opacity:1"
+               id="g3702-8">
+              <g
+                 style="fill:#646464;fill-opacity:1"
+                 id="pause-3">
+                <path
+                   style="fill:#646464;fill-opacity:1"
+                   inkscape:connector-curvature="0"
+                   d="m -916.71067,649.36565 h 102 v -357 h -102 z m 204,-357 v 357 h 102 v -357 z"
+                   id="path3699-8" />
+              </g>
+            </g>
+            <g
+               style="fill:#646464;fill-opacity:1"
+               id="g3704-1" />
+            <g
+               style="fill:#646464;fill-opacity:1"
+               id="g3706-5" />
+            <g
+               style="fill:#646464;fill-opacity:1"
+               id="g3708-3" />
+            <g
+               style="fill:#646464;fill-opacity:1"
+               id="g3710-5" />
+            <g
+               style="fill:#646464;fill-opacity:1"
+               id="g3712-4" />
+            <g
+               style="fill:#646464;fill-opacity:1"
+               id="g3714-3" />
+            <g
+               style="fill:#646464;fill-opacity:1"
+               id="g3716-6" />
+            <g
+               style="fill:#646464;fill-opacity:1"
+               id="g3718-5" />
+            <g
+               style="fill:#646464;fill-opacity:1"
+               id="g3720-9" />
+            <g
+               style="fill:#646464;fill-opacity:1"
+               id="g3722-5" />
+            <g
+               style="fill:#646464;fill-opacity:1"
+               id="g3724-4" />
+            <g
+               style="fill:#646464;fill-opacity:1"
+               id="g3726-9" />
+            <g
+               style="fill:#646464;fill-opacity:1"
+               id="g3728-1" />
+            <g
+               style="fill:#646464;fill-opacity:1"
+               id="g3730-7" />
+            <g
+               style="fill:#646464;fill-opacity:1"
+               id="g3732-5" />
+          </g>
+        </g>
+      </g>
+    </g>
+  </g>
+</svg>

@@ -25,42 +25,38 @@ http://rosettacode.org/wiki/Sorting_algorithms/Heapsort#Java
 
 // copied http://rosettacode.org/wiki/Sorting_algorithms/Heapsort#Java
 
-import kochme.visualsorting.app.OperationExecutor;
-import kochme.visualsorting.algorithms.SortAlgorithm;
-import kochme.visualsorting.app.Consts;
+import kochme.visualsorting.instruction.InstructionMediator;
+import kochme.visualsorting.app.Constants;
 
 public class HeapSort extends SortAlgorithm {
 
-    public HeapSort(OperationExecutor operationExecutor) {
-        super(operationExecutor);
+    public HeapSort(InstructionMediator instructionMediator) {
+        super(instructionMediator);
     }
 
     public void heapSort() throws InterruptedException {
-        int count = operationExecutor.getNumberOfElements();
+        int count = instructionMediator.getNumberOfElements();
 
         //first place a in max-heap order
         heapify(count);
         int end = count - 1;
 
-        operationExecutor.manualInstruction(2);
         while (end > 0) {
             //swap the root(maximum value) of the heap with the
             //last element of the heap
-            operationExecutor.exchange(0, end);
+            instructionMediator.swap(0, end);
 
             //put the heap back in max-heap order
             siftDown(0, end - 1);
             //decrement the size of the heap so that the previous
             //max value will stay in its proper place
             end--;
-            operationExecutor.manualInstructionIncrement();
         }
     }
 
     public void heapify(int count) throws InterruptedException {
         //start is assigned the index in a of the last parent node
         int start = (count - 2) / 2; //binary heap
-        operationExecutor.manualInstructionIncrement();
 
         while (start >= 0) {
             //sift down the node at index start to the proper place
@@ -68,7 +64,6 @@ public class HeapSort extends SortAlgorithm {
             //order
             siftDown(start, count - 1);
             start--;
-            operationExecutor.manualInstruction(2);
         }
         //after sifting down the root all nodes/elements are in heap order
     }
@@ -76,24 +71,21 @@ public class HeapSort extends SortAlgorithm {
     public void siftDown(int start, int end) throws InterruptedException {
         //end represents the limit of how far down the heap to sift
         int root = start;
-        operationExecutor.manualInstructionIncrement();
 
         while ((root * 2 + 1) <= end) {      //While the root has at least one child
             int child = root * 2 + 1;           //root*2+1 points to the left child
-            operationExecutor.manualInstructionIncrement();
 
             //if the child has a sibling and the child's value is less than its sibling's...
-            if (child + 1 <= end && operationExecutor.compare(child, child + 1) == -1) {
+            if (child + 1 <= end && instructionMediator.compare(child, child + 1) == -1) {
                 child = child + 1;           //... then point to the right child instead
             }
 
-            if (operationExecutor.compare(root, child) == -1) {     //out of max-heap order
-                operationExecutor.exchange(child, root);
+            if (instructionMediator.compare(root, child) == -1) {     //out of max-heap order
+                instructionMediator.swap(child, root);
                 root = child;                //repeat to continue sifting down the child now
             } else {
                 return;
             }
-
         }
     }
 
@@ -103,12 +95,11 @@ public class HeapSort extends SortAlgorithm {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        operationExecutor.terminate();
     }
 
     @Override
-    public Consts.SortAlgorithm getAlgorithmName() {
-        return Consts.SortAlgorithm.Heapsort;
+    public Constants.SortAlgorithm getAlgorithmName() {
+        return Constants.SortAlgorithm.Heapsort;
     }
 
 }

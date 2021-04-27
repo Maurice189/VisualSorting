@@ -8,6 +8,7 @@ public class Utility {
         Icon icon = new ImageIcon(Utility.class.getResource(iconPath));
         btn.setRolloverEnabled(true);
         btn.setRolloverIcon(new RolloverIcon(icon));
+        btn.setSelectedIcon(icon);
         btn.setDisabledIcon(new DisabledIcon(icon));
         btn.setBorder(BorderFactory.createEmptyBorder());
         btn.setIcon(new ImageIcon(Utility.class.getResource(iconPath)));

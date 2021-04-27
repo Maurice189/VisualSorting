@@ -19,9 +19,9 @@ package kochme.visualsorting.app;
  * THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-public class Consts {
+public class Constants {
 
-    private Consts() {}
+    private Constants() {}
 
     public enum SortAlgorithm {
         Bogosort, Bubblesort, Combsort, Heapsort, Insertionsort,

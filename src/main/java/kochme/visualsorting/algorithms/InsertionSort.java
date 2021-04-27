@@ -1,36 +1,29 @@
 package kochme.visualsorting.algorithms;
 
-import kochme.visualsorting.app.OperationExecutor;
-import kochme.visualsorting.algorithms.SortAlgorithm;
-import kochme.visualsorting.app.Consts;
+import kochme.visualsorting.instruction.InstructionMediator;
+import kochme.visualsorting.app.Constants;
 
 public class InsertionSort extends SortAlgorithm {
 
-    public InsertionSort(OperationExecutor operationExecutor) {
-        super(operationExecutor);
+    public InsertionSort(InstructionMediator instructionMediator) {
+        super(instructionMediator);
     }
 
     public void run() {
-
-        try {
-            for (int i = 1; i < operationExecutor.getNumberOfElements(); i++) {
-                int value = operationExecutor.getElementAtIndex(i);
-                int j = i - 1;
-                while (j >= 0 && operationExecutor.compareByValue(j, value) == 1) {
-                    operationExecutor.insertByIndex(j + 1, j);
-                    j = j - 1;
-                }
-                operationExecutor.insertByValue(j + 1, value);
+        for (int i = 1; i < instructionMediator.getNumberOfElements(); i++) {
+            int value = instructionMediator.getElementAtIndex(i);
+            int j = i - 1;
+            while (j >= 0 && instructionMediator.compareByValue(j, value) == 1) {
+                instructionMediator.insertByIndex(j + 1, j);
+                j = j - 1;
             }
-        } catch (InterruptedException e) {
-            e.printStackTrace();
+            instructionMediator.insertByValue(j + 1, value);
         }
-        operationExecutor.terminate();
     }
 
     @Override
-    public Consts.SortAlgorithm getAlgorithmName() {
-        return Consts.SortAlgorithm.Insertionsort;
+    public Constants.SortAlgorithm getAlgorithmName() {
+        return Constants.SortAlgorithm.Insertionsort;
     }
 
 }

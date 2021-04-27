@@ -24,8 +24,8 @@ import java.awt.event.ActionListener;
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
 
-import kochme.visualsorting.dialogs.InfoDialog;
-import kochme.visualsorting.app.Consts;
+import kochme.visualsorting.ui.dialogs.InfoDialog;
+import kochme.visualsorting.app.Constants;
 
 /**
  * This class is used to display the animation in a panel. The animation is
@@ -38,10 +38,10 @@ import kochme.visualsorting.app.Consts;
  **/
 public class FramedElementsCanvas extends ElementsCanvas {
     private final TitledBorder leftBorder;
-    private final Consts.SortAlgorithm algorithm;
+    private final Constants.SortAlgorithm algorithm;
     private JButton remove;
 
-    public FramedElementsCanvas(Consts.SortAlgorithm algorithm, int width, int height) {
+    public FramedElementsCanvas(Constants.SortAlgorithm algorithm, int width, int height) {
         super(width, height);
         this.algorithm = algorithm;
 
@@ -70,16 +70,16 @@ public class FramedElementsCanvas extends ElementsCanvas {
         gbc.weighty = 1;
         gbc.insets = new Insets(-7, 0, 0, 2);
         gbc.anchor = GridBagConstraints.FIRST_LINE_END;
-        remove = Utility.createButton("/icons/remove-small.png");
-        remove.setActionCommand(Consts.REMOVE_SORT);
+        remove = Utility.createButton("/icons/remove-rect.png");
+        remove.setActionCommand(Constants.REMOVE_SORT);
         remove.setPreferredSize(new Dimension(16, 16));
 
-        JButton info = Utility.createButton("/icons/info.png");
+        JButton info = Utility.createButton("/icons/info-rect.png");
 
         info.addActionListener(e -> {
             new InfoDialog(algorithm, algorithm.toString(), 600, 370);
         });
-        info.setActionCommand(Consts.INFO);
+        info.setActionCommand(Constants.INFO);
         info.setPreferredSize(new Dimension(16, 16));
         GridBagConstraints gbc2 = (GridBagConstraints) gbc.clone();
         gbc2.gridx = 0;

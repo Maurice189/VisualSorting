@@ -1,7 +1,7 @@
 package kochme.visualsorting.algorithms;
 
-import kochme.visualsorting.app.OperationExecutor;
-import kochme.visualsorting.app.Consts;
+import kochme.visualsorting.instruction.InstructionMediator;
+import kochme.visualsorting.app.Constants;
 
 /*
  * This software is licensed under the MIT License.
@@ -22,10 +22,10 @@ import kochme.visualsorting.app.Consts;
  */
 
 public abstract class SortAlgorithm implements Runnable {
-    protected OperationExecutor operationExecutor;
+    protected InstructionMediator instructionMediator;
 
-    public SortAlgorithm(OperationExecutor operationExecutor) {
-        this.operationExecutor = operationExecutor;
+    public SortAlgorithm(InstructionMediator instructionMediator) {
+        this.instructionMediator = instructionMediator;
     }
-    public abstract Consts.SortAlgorithm getAlgorithmName();
+    public abstract Constants.SortAlgorithm getAlgorithmName();
 }

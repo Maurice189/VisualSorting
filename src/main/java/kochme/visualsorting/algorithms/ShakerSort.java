@@ -1,50 +1,44 @@
 package kochme.visualsorting.algorithms;
 
-import kochme.visualsorting.app.OperationExecutor;
-import kochme.visualsorting.algorithms.SortAlgorithm;
-import kochme.visualsorting.app.Consts;
+import kochme.visualsorting.instruction.InstructionMediator;
+import kochme.visualsorting.app.Constants;
 
 public class ShakerSort extends SortAlgorithm {
 
 
-    public ShakerSort(OperationExecutor operationExecutor) {
-        super(operationExecutor);
+    public ShakerSort(InstructionMediator instructionMediator) {
+        super(instructionMediator);
     }
 
-    private void shaker1(int i, int l) throws InterruptedException {
+    private void shaker1(int i, int l) {
         for (int j = i; j < l - 1; j++) {
-            if (operationExecutor.compare(j, j + 1) == 1) {
-                operationExecutor.exchange(j, j + 1);
+            if (instructionMediator.compare(j, j + 1) == 1) {
+                instructionMediator.swap(j, j + 1);
             }
         }
     }
 
-    private void shaker2(int i, int l) throws InterruptedException {
+    private void shaker2(int i, int l) {
         for (int j = l - 1; j >= i; j--) {
-            if (operationExecutor.compare(j, j + 1) == 1) {
-                operationExecutor.exchange(j, j + 1);
+            if (instructionMediator.compare(j, j + 1) == 1) {
+                instructionMediator.swap(j, j + 1);
             }
         }
     }
 
     public void run() {
-        try {
-            int i = 0, l = operationExecutor.getNumberOfElements();
-            while (i < l) {
-                shaker1(i, l);
-                l--;
-                shaker2(i, l);
-                i++;
-            }
-        } catch (InterruptedException e) {
-            e.printStackTrace();
+        int i = 0, l = instructionMediator.getNumberOfElements();
+        while (i < l) {
+            shaker1(i, l);
+            l--;
+            shaker2(i, l);
+            i++;
         }
-        operationExecutor.terminate();
     }
 
     @Override
-    public Consts.SortAlgorithm getAlgorithmName() {
-        return Consts.SortAlgorithm.Shakersort;
+    public Constants.SortAlgorithm getAlgorithmName() {
+        return Constants.SortAlgorithm.Shakersort;
     }
 
 }

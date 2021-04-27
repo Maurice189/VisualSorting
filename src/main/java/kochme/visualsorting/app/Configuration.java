@@ -17,7 +17,6 @@ package kochme.visualsorting.app;
  * THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -25,7 +24,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Properties;
 
-public class InternalConfig {
+public class Configuration {
     private static String CONFIG_FILE_PATH = "config.txt";
     private static Properties prop;
 
@@ -80,12 +79,12 @@ public class InternalConfig {
     }
 
     public static void setExecutionSpeedParameters(int delayMs, int delayNs) {
-        InternalConfig.delayMs = delayMs;
-        InternalConfig.delayNs = delayNs;
+        Configuration.delayMs = delayMs;
+        Configuration.delayNs = delayNs;
     }
 
     public static void setNumberOfElements(int numberOfElements) {
-        InternalConfig.numberOfElements = numberOfElements;
+        Configuration.numberOfElements = numberOfElements;
     }
 
     private static void setValues() {
@@ -121,19 +120,19 @@ public class InternalConfig {
     }
 
     public static void toggleAutoPause() {
-        InternalConfig.autoPauseOn = !InternalConfig.autoPauseOn;
+        Configuration.autoPauseOn = !Configuration.autoPauseOn;
     }
 
     public static void setVersion(String version) {
-        InternalConfig.version = version;
+        Configuration.version = version;
     }
 
     public static boolean isAutoPauseEnabled() {
-        return InternalConfig.autoPauseOn;
+        return Configuration.autoPauseOn;
     }
 
     public static String getVersion() {
-        return InternalConfig.version;
+        return Configuration.version;
     }
 
 }

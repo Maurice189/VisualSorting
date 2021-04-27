@@ -1,4 +1,4 @@
-package kochme.visualsorting.dialogs;
+package kochme.visualsorting.ui.dialogs;
 
 /*
  * This software is licensed under the MIT License.
@@ -24,7 +24,7 @@ import java.awt.event.ActionListener;
 import javax.swing.*;
 import javax.swing.border.EtchedBorder;
 import kochme.visualsorting.app.Controller;
-import kochme.visualsorting.app.InternalConfig;
+import kochme.visualsorting.app.Configuration;
 
 public final class SpeedAdjustDialog extends JDialog implements ActionListener {
     private static SpeedAdjustDialog instance;
@@ -61,9 +61,9 @@ public final class SpeedAdjustDialog extends JDialog implements ActionListener {
         panel2.add(ms);
         panel2.add(ns);
 
-        slider.setValue(InternalConfig.getExecutionSpeedDelayMs());
-        delay.setText((String.valueOf(InternalConfig.getExecutionSpeedDelayMs())).concat(" ms : ")
-                .concat(String.valueOf(InternalConfig.getExecutionSpeedDelayNs())).concat(" ns"));
+        slider.setValue(Configuration.getExecutionSpeedDelayMs());
+        delay.setText((String.valueOf(Configuration.getExecutionSpeedDelayMs())).concat(" ms : ")
+                .concat(String.valueOf(Configuration.getExecutionSpeedDelayNs())).concat(" ns"));
         ms.setSelected(true);
 
         panel3.add(Box.createHorizontalGlue());

@@ -1,8 +1,7 @@
 package kochme.visualsorting.algorithms;
 
-import kochme.visualsorting.app.OperationExecutor;
-import kochme.visualsorting.algorithms.SortAlgorithm;
-import kochme.visualsorting.app.Consts;
+import kochme.visualsorting.instruction.InstructionMediator;
+import kochme.visualsorting.app.Constants;
 
 public class QuickSort extends SortAlgorithm {
 
@@ -11,8 +10,8 @@ public class QuickSort extends SortAlgorithm {
     private int pivotIndex;
     private PivotStrategy pivotStrategy;
 
-    public QuickSort(PivotStrategy pivotStrategy, OperationExecutor operationExecutor) {
-        super(operationExecutor);
+    public QuickSort(PivotStrategy pivotStrategy, InstructionMediator instructionMediator) {
+        super(instructionMediator);
         this.pivotStrategy = pivotStrategy;
     }
 
@@ -31,14 +30,14 @@ public class QuickSort extends SortAlgorithm {
 
     private int getPivotByMedianOfThree(int left, int right) throws InterruptedException {
         int center = (left + right) / 2;
-        int cmpLR = operationExecutor.compare(left, right);
-        int cmpRC = operationExecutor.compare(right, center);
+        int cmpLR = instructionMediator.compare(left, right);
+        int cmpRC = instructionMediator.compare(right, center);
 
         if (cmpLR == -1 && cmpRC == -1) {
             return right;
         }
 
-        int cmpLC = operationExecutor.compare(left, center);
+        int cmpLC = instructionMediator.compare(left, center);
 
         if (cmpLR == 1 && cmpLC == -1) {
             return left;
@@ -57,42 +56,41 @@ public class QuickSort extends SortAlgorithm {
             pivotIndex = getPivotByMedianOfThree(left, right);
         }
 
-        operationExecutor.exchange(pivotIndex, right);
+        instructionMediator.swap(pivotIndex, right);
 
         i = left;
         j = right - 1;
 
         while (i <= j) {
-            if (operationExecutor.compareByPivot(i, right) == 1) {
-                operationExecutor.exchange(i, j);
+            if (instructionMediator.compareByPivot(i, right) == 1) {
+                instructionMediator.swap(i, j);
                 j--;
             } else {
                 i++;
             }
         }
 
-        operationExecutor.exchange(i, right);
+        instructionMediator.swap(i, right);
         return i;
     }
 
     public void run() {
         try {
-            sort(0, operationExecutor.getNumberOfElements() - 1);
+            sort(0, instructionMediator.getNumberOfElements() - 1);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        operationExecutor.terminate();
     }
 
     @Override
-    public Consts.SortAlgorithm getAlgorithmName() {
+    public Constants.SortAlgorithm getAlgorithmName() {
         if (pivotStrategy == PivotStrategy.FIXED) {
-            return Consts.SortAlgorithm.Quicksort_FIXED;
+            return Constants.SortAlgorithm.Quicksort_FIXED;
         }
         if (pivotStrategy == PivotStrategy.RANDOM) {
-            return Consts.SortAlgorithm.Quicksort_RANDOM;
+            return Constants.SortAlgorithm.Quicksort_RANDOM;
         }
-        return Consts.SortAlgorithm.Quicksort_MO3;
+        return Constants.SortAlgorithm.Quicksort_MO3;
     }
 
 }

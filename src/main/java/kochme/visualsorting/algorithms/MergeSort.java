@@ -1,29 +1,20 @@
 package kochme.visualsorting.algorithms;
 
-import kochme.visualsorting.app.OperationExecutor;
-import kochme.visualsorting.algorithms.SortAlgorithm;
-import kochme.visualsorting.app.Consts;
+import kochme.visualsorting.instruction.InstructionMediator;
+import kochme.visualsorting.app.Constants;
 
 
 public class MergeSort extends SortAlgorithm {
-
-    public MergeSort(OperationExecutor operationExecutor) {
-        super(operationExecutor);
+    public MergeSort(InstructionMediator instructionMediator) {
+        super(instructionMediator);
     }
 
     public void run() {
-        try {
-            sort(0, operationExecutor.getNumberOfElements() - 1);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        operationExecutor.terminate();
+        sort(0, instructionMediator.getNumberOfElements() - 1);
     }
 
-
-    public void sort(int l, int r) throws InterruptedException {
+    public void sort(int l, int r) {
         if (l < r) {
-            operationExecutor.manualInstructionIncrement();
             int q = (l + r) / 2;
 
             sort(l, q);
@@ -32,27 +23,27 @@ public class MergeSort extends SortAlgorithm {
         }
     }
 
-    private void merge(int l, int q, int r) throws InterruptedException {
-        int[] arr = new int[operationExecutor.getNumberOfElements()];
+    private void merge(int l, int q, int r) {
+        int[] arr = new int[instructionMediator.getNumberOfElements()];
         int i, j;
 
         for (i = l; i <= q; i++) {
-            arr[i] = operationExecutor.getElementAtIndex(i);
+            arr[i] = instructionMediator.getElementAtIndex(i);
         }
 
         for (j = q + 1; j <= r; j++) {
-            arr[r + q + 1 - j] = operationExecutor.getElementAtIndex(j);
+            arr[r + q + 1 - j] = instructionMediator.getElementAtIndex(j);
         }
 
         i = l;
         j = r;
 
         for (int k = l; k <= r; k++) {
-            if (operationExecutor.compare(arr, i, j, false) != 1) {
-                operationExecutor.insertByValue(k, arr[i]);
+            if (instructionMediator.compare(arr, i, j, false) != 1) {
+                instructionMediator.insertByValue(k, arr[i]);
                 i++;
             } else {
-                operationExecutor.insertByValue(k, arr[j]);
+                instructionMediator.insertByValue(k, arr[j]);
                 j--;
             }
         }
@@ -60,8 +51,8 @@ public class MergeSort extends SortAlgorithm {
 
 
     @Override
-    public Consts.SortAlgorithm getAlgorithmName() {
-        return Consts.SortAlgorithm.Mergesort;
+    public Constants.SortAlgorithm getAlgorithmName() {
+        return Constants.SortAlgorithm.Mergesort;
     }
 
 }

@@ -31,10 +31,10 @@ import javax.swing.border.Border;
 import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
 
-import kochme.visualsorting.app.Consts;
-import kochme.visualsorting.app.Consts.SortAlgorithm;
+import kochme.visualsorting.app.Constants;
+import kochme.visualsorting.app.Constants.SortAlgorithm;
 import kochme.visualsorting.app.Controller;
-import kochme.visualsorting.app.InternalConfig;
+import kochme.visualsorting.app.Configuration;
 
 public class MainWindow extends JFrame {
     private static Font componentFont = new Font("Monospace", Font.BOLD, 13);
@@ -78,8 +78,8 @@ public class MainWindow extends JFrame {
 
         JCheckBoxMenuItem switchIntPause = new JCheckBoxMenuItem("Automatic pause enabled");
         switchIntPause.addActionListener(controller);
-        switchIntPause.setActionCommand(Consts.AUTO_PAUSE);
-        switchIntPause.setState(InternalConfig.isAutoPauseEnabled());
+        switchIntPause.setActionCommand(Constants.AUTO_PAUSE);
+        switchIntPause.setState(Configuration.isAutoPauseEnabled());
 
         JMenu programmFunctions = new JMenu("Options");
 
@@ -115,7 +115,7 @@ public class MainWindow extends JFrame {
 
         JMenuItem about = new JMenuItem("About " + title);
         about.addActionListener(controller);
-        about.setActionCommand(Consts.ABOUT);
+        about.setActionCommand(Constants.ABOUT);
 
         help.add(about);
         menuBar.add(help);
@@ -185,32 +185,32 @@ public class MainWindow extends JFrame {
         playPauseToggle.setState(PlayPauseToggle.State.PLAY);
         playPauseToggle.setToolTipText("Start/Pause sorting process.");
         playPauseToggle.addActionListener(controller);
-        playPauseToggle.setActionCommand(Consts.START);
+        playPauseToggle.setActionCommand(Constants.START);
 
         addAlgorithmBtn = Utility.createButton("/icons/insert.png");
         addAlgorithmBtn.setToolTipText("Add selected sort algorithm.");
         addAlgorithmBtn.addActionListener(controller);
-        addAlgorithmBtn.setActionCommand(Consts.ADD_SORT);
+        addAlgorithmBtn.setActionCommand(Constants.ADD_SORT);
 
         JButton adjustSpeedBtn = Utility.createButton("/icons/timer.png");
         adjustSpeedBtn.setToolTipText("Adjust the sorting speed.");
         adjustSpeedBtn.addActionListener(controller);
-        adjustSpeedBtn.setActionCommand(Consts.DELAY);
+        adjustSpeedBtn.setActionCommand(Constants.DELAY);
 
         listOfElementsBtn = Utility.createButton("/icons/bars.png");
         listOfElementsBtn.setToolTipText("Edit elements in list.");
         listOfElementsBtn.addActionListener(controller);
-        listOfElementsBtn.setActionCommand(Consts.NEW_ELEMENTS);
+        listOfElementsBtn.setActionCommand(Constants.NEW_ELEMENTS);
 
         nextInstructionBtn = Utility.createButton("/icons/step.png");
         nextInstructionBtn.setToolTipText("Execute playPauseToggle instruction.");
         nextInstructionBtn.addActionListener(controller);
-        nextInstructionBtn.setActionCommand(Consts.NEXT_ITERATION);
+        nextInstructionBtn.setActionCommand(Constants.NEXT_ITERATION);
 
         resetBtn = Utility.createButton("/icons/stop.png");
         resetBtn.setToolTipText("Reset to unsorted state.");
         resetBtn.addActionListener(controller);
-        resetBtn.setActionCommand(Consts.RESET);
+        resetBtn.setActionCommand(Constants.RESET);
 
         panelContainer.add(BorderLayout.CENTER, centeredInfoLabel);
 
@@ -220,7 +220,7 @@ public class MainWindow extends JFrame {
         separator.setMaximumSize(size);
 
         algorithmInfo.setToolTipText("Short description of currently selected sort algorithm.");
-        algorithmInfo.setIcon(new ImageIcon(Consts.class.getResource("/icons/info.png")));
+        algorithmInfo.setIcon(new ImageIcon(Constants.class.getResource("/icons/info.png")));
         algorithmInfo.setIconTextGap(10);
 
         toolBar.add(Box.createHorizontalStrut(3));
@@ -285,7 +285,6 @@ public class MainWindow extends JFrame {
                 resetBtn.setEnabled(false);
                 playPauseToggle.setEnabled(false);
                 nextInstructionBtn.setEnabled(false);
-                listOfElementsBtn.setEnabled(true);
                 addAlgorithmBtn.setEnabled(true);
                 playPauseToggle.setState(PlayPauseToggle.State.PLAY);
                 panelContainer.removeAll();
@@ -296,10 +295,9 @@ public class MainWindow extends JFrame {
                 repaint();
                 break;
             case RUNNING:
-                resetBtn.setEnabled(false);
+                resetBtn.setEnabled(true);
                 playPauseToggle.setEnabled(true);
                 nextInstructionBtn.setEnabled(false);
-                listOfElementsBtn.setEnabled(false);
                 addAlgorithmBtn.setEnabled(false);
                 vsPanel.forEach(v -> v.enableRemoveButton(false));
                 playPauseToggle.setState(PlayPauseToggle.State.PAUSE);
@@ -309,7 +307,6 @@ public class MainWindow extends JFrame {
                 resetBtn.setEnabled(true);
                 playPauseToggle.setEnabled(true);
                 nextInstructionBtn.setEnabled(true);
-                listOfElementsBtn.setEnabled(false);
                 addAlgorithmBtn.setEnabled(false);
                 vsPanel.forEach(v -> v.enableRemoveButton(false));
                 playPauseToggle.setState(PlayPauseToggle.State.PLAY);
@@ -319,7 +316,6 @@ public class MainWindow extends JFrame {
                 resetBtn.setEnabled(true);
                 playPauseToggle.setEnabled(true);
                 nextInstructionBtn.setEnabled(false);
-                listOfElementsBtn.setEnabled(true);
                 addAlgorithmBtn.setEnabled(true);
                 vsPanel.forEach(v -> v.enableRemoveButton(true));
                 setExecutionTime(0);

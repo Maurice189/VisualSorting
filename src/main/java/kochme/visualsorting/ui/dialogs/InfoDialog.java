@@ -1,4 +1,4 @@
-package kochme.visualsorting.dialogs;
+package kochme.visualsorting.ui.dialogs;
 
 /*
  * This software is licensed under the MIT License.
@@ -26,7 +26,7 @@ import java.util.*;
 import javax.swing.*;
 import javax.swing.event.*;
 
-import kochme.visualsorting.app.Consts.SortAlgorithm;
+import kochme.visualsorting.app.Constants.SortAlgorithm;
 
 public class InfoDialog extends JDialog {
 

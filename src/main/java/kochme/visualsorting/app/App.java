@@ -24,10 +24,10 @@ import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.plaf.FontUIResource;
 //import com.sun.tools.javac.comp.Enter;
 
-import kochme.visualsorting.dialogs.SpeedAdjustDialog;
-import kochme.visualsorting.dialogs.ElementEditorDialog;
-import kochme.visualsorting.app.Consts.SortAlgorithm;
-import kochme.visualsorting.dialogs.InfoDialog;
+import kochme.visualsorting.ui.dialogs.SpeedAdjustDialog;
+import kochme.visualsorting.ui.dialogs.ElementEditorDialog;
+import kochme.visualsorting.app.Constants.SortAlgorithm;
+import kochme.visualsorting.ui.dialogs.InfoDialog;
 import kochme.visualsorting.ui.MainWindow;
 
 public class App {
@@ -51,15 +51,15 @@ public class App {
 
         for (String arg : args) {
             if (arg.startsWith("-configdir:")) {
-                InternalConfig.setConfigFileDirectory(arg.subSequence("-configdir:".length(), arg.length()).toString());
+                Configuration.setConfigFileDirectory(arg.subSequence("-configdir:".length(), arg.length()).toString());
             }
         }
 
-        InternalConfig.loadConfigFile();
-        int[] initElements = Utils.getRandomSequence(InternalConfig.getNumberOfElements());
+        Configuration.loadConfigFile();
+        int[] initElements = Utility.getRandomSequence(Configuration.getNumberOfElements());
 
-        SpeedAdjustDialog.setDelayMs(InternalConfig.getExecutionSpeedDelayMs());
-        SpeedAdjustDialog.setDelayNs(InternalConfig.getExecutionSpeedDelayNs());
+        SpeedAdjustDialog.setDelayMs(Configuration.getExecutionSpeedDelayMs());
+        SpeedAdjustDialog.setDelayNs(Configuration.getExecutionSpeedDelayNs());
         ElementEditorDialog.setElements(initElements);
 
         // this font is used under the GPL from google fonts under 'OpenSans'
@@ -99,7 +99,7 @@ public class App {
 
         InfoDialog.initInfoPageResolver(map);
         Controller controller = new Controller(initElements);
-        MainWindow mainWindow = new MainWindow(controller, "Visual Sorting - ".concat(InternalConfig.getVersion()), 1200, 800);
+        MainWindow mainWindow = new MainWindow(controller, "Visual Sorting - ".concat(Configuration.getVersion()), 1200, 800);
         controller.setView(mainWindow);
     }
 }

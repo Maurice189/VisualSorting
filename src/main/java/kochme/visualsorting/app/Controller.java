@@ -31,22 +31,21 @@ import java.util.List;
 import java.util.concurrent.*;
 
 import kochme.visualsorting.algorithms.*;
-import kochme.visualsorting.dialogs.*;
-
+import kochme.visualsorting.ui.dialogs.*;
+import kochme.visualsorting.instruction.InstructionMediator;
+import kochme.visualsorting.instruction.InstructionPlayback;
 import kochme.visualsorting.ui.FramedElementsCanvas;
 import kochme.visualsorting.ui.MainWindow;
 
-
-public class Controller implements ComponentListener, ActionListener, WindowListener, OperationExecutorListener {
-    private boolean pausedByUser = false;
-    private final List<OperationExecutor> operationExecutors;
+public class Controller implements ComponentListener, ActionListener, WindowListener {
+    private final List<InstructionMediator> instructionMediators;
+    private final List<FramedElementsCanvas> elementsCanvases;
     private final BlockingQueue<Runnable> tasks;
     private final Timer timer;
 
+    private InstructionPlayback instructionPlayback;
     private MainWindow mainWindow;
     private ExecutorService executor;
-    private volatile int threadsAlive;
-
     private int[] elements;
     private MainWindow.State state;
 
@@ -54,9 +53,11 @@ public class Controller implements ComponentListener, ActionListener, WindowList
         state = MainWindow.State.EMPTY;
         elements = initElements;
         tasks = new LinkedBlockingQueue<>();
-        operationExecutors = new ArrayList<>();
+        instructionMediators = new ArrayList<>();
+        elementsCanvases = new ArrayList<>();
         executor = Executors.newCachedThreadPool();
         timer = new Timer();
+        instructionPlayback = new InstructionPlayback(instructionMediators, elementsCanvases);
     }
 
     public void setView(MainWindow mainWindow) {
@@ -65,148 +66,160 @@ public class Controller implements ComponentListener, ActionListener, WindowList
     }
 
     public void reset() {
-        operationExecutors.forEach(OperationExecutor::reset);
-        try {
-            executor.shutdownNow();
-            executor.awaitTermination(10000, TimeUnit.MILLISECONDS);
-
-            if (!executor.isTerminated()) {
-                System.err.println("Attempt to interrupt active threads failed (after 2000 ms timeout). Try again, please.");
-                return;
-            }
-
-            timer.reset();
-            operationExecutors.forEach(OperationExecutor::initElements);
-            pausedByUser = false;
-
-            state = MainWindow.State.STOPPED;
-            mainWindow.setState(state);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+        timer.reset();
+        instructionPlayback.halt();
+        instructionMediators.forEach(oe -> oe.initElements(elements));
+        elementsCanvases.forEach(ec -> ec.setElements(elements));
+        state = MainWindow.State.STOPPED;
+        mainWindow.setState(state);
     }
 
+    @Override
     public void actionPerformed(ActionEvent e) {
         switch (e.getActionCommand()) {
-            case Consts.ADD_SORT:
-                Consts.SortAlgorithm selectedSort = mainWindow.getSelectedSort();
+            case Constants.ADD_SORT:
+                Constants.SortAlgorithm selectedSort = mainWindow.getSelectedSort();
                 FramedElementsCanvas sortPanel = new FramedElementsCanvas(selectedSort, mainWindow.getWidth(), mainWindow.getHeight());
 
-                final OperationExecutor operationExecutor = new OperationExecutor(sortPanel);
+                final InstructionMediator instructionMediator = new InstructionMediator();
                 final SortAlgorithm sort;
 
-                operationExecutor.setOperationExecutorListener(this);
-                operationExecutor.initElements(elements);
-                operationExecutor.setDelay(InternalConfig.getExecutionSpeedDelayMs(), InternalConfig.getExecutionSpeedDelayNs());
+                sortPanel.setElements(elements);
+                instructionMediator.initElements(elements);
 
-                if (selectedSort.equals(Consts.SortAlgorithm.Heapsort))
-                    sort = new HeapSort(operationExecutor);
-                else if (selectedSort.equals(Consts.SortAlgorithm.Bubblesort))
-                    sort = new BubbleSort(operationExecutor);
-                else if (selectedSort.equals(Consts.SortAlgorithm.Quicksort_FIXED))
-                    sort = new QuickSort(QuickSort.PivotStrategy.FIXED, operationExecutor);
-                else if (selectedSort.equals(Consts.SortAlgorithm.Quicksort_RANDOM))
-                    sort = new QuickSort(QuickSort.PivotStrategy.RANDOM, operationExecutor);
-                else if (selectedSort.equals(Consts.SortAlgorithm.Quicksort_MO3))
-                    sort = new QuickSort(QuickSort.PivotStrategy.MO3, operationExecutor);
-                else if (selectedSort.equals(Consts.SortAlgorithm.Combsort))
-                    sort = new CombSort(operationExecutor);
-                else if (selectedSort.equals(Consts.SortAlgorithm.Selectionsort))
-                    sort = new SelectionSort(operationExecutor);
-                else if (selectedSort.equals(Consts.SortAlgorithm.Shakersort))
-                    sort = new ShakerSort(operationExecutor);
-                else if (selectedSort.equals(Consts.SortAlgorithm.Mergesort))
-                    sort = new MergeSort(operationExecutor);
-                else if (selectedSort.equals(Consts.SortAlgorithm.Shellsort))
-                    sort = new ShellSort(operationExecutor);
-                else if (selectedSort.equals(Consts.SortAlgorithm.Insertionsort))
-                    sort = new InsertionSort(operationExecutor);
-                else if (selectedSort.equals(Consts.SortAlgorithm.Bogosort))
-                    sort = new BogoSort(operationExecutor);
+                if (selectedSort.equals(Constants.SortAlgorithm.Heapsort))
+                    sort = new HeapSort(instructionMediator);
+                else if (selectedSort.equals(Constants.SortAlgorithm.Bubblesort))
+                    sort = new BubbleSort(instructionMediator);
+                else if (selectedSort.equals(Constants.SortAlgorithm.Quicksort_FIXED))
+                    sort = new QuickSort(QuickSort.PivotStrategy.FIXED, instructionMediator);
+                else if (selectedSort.equals(Constants.SortAlgorithm.Quicksort_RANDOM))
+                    sort = new QuickSort(QuickSort.PivotStrategy.RANDOM, instructionMediator);
+                else if (selectedSort.equals(Constants.SortAlgorithm.Quicksort_MO3))
+                    sort = new QuickSort(QuickSort.PivotStrategy.MO3, instructionMediator);
+                else if (selectedSort.equals(Constants.SortAlgorithm.Combsort))
+                    sort = new CombSort(instructionMediator);
+                else if (selectedSort.equals(Constants.SortAlgorithm.Selectionsort))
+                    sort = new SelectionSort(instructionMediator);
+                else if (selectedSort.equals(Constants.SortAlgorithm.Shakersort))
+                    sort = new ShakerSort(instructionMediator);
+                else if (selectedSort.equals(Constants.SortAlgorithm.Mergesort))
+                    sort = new MergeSort(instructionMediator);
+                else if (selectedSort.equals(Constants.SortAlgorithm.Shellsort))
+                    sort = new ShellSort(instructionMediator);
+                else if (selectedSort.equals(Constants.SortAlgorithm.Insertionsort))
+                    sort = new InsertionSort(instructionMediator);
+                else if (selectedSort.equals(Constants.SortAlgorithm.Bogosort))
+                    sort = new BogoSort(instructionMediator);
                 else
-                    sort = new HeapSort(operationExecutor);
+                    sort = new HeapSort(instructionMediator);
+
+                tasks.add(sort);
+                elementsCanvases.add(sortPanel);
+                instructionMediators.add(instructionMediator);
+                mainWindow.addSortVisualizationPanel(sortPanel);
 
                 sortPanel.setActionListenerForRemoveAction(
                         e1 -> {
-                            if (operationExecutors.size() > 0) {
+                            if (instructionMediators.size() > 0) {
                                 mainWindow.removeSortVisualizationPanel(((FramedElementsCanvas) e1.getSource()));
-                                operationExecutors.remove(operationExecutor);
+                                elementsCanvases.remove(((FramedElementsCanvas) e1.getSource()));
+                                instructionMediators.remove(instructionMediator);
                                 tasks.remove(sort);
                             }
-                            if (operationExecutors.isEmpty()) {
+                            if (instructionMediators.isEmpty()) {
                                 state = MainWindow.State.EMPTY;
                                 mainWindow.setState(state);
                             }
                         });
 
-                operationExecutors.add(operationExecutor);
-                mainWindow.addSortVisualizationPanel(sortPanel);
-                tasks.add(sort);
-                mainWindow.updateSize();
                 state = MainWindow.State.STOPPED;
                 mainWindow.setState(state);
+                mainWindow.updateSize();
                 break;
-            case Consts.START:
+            case Constants.START:
                 if (state == MainWindow.State.RUNNING) {
-                    operationExecutors.forEach(OperationExecutor::pause);
+                    instructionPlayback.pause();
                     timer.stop();
-                    pausedByUser = true;
                     state = MainWindow.State.PAUSED;
                     mainWindow.setState(state);
                 } else if (state == MainWindow.State.PAUSED) {
-                    operationExecutors.forEach(OperationExecutor::resume);
+                    instructionPlayback.play();
                     state = MainWindow.State.RUNNING;
                     mainWindow.setState(state);
                     timer.start();
-                    pausedByUser = false;
                 } else if (state == MainWindow.State.STOPPED) {
-                    if (executor.isTerminated()) {
+                    try {
                         executor = Executors.newCachedThreadPool();
+                        tasks.forEach(executor::execute);
+
+                        instructionMediators.forEach(op -> op.initElements(elements));
+                        elementsCanvases.forEach(canvas -> canvas.setElements(elements));
+
+                        executor.shutdown();
+                        boolean terminated = executor.awaitTermination(1, TimeUnit.SECONDS);
+
+                        if (terminated) {
+                            timer.reset();
+                            timer.start();
+
+                            instructionPlayback = new InstructionPlayback(instructionMediators, elementsCanvases);
+                            instructionPlayback.setDelay(Configuration.getExecutionSpeedDelayMs(), Configuration.getExecutionSpeedDelayNs());
+
+                            CompletableFuture.runAsync(instructionPlayback).thenAccept((s) -> {
+                                EventQueue.invokeLater(() -> {
+                                    state = MainWindow.State.STOPPED;
+                                    mainWindow.setState(state);
+                                });
+                                timer.stop();
+                            });
+
+                            timer.start();
+                            state = MainWindow.State.RUNNING;
+                            mainWindow.setState(state);
+                        }
+                        else {
+                            System.out.println("Error - Timeout !");
+                        }
+                    } catch (InterruptedException interruptedException) {
+                        interruptedException.printStackTrace();
                     }
-                    operationExecutors.forEach(OperationExecutor::initElements);
-                    tasks.forEach(executor::execute);
-
-                    threadsAlive = tasks.size();
-
-                    timer.reset();
-                    timer.start();
-                    state = MainWindow.State.RUNNING;
-                    mainWindow.setState(state);
                 }
                 break;
-            case Consts.RESET:
+            case Constants.RESET:
                 reset();
                 break;
-            case Consts.AUTO_PAUSE:
-                InternalConfig.toggleAutoPause();
+            case Constants.AUTO_PAUSE:
+                Configuration.toggleAutoPause();
                 break;
-            case Consts.NEW_ELEMENTS:
+            case Constants.NEW_ELEMENTS:
                 ElementEditorDialog.getInstance(this, 500, 300);
                 break;
-            case Consts.ABOUT:
+            case Constants.ABOUT:
                 AboutDialog.getInstance(420, 500);
                 break;
-            case Consts.NEXT_ITERATION:
-                operationExecutors.forEach(OperationExecutor::executeNextStep);
+            case Constants.NEXT_ITERATION:
+                instructionPlayback.instructionStep();
                 break;
-            case Consts.DELAY:
+            case Constants.DELAY:
                 SpeedAdjustDialog.getInstance(this, 320, 150);
                 break;
         }
     }
 
     @Override
-    public void windowOpened(WindowEvent e) {
-    }
+    public void windowOpened(WindowEvent e) {}
 
     @Override
     public void windowClosing(WindowEvent e) {
         timer.stop();
-        InternalConfig.saveChanges();
+        instructionPlayback.halt();
+        Configuration.saveChanges();
     }
 
     @Override
     public void windowActivated(WindowEvent e) {
+        /*
         if (InternalConfig.isAutoPauseEnabled() && !pausedByUser && state == MainWindow.State.PAUSED) {
             if (threadsAlive != 0) {
                 timer.start();
@@ -215,33 +228,24 @@ public class Controller implements ComponentListener, ActionListener, WindowList
             state = MainWindow.State.RUNNING;
             mainWindow.setState(state);
         }
+         */
     }
 
     @Override
-    public void windowDeactivated(WindowEvent e) {
-        if (InternalConfig.isAutoPauseEnabled() && state == MainWindow.State.RUNNING) {
-            if (threadsAlive != 0) {
-                operationExecutors.forEach(OperationExecutor::pause);
-                timer.stop();
-                state = MainWindow.State.PAUSED;
-                mainWindow.setState(state);
-            }
-        }
-    }
+    public void windowDeactivated(WindowEvent e) {}
 
     public void executionSpeedChanged(int delayMs, int delayNs) {
-        InternalConfig.setExecutionSpeedParameters(delayMs, delayNs);
-        operationExecutors.forEach(v -> v.setDelay(delayMs, delayNs));
+        Configuration.setExecutionSpeedParameters(delayMs, delayNs);
+        instructionPlayback.setDelay(delayMs, delayNs);
     }
 
     public void elementsChanged(int[] elements) {
         this.elements = elements;
-        InternalConfig.setNumberOfElements(elements.length);
+        Configuration.setNumberOfElements(elements.length);
         mainWindow.updateNumberOfElements(elements.length);
-        operationExecutors.forEach(v -> v.initElements(elements));
+        instructionMediators.forEach(v -> v.initElements(elements));
         reset();
     }
-
 
     @Override
     public void windowClosed(WindowEvent e) {
@@ -272,39 +276,22 @@ public class Controller implements ComponentListener, ActionListener, WindowList
     public void componentHidden(ComponentEvent e) {
     }
 
-    @Override
-    public long terminated() {
-        if (--threadsAlive == 0) {
-            EventQueue.invokeLater(() -> {
-                state = MainWindow.State.STOPPED;
-                mainWindow.setState(state);
-            });
-            timer.stop();
-        }
-        return timer.getLeftMs();
-    }
-
-
     private class Timer {
-        private final static int TIMER_DELAY_MS = 100;
+        private final static int TIMER_DELTA_MS = 100;
         private final javax.swing.Timer appTimer;
-        private int leftMs;
+        private int elapsedMs;
 
         public Timer() {
-            leftMs = 0;
-            appTimer = new javax.swing.Timer(TIMER_DELAY_MS, e -> {
-                leftMs += TIMER_DELAY_MS;
-                mainWindow.setExecutionTime(leftMs);
+            elapsedMs = 0;
+            appTimer = new javax.swing.Timer(TIMER_DELTA_MS, e -> {
+                elapsedMs += TIMER_DELTA_MS;
+                mainWindow.setExecutionTime(elapsedMs);
             });
             if (mainWindow != null) mainWindow.setExecutionTime(0);
         }
 
-        public int getLeftMs() {
-            return leftMs;
-        }
-
         public void reset() {
-            leftMs = 0;
+            elapsedMs = 0;
         }
 
         public void start() {

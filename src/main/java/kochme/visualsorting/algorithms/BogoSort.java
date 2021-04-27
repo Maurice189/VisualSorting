@@ -1,33 +1,32 @@
 package kochme.visualsorting.algorithms;
 
-import kochme.visualsorting.app.OperationExecutor;
-import kochme.visualsorting.algorithms.SortAlgorithm;
-import kochme.visualsorting.app.Consts;
+import kochme.visualsorting.instruction.InstructionMediator;
+import kochme.visualsorting.app.Constants;
 
 public class BogoSort extends SortAlgorithm {
 
-    public BogoSort(OperationExecutor operationExecutor) {
-        super(operationExecutor);
+    public BogoSort(InstructionMediator instructionMediator) {
+        super(instructionMediator);
     }
 
-    void bogo() throws InterruptedException {
+    void bogo() {
         while (!isSorted()) // we need to check the interrupt flag here
             shuffle();
     }
 
-    void shuffle() throws InterruptedException {
-        int i = operationExecutor.getNumberOfElements() - 1;
+    void shuffle() {
+        int i = instructionMediator.getNumberOfElements() - 1;
         while (i > 0)
             swap(i--, (int) (Math.random() * i));
     }
 
-    void swap(int i, int j) throws InterruptedException {
-        operationExecutor.exchange(i, j);
+    void swap(int i, int j) {
+        instructionMediator.swap(i, j);
     }
 
-    boolean isSorted() throws InterruptedException {
-        for (int i = 1; i < operationExecutor.getNumberOfElements(); i++) {
-            if (operationExecutor.compare(i, i - 1) == -1) {
+    boolean isSorted() {
+        for (int i = 1; i < instructionMediator.getNumberOfElements(); i++) {
+            if (instructionMediator.compare(i, i - 1) == -1) {
                 return false;
             }
         }
@@ -37,17 +36,12 @@ public class BogoSort extends SortAlgorithm {
 
     @Override
     public void run() {
-        try {
-            bogo();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        operationExecutor.terminate();
+        bogo();
     }
 
     @Override
-    public Consts.SortAlgorithm getAlgorithmName() {
-        return Consts.SortAlgorithm.Bogosort;
+    public Constants.SortAlgorithm getAlgorithmName() {
+        return Constants.SortAlgorithm.Bogosort;
     }
 
 }

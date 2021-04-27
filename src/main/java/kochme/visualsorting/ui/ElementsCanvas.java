@@ -198,20 +198,13 @@ public class ElementsCanvas extends JPanel {
         graphics2D.clearRect(0, height - offsetY, width, height);
         graphics2D.setColor(new Color(100, 100, 100));
 
-        double delayNs = (visualTerminationTime * 1000.0 / elements.length);
-
         for (int i = 0; i < elements.length; i++) {
             graphics2D.fillRect((i * (refWidth + gapSize)) + margin,
                     (height - (refHeight * elements[i])) - offsetY, refWidth,
                     refHeight * elements[i]);
 
-            try {
-                Thread.sleep((long) (delayNs / 1000.), ((int) delayNs) % 1000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-            repaint();
         }
+        repaint();
     }
 
     public Color getBarColor(float relativePosition) {
@@ -238,7 +231,6 @@ public class ElementsCanvas extends JPanel {
     }
 
     public void updateBarSize() {
-        int maxElement = Arrays.stream(elements).max().getAsInt();
         if (maxElement > 0) {
             int marginTop = 25;
             refHeight = (height - offsetY - marginTop)
@@ -268,7 +260,6 @@ public class ElementsCanvas extends JPanel {
     }
 
     public void setElements(int[] elements) {
-
         this.elements = new int[elements.length];
         System.arraycopy(elements, 0, this.elements, 0, elements.length);
         this.maxElement = Arrays.stream(elements).max().getAsInt();

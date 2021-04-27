@@ -1,4 +1,4 @@
-package kochme.visualsorting.dialogs;
+package kochme.visualsorting.ui.dialogs;
 
 /*
  * This software is licensed under the MIT License.

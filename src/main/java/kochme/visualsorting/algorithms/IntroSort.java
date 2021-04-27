@@ -2,20 +2,19 @@ package kochme.visualsorting.algorithms;
 
 // copied from http://www.cs.waikato.ac.nz/~bernhard/317/source/IntroSort.java
 
-import kochme.visualsorting.app.OperationExecutor;
-import kochme.visualsorting.algorithms.SortAlgorithm;
-import kochme.visualsorting.app.Consts;
+import kochme.visualsorting.instruction.InstructionMediator;
+import kochme.visualsorting.app.Constants;
 
 
 //TODO : ADD VISUAL PIVOT
 
 public class IntroSort extends SortAlgorithm {
-    public IntroSort(OperationExecutor operationExecutor) {
-        super(operationExecutor);
+    public IntroSort(InstructionMediator instructionMediator) {
+        super(instructionMediator);
     }
 
     @Override
-    public Consts.SortAlgorithm getAlgorithmName() {
+    public Constants.SortAlgorithm getAlgorithmName() {
         return null;
     }
 

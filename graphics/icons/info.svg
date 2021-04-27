@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="134.9375mm"
+   height="134.9375mm"
+   viewBox="0 0 134.9375 134.9375"
+   version="1.1"
+   id="svg5230"
+   inkscape:version="1.0.2-2 (e86c870879, 2021-01-15)"
+   sodipodi:docname="info.svg">
+  <defs
+     id="defs5224" />
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="0.35"
+     inkscape:cx="74.999937"
+     inkscape:cy="335"
+     inkscape:document-units="mm"
+     inkscape:current-layer="layer1"
+     inkscape:document-rotation="0"
+     showgrid="false"
+     fit-margin-top="0"
+     fit-margin-left="0"
+     fit-margin-right="0"
+     fit-margin-bottom="0"
+     inkscape:window-width="1254"
+     inkscape:window-height="1041"
+     inkscape:window-x="26"
+     inkscape:window-y="0"
+     inkscape:window-maximized="0" />
+  <metadata
+     id="metadata5227">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Ebene 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(-85.9896,-59.53125)">
+    <g
+       id="g1556"
+       transform="matrix(0.26458333,0,0,0.26458333,85.9896,59.53125)"
+       style="fill:#cccccc"
+       inkscape:export-filename="/Users/kochme/Projekte/VisualSorting/src/resources/icons/info_round.png"
+       inkscape:export-xdpi="3.0117648"
+       inkscape:export-ydpi="3.0117648">
+      <g
+         id="g1499"
+         style="fill:#cccccc">
+        <g
+           id="info"
+           style="fill:#cccccc">
+          <path
+             id="path1496"
+             d="M 255,0 C 114.75,0 0,114.75 0,255 0,395.25 114.75,510 255,510 395.25,510 510,395.25 510,255 510,114.75 395.25,0 255,0 Z m 25.5,382.5 h -51 v -153 h 51 z m 0,-204 h -51 v -51 h 51 z"
+             inkscape:connector-curvature="0"
+             style="fill:#cccccc" />
+        </g>
+      </g>
+      <g
+         id="g1501"
+         style="fill:#cccccc" />
+      <g
+         id="g1503"
+         style="fill:#cccccc" />
+      <g
+         id="g1505"
+         style="fill:#cccccc" />
+      <g
+         id="g1507"
+         style="fill:#cccccc" />
+      <g
+         id="g1509"
+         style="fill:#cccccc" />
+      <g
+         id="g1511"
+         style="fill:#cccccc" />
+      <g
+         id="g1513"
+         style="fill:#cccccc" />
+      <g
+         id="g1515"
+         style="fill:#cccccc" />
+      <g
+         id="g1517"
+         style="fill:#cccccc" />
+      <g
+         id="g1519"
+         style="fill:#cccccc" />
+      <g
+         id="g1521"
+         style="fill:#cccccc" />
+      <g
+         id="g1523"
+         style="fill:#cccccc" />
+      <g
+         id="g1525"
+         style="fill:#cccccc" />
+      <g
+         id="g1527"
+         style="fill:#cccccc" />
+      <g
+         id="g1529"
+         style="fill:#cccccc" />
+    </g>
+  </g>
+</svg>

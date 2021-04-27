@@ -1,4 +1,4 @@
-package kochme.visualsorting.dialogs;
+package kochme.visualsorting.ui.dialogs;
 
 /*
  * This software is licensed under the MIT License.
@@ -74,13 +74,13 @@ public class ElementEditorDialog extends JDialog implements ActionListener {
             int[] tmp = new int[l];
 
             if (random.isSelected()) {
-                tmp = Utils.getRandomSequence(l);
+                tmp = Utility.getRandomSequence(l);
             }
             if (sorted.isSelected()) {
-                tmp = Utils.getSortedSequence(l);
+                tmp = Utility.getSortedSequence(l);
             }
             if (reversed.isSelected()) {
-                tmp = Utils.getReversedSequence(l);
+                tmp = Utility.getReversedSequence(l);
             }
 
             for (int i = 0; i < l; i++) {
@@ -99,12 +99,13 @@ public class ElementEditorDialog extends JDialog implements ActionListener {
 
     protected void initComponents() {
         listModel = new DefaultListModel<>();
-        JList<Integer> elements = new JList<Integer>(listModel);
+        JList<Integer> elements = new JList<>(listModel);
 
         for (int listOfElement : listOfElements) {
             listModel.addElement(listOfElement);
         }
 
+        //SpinnerNumberModel model1 = new SpinnerNumberModel(5, 0, 256, 1);
         nofValues = new JSpinner();
         nofValues.setFont(MainWindow.getComponentFont(15f));
         setLayout(new GridBagLayout());
@@ -171,7 +172,7 @@ public class ElementEditorDialog extends JDialog implements ActionListener {
         btnWrpc1.insets = new Insets(4, 4, 4, 4);
 
         exit = new JButton("Exit");
-        exit.setActionCommand(Consts.ELEMENTS_SET);
+        exit.setActionCommand(Constants.ELEMENTS_SET);
         exit.addActionListener(this);
 
         JPanel btnWrp2 = new JPanel();
