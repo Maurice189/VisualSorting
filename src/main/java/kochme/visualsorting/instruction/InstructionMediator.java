@@ -4,19 +4,15 @@ import java.util.LinkedList;
 import java.util.Queue;
 
 public class InstructionMediator {
-    public static enum InstructionType {INSERT, COMPARE, SWAP};
+    public static enum InstructionType {INSERT, COMPARE, SWAP, INVISIBLE};
 
     private int[] elements;
-    private Queue<InstructionInsert> insertQueue;
-    private Queue<InstructionCompare> compareQueue;
-    private Queue<InstructionSwap> swapQueue;
+    private Queue<Instruction> instructionQueue;
     private Queue<InstructionType> typeQueue;
 
     public void initElements(int[] elements) {
+        this.instructionQueue = new LinkedList<>();
         this.typeQueue = new LinkedList<>();
-        this.swapQueue = new LinkedList<>();
-        this.insertQueue = new LinkedList<>();
-        this.compareQueue = new LinkedList<>();
         this.elements = new int[elements.length];
         System.arraycopy(elements, 0, this.elements, 0, elements.length);
     }
@@ -29,16 +25,8 @@ public class InstructionMediator {
         return typeQueue.poll();
     }
 
-    public InstructionInsert getNextInsertInstruction() {
-        return insertQueue.poll();
-    }
-
-    public InstructionCompare getNextCompareInstruction() {
-        return compareQueue.poll();
-    }
-
-    public InstructionSwap getNextSwapInstruction() {
-        return swapQueue.poll();
+    public Instruction getNextInstruction() {
+        return instructionQueue.poll();
     }
 
     public void swap(int i, int j) {
@@ -47,19 +35,18 @@ public class InstructionMediator {
         elements[j] = tmp;
 
         typeQueue.add(InstructionType.SWAP);
-        swapQueue.add(new InstructionSwap(i, j));
-
+        instructionQueue.add(Instruction.swapInstance(i, j));
     }
 
     public void insertByIndex(int i, int j) {
         typeQueue.add(InstructionType.INSERT);
-        insertQueue.add(new InstructionInsert(i, elements[j]));
+        instructionQueue.add(Instruction.insertInstance(i, elements[j]));
         elements[i] = elements[j];
     }
 
     public void insertByValue(int i, int value) {
         typeQueue.add(InstructionType.INSERT);
-        insertQueue.add(new InstructionInsert(i, value));
+        instructionQueue.add(Instruction.insertInstance(i, value));
         elements[i] = value;
     }
 
@@ -72,7 +59,7 @@ public class InstructionMediator {
             result = -1;
 
         typeQueue.add(InstructionType.COMPARE);
-        compareQueue.add(new InstructionCompare(i, j, isPivot));
+        instructionQueue.add(Instruction.compareInstance(i, j, isPivot));
         return result;
     }
 
@@ -94,8 +81,14 @@ public class InstructionMediator {
 
         typeQueue.add(InstructionType.COMPARE);
         // We cannot compare with values but only with indices.
-        compareQueue.add(new InstructionCompare(i, i, false));
+        instructionQueue.add(Instruction.compareInstance(i, i, false));
         return result;
+    }
+
+    public void insertOutOfPlace(int[] other, int i, int j) {
+        other[i] = elements[j];
+        typeQueue.add(InstructionType.INVISIBLE);
+        instructionQueue.add(new Instruction(-1, -1, false, 2, 0));
     }
 
     public int getElementAtIndex(int index) {
@@ -109,5 +102,8 @@ public class InstructionMediator {
 
     public int getNumberOfElements() {
         return elements.length;
+    }
+    public int[] getElements() {
+        return elements;
     }
 }

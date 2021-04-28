@@ -141,10 +141,10 @@ public class ElementEditorDialog extends JDialog implements ActionListener {
         random.addActionListener(this);
         random.setSelected(true);
 
-        sorted = new JRadioButton("Sorted");
+        sorted = new JRadioButton("Sorted Asc.");
         sorted.addActionListener(this);
 
-        reversed = new JRadioButton("Reversed");
+        reversed = new JRadioButton("Sorted Desc.");
         reversed.addActionListener(this);
 
         listTypeGroup.add(random);
@@ -153,7 +153,7 @@ public class ElementEditorDialog extends JDialog implements ActionListener {
 
         JPanel btnWrp1 = new JPanel(new FlowLayout(FlowLayout.LEFT));
         TitledBorder tb = BorderFactory.createTitledBorder(
-                BorderFactory.createLineBorder(Color.GRAY), "Selection");
+                BorderFactory.createLineBorder(Color.GRAY), "Order");
 
         btnWrp1.setBorder(tb);
         btnWrp1.add(random);

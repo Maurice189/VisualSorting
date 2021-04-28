@@ -17,13 +17,8 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-This sort algorithm is based on:
-http://rosettacode.org/wiki/Sorting_algorithms/Heapsort#Java
-(C) Ingy döt Net 
-
+This sort algorithm is based on: http://rosettacode.org/wiki/Sorting_algorithms/Heapsort#Java, (C) Ingy döt Net
 */
-
-// copied http://rosettacode.org/wiki/Sorting_algorithms/Heapsort#Java
 
 import kochme.visualsorting.instruction.InstructionMediator;
 import kochme.visualsorting.app.Constants;

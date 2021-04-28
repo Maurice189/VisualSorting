@@ -148,12 +148,11 @@ public class Controller implements ComponentListener, ActionListener, WindowList
                     timer.start();
                 } else if (state == MainWindow.State.STOPPED) {
                     try {
+                        instructionMediators.forEach(oe -> oe.initElements(elements));
+                        elementsCanvases.forEach(ec -> ec.setElements(elements));
+
                         executor = Executors.newCachedThreadPool();
                         tasks.forEach(executor::execute);
-
-                        instructionMediators.forEach(op -> op.initElements(elements));
-                        elementsCanvases.forEach(canvas -> canvas.setElements(elements));
-
                         executor.shutdown();
                         boolean terminated = executor.awaitTermination(1, TimeUnit.SECONDS);
 
@@ -166,18 +165,17 @@ public class Controller implements ComponentListener, ActionListener, WindowList
 
                             CompletableFuture.runAsync(instructionPlayback).thenAccept((s) -> {
                                 EventQueue.invokeLater(() -> {
+                                    timer.stop();
                                     state = MainWindow.State.STOPPED;
                                     mainWindow.setState(state);
                                 });
-                                timer.stop();
                             });
 
-                            timer.start();
                             state = MainWindow.State.RUNNING;
                             mainWindow.setState(state);
                         }
                         else {
-                            System.out.println("Error - Timeout !");
+                            System.err.println("Error - Timeout !");
                         }
                     } catch (InterruptedException interruptedException) {
                         interruptedException.printStackTrace();
@@ -241,7 +239,6 @@ public class Controller implements ComponentListener, ActionListener, WindowList
         this.elements = elements;
         Configuration.setNumberOfElements(elements.length);
         mainWindow.updateNumberOfElements(elements.length);
-        instructionMediators.forEach(v -> v.initElements(elements));
         reset();
     }
 

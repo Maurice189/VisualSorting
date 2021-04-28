@@ -4,11 +4,10 @@ import kochme.visualsorting.instruction.InstructionMediator;
 import kochme.visualsorting.app.Constants;
 
 public class QuickSort extends SortAlgorithm {
-
     public enum PivotStrategy {FIXED, RANDOM, MO3}
 
     private int pivotIndex;
-    private PivotStrategy pivotStrategy;
+    private final PivotStrategy pivotStrategy;
 
     public QuickSort(PivotStrategy pivotStrategy, InstructionMediator instructionMediator) {
         super(instructionMediator);
@@ -22,7 +21,6 @@ public class QuickSort extends SortAlgorithm {
             sort(i + 1, right);
         }
     }
-
 
     private int getPivotByRandom(int left, int right) {
         return left + (int) (Math.random() * (right - left));
@@ -69,7 +67,6 @@ public class QuickSort extends SortAlgorithm {
                 i++;
             }
         }
-
         instructionMediator.swap(i, right);
         return i;
     }

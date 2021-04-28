@@ -16,8 +16,8 @@ public class InstructionPlayback implements Runnable {
     private enum Status {PLAYING, PAUSED, STOPPED};
     private Status status;
 
-    private final int[] accessCounts;
-    private final int[] comparisonCounts;
+    private final int[] accessCosts;
+    private final int[] compareCosts;
 
     public InstructionPlayback(List<InstructionMediator> instructionMediators, List<FramedElementsCanvas> elementsCanvases) {
         this.instructionMediators = instructionMediators;
@@ -26,12 +26,12 @@ public class InstructionPlayback implements Runnable {
         this.sleepNanos = new AtomicInteger();
         this.status = Status.PLAYING;
 
-        this.accessCounts = new int[elementsCanvases.size()];
-        this.comparisonCounts = new int[elementsCanvases.size()];
+        this.accessCosts = new int[elementsCanvases.size()];
+        this.compareCosts = new int[elementsCanvases.size()];
         this.terminated = new Boolean[instructionMediators.size()];
 
-        Arrays.fill(accessCounts, 0);
-        Arrays.fill(comparisonCounts, 0);
+        Arrays.fill(accessCosts, 0);
+        Arrays.fill(compareCosts, 0);
         Arrays.fill(terminated, false);
     }
 
@@ -43,11 +43,9 @@ public class InstructionPlayback implements Runnable {
     public void play() {
         this.status = Status.PLAYING;
     }
-
     public void pause() {
         this.status = Status.PAUSED;
     }
-
     public void halt() {
         this.status = Status.STOPPED;
     }
@@ -67,39 +65,44 @@ public class InstructionPlayback implements Runnable {
         }
     }
 
+    public boolean isEligibleForStep(int j) {
+        boolean eligible = true;
+        for (int i = 0; i < accessCosts.length; i++) {
+            if (i != j && !terminated[i]) {
+                eligible &= accessCosts[j] <= accessCosts[i];
+            }
+        }
+        return eligible;
+    }
+
     public boolean instructionStep() {
         for (int idx = 0; idx < instructionMediators.size(); idx++) {
             FramedElementsCanvas elementsCanvas = elementsCanvases.get(idx);
             InstructionMediator instructionMediator = instructionMediators.get(idx);
 
-            if (instructionMediator.hasNextInstruction()) {
+            if (instructionMediator.hasNextInstruction() && isEligibleForStep(idx)) {
                 InstructionMediator.InstructionType type = instructionMediator.getTypeOfNextInstruction();
+                Instruction inst = instructionMediator.getNextInstruction();
+
+                // These are the supported instructions for visualization
                 switch (type) {
                     case INSERT: {
-                        InstructionInsert inst = instructionMediator.getNextInsertInstruction();
                         elementsCanvas.visualInsert(inst.getFirst(), inst.getSecond());
-                        accessCounts[idx] += inst.accessCount();
-                        comparisonCounts[idx] += inst.compareCount();
                     }
                     break;
                     case COMPARE: {
-                        InstructionCompare inst = instructionMediator.getNextCompareInstruction();
-                        elementsCanvas.visualCompare(inst.getFirst(), inst.getSecond(), inst.isPivot());
-                        accessCounts[idx] += inst.accessCount();
-                        comparisonCounts[idx] += inst.compareCount();
+                        elementsCanvas.visualCompare(inst.getFirst(), inst.getSecond(), inst.getFlag());
                     }
                     break;
                     case SWAP: {
-                        InstructionSwap inst = instructionMediator.getNextSwapInstruction();
-                        elementsCanvas.visualSwap(inst.getFirstIdx(), inst.getSecondIdx());
-                        accessCounts[idx] += inst.accessCount();
-                        comparisonCounts[idx] += inst.compareCount();
+                        elementsCanvas.visualSwap(inst.getFirst(), inst.getSecond());
                     }
-                    break;
                 }
-                elementsCanvas.setInfo(accessCounts[idx], comparisonCounts[idx]);
+                accessCosts[idx] += inst.accessCosts();
+                compareCosts[idx] += inst.compareCosts();
+                elementsCanvas.setInfo(accessCosts[idx], compareCosts[idx]);
             }
-            else if (!terminated[idx]) {
+            else if (!terminated[idx] && !instructionMediator.hasNextInstruction()) {
                 elementsCanvas.visualTermination();
                 terminated[idx] = true;
             }

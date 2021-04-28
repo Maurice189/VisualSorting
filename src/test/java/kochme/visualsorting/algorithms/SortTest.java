@@ -1,96 +1,60 @@
-package tests;
+package kochme.visualsorting.algorithms;
 
-import algorithms.*;
-import gui.FramedSortPanel;
-import main.Consts;
-import main.Controller;
-import main.OperationExecutor;
 import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
-import java.lang.reflect.InvocationTargetException;
+import kochme.visualsorting.instruction.*;
+import kochme.visualsorting.algorithms.*;
+
 import java.util.Arrays;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.Random;
 
 public class SortTest {
-    private final static int NUMBER_OF_RANDOM_ROUNDS = 5;
-
-    private OperationExecutor executor;
-    private Sort[] sorts;
+    private final static int SEQUENCE_LENGTH = 16;
+    private InstructionMediator instructionMediator;
+    private SortAlgorithm[] sorts;
 
     @Before
     public void setup() {
-        Controller controller = new Controller(new int[1]);
-        FramedSortPanel panel = new FramedSortPanel(Consts.SortAlgorithm.Heapsort, 1, 1);
-        executor = new OperationExecutor(controller, panel);
+        instructionMediator = new InstructionMediator();
 
-        sorts = new Sort[]{
-                new BubbleSort(executor),
-                new CombSort(executor),
-                new HeapSort(executor),
-                new InsertionSort(executor),
-                new MergeSort(executor),
-                new QuickSort(QuickSort.PivotStrategy.FIXED, executor),
-                new QuickSort(QuickSort.PivotStrategy.RANDOM, executor),
-                new QuickSort(QuickSort.PivotStrategy.MO3, executor),
-                new SelectionSort(executor),
-                new ShakerSort(executor),
-                new ShellSort(executor)
+        sorts = new SortAlgorithm[]{
+                new CombSort(instructionMediator),
+                new HeapSort(instructionMediator),
+                new InsertionSort(instructionMediator),
+                new MergeSort(instructionMediator),
+                new QuickSort(QuickSort.PivotStrategy.FIXED, instructionMediator),
+                new QuickSort(QuickSort.PivotStrategy.RANDOM, instructionMediator),
+                new QuickSort(QuickSort.PivotStrategy.MO3, instructionMediator),
+                new SelectionSort(instructionMediator),
+                new ShakerSort(instructionMediator),
+                new ShellSort(instructionMediator)
         };
     }
 
     @Test
     public void randomizedSortTest() {
-        for (int r = 0; r < NUMBER_OF_RANDOM_ROUNDS; r++) {
-            int[] randomSequence = getRandomSequence(getRandomNumber(0, 1000));
+        int[] randomSequence = generateRandomSequence(SEQUENCE_LENGTH);
+        int[] sortedSequence = new int[SEQUENCE_LENGTH];
 
-            int[] randomSequenceI1 = new int[randomSequence.length];
-            System.arraycopy(randomSequence, 0, randomSequenceI1, 0, randomSequence.length);
-            Arrays.sort(randomSequenceI1);
+        System.arraycopy(randomSequence, 0, sortedSequence, 0, SEQUENCE_LENGTH);
+        Arrays.sort(sortedSequence);
 
-            for (Sort sort : sorts) {
-                int[] randomSequenceI2 = new int[randomSequence.length];
-                System.arraycopy(randomSequence, 0, randomSequenceI2, 0, randomSequence.length);
+        for (SortAlgorithm sort : sorts) {
+            instructionMediator.initElements(randomSequence);
+            sort.run();
 
-                try {
-                    execute(sort, randomSequenceI2);
-                    assertArrayEquals("At " + sort.getAlgorithmName(), randomSequenceI1, randomSequenceI2);
-                } catch (IllegalAccessException e) {
-                    e.printStackTrace();
-                } catch (InvocationTargetException e) {
-                    e.printStackTrace();
-                } catch (InstantiationException e) {
-                    e.printStackTrace();
-                } catch (NoSuchMethodException e) {
-                    e.printStackTrace();
-                }
-            }
+            int[] outputSequence = instructionMediator.getElements();
+            assertArrayEquals("At " + sort.getAlgorithmName(), outputSequence, sortedSequence);
         }
     }
 
-    private int[] execute(Sort c, int[] sequence) throws IllegalAccessException, InvocationTargetException, InstantiationException, NoSuchMethodException {
-        executor.initElements(sequence);
-        c.run();
-        return executor.getElements();
-    }
-
-    private static int getRandomNumber(int low, int high) {
-        return (int) (Math.random() * (high - low) + low);
-    }
-
-    private static int[] getRandomSequence(int n) {
-        List<Integer> s1 = new LinkedList<>();
-        int[] randomSequence = new int[n];
-
-        for (int i = 0; i < n; i++) {
-            s1.add(i);
-        }
-
-        for (int i = 0; i < n; i++) {
-            int r = getRandomNumber(0, n - i);
-            randomSequence[i] = s1.remove(r);
+    public int[] generateRandomSequence(int size) {
+        Random rd = new Random();
+        int[] randomSequence = new int[size];
+        for (int i = 0; i < size; i++) {
+            randomSequence[i] = rd.nextInt();
         }
         return randomSequence;
     }

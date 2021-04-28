@@ -28,11 +28,11 @@ public class MergeSort extends SortAlgorithm {
         int i, j;
 
         for (i = l; i <= q; i++) {
-            arr[i] = instructionMediator.getElementAtIndex(i);
+            instructionMediator.insertOutOfPlace(arr, i, i);
         }
 
         for (j = q + 1; j <= r; j++) {
-            arr[r + q + 1 - j] = instructionMediator.getElementAtIndex(j);
+            instructionMediator.insertOutOfPlace(arr, r + q + 1 - j, j);
         }
 
         i = l;
