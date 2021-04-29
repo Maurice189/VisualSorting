@@ -15,7 +15,7 @@ The concept of VisualSorting is somewhat similar to [sound-of-sorting](https://g
 
 First, make sure that Java SE Runtime Environment 11 and Maven are installed on your machine.
 Then run `maven package` from the top level directory of this repository.
-After successful build, you should be able to launch the application with the following command `java -jar target/visual-sorting-0.1.jar`.
+After successful build, you should be able to launch the application with the following command `java -jar target/visual-sorting-0.2.jar`.
 
 # License
 
