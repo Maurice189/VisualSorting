@@ -101,6 +101,7 @@ public class FramedElementsCanvas extends ElementsCanvas {
                 algorithm.toString() + ("</b> - ( ") + String.valueOf(comparisons)
                 + (" comparisons | ") + String.valueOf(accesses) + (" accesses") + " ) </html>";
         leftBorder.setTitle(info);
+        leftBorder.setTitle(info);
     }
 
     public void setDuration(int sec, int milliSeconds) {

@@ -22,6 +22,8 @@ import java.awt.*;
 import java.awt.event.*;
 
 import javax.swing.*;
+import javax.swing.border.Border;
+import javax.swing.border.LineBorder;
 import javax.swing.border.TitledBorder;
 
 import kochme.visualsorting.ui.MainWindow;
@@ -46,7 +48,7 @@ public class ElementEditorDialog extends JDialog implements ActionListener {
     private JSpinner nofValues;
     private JButton exit;
     private JRadioButton random, reversed, sorted;
-    private ElementsCanvas svp;
+    private ElementsCanvas previewCanvas;
 
     private static ElementEditorDialog instance;
     private final Controller controller;
@@ -55,7 +57,7 @@ public class ElementEditorDialog extends JDialog implements ActionListener {
     private ElementEditorDialog(Controller controller, int width, int height) {
         this.controller = controller;
 
-        setTitle("Element Editor");
+        setTitle("Elements Editor");
         setSize(width, height);
         setLocationRelativeTo(null);
         setLayout(new BorderLayout());
@@ -88,9 +90,9 @@ public class ElementEditorDialog extends JDialog implements ActionListener {
             }
 
             controller.elementsChanged(tmp);
-            svp.setElements(tmp);
-            svp.updateBarSize();
-            svp.updatePanelSize();
+            previewCanvas.setElements(tmp);
+            previewCanvas.updateBarSize();
+            previewCanvas.updatePanelSize();
             revalidate();
             repaint();
 
@@ -107,103 +109,113 @@ public class ElementEditorDialog extends JDialog implements ActionListener {
 
         //SpinnerNumberModel model1 = new SpinnerNumberModel(5, 0, 256, 1);
         nofValues = new JSpinner();
-        nofValues.setFont(MainWindow.getComponentFont(15f));
+        //nofValues.setFont(MainWindow.getComponentFont(15f));
         setLayout(new GridBagLayout());
 
-        JTabbedPane tp = new JTabbedPane();
-        JScrollPane sp = new JScrollPane(elements);
+        JTabbedPane tabs = new JTabbedPane();
+        JScrollPane elementScrollList = new JScrollPane(elements);
 
-        JButton update = new JButton("Update");
-        update.addActionListener(this);
+        JButton updateBtn = new JButton("Set");
+        updateBtn.addActionListener(this);
         ButtonGroup listTypeGroup = new ButtonGroup();
 
-        svp = new ElementsCanvas(width, height);
-        svp.setElements(listOfElements);
-        svp.updateBarSize();
-        svp.updatePanelSize();
-        sp.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+        previewCanvas = new ElementsCanvas(width, height);
+        previewCanvas.setElements(listOfElements);
+        previewCanvas.updateBarSize();
+        previewCanvas.updatePanelSize();
+        elementScrollList.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 
         nofValues.setValue(listModel.getSize());
 
-        tp.addTab("Numeric List", sp);
-        tp.addTab("Bar Graphic", svp);
+        tabs.addTab("List of Elements", elementScrollList);
+        tabs.addTab("Bar Preview", previewCanvas);
 
-        GridBagConstraints tcnt = new GridBagConstraints();
-        tcnt.fill = GridBagConstraints.BOTH;
-        tcnt.gridx = 0;
-        tcnt.gridy = 0;
-        tcnt.gridwidth = 4;
-        tcnt.gridheight = 3;
-        tcnt.weightx = 1;
-        tcnt.weighty = 7;
+        GridBagConstraints tabsConstraints = new GridBagConstraints();
+        tabsConstraints.fill = GridBagConstraints.BOTH;
+        tabsConstraints.gridx = 0;
+        tabsConstraints.gridy = 0;
+        tabsConstraints.gridwidth = 4;
+        tabsConstraints.gridheight = 3;
+        tabsConstraints.weightx = 1;
+        tabsConstraints.weighty = 7;
 
         random = new JRadioButton("Random");
         random.addActionListener(this);
         random.setSelected(true);
 
-        sorted = new JRadioButton("Sorted Asc.");
+        sorted = new JRadioButton("Ascending");
         sorted.addActionListener(this);
 
-        reversed = new JRadioButton("Sorted Desc.");
+        reversed = new JRadioButton("Descending");
         reversed.addActionListener(this);
 
         listTypeGroup.add(random);
         listTypeGroup.add(sorted);
         listTypeGroup.add(reversed);
 
-        JPanel btnWrp1 = new JPanel(new FlowLayout(FlowLayout.LEFT));
-        TitledBorder tb = BorderFactory.createTitledBorder(
-                BorderFactory.createLineBorder(Color.GRAY), "Order");
+        JPanel orderPanel = new JPanel();
+        orderPanel.setLayout(new BoxLayout(orderPanel, BoxLayout.X_AXIS));
+        //TitledBorder tb = BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.GRAY), "Settings");
+        Border tb = BorderFactory.createLineBorder(Color.GRAY);
 
-        btnWrp1.setBorder(tb);
-        btnWrp1.add(random);
-        btnWrp1.add(sorted);
-        btnWrp1.add(reversed);
+        orderPanel.setBorder(tb);
+        orderPanel.add(Box.createHorizontalStrut(5));
+        orderPanel.add(new JLabel("Number of elements:"));
+        orderPanel.add(Box.createHorizontalStrut(5));
+        orderPanel.add(nofValues);
+        orderPanel.add(Box.createHorizontalGlue());
+        orderPanel.add(random);
+        orderPanel.add(sorted);
+        orderPanel.add(reversed);
 
-        GridBagConstraints btnWrpc1 = new GridBagConstraints();
-        btnWrpc1.fill = GridBagConstraints.HORIZONTAL;
-        btnWrpc1.gridx = 0;
-        btnWrpc1.gridy = 4;
-        btnWrpc1.gridwidth = 4;
-        btnWrpc1.gridheight = 1;
-        btnWrpc1.weightx = 1;
-        btnWrpc1.weighty = 1;
-        btnWrpc1.anchor = GridBagConstraints.NORTH;
-        btnWrpc1.insets = new Insets(4, 4, 4, 4);
+        JPanel nofPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        TitledBorder tb1 = BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.GRAY), "Number of Elements");
+        nofPanel.setBorder(tb1);
+
+        GridBagConstraints orderConstraints = new GridBagConstraints();
+        orderConstraints.fill = GridBagConstraints.HORIZONTAL;
+        orderConstraints.gridx = 0;
+        orderConstraints.gridy = 4;
+        orderConstraints.gridwidth = 4;
+        orderConstraints.gridheight = 1;
+        orderConstraints.weightx = 1;
+        orderConstraints.weighty = 1;
+        orderConstraints.anchor = GridBagConstraints.NORTH;
+        orderConstraints.ipadx = 15;
+        orderConstraints.ipady = 15;
+        orderConstraints.insets = new Insets(5, 4, 10, 4);
 
         exit = new JButton("Exit");
         exit.setActionCommand(Constants.ELEMENTS_SET);
         exit.addActionListener(this);
 
-        JPanel btnWrp2 = new JPanel();
-        btnWrp2.setLayout(new BoxLayout(btnWrp2, BoxLayout.X_AXIS));
+        JPanel elementPanel = new JPanel();
+        elementPanel.setLayout(new BoxLayout(elementPanel, BoxLayout.X_AXIS));
 
-        btnWrp2.add(update);
-        btnWrp2.add(Box.createHorizontalStrut(10));
-        btnWrp2.add(nofValues);
-        btnWrp2.add(Box.createHorizontalGlue());
-        btnWrp2.add(exit);
+        elementPanel.add(updateBtn);
+        elementPanel.add(Box.createHorizontalGlue());
+        elementPanel.add(exit);
 
-        GridBagConstraints btnWrpc2 = new GridBagConstraints();
-        btnWrpc2.fill = GridBagConstraints.HORIZONTAL;
-        btnWrpc2.gridx = 0;
-        btnWrpc2.gridy = 5;
-        btnWrpc2.gridwidth = 4;
-        btnWrpc2.gridheight = 1;
-        btnWrpc2.weightx = 1;
-        btnWrpc2.weighty = 1;
-        btnWrpc2.anchor = GridBagConstraints.SOUTH;
-        btnWrpc2.insets = new Insets(4, 4, 4, 4);
+        GridBagConstraints elementConstraints = new GridBagConstraints();
+        elementConstraints.fill = GridBagConstraints.HORIZONTAL;
+        elementConstraints.gridx = 0;
+        elementConstraints.gridy = 5;
+        elementConstraints.gridwidth = 4;
+        elementConstraints.gridheight = 1;
+        elementConstraints.weightx = 1;
+        elementConstraints.weighty = 1;
+        elementConstraints.anchor = GridBagConstraints.SOUTH;
+        elementConstraints.insets = new Insets(4, 4, 4, 4);
 
-        add(tp, tcnt);
-        add(btnWrp1, btnWrpc1);
-        add(btnWrp2, btnWrpc2);
+        add(tabs, tabsConstraints);
+        add(orderPanel, orderConstraints);
+        add(elementPanel, elementConstraints);
 
         addComponentListener(new ComponentAdapter() {
             @Override
             public void componentResized(ComponentEvent e) {
                 super.componentResized(e);
-                svp.updateSize();
+                previewCanvas.updateSize();
             }
         });
     }
@@ -216,7 +228,6 @@ public class ElementEditorDialog extends JDialog implements ActionListener {
 
     public static ElementEditorDialog getInstance(Controller controller, int width,
                                                   int height) {
-
         if (instance == null) {
             ElementEditorDialog.width = 470;
             ElementEditorDialog.height = 120;

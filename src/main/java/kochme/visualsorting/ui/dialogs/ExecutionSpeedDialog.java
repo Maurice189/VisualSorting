@@ -26,8 +26,8 @@ import javax.swing.border.EtchedBorder;
 import kochme.visualsorting.app.Controller;
 import kochme.visualsorting.app.Configuration;
 
-public final class SpeedAdjustDialog extends JDialog implements ActionListener {
-    private static SpeedAdjustDialog instance;
+public final class ExecutionSpeedDialog extends JDialog implements ActionListener {
+    private static ExecutionSpeedDialog instance;
     private final Controller controller;
     private JLabel delay;
     private JSlider slider;
@@ -36,9 +36,9 @@ public final class SpeedAdjustDialog extends JDialog implements ActionListener {
 
     private static int delayMs = 0, delayNs = 0;
 
-    private SpeedAdjustDialog(Controller controller, int width, int height) {
+    private ExecutionSpeedDialog(Controller controller, int width, int height) {
         this.controller = controller;
-        setTitle("Adjust Execution Speed");
+        setTitle("Execution Speed");
         setSize(width, height);
         setLocationRelativeTo(null);
         setLayout(new BorderLayout());
@@ -129,16 +129,16 @@ public final class SpeedAdjustDialog extends JDialog implements ActionListener {
     }
 
     public static void setDelayMs(int delayMs) {
-        SpeedAdjustDialog.delayMs = delayMs;
+        ExecutionSpeedDialog.delayMs = delayMs;
     }
 
     public static void setDelayNs(int delayNs) {
-        SpeedAdjustDialog.delayNs = delayNs;
+        ExecutionSpeedDialog.delayNs = delayNs;
     }
 
-    public static SpeedAdjustDialog getInstance(Controller controller, int width, int height) {
+    public static ExecutionSpeedDialog getInstance(Controller controller, int width, int height) {
         if (instance == null) {
-            instance = new SpeedAdjustDialog(controller, width, height);
+            instance = new ExecutionSpeedDialog(controller, width, height);
         }
         instance.setVisible(true);
         return instance;

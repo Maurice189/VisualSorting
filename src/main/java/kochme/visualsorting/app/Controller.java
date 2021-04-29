@@ -198,7 +198,7 @@ public class Controller implements ComponentListener, ActionListener, WindowList
                 instructionPlayback.instructionStep();
                 break;
             case Constants.DELAY:
-                SpeedAdjustDialog.getInstance(this, 320, 150);
+                ExecutionSpeedDialog.getInstance(this, 320, 150);
                 break;
         }
     }

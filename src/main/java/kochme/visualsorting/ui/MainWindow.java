@@ -55,6 +55,7 @@ public class MainWindow extends JFrame {
     private JLabel centeredInfoLabel, executionTimeLabel, numberOfElementsLabel;
     private JComboBox<SortAlgorithm> algorithmSelection;
 
+    private SimpleDateFormat dataFormat = new SimpleDateFormat("mm:ss:SSS");
     private List<FramedElementsCanvas> vsPanel;
 
     public MainWindow(Controller controller, String title, int width, int height) {
@@ -350,7 +351,6 @@ public class MainWindow extends JFrame {
     }
 
     public void setExecutionTime(int milliSeconds) {
-        SimpleDateFormat dataFormat = new SimpleDateFormat("mm:ss:SSS");
         executionTimeLabel.setText(dataFormat.format(new Date(milliSeconds)));
     }
 
