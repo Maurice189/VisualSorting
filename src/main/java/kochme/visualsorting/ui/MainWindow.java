@@ -20,6 +20,7 @@ package kochme.visualsorting.ui;
 
 
 import java.awt.*;
+import java.awt.event.KeyEvent;
 import java.io.IOException;
 import java.io.InputStream;
 import java.text.SimpleDateFormat;
@@ -310,7 +311,7 @@ public class MainWindow extends JFrame {
             case STOPPED:
                 resetBtn.setEnabled(true);
                 playPauseToggle.setEnabled(true);
-                nextInstructionBtn.setEnabled(false);
+                nextInstructionBtn.setEnabled(true);
                 addAlgorithmBtn.setEnabled(true);
                 vsPanel.forEach(v -> v.enableRemoveButton(true));
                 setExecutionTime(0);

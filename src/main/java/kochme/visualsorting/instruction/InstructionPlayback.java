@@ -13,8 +13,8 @@ public class InstructionPlayback implements Runnable {
     private final AtomicInteger sleepNanos;
     private final Boolean[] terminated;
 
-    private enum Status {PLAYING, PAUSED, STOPPED};
-    private Status status;
+    public static enum Status {PLAYING, PAUSED, STOPPED};
+    private Status status = Status.STOPPED;
 
     private final int[] accessCosts;
     private final int[] compareCosts;
@@ -24,8 +24,6 @@ public class InstructionPlayback implements Runnable {
         this.elementsCanvases = elementsCanvases;
         this.sleepMillis = new AtomicInteger();
         this.sleepNanos = new AtomicInteger();
-        this.status = Status.PLAYING;
-
         this.accessCosts = new int[elementsCanvases.size()];
         this.compareCosts = new int[elementsCanvases.size()];
         this.terminated = new Boolean[instructionMediators.size()];
@@ -46,12 +44,11 @@ public class InstructionPlayback implements Runnable {
     public void pause() {
         this.status = Status.PAUSED;
     }
-    public void halt() {
-        this.status = Status.STOPPED;
-    }
+    public void halt() { this.status = Status.STOPPED; }
 
     @Override
     public void run() {
+        this.status = Status.PAUSED;
         boolean hasLeftInstructions = true;
         while(status != Status.STOPPED && hasLeftInstructions) {
             try {

@@ -30,6 +30,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.*;
 
+import com.sun.security.auth.login.ConfigFile;
 import kochme.visualsorting.algorithms.*;
 import kochme.visualsorting.ui.dialogs.*;
 import kochme.visualsorting.instruction.InstructionMediator;
@@ -74,11 +75,42 @@ public class Controller implements ComponentListener, ActionListener, WindowList
         mainWindow.setState(state);
     }
 
+    private boolean executeTasks() {
+        boolean terminated = false;
+        try {
+            instructionPlayback = new InstructionPlayback(instructionMediators, elementsCanvases);
+            instructionPlayback.setDelay(Configuration.getExecutionSpeedDelayMs(), Configuration.getExecutionSpeedDelayNs());
+
+            executor = Executors.newCachedThreadPool();
+            tasks.forEach(executor::execute);
+            executor.shutdown();
+            terminated = executor.awaitTermination(1, TimeUnit.SECONDS);
+
+            if (terminated) {
+                timer.reset();
+                timer.start();
+
+                CompletableFuture.runAsync(instructionPlayback).thenAccept((s) -> {
+                    EventQueue.invokeLater(() -> {
+                        timer.stop();
+                        state = MainWindow.State.STOPPED;
+                        mainWindow.setState(state);
+                    });
+                });
+            } else {
+                System.err.println("Error - Timeout !");
+            }
+        } catch (InterruptedException interruptedException) {
+            interruptedException.printStackTrace();
+        }
+        return terminated;
+    }
+
     @Override
     public void actionPerformed(ActionEvent e) {
-        switch (e.getActionCommand()) {
-            case Constants.ADD_SORT:
-                Constants.SortAlgorithm selectedSort = mainWindow.getSelectedSort();
+            switch (e.getActionCommand()) {
+                case Constants.ADD_SORT:
+                    Constants.SortAlgorithm selectedSort = mainWindow.getSelectedSort();
                 FramedElementsCanvas sortPanel = new FramedElementsCanvas(selectedSort, mainWindow.getWidth(), mainWindow.getHeight());
 
                 final InstructionMediator instructionMediator = new InstructionMediator();
@@ -147,38 +179,17 @@ public class Controller implements ComponentListener, ActionListener, WindowList
                     mainWindow.setState(state);
                     timer.start();
                 } else if (state == MainWindow.State.STOPPED) {
-                    try {
-                        instructionMediators.forEach(oe -> oe.initElements(elements));
-                        elementsCanvases.forEach(ec -> ec.setElements(elements));
+                    if (executeTasks()) {
+                        timer.reset();
+                        timer.start();
 
-                        executor = Executors.newCachedThreadPool();
-                        tasks.forEach(executor::execute);
-                        executor.shutdown();
-                        boolean terminated = executor.awaitTermination(1, TimeUnit.SECONDS);
+                        state = MainWindow.State.RUNNING;
+                        mainWindow.setState(state);
 
-                        if (terminated) {
-                            timer.reset();
-                            timer.start();
-
-                            instructionPlayback = new InstructionPlayback(instructionMediators, elementsCanvases);
-                            instructionPlayback.setDelay(Configuration.getExecutionSpeedDelayMs(), Configuration.getExecutionSpeedDelayNs());
-
-                            CompletableFuture.runAsync(instructionPlayback).thenAccept((s) -> {
-                                EventQueue.invokeLater(() -> {
-                                    timer.stop();
-                                    state = MainWindow.State.STOPPED;
-                                    mainWindow.setState(state);
-                                });
-                            });
-
-                            state = MainWindow.State.RUNNING;
-                            mainWindow.setState(state);
-                        }
-                        else {
-                            System.err.println("Error - Timeout !");
-                        }
-                    } catch (InterruptedException interruptedException) {
-                        interruptedException.printStackTrace();
+                        instructionPlayback.play();
+                    }
+                    else {
+                        System.err.println("Error - Timeout !");
                     }
                 }
                 break;
@@ -195,6 +206,15 @@ public class Controller implements ComponentListener, ActionListener, WindowList
                 AboutDialog.getInstance(420, 500);
                 break;
             case Constants.NEXT_ITERATION:
+                if (state == MainWindow.State.STOPPED) {
+                    if (executeTasks()) {
+                        state = MainWindow.State.PAUSED;
+                        mainWindow.setState(state);
+                    }
+                    else {
+                        System.err.println("Error - Timeout !");
+                    }
+                }
                 instructionPlayback.instructionStep();
                 break;
             case Constants.DELAY:
@@ -237,6 +257,10 @@ public class Controller implements ComponentListener, ActionListener, WindowList
 
     public void elementsChanged(int[] elements) {
         this.elements = elements;
+
+        instructionMediators.forEach(oe -> oe.initElements(elements));
+        elementsCanvases.forEach(ec -> ec.setElements(elements));
+
         Configuration.setNumberOfElements(elements.length);
         mainWindow.updateNumberOfElements(elements.length);
         reset();
