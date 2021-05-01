@@ -1,3 +1,6 @@
+# Visual Sorting 
+[![Java CI with Maven](https://github.com/Maurice189/VisualSorting/actions/workflows/maven.yml/badge.svg?branch=master)](https://github.com/Maurice189/VisualSorting/actions/workflows/maven.yml)
+
 ![visual-sorting-teaser.gif](graphics/visual-sorting-teaser.gif)
 
 # Description
